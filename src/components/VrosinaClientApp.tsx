@@ -466,13 +466,77 @@ export default function VrosinaClientApp() {
   ];
 
   const navItems = [
-    { href: "#praktikes-lyseis", label: "Πρακτικές Λύσεις & Τεκμηρίωση" },
-    { href: "#autopsia-real", label: "Αυτοψία & Στρατόπεδο" },
-    { href: "#masterplan", label: "Οι 4 Πυλώνες" },
-    { href: "#investors", label: "Επενδύσεις & Χορηγίες" },
-    { href: "#governance", label: "Διακυβέρνηση & Φορείς" },
-    { href: "#community", label: "Κατοικία & Παραγωγοί" },
-    { href: "#dataroom", label: "Data Room" },
+    {
+      href: "#praktikes-lyseis",
+      shortLabel: "🤝 Κοιν.Σ.Επ. & Λύσεις",
+      label: "00. Κοιν.Σ.Επ. (Ν.4430/2016) & Πρακτικές Λύσεις (Πώς/Πού)",
+      badge: "ΝΕΟ · ΒΑΣΙΚΟΣ ΟΔΗΓΟΣ",
+    },
+    {
+      href: "#autopsia-real",
+      shortLabel: "🎥 Στρατόπεδο & TV",
+      label: "01. Αυτοψία 8 Κτιρίων Στρατοπέδου, Drone & Τηλεόραση",
+      badge: "8 ΒΙΝΤΕΟ & ΠΡΙΝ/ΜΕΤΑ",
+    },
+    {
+      href: "#masterplan",
+      shortLabel: "🏛️ 4 Πυλώνες",
+      label: "02. Οι 4 Πυλώνες & 5ετές Χρονοδιάγραμμα (10,45 εκ. €)",
+      badge: "MASTERPLAN",
+    },
+    {
+      href: "#investors",
+      shortLabel: "💶 Επενδύσεις 80%",
+      label: "03. Υπολογιστής Επενδύσεων, LEADER & Ταμείο Ευεργετών",
+      badge: "ΕΩΣ 80% ΕΠΙΔΟΤΗΣΗ",
+    },
+    {
+      href: "#governance",
+      shortLabel: "🛡️ Διακυβέρνηση",
+      label: "04. Καταστατική Ασπίδα & 9 Φάκελοι Φορέων (One-Pagers)",
+      badge: "ΚΕΦ. 8 & ΦΟΡΕΙΣ",
+    },
+    {
+      href: "#community",
+      shortLabel: "🏡 Σπίτια 0€ & Παραγωγοί",
+      label: "05. Κλειστά Σπίτια (0€ Master Lease) & Νέοι Παραγωγοί",
+      badge: "ΚΑΤΟΙΚΙΑ & ΚΟΠΑΔΙ",
+    },
+    {
+      href: "#mega-guides",
+      shortLabel: "🗺️ Οδηγοί 43.100€ / Σ.Α.",
+      label: "06. Mega-Guides: Από Άνεργος Κτηνοτρόφος (43.100€) & Πολεοδομία Σ.Α.",
+      badge: "2 ΠΛΗΡΕΙΣ ΟΔΗΓΟΙ",
+    },
+    {
+      href: "#dataroom",
+      shortLabel: "📂 Data Room",
+      label: "07. Επίσημο Data Room (13 Έγγραφα), Ομιλία & FAQ",
+      badge: "13 ΑΡΧΕΙΑ PDF/DOCX",
+    },
+  ];
+
+  const subpageLinks = [
+    {
+      href: "/katoikia-neoi-paragogoi",
+      label: "Σελίδα: Οδηγός 0€ Κεφάλαιο (43.100€), Κατοικίες & Σ.Α. Ιωαννίνων",
+    },
+    {
+      href: "/stratopedo-vrosinas",
+      label: "Σελίδα: Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.) & 8 Κτίρια",
+    },
+    {
+      href: "/ependyseis-epidotiseis",
+      label: "Σελίδα: Επενδύσεις, 14 Χρηματοδοτικά Εργαλεία & ΑΜΚΕ Ευεργετών",
+    },
+    {
+      href: "/gefyri-vrosinas-raidiotissa",
+      label: "Σελίδα: Γεφύρι Βροσίνας 1605 & Ιερά Μονή Ραϊδιώτισσας",
+    },
+    {
+      href: "/ai-knowledge-base",
+      label: "Σελίδα: AI Knowledge Base & Bilingual Fact Sheet (EL/EN)",
+    },
   ];
 
   return (
@@ -516,33 +580,53 @@ export default function VrosinaClientApp() {
         </div>
       </div>
 
-      {/* 2. CLEAN, QUIET HEADER (OPTIMIZED FOR LAPTOP & MOBILE) */}
-      <header className="sticky top-0 z-40 bg-[#f7f5f0]/95 backdrop-blur-md border-b border-stone-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-4">
+      {/* 2. 100% RESPONSIVE TWO-TIER HEADER + UNIVERSAL MEGA-MENU (ZERO OVERFLOW ON LAPTOP, TABLET & MOBILE) */}
+      <header className="sticky top-0 z-40 bg-[#f7f5f0]/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
+        {/* Tier 1: Brand + Compact Laptop Nav + Universal Mega-Menu Button + CTA */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2">
           {/* Minimalist Logo: ΒΡΟΣΙΝΑ2031 */}
           <a
             href="#"
-            className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-[#14191f] shrink-0"
+            className="font-serif font-bold text-lg sm:text-2xl tracking-tight text-[#14191f] shrink-0"
           >
             ΒΡΟΣΙΝΑ<span className="text-[#b85d3b]">2031</span>
           </a>
 
-          {/* Clean Laptop/Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[13px] xl:text-sm font-medium text-stone-700">
+          {/* Compact Desktop/Laptop Primary Links (never overflows on 1280px+ screens) */}
+          <nav className="hidden xl:flex items-center gap-1 text-xs font-semibold text-stone-800">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="hover:text-[#14191f] hover:underline underline-offset-8 decoration-[#b85d3b] decoration-2 transition whitespace-nowrap"
+                onClick={() =>
+                  registerEngagement("header_nav_click", item.href, item.shortLabel)
+                }
+                className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
               >
-                {item.label}
+                {item.shortLabel}
               </a>
             ))}
           </nav>
 
-          {/* Single Clean CTA + Mobile Menu Toggle */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Right Actions: Universal Index/Mega-Menu Button (visible on ALL screens including laptops!) + Primary CTA */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Άνοιγμα Πλήρους Μενού Ενοτήτων & Οδηγών"
+              className={`px-2.5 sm:px-3 py-1.5 rounded border text-xs font-mono font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                mobileMenuOpen
+                  ? "bg-[#14191f] text-[#c89d54] border-[#14191f]"
+                  : "bg-white hover:bg-stone-200 text-[#14191f] border-stone-400"
+              }`}
+            >
+              <span>{mobileMenuOpen ? "✕" : "☰"}</span>
+              <span className="hidden sm:inline">Όλες οι Ενότητες & Οδηγοί</span>
+              <span className="sm:hidden">ΜΕΝΟΥ</span>
+            </button>
+
+            <button
+              type="button"
               onClick={() =>
                 openLeadModal(
                   "investor",
@@ -550,52 +634,182 @@ export default function VrosinaClientApp() {
                   "Γενική εκδήλωση ενδιαφέροντος από την Κεφαλίδα της σελίδας"
                 )
               }
-              className="px-3.5 sm:px-4 py-2 rounded bg-[#14191f] text-white text-xs sm:text-[13px] font-semibold hover:bg-[#1f5c43] transition cursor-pointer whitespace-nowrap"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 rounded bg-[#1f5c43] text-white text-xs font-semibold hover:bg-[#174632] transition cursor-pointer whitespace-nowrap"
             >
               Συμμετοχή / Επικοινωνία
-            </button>
-
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Άνοιγμα Μενού"
-              className="lg:hidden px-2.5 py-1.5 rounded border border-stone-400 text-stone-800 text-xs font-mono font-bold hover:bg-stone-200 cursor-pointer"
-            >
-              {mobileMenuOpen ? "✕" : "ΜΕΝΟΥ"}
             </button>
           </div>
         </div>
 
-        {/* Responsive Mobile/Tablet Navigation Drawer */}
+        {/* Tier 2: Always-Visible Quick-Jump Bar for Laptop (1024-1366px), Tablet & Mobile — ZERO LOST CONTENT */}
+        <div className="bg-[#14191f] text-stone-200 border-t border-stone-800">
+          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-1.5 flex items-center gap-1.5 overflow-x-auto">
+            <span className="text-[10px] font-mono uppercase text-[#c89d54] font-bold shrink-0 pr-1 hidden sm:inline">
+              ΑΜΕΣΗ ΜΕΤΑΒΑΣΗ:
+            </span>
+            <a
+              href="#praktikes-lyseis"
+              onClick={() => {
+                setActivePracticalTab("koinsep");
+                registerEngagement("subbar_click", "koinsep-guide", "Κοιν.Σ.Επ. 100€");
+              }}
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-amber-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              🤝 Κοιν.Σ.Επ. (Ν.4430/2016 · 100€)
+            </a>
+            <a
+              href="#praktikes-lyseis"
+              onClick={() => {
+                setActivePracticalTab("playbooks");
+                registerEngagement("subbar_click", "playbooks-7", "7 Πρακτικοί Οδηγοί");
+              }}
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              🧭 Πώς/Από Πού (7 Οδηγοί)
+            </a>
+            <a
+              href="#praktikes-lyseis"
+              onClick={() => {
+                setActivePracticalTab("institutions");
+                registerEngagement("subbar_click", "institutions-roles", "Δήμος/Κοινότητα/ΚΟΙΝΣΕΠ");
+              }}
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              🏛️ Ποιος Κάνει Τι (Δήμος/ΚΟΙΝΣΕΠ)
+            </a>
+            <a
+              href="#praktikes-lyseis"
+              onClick={() => {
+                setActivePracticalTab("funding14");
+                registerEngagement("subbar_click", "funding-14", "14 Χρηματοδοτικά Εργαλεία");
+              }}
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              📜 14 Νόμοι & Προγράμματα
+            </a>
+            <a
+              href="#mega-guides"
+              onClick={() => {
+                setActiveMegaGuideTab("herder");
+                registerEngagement("subbar_click", "herder-43100", "0€ Κεφάλαιο 43.100€");
+              }}
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#b85d3b] text-emerald-300 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              🗺️ 0€ Κεφάλαιο → 43.100€ (5 Βήματα)
+            </a>
+            <a
+              href="#mega-guides"
+              onClick={() => {
+                setActiveMegaGuideTab("morphology");
+                registerEngagement("subbar_click", "morphology-sa", "Πολεοδομία & Σ.Α.");
+              }}
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#b85d3b] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              🪨 Πολεοδομία & Σ.Α. Ιωαννίνων
+            </a>
+            <a
+              href="#autopsia-real"
+              onClick={() =>
+                registerEngagement("subbar_click", "camp-autopsy", "Στρατόπεδο & 8 Βίντεο")
+              }
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              🎥 Στρατόπεδο & 8 Βίντεο
+            </a>
+            <a
+              href="#investors"
+              onClick={() =>
+                registerEngagement("subbar_click", "investors-calc", "Επενδύσεις 80%")
+              }
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              💶 Επενδύσεις & Ευεργέτες
+            </a>
+            <a
+              href="#dataroom"
+              onClick={() =>
+                registerEngagement("subbar_click", "dataroom-13", "Data Room 13 Αρχεία")
+              }
+              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
+            >
+              📂 Data Room (13 Αρχεία)
+            </a>
+          </div>
+        </div>
+
+        {/* Universal Mega-Menu Drawer (Works on Laptop, Desktop, Tablet & Smartphone) */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#f7f5f0] border-b border-stone-300 px-4 py-4 space-y-2 shadow-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
+          <div className="bg-[#f7f5f0] border-b-2 border-[#14191f] px-4 sm:px-6 lg:px-8 py-5 shadow-2xl max-h-[82vh] overflow-y-auto">
+            <div className="max-w-7xl mx-auto space-y-5">
+              <div className="flex items-center justify-between border-b border-stone-300 pb-2.5">
+                <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                  ΠΛΗΡΗΣ ΧΑΡΤΗΣ ΠΛΟΗΓΗΣΗΣ «ΒΡΟΣΙΝΑ 2031» (ΟΛΕΣ ΟΙ ΕΝΟΤΗΤΕΣ, ΟΙ ΟΔΗΓΟΙ & ΟΙ ΣΕΛΙΔΕΣ)
+                </div>
+                <button
+                  type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-3 py-2.5 rounded bg-white border border-stone-200 text-sm font-semibold text-[#14191f] hover:border-[#b85d3b]"
+                  className="text-xs font-mono font-bold text-[#b85d3b] hover:underline cursor-pointer"
                 >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-            <div className="pt-2 flex flex-wrap gap-2 border-t border-stone-200 text-xs">
-              <a
-                href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 rounded bg-stone-200 text-stone-900 font-semibold"
-              >
-                Λήψη Business Plan (PDF)
-              </a>
-              <a
-                href="/documents/Vrosina_2031_Partner_LOI_LEADER_Template.docx"
-                download
-                className="px-3 py-2 rounded bg-amber-100 text-amber-950 font-semibold"
-              >
-                Λήψη LOI LEADER (.docx)
-              </a>
+                  Κλείσιμο Μενού ✕
+                </button>
+              </div>
+
+              {/* 8 Main Page Sections */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {navItems.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-3 rounded bg-white border border-stone-300 hover:border-[#14191f] hover:shadow-sm transition flex flex-col justify-between gap-1"
+                  >
+                    <span className="text-[10px] font-mono font-bold text-[#b85d3b]">
+                      {item.badge}
+                    </span>
+                    <span className="text-xs sm:text-sm font-serif font-bold text-[#14191f] leading-snug">
+                      {item.label}
+                    </span>
+                  </a>
+                ))}
+              </div>
+
+              {/* 5 Dedicated Thematic SEO Subpages + Key Downloads */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-3 border-t border-stone-300 items-center">
+                <div className="lg:col-span-8 space-y-1.5">
+                  <div className="text-[11px] font-mono font-bold uppercase text-stone-500">
+                    ΑΝΕΞΑΡΤΗΤΕΣ ΘΕΜΑΤΙΚΕΣ ΣΕΛΙΔΕΣ ΕΜΒΑΘΥΝΣΗΣ:
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {subpageLinks.map((sub) => (
+                      <a
+                        key={sub.href}
+                        href={sub.href}
+                        className="px-2.5 py-1.5 rounded bg-stone-200/80 hover:bg-[#14191f] text-stone-900 hover:text-white text-xs font-medium transition"
+                      >
+                        {sub.label} ↗
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="lg:col-span-4 flex flex-wrap lg:justify-end gap-2 text-xs">
+                  <a
+                    href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded bg-[#14191f] text-[#c89d54] font-semibold hover:bg-stone-800"
+                  >
+                    📄 Business Plan v2.0 (PDF)
+                  </a>
+                  <a
+                    href="/documents/Vrosina_2031_Partner_LOI_LEADER_Template.docx"
+                    download
+                    className="px-3 py-2 rounded bg-amber-100 border border-amber-300 text-amber-950 font-semibold hover:bg-amber-200"
+                  >
+                    📝 Πρότυπο LOI LEADER (.docx)
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         )}

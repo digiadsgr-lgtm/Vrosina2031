@@ -97,47 +97,56 @@ export default function SeoSubpageShell({
         </div>
       </div>
 
-      {/* Minimalist Header */}
-      <header className="sticky top-0 z-40 bg-[#f7f5f0]/95 backdrop-blur-md border-b border-stone-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-4">
+      {/* Two-Tier Responsive Header (Works on Laptop, Tablet & Mobile) */}
+      <header className="sticky top-0 z-40 bg-[#f7f5f0]/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2">
           <a
             href="/"
-            className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-[#14191f]"
+            className="font-serif font-bold text-lg sm:text-2xl tracking-tight text-[#14191f] shrink-0"
           >
             ΒΡΟΣΙΝΑ<span className="text-[#b85d3b]">2031</span>
           </a>
 
-          <nav className="hidden lg:flex items-center gap-6 text-xs xl:text-sm font-medium text-stone-700">
-            <a href="/" className="hover:text-[#14191f] transition">
-              ← Κεντρική Πύλη Masterplan
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-4 text-xs font-semibold text-stone-800">
+            <a
+              href="/"
+              className="px-2.5 py-1.5 rounded bg-stone-200 hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+            >
+              ← Κεντρική Πύλη
+            </a>
+            <a
+              href="/#praktikes-lyseis"
+              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+            >
+              🤝 Κοιν.Σ.Επ. & Λύσεις
             </a>
             <a
               href="/stratopedo-vrosinas"
-              className="hover:text-[#14191f] transition"
+              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
             >
-              Στρατόπεδο
+              🎥 Στρατόπεδο
             </a>
             <a
               href="/ependyseis-epidotiseis"
-              className="hover:text-[#14191f] transition"
+              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
             >
-              Επενδύσεις & ΑΜΚΕ
+              💶 Επενδύσεις & 14 Νόμοι
             </a>
             <a
               href="/gefyri-vrosinas-raidiotissa"
-              className="hover:text-[#14191f] transition"
+              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
             >
-              Γεφύρια & Ραϊδιώτισσα
+              🌉 Γεφύρια & Ραϊδιώτισσα
             </a>
             <a
               href="/katoikia-neoi-paragogoi"
-              className="hover:text-[#14191f] transition"
+              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
             >
-              Κατοικία & Παραγωγοί
+              🗺️ 0€ Κεφάλαιο (43.100€) & Σ.Α.
             </a>
             <a
               href="/ai-knowledge-base"
-              className="hover:text-[#14191f] transition font-mono text-xs text-[#1f5c43]"
+              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition font-mono text-xs text-[#1f5c43] whitespace-nowrap"
             >
               AI Index
             </a>
@@ -145,10 +154,52 @@ export default function SeoSubpageShell({
 
           <a
             href={`/?source=${encodeURIComponent(canonicalPath)}#contact-form`}
-            className="px-3.5 py-2 rounded bg-[#14191f] text-white text-xs font-semibold hover:bg-[#1f5c43] transition"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded bg-[#1f5c43] text-white text-xs font-semibold hover:bg-[#174632] transition whitespace-nowrap shrink-0"
           >
             Συμμετοχή / Επικοινωνία
           </a>
+        </div>
+
+        {/* Tier 2: Always-visible Subbar for Mobile/Tablet/Laptop */}
+        <div className="lg:hidden bg-[#14191f] text-stone-200 border-t border-stone-800">
+          <div className="max-w-7xl mx-auto px-2 py-1.5 flex items-center gap-1.5 overflow-x-auto text-[11px] font-semibold">
+            <a
+              href="/"
+              className="px-2.5 py-1 rounded bg-[#c89d54] text-stone-950 whitespace-nowrap shrink-0"
+            >
+              ← Αρχική
+            </a>
+            <a
+              href="/#praktikes-lyseis"
+              className="px-2.5 py-1 rounded bg-stone-800 text-amber-200 whitespace-nowrap shrink-0"
+            >
+              🤝 Κοιν.Σ.Επ. (100€)
+            </a>
+            <a
+              href="/katoikia-neoi-paragogoi"
+              className="px-2.5 py-1 rounded bg-stone-800 text-emerald-300 whitespace-nowrap shrink-0"
+            >
+              🗺️ Οδηγοί 43.100€ & Σ.Α.
+            </a>
+            <a
+              href="/stratopedo-vrosinas"
+              className="px-2.5 py-1 rounded bg-stone-800 text-stone-200 whitespace-nowrap shrink-0"
+            >
+              🎥 Στρατόπεδο
+            </a>
+            <a
+              href="/ependyseis-epidotiseis"
+              className="px-2.5 py-1 rounded bg-stone-800 text-stone-200 whitespace-nowrap shrink-0"
+            >
+              💶 Επενδύσεις 80%
+            </a>
+            <a
+              href="/gefyri-vrosinas-raidiotissa"
+              className="px-2.5 py-1 rounded bg-stone-800 text-stone-200 whitespace-nowrap shrink-0"
+            >
+              🌉 Γεφύρι 1605
+            </a>
+          </div>
         </div>
       </header>
 
