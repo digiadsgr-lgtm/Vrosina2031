@@ -22,6 +22,9 @@ import {
   CAMP_VIDEO_AUTOPSY,
   ZERO_CAPITAL_HERDER_GUIDE,
   MORPHOLOGICAL_REGULATION_GUIDE,
+  PRACTICAL_SOLUTIONS_MATRIX,
+  INSTITUTIONAL_ROLES_MATRIX,
+  FOURTEEN_FUNDING_TOOLS_DOC,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
@@ -104,6 +107,12 @@ export default function VrosinaClientApp() {
     "herder" | "morphology"
   >("herder");
   const [activeHerderStepIdx, setActiveHerderStepIdx] = useState<number>(0);
+
+  // Practical Solutions & Full Documentation Center state
+  const [activePracticalTab, setActivePracticalTab] = useState<
+    "playbooks" | "institutions" | "funding14"
+  >("playbooks");
+  const [selectedPlaybookIdx, setSelectedPlaybookIdx] = useState<number>(0);
 
   // Participation / Lead Modal & Form state (delivers to digiadsgr@gmail.com with exact origin tracking)
   const [leadModalOpen, setLeadModalOpen] = useState<boolean>(false);
@@ -456,6 +465,7 @@ export default function VrosinaClientApp() {
   ];
 
   const navItems = [
+    { href: "#praktikes-lyseis", label: "Πρακτικές Λύσεις & Τεκμηρίωση" },
     { href: "#autopsia-real", label: "Αυτοψία & Στρατόπεδο" },
     { href: "#masterplan", label: "Οι 4 Πυλώνες" },
     { href: "#investors", label: "Επενδύσεις & Χορηγίες" },
@@ -1167,6 +1177,361 @@ export default function VrosinaClientApp() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 3.5 SECTION 00 (#praktikes-lyseis): PRACTICAL SOLUTIONS & 100% DOCUMENTATION CENTER */}
+      <section
+        id="praktikes-lyseis"
+        className="py-12 sm:py-16 bg-[#f7f5f0] border-b-2 border-[#14191f]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+            <div className="max-w-3xl space-y-2">
+              <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
+                00 / ΚΕΝΤΡΟ ΠΡΑΚΤΙΚΩΝ ΛΥΣΕΩΝ & ΠΛΗΡΟΥΣ ΘΕΣΜΙΚΗΣ ΤΕΚΜΗΡΙΩΣΗΣ
+              </div>
+              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
+                Πώς Γίνεται στην Πράξη: Από Πού, Με Τι Χρήματα, Πώς Τα Παίρνω, Τι Δίνω & Ποιος Εκπονεί Τι
+              </h2>
+              <p className="text-stone-700 text-xs sm:text-base leading-relaxed">
+                Κάθε αριθμός, πρόγραμμα και δράση στο <strong>«Βροσίνα 2031»</strong> τεκμηριώνεται με τον ακριβή νόμο, την ενεργή πρόσκληση και τον υπεύθυνο φορέα. Επιλέξτε την ιδιότητά σας ή τον πίνακα αρμοδιοτήτων για να δείτε βήμα-προς-βήμα τι ισχύει.
+              </p>
+            </div>
+
+            {/* 3-Mode Switcher for Practical Center */}
+            <div className="flex flex-wrap gap-2 text-xs">
+              {[
+                {
+                  id: "playbooks" as const,
+                  label: "🧭 1. Πρακτικές Λύσεις ανά Ενδιαφερόμενο (7 Οδηγοί)",
+                },
+                {
+                  id: "institutions" as const,
+                  label: "🏛️ 2. Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
+                },
+                {
+                  id: "funding14" as const,
+                  label: "📜 3. Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
+                },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    setActivePracticalTab(t.id);
+                    registerEngagement(
+                      "switch_practical_tab",
+                      `practical-${t.id}`,
+                      t.label
+                    );
+                  }}
+                  className={`px-3.5 py-2.5 rounded font-semibold transition cursor-pointer ${
+                    activePracticalTab === t.id
+                      ? "bg-[#14191f] text-[#c89d54] ring-2 ring-[#c89d54]"
+                      : "bg-white text-stone-800 border border-stone-300 hover:bg-stone-100"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* MODE 1: 7 PRACTICAL PLAYBOOKS BY ROLE */}
+          {activePracticalTab === "playbooks" && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Selector: 7 Interested Profiles */}
+              <div className="lg:col-span-4 space-y-2">
+                <div className="text-[11px] font-mono font-bold uppercase text-stone-500 px-1">
+                  ΕΠΙΛΕΞΤΕ ΤΟ ΠΡΟΦΙΛ ΣΑΣ (7 ΚΑΤΗΓΟΡΙΕΣ):
+                </div>
+                {PRACTICAL_SOLUTIONS_MATRIX.map((pb, idx) => {
+                  const isActive = selectedPlaybookIdx === idx;
+                  return (
+                    <button
+                      key={pb.id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedPlaybookIdx(idx);
+                        registerEngagement(
+                          "select_practical_playbook",
+                          pb.id,
+                          pb.roleBadge
+                        );
+                      }}
+                      className={`w-full text-left p-3.5 rounded border transition cursor-pointer ${
+                        isActive
+                          ? "bg-[#14191f] text-white border-[#14191f] ring-2 ring-[#c89d54]"
+                          : "bg-white hover:bg-stone-100 text-stone-800 border-stone-300"
+                      }`}
+                    >
+                      <div
+                        className={`text-[10px] font-mono font-bold ${
+                          isActive ? "text-[#c89d54]" : "text-[#1f5c43]"
+                        }`}
+                      >
+                        {pb.roleBadge}
+                      </div>
+                      <div className="font-serif font-bold text-xs sm:text-sm mt-1 leading-snug">
+                        {pb.title}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right Card: Full Practical Breakdown (How, Where From, Cost, Disbursement, Obligations, Municipality/Community/KOINSEP, Legal Ref) */}
+              {(() => {
+                const pb = PRACTICAL_SOLUTIONS_MATRIX[selectedPlaybookIdx];
+                return (
+                  <div className="lg:col-span-8 bg-white rounded-lg p-5 sm:p-8 border-2 border-[#14191f] shadow-md space-y-5">
+                    <div className="border-b border-stone-200 pb-4 space-y-1.5">
+                      <div className="text-xs font-mono font-bold text-[#b85d3b]">
+                        {pb.roleBadge}
+                      </div>
+                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+                        {pb.title}
+                      </h3>
+                      <p className="text-xs text-stone-600">
+                        <strong>Σε ποιους απευθύνεται:</strong> {pb.targetAudience}
+                      </p>
+                    </div>
+
+                    {/* Top Highlight Box: What You Get */}
+                    <div className="p-4 rounded bg-emerald-50 border-l-4 border-[#1f5c43] space-y-1">
+                      <div className="text-[11px] font-mono font-bold uppercase text-[#1f5c43]">
+                        ✓ ΣΥΝΟΠΤΙΚΑ — ΤΙ ΚΕΡΔΙΖΕΤΕ ΣΤΗΝ ΠΡΑΞΗ:
+                      </div>
+                      <p className="text-xs sm:text-sm font-medium text-stone-900 leading-relaxed">
+                        {pb.whatYouGetSummary}
+                      </p>
+                    </div>
+
+                    {/* 1. Πώς γίνεται (Βήμα-Προς-Βήμα) */}
+                    <div className="space-y-2">
+                      <div className="text-xs font-mono font-bold uppercase text-[#14191f]">
+                        1. ΠΩΣ ΓΙΝΕΤΑΙ ΒΗΜΑ-ΠΡΟΣ-ΒΗΜΑ:
+                      </div>
+                      <ul className="space-y-1.5 text-xs sm:text-sm text-stone-800 bg-[#f7f5f0] p-4 rounded border border-stone-300">
+                        {pb.howItWorksSteps.map((step, sIdx) => (
+                          <li key={sIdx} className="leading-relaxed">
+                            {step}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Grid of 4 Core Financial/Practical Questions */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 rounded bg-stone-50 border border-stone-200 space-y-1.5">
+                        <div className="text-[11px] font-mono font-bold uppercase text-[#1f5c43]">
+                          2. ΑΠΟ ΠΟΥ & ΠΟΙΟ ΠΡΟΓΡΑΜΜΑ ΥΠΑΡΧΕΙ:
+                        </div>
+                        <p className="text-xs text-stone-800 leading-relaxed">
+                          {pb.whereFromAndProgram}
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded bg-stone-50 border border-stone-200 space-y-1.5">
+                        <div className="text-[11px] font-mono font-bold uppercase text-[#b85d3b]">
+                          3. ΜΕ ΤΙ ΚΟΣΤΟΣ & ΜΕ ΤΙ ΧΡΗΜΑΤΑ:
+                        </div>
+                        <p className="text-xs text-stone-800 leading-relaxed">
+                          {pb.costAndFundingSource}
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded bg-stone-50 border border-stone-200 space-y-1.5">
+                        <div className="text-[11px] font-mono font-bold uppercase text-[#1f5c43]">
+                          4. ΠΩΣ ΘΑ ΤΑ ΠΑΡΩ (ΕΚΤΑΜΙΕΥΣΗ):
+                        </div>
+                        <p className="text-xs text-stone-800 leading-relaxed">
+                          {pb.howYouReceiveIt}
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded bg-stone-50 border border-stone-200 space-y-1.5">
+                        <div className="text-[11px] font-mono font-bold uppercase text-[#b85d3b]">
+                          5. ΤΙ ΘΑ ΔΩΣΩ (ΥΠΟΧΡΕΩΣΕΙΣ / ΣΥΜΜΕΤΟΧΗ):
+                        </div>
+                        <p className="text-xs text-stone-800 leading-relaxed">
+                          {pb.whatYouGive}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 3-Column Institutional Support: What Municipality, Community & KOINSEP do for YOU */}
+                    <div className="bg-[#14191f] text-white rounded p-4 sm:p-5 space-y-3">
+                      <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                        6. ΠΟΙΟΣ ΚΑΝΕΙ ΤΙ ΓΙΑ ΕΣΑΣ (ΔΗΜΟΣ ΖΙΤΣΑΣ · ΚΟΙΝΟΤΗΤΑ ΒΡΟΣΙΝΑΣ · ΚΟΙΝΣΕΠ):
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                        <div className="p-3 rounded bg-stone-900 border border-stone-800 space-y-1">
+                          <strong className="text-[#c89d54] block font-mono">
+                            🏛️ ΤΙ ΕΚΠΟΝΕΙ Ο ΔΗΜΟΣ ΖΙΤΣΑΣ:
+                          </strong>
+                          <p className="text-stone-300 leading-relaxed">
+                            {pb.whatMunicipalityDoes}
+                          </p>
+                        </div>
+                        <div className="p-3 rounded bg-stone-900 border border-stone-800 space-y-1">
+                          <strong className="text-emerald-400 block font-mono">
+                            🏡 ΤΙ ΚΑΝΕΙ Η ΚΟΙΝΟΤΗΤΑ:
+                          </strong>
+                          <p className="text-stone-300 leading-relaxed">
+                            {pb.whatCommunityDoes}
+                          </p>
+                        </div>
+                        <div className="p-3 rounded bg-stone-900 border border-stone-800 space-y-1">
+                          <strong className="text-amber-300 block font-mono">
+                            ⚙️ ΤΙ ΑΝΑΛΑΜΒΑΝΕΙ Η ΚΟΙΝΣΕΠ:
+                          </strong>
+                          <p className="text-stone-300 leading-relaxed">
+                            {pb.whatKoinsepDoes}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Legal & Institutional Documentation Footer + Action Button */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-stone-200">
+                      <div className="text-[11px] font-mono text-stone-600">
+                        <strong className="text-[#14191f]">
+                          7. Νομική & Θεσμική Τεκμηρίωση:
+                        </strong>{" "}
+                        {pb.legalDocumentation}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openLeadModal(
+                            pb.leadRoleKey,
+                            `Κέντρο Πρακτικών Λύσεων (#praktikes-lyseis) — ${pb.roleBadge}`,
+                            `Αίτημα Εφαρμογής Playbook: ${pb.title} | Πρόγραμμα: ${pb.whereFromAndProgram}`
+                          )
+                        }
+                        className="px-5 py-2.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold text-xs sm:text-sm shrink-0 cursor-pointer"
+                      >
+                        Εκδήλωση Ενδιαφέροντος για αυτό το Σχέδιο →
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+
+          {/* MODE 2: INSTITUTIONAL ROLES MATRIX (ΔΗΜΟΣ ΖΙΤΣΑΣ vs ΚΟΙΝΟΤΗΤΑ ΒΡΟΣΙΝΑΣ vs ΚΟΙΝΣΕΠ vs ΠΕΡΙΦΕΡΕΙΑ/ΗΠΕΙΡΟΣ Α.Ε.) */}
+          {activePracticalTab === "institutions" && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {INSTITUTIONAL_ROLES_MATRIX.map((inst, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white rounded-lg p-5 sm:p-6 border-2 border-stone-300 space-y-4 flex flex-col justify-between"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+                        <span className="px-2.5 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
+                          {inst.entityCode}
+                        </span>
+                        <span className="text-xs font-mono font-semibold text-[#1f5c43]">
+                          {inst.shareInSubsidiary}
+                        </span>
+                      </div>
+                      <h3 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                        {inst.entityName}
+                      </h3>
+                      <p className="text-xs font-medium text-[#b85d3b]">
+                        {inst.roleSubtitle}
+                      </p>
+                      <ul className="space-y-2.5 text-xs sm:text-sm text-stone-700 pt-1">
+                        {inst.whatItExecutes.map((item, i) => (
+                          <li
+                            key={i}
+                            className="p-3 rounded bg-[#f7f5f0] border border-stone-200 leading-relaxed"
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* MODE 3: THE 14 DOCUMENTED FUNDING TOOLS & LAWS (ΦΕΚ / ΠΡΟΣΚΛΗΣΕΙΣ) */}
+          {activePracticalTab === "funding14" && (
+            <div className="bg-white rounded-lg border-2 border-[#14191f] overflow-hidden shadow-md">
+              <div className="bg-[#14191f] text-white p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <div className="text-xs font-mono font-bold text-[#c89d54]">
+                    ΜΗΤΡΩΟ ΤΕΚΜΗΡΙΩΣΗΣ 14 ΧΡΗΜΑΤΟΔΟΤΙΚΩΝ & ΘΕΣΜΙΚΩΝ ΕΡΓΑΛΕΙΩΝ
+                  </div>
+                  <h3 className="font-serif text-lg sm:text-2xl font-bold mt-1">
+                    Κάθε Ευρώ από τα 10,45 εκ. € Συνδεδεμένο με Νόμο, Πρόσκληση & Δικαιούχο
+                  </h3>
+                </div>
+                <a
+                  href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded bg-[#c89d54] text-stone-950 font-mono text-xs font-bold hover:bg-amber-400"
+                >
+                  Λήψη Πλήρους Business Plan v2.0 (PDF) ↗
+                </a>
+              </div>
+
+              <div className="divide-y divide-stone-200">
+                {FOURTEEN_FUNDING_TOOLS_DOC.map((f) => (
+                  <div
+                    key={f.num}
+                    className="p-4 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center hover:bg-stone-50 text-xs"
+                  >
+                    <div className="lg:col-span-4 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-[#14191f] text-[#c89d54] font-mono font-bold">
+                          #{f.num}
+                        </span>
+                        <span className="font-serif font-bold text-sm text-[#14191f]">
+                          {f.toolName}
+                        </span>
+                      </div>
+                      <div className="font-mono text-[11px] text-stone-500">
+                        Νομική Βάση: {f.legalRef}
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-3 text-stone-800">
+                      <strong className="block text-[10px] font-mono uppercase text-stone-500">
+                        Τι Χρηματοδοτεί στη Βροσίνα:
+                      </strong>
+                      {f.targetProject}
+                    </div>
+
+                    <div className="lg:col-span-2">
+                      <strong className="block text-[10px] font-mono uppercase text-stone-500">
+                        Ποσοστό / Ύψος Ενίσχυσης:
+                      </strong>
+                      <span className="font-mono font-bold text-[#1f5c43]">
+                        {f.grantRate}
+                      </span>
+                    </div>
+
+                    <div className="lg:col-span-3 text-stone-700">
+                      <strong className="block text-[10px] font-mono uppercase text-stone-500">
+                        Ποιος Υποβάλλει / Εκπονεί:
+                      </strong>
+                      {f.whoApplies}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -3648,8 +4013,21 @@ export default function VrosinaClientApp() {
       </footer>
 
       {/* MOBILE STICKY BOTTOM QUICK-ACTION BAR (1-THUMB NAVIGATION FOR SMARTPHONE VISITORS) */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-[#14191f]/98 backdrop-blur-md border-t border-stone-700 px-2 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
-        <div className="grid grid-cols-4 gap-1.5 max-w-lg mx-auto text-[11px] font-semibold">
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-[#14191f]/98 backdrop-blur-md border-t border-stone-700 px-1.5 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+        <div className="grid grid-cols-5 gap-1 max-w-lg mx-auto text-[10px] sm:text-[11px] font-semibold">
+          <a
+            href="#praktikes-lyseis"
+            onClick={() =>
+              registerEngagement(
+                "mobile_bar_click",
+                "practical-solutions",
+                "Πώς/Από Πού"
+              )
+            }
+            className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-stone-900 border border-[#c89d54]/60 text-amber-200 text-center"
+          >
+            <span>🧭 Πώς/Πού</span>
+          </a>
           <a
             href="#autopsia-real"
             onClick={() =>

@@ -4,6 +4,8 @@ import {
   CAPEX_BREAKDOWN,
   THREE_SCENARIOS,
   GOVERNANCE_SHIELD,
+  FOURTEEN_FUNDING_TOOLS_DOC,
+  INSTITUTIONAL_ROLES_MATRIX,
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
@@ -181,6 +183,64 @@ export default function EpendyseisEpidotiseisPage() {
             >
               <div className="font-bold text-[#c89d54]">{cl.title}</div>
               <p className="text-stone-300 leading-relaxed">{cl.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 14 Documented Funding & Legal Tools */}
+      <section className="space-y-4">
+        <h2 className="font-serif text-2xl font-bold text-[#14191f]">
+          Μητρώο Τεκμηρίωσης των 14 Χρηματοδοτικών Εργαλείων & Νόμων (ΦΕΚ / Προσκλήσεις)
+        </h2>
+        <div className="bg-white rounded border border-stone-300 divide-y divide-stone-200 text-xs">
+          {FOURTEEN_FUNDING_TOOLS_DOC.map((f) => (
+            <div
+              key={f.num}
+              className="p-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-center"
+            >
+              <div className="md:col-span-4 space-y-0.5">
+                <div className="font-serif font-bold text-sm text-[#14191f]">
+                  #{f.num} · {f.toolName}
+                </div>
+                <div className="font-mono text-[11px] text-stone-500">
+                  {f.legalRef}
+                </div>
+              </div>
+              <div className="md:col-span-3 text-stone-800">{f.targetProject}</div>
+              <div className="md:col-span-2 font-mono font-bold text-[#1f5c43]">
+                {f.grantRate}
+              </div>
+              <div className="md:col-span-3 text-stone-600">{f.whoApplies}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Institutional Roles Matrix */}
+      <section className="space-y-4">
+        <h2 className="font-serif text-2xl font-bold text-[#14191f]">
+          Ποιος Εκπονεί & Ποιος Υλοποιεί Τι (Δήμος Ζίτσας · Κοινότητα Βροσίνας · ΚΟΙΝΣΕΠ · Περιφέρεια)
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {INSTITUTIONAL_ROLES_MATRIX.map((inst, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded p-5 border border-stone-300 space-y-3 text-xs"
+            >
+              <div className="font-mono font-bold text-[#b85d3b]">
+                {inst.entityCode} · {inst.shareInSubsidiary}
+              </div>
+              <h3 className="font-serif font-bold text-base text-[#14191f]">
+                {inst.entityName}
+              </h3>
+              <ul className="space-y-2 text-stone-700">
+                {inst.whatItExecutes.map((w, i) => (
+                  <li key={i} className="leading-relaxed">
+                    {w}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
