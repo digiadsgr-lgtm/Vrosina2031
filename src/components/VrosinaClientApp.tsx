@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   SITE_CONFIG,
   HERO_KPIS,
@@ -66,10 +66,142 @@ export default function VrosinaClientApp() {
   // Housing Calculator state
   const [selectedHousingIdx, setSelectedHousingIdx] = useState<number>(1); // Category B default
 
-  // Participation / Lead Modal
+  // Participation / Lead Modal & Form state (delivers to digiadsgr@gmail.com with exact origin tracking)
   const [leadModalOpen, setLeadModalOpen] = useState<boolean>(false);
   const [leadRole, setLeadRole] = useState<string>("investor");
+  const [leadOrigin, setLeadOrigin] = useState<string>(
+    "Κεντρική Σελίδα — Γενική Φόρμα Συμμετοχής"
+  );
+  const [leadContextDetails, setLeadContextDetails] = useState<string>(
+    "Απευθείας συμπλήρωση φόρμας ενδιαφέροντος"
+  );
+  const [leadName, setLeadName] = useState<string>("");
+  const [leadPhone, setLeadPhone] = useState<string>("");
+  const [leadEmail, setLeadEmail] = useState<string>("");
+  const [leadMessage, setLeadMessage] = useState<string>("");
+  const [leadSubmitting, setLeadSubmitting] = useState<boolean>(false);
   const [leadSubmitted, setLeadSubmitted] = useState<boolean>(false);
+  const [inlineSubmitted, setInlineSubmitted] = useState<boolean>(false);
+
+  const ROLE_LABELS: Record<string, string> = {
+    investor:
+      "Στρατηγικός Επενδυτής / Family Office / Εταιρεία (35%–40% ή LEADER)",
+    benefactor:
+      "Μεγάλος Ευεργέτης / Χορηγός Ονοματοδοσίας (ΑΜΚΕ Ταμείο Ευεργετών)",
+    institutional: "Θεσμικός / Πολιτικός Φορέας / Αυτοδιοίκηση",
+    owner: "Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα",
+    producer: "Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας",
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const src = params.get("source");
+      const roleParam = params.get("role");
+      if (src) {
+        setLeadOrigin(`Θεματική Υποσελίδα SEO: ${src}`);
+        setLeadContextDetails(`Προέλευση από υποσελίδα: ${src}`);
+      }
+      if (roleParam && ROLE_LABELS[roleParam]) {
+        setLeadRole(roleParam);
+      }
+    }
+  }, []);
+
+  const openLeadModal = (
+    role: string,
+    originLabel: string,
+    contextInfo: string
+  ) => {
+    setLeadRole(role);
+    setLeadOrigin(originLabel);
+    setLeadContextDetails(contextInfo);
+    setLeadSubmitted(false);
+    setLeadModalOpen(true);
+  };
+
+  const buildMailtoHref = (originOverride?: string) => {
+    const finalOrigin = originOverride || leadOrigin;
+    const roleLabel = ROLE_LABELS[leadRole] || leadRole;
+    const subject = encodeURIComponent(
+      `[ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${finalOrigin} (${leadName || "Νέο Αίτημα"})`
+    );
+    const body = encodeURIComponent(
+      `ΝΕΟ ΑΙΤΗΜΑ ΑΠΟ ΤΗΝ ΠΛΑΤΦΟΡΜΑ «ΒΡΟΣΙΝΑ 2031»\n` +
+        `==================================================\n` +
+        `• Πηγή / Κουμπί Προέλευσης: ${finalOrigin}\n` +
+        `• Σελίδα URL: ${typeof window !== "undefined" ? window.location.href : "https://vrosina2031.gr"}\n` +
+        `• Κατηγορία / Ιδιότητα: ${roleLabel}\n` +
+        `• Ονοματεπώνυμο / Φορέας: ${leadName}\n` +
+        `• Τηλέφωνο: ${leadPhone}\n` +
+        `• Email: ${leadEmail}\n` +
+        `• Παράμετροι Ενότητας / Υπολογιστή: ${leadContextDetails}\n` +
+        `• Μήνυμα: ${leadMessage || "(Χωρίς επιπλέον σχόλιο)"}\n` +
+        `• Ημερομηνία & Ώρα: ${new Date().toLocaleString("el-GR")}\n`
+    );
+    return `mailto:digiadsgr@gmail.com?subject=${subject}&body=${body}`;
+  };
+
+  const submitLeadToDigiads = async (
+    e: React.FormEvent,
+    originOverride?: string,
+    isInlineForm?: boolean
+  ) => {
+    e.preventDefault();
+    const finalOrigin = originOverride || leadOrigin;
+    const roleLabel = ROLE_LABELS[leadRole] || leadRole;
+    setLeadSubmitting(true);
+
+    const payload = {
+      _subject: `[ΒΡΟΣΙΝΑ 2031] ${roleLabel} — Πηγή: ${finalOrigin} (${leadName})`,
+      _template: "table",
+      _captcha: "false",
+      _replyto: leadEmail,
+      "01_Έργο": "ΒΡΟΣΙΝΑ 2031 (vrosina2031.gr)",
+      "02_Πηγή_Φόρμας_Ενότητα": finalOrigin,
+      "03_Σελίδα_URL":
+        typeof window !== "undefined"
+          ? window.location.href
+          : "https://vrosina2031.gr",
+      "04_Referrer":
+        typeof document !== "undefined"
+          ? document.referrer || "Απευθείας Επίσκεψη (Direct)"
+          : "Direct",
+      "05_Κατηγορία_Ενδιαφέροντος": roleLabel,
+      "06_Ονοματεπώνυμο_ή_Φορέας": leadName,
+      "07_Τηλέφωνο_Επικοινωνίας": leadPhone,
+      "08_Email": leadEmail,
+      "09_Στοιχεία_Υπολογιστή_ή_Ενότητας": leadContextDetails,
+      "10_Μήνυμα_Ενδιαφερόμενου": leadMessage || "(Χωρίς επιπλέον μήνυμα)",
+      "11_Ημερομηνία_Ώρα": new Date().toLocaleString("el-GR"),
+    };
+
+    try {
+      const res = await fetch(
+        "https://formsubmit.co/ajax/digiadsgr@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (!res.ok) {
+        window.location.href = buildMailtoHref(finalOrigin);
+      }
+    } catch {
+      window.location.href = buildMailtoHref(finalOrigin);
+    } finally {
+      setLeadSubmitting(false);
+      if (isInlineForm) {
+        setInlineSubmitted(true);
+      } else {
+        setLeadSubmitted(true);
+      }
+    }
+  };
 
   // FAQ search filter & Quick Q&A state
   const [faqQuery, setFaqQuery] = useState<string>("");
@@ -310,10 +442,13 @@ export default function VrosinaClientApp() {
           {/* Single Clean CTA + Mobile Menu Toggle */}
           <div className="flex items-center gap-2.5 shrink-0">
             <button
-              onClick={() => {
-                setLeadRole("investor");
-                setLeadModalOpen(true);
-              }}
+              onClick={() =>
+                openLeadModal(
+                  "investor",
+                  "Κεφαλίδα (Header CTA) — Κουμπί Συμμετοχή / Επικοινωνία",
+                  "Γενική εκδήλωση ενδιαφέροντος από την Κεφαλίδα της σελίδας"
+                )
+              }
               className="px-3.5 sm:px-4 py-2 rounded bg-[#14191f] text-white text-xs sm:text-[13px] font-semibold hover:bg-[#1f5c43] transition cursor-pointer whitespace-nowrap"
             >
               Συμμετοχή / Επικοινωνία
@@ -1512,6 +1647,21 @@ export default function VrosinaClientApp() {
                     </li>
                   ))}
                 </ul>
+
+                <div className="pt-2">
+                  <button
+                    onClick={() =>
+                      openLeadModal(
+                        investorTrack === "benefactor" ? "benefactor" : "investor",
+                        `Υπολογιστής Επενδύσεων & Επιδοτήσεων (#investors) — ${investorSimulation.title}`,
+                        `Κανάλι: ${investorSimulation.title} | Ίδια Συμμετοχή: ${investmentAmount.toLocaleString("el-GR")} € | Συνολικό Έργο CAPEX: ${investorSimulation.mobilizedCapex.toLocaleString("el-GR")} € | Δημόσια Επιδότηση: +${investorSimulation.publicGrant.toLocaleString("el-GR")} € | Σενάριο: ${activeScenario.name}`
+                      )
+                    }
+                    className="w-full py-3 rounded bg-[#c89d54] hover:bg-amber-400 text-stone-950 font-bold text-xs sm:text-sm transition cursor-pointer"
+                  >
+                    Αποστολή Επενδυτικού / Χορηγικού Αιτήματος με Αυτές τις Παραμέτρους →
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1897,6 +2047,25 @@ export default function VrosinaClientApp() {
                     </div>
                   ))}
                 </div>
+
+                <div className="pt-2">
+                  <button
+                    onClick={() =>
+                      openLeadModal(
+                        activeStakeholder.group === "investors"
+                          ? "investor"
+                          : activeStakeholder.group === "community"
+                            ? "owner"
+                            : "institutional",
+                        `Θεσμικός Φάκελος One-Pager (#governance) — ${activeStakeholder.name}`,
+                        `Επιλεγμένος Φορέας: ${activeStakeholder.name} (${activeStakeholder.phase}) | Παραδοτέο: ${activeStakeholder.deliverable}`
+                      )
+                    }
+                    className="w-full py-2.5 rounded bg-[#14191f] hover:bg-[#1f5c43] text-white font-semibold text-xs sm:text-sm transition cursor-pointer"
+                  >
+                    Εκδήλωση Ενδιαφέροντος / Αίτημα Συνάντησης για: {activeStakeholder.name} →
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1987,10 +2156,13 @@ export default function VrosinaClientApp() {
               </div>
 
               <button
-                onClick={() => {
-                  setLeadRole("owner");
-                  setLeadModalOpen(true);
-                }}
+                onClick={() =>
+                  openLeadModal(
+                    "owner",
+                    `Μητρώο Κλειστών Κατοικιών (#community) — ${HOUSING_CATEGORIES[selectedHousingIdx].code}`,
+                    `Επιλεγμένη Κατηγορία Αποκατάστασης: ${HOUSING_CATEGORIES[selectedHousingIdx].title} | Κόστος: ${HOUSING_CATEGORIES[selectedHousingIdx].cost} | Επιδότηση: ${HOUSING_CATEGORIES[selectedHousingIdx].subsidy} | Ίδια Χρήματα Ιδιοκτήτη: ${HOUSING_CATEGORIES[selectedHousingIdx].ownerOutOfPocket}`
+                  )
+                }
                 className="w-full py-3 rounded bg-[#1f5c43] hover:bg-[#174632] text-white font-semibold text-xs sm:text-sm transition cursor-pointer"
               >
                 Εγγραφή Κλειστού Σπιτιού ή Καταστήματος στο Μητρώο Βροσίνας →
@@ -2047,10 +2219,13 @@ export default function VrosinaClientApp() {
               </ul>
 
               <button
-                onClick={() => {
-                  setLeadRole("producer");
-                  setLeadModalOpen(true);
-                }}
+                onClick={() =>
+                  openLeadModal(
+                    "producer",
+                    "Πρόγραμμα Νέων Παραγωγών (#community) — «Έλα να βοσκήσεις, έλα να μείνεις»",
+                    "Αίτηση για Πακέτο Πρώτου Κοπαδιού (50–80 ζώα, έως 80% επιδότηση) / Αμπελώνα Ντεμπίνας / Σχολή Πετράδων ΔΥΠΑ"
+                  )
+                }
                 className="w-full py-3 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold text-xs sm:text-sm transition cursor-pointer"
               >
                 Αίτηση Νέου Κτηνοτρόφου / Αμπελουργού / Τεχνίτη Πέτρας →
@@ -2232,6 +2407,190 @@ export default function VrosinaClientApp() {
               ))}
             </div>
           </div>
+
+          {/* INLINE PARTICIPATION & CONTACT FORM SECTION (#contact-form) */}
+          <div
+            id="contact-form"
+            className="bg-[#f7f5f0] rounded-lg p-6 sm:p-10 border border-stone-300 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+          >
+            <div className="lg:col-span-5 space-y-4">
+              <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                07 / ΑΜΕΣΗ ΕΠΙΚΟΙΝΩΝΙΑ & ΜΗΤΡΩΟ ΣΥΜΜΕΤΟΧΗΣ
+              </div>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
+                Δηλώστε Συμμετοχή ως Επενδυτής, Ευεργέτης, Ιδιοκτήτης Ακινήτου ή Νέος Παραγωγός
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                Κάθε αίτημα αποστέλλεται άμεσα στην ομάδα συντονισμού του{" "}
+                <strong>«Βροσίνα 2031»</strong> με πλήρη ένδειξη της κατηγορίας
+                και της ενότητας ενδιαφέροντος, ώστε να λάβετε τον αντίστοιχο
+                εξατομικευμένο φάκελο (LOI LEADER, Καταστατικό ΚΟΙΝΣΕΠ/ΑΜΚΕ ή
+                Όρους Master Lease).
+              </p>
+              <div className="p-4 rounded bg-white border border-stone-300 space-y-1.5 text-xs font-mono">
+                <div className="text-stone-500 uppercase">
+                  ΕΠΙΣΗΜΟ DESK ΥΠΟΔΟΧΗΣ ΑΙΤΗΜΑΤΩΝ:
+                </div>
+                <div className="font-bold text-[#14191f]">
+                  {SITE_CONFIG.contact.email}
+                </div>
+                <div className="text-stone-600">
+                  Προθεσμία 1ης Πρόσκλησης LEADER:{" "}
+                  <strong>{SITE_CONFIG.leaderCall.deadlineDisplay}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 bg-white rounded p-5 sm:p-8 border border-stone-300 shadow-xs">
+              {!inlineSubmitted ? (
+                <form
+                  onSubmit={(e) =>
+                    submitLeadToDigiads(
+                      e,
+                      `Ενσωματωμένη Φόρμα Σελίδας (#contact-form) — Προέλευση: ${leadOrigin}`,
+                      true
+                    )
+                  }
+                  className="space-y-4 text-xs sm:text-sm"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-stone-200">
+                    <span className="font-mono text-[11px] font-bold text-[#1f5c43] uppercase">
+                      ΦΟΡΜΑ ΕΚΔΗΛΩΣΗΣ ΕΝΔΙΑΦΕΡΟΝΤΟΣ «ΒΡΟΣΙΝΑ 2031»
+                    </span>
+                    <span className="font-mono text-[11px] text-stone-500">
+                      Πηγή: {leadOrigin}
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold mb-1 text-[#14191f]">
+                      Ιδιότητα / Κατηγορία Ενδιαφέροντος *
+                    </label>
+                    <select
+                      value={leadRole}
+                      onChange={(e) => setLeadRole(e.target.value)}
+                      className="w-full p-2.5 rounded border border-stone-300 bg-stone-50 font-medium text-[#14191f]"
+                    >
+                      <option value="investor">
+                        Στρατηγικός Επενδυτής / Family Office / Εταιρεία (35%–40% ή LEADER)
+                      </option>
+                      <option value="benefactor">
+                        Μεγάλος Ευεργέτης / Χορηγός Ονοματοδοσίας (ΑΜΚΕ Ταμείο Ευεργετών)
+                      </option>
+                      <option value="institutional">
+                        Θεσμικός / Πολιτικός Φορέας / Αυτοδιοίκηση
+                      </option>
+                      <option value="owner">
+                        Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα
+                      </option>
+                      <option value="producer">
+                        Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας
+                      </option>
+                    </select>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold mb-1 text-[#14191f]">
+                        Ονοματεπώνυμο / Φορέας *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={leadName}
+                        onChange={(e) => setLeadName(e.target.value)}
+                        placeholder="π.χ. Γεώργιος Παπαδόπουλος"
+                        className="w-full p-2.5 rounded border border-stone-300 text-[#14191f]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold mb-1 text-[#14191f]">
+                        Τηλέφωνο Επικοινωνίας *
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={leadPhone}
+                        onChange={(e) => setLeadPhone(e.target.value)}
+                        placeholder="π.χ. +30 69..."
+                        className="w-full p-2.5 rounded border border-stone-300 text-[#14191f]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold mb-1 text-[#14191f]">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={leadEmail}
+                      onChange={(e) => setLeadEmail(e.target.value)}
+                      placeholder="name@example.com"
+                      className="w-full p-2.5 rounded border border-stone-300 text-[#14191f]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold mb-1 text-[#14191f]">
+                      Μήνυμα / Περιγραφή Ακινήτου ή Επενδυτικού Προφίλ
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={leadMessage}
+                      onChange={(e) => setLeadMessage(e.target.value)}
+                      placeholder="Σημειώστε αν σας ενδιαφέρει το LOI για την Πρόσκληση LEADER (04/02/2027), η ΑΜΚΕ Ευεργετών ή η ένταξη ακινήτου..."
+                      className="w-full p-2.5 rounded border border-stone-300 text-[#14191f]"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={leadSubmitting}
+                    className="w-full py-3 rounded bg-[#14191f] hover:bg-[#1f5c43] disabled:opacity-60 text-white font-bold transition cursor-pointer"
+                  >
+                    {leadSubmitting
+                      ? "Αποστολή Αιτήματος..."
+                      : "Αποστολή Αιτήματος στο Συντονιστικό Desk →"}
+                  </button>
+                </form>
+              ) : (
+                <div className="py-6 text-center space-y-4">
+                  <div className="w-12 h-12 rounded-full bg-emerald-100 text-[#1f5c43] flex items-center justify-center mx-auto text-2xl font-bold">
+                    ✓
+                  </div>
+                  <h4 className="font-serif text-2xl font-bold text-[#14191f]">
+                    Το Αίτημά σας Εστάλη Επιτυχώς
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto">
+                    Τα στοιχεία σας εστάλησαν στο{" "}
+                    <strong>digiadsgr@gmail.com</strong> με ένδειξη προέλευσης:{" "}
+                    <span className="font-mono text-[#14191f]">
+                      {leadOrigin}
+                    </span>
+                    .
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-3 pt-2">
+                    <a
+                      href={buildMailtoHref(
+                        `Ενσωματωμένη Φόρμα Σελίδας (#contact-form) — ${leadOrigin}`
+                      )}
+                      className="px-4 py-2 rounded bg-[#1f5c43] text-white text-xs font-semibold"
+                    >
+                      Αποστολή Αντιγράφου μέσω Email Client ↗
+                    </a>
+                    <button
+                      onClick={() => setInlineSubmitted(false)}
+                      className="px-4 py-2 rounded border border-stone-300 text-xs font-semibold cursor-pointer text-[#14191f]"
+                    >
+                      Νέο Αίτημα
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2391,15 +2750,22 @@ export default function VrosinaClientApp() {
 
             {!leadSubmitted ? (
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setLeadSubmitted(true);
-                }}
+                onSubmit={(e) => submitLeadToDigiads(e, leadOrigin, false)}
                 className="space-y-4 text-xs sm:text-sm"
               >
                 <h3 className="font-serif text-xl sm:text-2xl font-bold">
                   Εκδήλωση Ενδιαφέροντος & Θεσμική Επικοινωνία
                 </h3>
+
+                <div className="p-2.5 rounded bg-stone-100 border border-stone-300 text-[11px] font-mono space-y-1">
+                  <div>
+                    <span className="text-stone-500">ΠΗΓΗ ΑΙΤΗΜΑΤΟΣ: </span>
+                    <strong className="text-[#1f5c43]">{leadOrigin}</strong>
+                  </div>
+                  {leadContextDetails && (
+                    <div className="text-stone-600">{leadContextDetails}</div>
+                  )}
+                </div>
 
                 <div>
                   <label className="block font-semibold mb-1">
@@ -2436,6 +2802,8 @@ export default function VrosinaClientApp() {
                     <input
                       type="text"
                       required
+                      value={leadName}
+                      onChange={(e) => setLeadName(e.target.value)}
                       placeholder="π.χ. Γεώργιος Παπαδόπουλος"
                       className="w-full p-2.5 rounded border border-stone-300"
                     />
@@ -2447,6 +2815,8 @@ export default function VrosinaClientApp() {
                     <input
                       type="tel"
                       required
+                      value={leadPhone}
+                      onChange={(e) => setLeadPhone(e.target.value)}
                       placeholder="π.χ. +30 69..."
                       className="w-full p-2.5 rounded border border-stone-300"
                     />
@@ -2458,6 +2828,8 @@ export default function VrosinaClientApp() {
                   <input
                     type="email"
                     required
+                    value={leadEmail}
+                    onChange={(e) => setLeadEmail(e.target.value)}
                     placeholder="name@example.com"
                     className="w-full p-2.5 rounded border border-stone-300"
                   />
@@ -2469,6 +2841,8 @@ export default function VrosinaClientApp() {
                   </label>
                   <textarea
                     rows={3}
+                    value={leadMessage}
+                    onChange={(e) => setLeadMessage(e.target.value)}
                     placeholder="Σημειώστε αν σας ενδιαφέρει το LOI για την Πρόσκληση LEADER (04/02/2027), η ΑΜΚΕ Ευεργετών ή η ένταξη ακινήτου..."
                     className="w-full p-2.5 rounded border border-stone-300"
                   />
@@ -2476,9 +2850,12 @@ export default function VrosinaClientApp() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded bg-[#14191f] hover:bg-[#1f5c43] text-white font-bold transition cursor-pointer"
+                  disabled={leadSubmitting}
+                  className="w-full py-3 rounded bg-[#14191f] hover:bg-[#1f5c43] disabled:opacity-60 text-white font-bold transition cursor-pointer"
                 >
-                  Καταχώριση & Αποστολή Φακέλου →
+                  {leadSubmitting
+                    ? "Αποστολή στο digiadsgr@gmail.com..."
+                    : "Καταχώριση & Αποστολή Φακέλου →"}
                 </button>
               </form>
             ) : (
@@ -2487,14 +2864,23 @@ export default function VrosinaClientApp() {
                   ✓
                 </div>
                 <h4 className="font-serif text-2xl font-bold">
-                  Η Δήλωσή σας Καταχωρίστηκε
+                  Η Δήλωσή σας Εστάλη Επιτυχώς
                 </h4>
                 <p className="text-xs sm:text-sm text-stone-600">
-                  Η ομάδα συντονισμού του «Βροσίνα 2031» θα επικοινωνήσει άμεσα
-                  μαζί σας. Μπορείτε παράλληλα να κατεβάσετε το πλήρες
-                  Επιχειρησιακό Σχέδιο ή το Πρότυπο LOI LEADER από το Data Room.
+                  Το αίτημά σας εστάλη στο{" "}
+                  <strong>digiadsgr@gmail.com</strong> με ένδειξη προέλευσης:{" "}
+                  <span className="font-mono text-[#14191f] font-semibold">
+                    {leadOrigin}
+                  </span>
+                  .
                 </p>
-                <div className="flex justify-center gap-3 pt-2">
+                <div className="flex flex-wrap justify-center gap-2.5 pt-2">
+                  <a
+                    href={buildMailtoHref(leadOrigin)}
+                    className="px-4 py-2 rounded bg-[#1f5c43] text-white text-xs font-semibold"
+                  >
+                    Αποστολή Αντιγράφου μέσω Email Client ↗
+                  </a>
                   <a
                     href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
                     download

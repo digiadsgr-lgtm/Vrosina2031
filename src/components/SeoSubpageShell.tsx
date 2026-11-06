@@ -144,10 +144,10 @@ export default function SeoSubpageShell({
           </nav>
 
           <a
-            href="/#investors"
+            href={`/?source=${encodeURIComponent(canonicalPath)}#contact-form`}
             className="px-3.5 py-2 rounded bg-[#14191f] text-white text-xs font-semibold hover:bg-[#1f5c43] transition"
           >
-            Επενδυτικό Desk
+            Συμμετοχή / Επικοινωνία
           </a>
         </div>
       </header>
@@ -170,6 +170,37 @@ export default function SeoSubpageShell({
       {/* Main Article Content */}
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
         {children}
+
+        {/* Subpage Direct Lead & Contact CTA */}
+        <section className="bg-[#14191f] text-white rounded p-6 sm:p-8 border border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="text-xs font-mono text-[#c89d54] uppercase font-bold">
+              ΕΚΔΗΛΩΣΗ ΕΝΔΙΑΦΕΡΟΝΤΟΣ ({canonicalPath})
+            </div>
+            <h2 className="font-serif text-lg sm:text-2xl font-bold">
+              Ζητήστε τον Πλήρη Φάκελο ή Δηλώστε Συμμετοχή
+            </h2>
+            <p className="text-xs text-stone-300">
+              Απευθείας αποστολή στο Συντονιστικό Desk (digiadsgr@gmail.com) με ένδειξη σελίδας προέλευσης.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2.5 shrink-0">
+            <a
+              href={`/?source=${encodeURIComponent(canonicalPath)}#contact-form`}
+              className="px-4 py-2.5 rounded bg-[#c89d54] text-stone-950 font-bold text-xs hover:bg-amber-400 transition"
+            >
+              Φόρμα Συμμετοχής →
+            </a>
+            <a
+              href={`mailto:digiadsgr@gmail.com?subject=${encodeURIComponent(
+                `[ΒΡΟΣΙΝΑ 2031] Αίτημα από σελίδα ${canonicalPath} (${title})`
+              )}`}
+              className="px-4 py-2.5 rounded border border-stone-600 text-stone-200 hover:text-white text-xs font-mono transition"
+            >
+              digiadsgr@gmail.com ↗
+            </a>
+          </div>
+        </section>
 
         {/* Internal SEO Cluster Navigation Box */}
         <aside className="bg-white rounded p-6 border border-stone-300 space-y-4">

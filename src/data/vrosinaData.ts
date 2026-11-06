@@ -100,8 +100,8 @@ export const SITE_CONFIG = {
   contact: {
     organization: "Πρωτοβουλία Αναγέννησης «Βροσίνα 2031»",
     municipality: "Δήμος Ζίτσας — Δημοτική Ενότητα Μολοσσών",
-    email: "info@vrosina2031.gr",
-    investorDeskEmail: "investors@vrosina2031.gr",
+    email: "digiadsgr@gmail.com",
+    investorDeskEmail: "digiadsgr@gmail.com",
     phone: "+30 26510 00000",
   },
 };
