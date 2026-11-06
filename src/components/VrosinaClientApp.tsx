@@ -20,6 +20,8 @@ import {
   REAL_VROSINA_VIDEOS,
   REAL_VS_2031_COMPARISONS,
   CAMP_VIDEO_AUTOPSY,
+  ZERO_CAPITAL_HERDER_GUIDE,
+  MORPHOLOGICAL_REGULATION_GUIDE,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
@@ -96,6 +98,12 @@ export default function VrosinaClientApp() {
 
   // Housing Calculator state
   const [selectedHousingIdx, setSelectedHousingIdx] = useState<number>(1); // Category B default
+
+  // Mega-Guides state (Zero-Capital Herder 5-Step Guide & Morphological / Urban Planning Guide)
+  const [activeMegaGuideTab, setActiveMegaGuideTab] = useState<
+    "herder" | "morphology"
+  >("herder");
+  const [activeHerderStepIdx, setActiveHerderStepIdx] = useState<number>(0);
 
   // Participation / Lead Modal & Form state (delivers to digiadsgr@gmail.com with exact origin tracking)
   const [leadModalOpen, setLeadModalOpen] = useState<boolean>(false);
@@ -700,6 +708,20 @@ export default function VrosinaClientApp() {
                       >
                         Υπολογιστής Αποκατάστασης Σπιτιού ↓
                       </a>
+                      <a
+                        href="#mega-guides"
+                        onClick={() => {
+                          setActiveMegaGuideTab("morphology");
+                          registerEngagement(
+                            "hero_jump",
+                            "guide-morphological-regulation",
+                            "Μορφολογικός Κανονισμός & Σ.Α. Ιωαννίνων"
+                          );
+                        }}
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
+                      >
+                        🏛️ Οδηγός Πολεοδομίας & Σ.Α. Ιωαννίνων ↓
+                      </a>
                       <button
                         type="button"
                         onClick={() =>
@@ -776,6 +798,20 @@ export default function VrosinaClientApp() {
                     </ul>
                     <div className="flex flex-wrap gap-2 pt-1">
                       <a
+                        href="#mega-guides"
+                        onClick={() => {
+                          setActiveMegaGuideTab("herder");
+                          registerEngagement(
+                            "hero_jump",
+                            "guide-zero-capital-herder",
+                            "Οδηγός 0€ Κεφάλαιο 43.100€"
+                          );
+                        }}
+                        className="px-3 py-1.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold"
+                      >
+                        🗺️ Οδηγός 0 € Κεφάλαιο (43.100 € σε 5 Βήματα) ↓
+                      </a>
+                      <a
                         href="#community"
                         onClick={() =>
                           registerEngagement(
@@ -784,9 +820,9 @@ export default function VrosinaClientApp() {
                             "Πακέτο Παραγωγών"
                           )
                         }
-                        className="px-3 py-1.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold"
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
                       >
-                        Δείτε το Πακέτο Παραγωγών ↓
+                        Πακέτο Παραγωγών ↓
                       </a>
                       <button
                         type="button"
@@ -2699,6 +2735,391 @@ export default function VrosinaClientApp() {
                 Αίτηση Νέου Κτηνοτρόφου / Αμπελουργού / Τεχνίτη Πέτρας →
               </button>
             </div>
+          </div>
+
+          {/* INTERACTIVE DUAL MEGA-GUIDE SWITCHER:
+              1. "Από Άνεργος, Κτηνοτρόφος στο Βουνό με 0€ Αρχικό Κεφάλαιο (43.100€ σε 5 Βήματα)"
+              2. "Τι είναι ο Δεσμευτικός Μορφολογικός Κανονισμός & Τι Ισχύει Πολεοδομικά στη Βροσίνα (Σ.Α. Ιωαννίνων)" */}
+          <div
+            id="mega-guides"
+            className="bg-white rounded-lg border-2 border-[#14191f] shadow-lg overflow-hidden"
+          >
+            {/* Header & Tab Switcher */}
+            <div className="bg-[#14191f] text-white p-5 sm:p-8 space-y-5">
+              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div className="space-y-1.5 max-w-3xl">
+                  <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#c89d54]">
+                    ΠΡΑΚΤΙΚΟΙ ΟΔΗΓΟΙ ΕΦΑΡΜΟΓΗΣ · ΑΠΑΝΤΗΣΕΙΣ ΣΕ ΚΡΙΣΙΜΑ ΕΡΩΤΗΜΑΤΑ ΠΕΡΙΗΓΗΣΗΣ
+                  </div>
+                  <h3 className="font-serif text-xl sm:text-3xl font-bold text-white">
+                    Πώς Ξεκινάς Χωρίς Κεφάλαιο στο Βουνό & Τι Ισχύει Πολεοδομικά στη Βροσίνα
+                  </h3>
+                  <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
+                    Επιλέξτε έναν από τους δύο αναλυτικούς οδηγούς βήμα-προς-βήμα για να δείτε πώς συνδυάζονται τα 4 κρατικά/ευρωπαϊκά προγράμματα (<strong>43.100 € άμεση ενίσχυση</strong>) και πώς λειτουργεί ο <strong>Δεσμευτικός Μορφολογικός Κανονισμός & το Συμβούλιο Αρχιτεκτονικής (Σ.Α.) Ιωαννίνων</strong> στη Βροσίνα.
+                  </p>
+                </div>
+                <a
+                  href="/katoikia-neoi-paragogoi"
+                  className="text-xs font-mono text-[#c89d54] hover:underline shrink-0"
+                >
+                  Άνοιγμα σε Ανεξάρτητη Σελίδα Οδηγού ↗
+                </a>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveMegaGuideTab("herder");
+                    registerEngagement(
+                      "select_mega_guide",
+                      "guide-zero-capital-herder",
+                      "Από Άνεργος Κτηνοτρόφος 43.100€"
+                    );
+                  }}
+                  className={`p-4 rounded border text-left transition cursor-pointer flex items-start justify-between gap-3 ${
+                    activeMegaGuideTab === "herder"
+                      ? "bg-[#1f5c43] border-[#c89d54] text-white shadow-md"
+                      : "bg-stone-900 border-stone-700 text-stone-300 hover:bg-stone-800 hover:text-white"
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <div className="text-[11px] font-mono font-bold uppercase text-[#c89d54]">
+                      ΟΔΗΓΟΣ 01 · ΝΕΟΙ ΠΑΡΑΓΩΓΟΙ (5 ΒΗΜΑΤΑ)
+                    </div>
+                    <div className="font-serif font-bold text-sm sm:text-base">
+                      🗺️ Από Άνεργος, Κτηνοτρόφος στο Βουνό (Χωρίς Αρχικό Κεφάλαιο — 43.100 €)
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-black/40 font-mono text-[11px] text-[#c89d54] shrink-0">
+                    5 Βήματα
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveMegaGuideTab("morphology");
+                    registerEngagement(
+                      "select_mega_guide",
+                      "guide-morphological-regulation",
+                      "Μορφολογικός Κανονισμός & Σ.Α. Ιωαννίνων"
+                    );
+                  }}
+                  className={`p-4 rounded border text-left transition cursor-pointer flex items-start justify-between gap-3 ${
+                    activeMegaGuideTab === "morphology"
+                      ? "bg-[#1f5c43] border-[#c89d54] text-white shadow-md"
+                      : "bg-stone-900 border-stone-700 text-stone-300 hover:bg-stone-800 hover:text-white"
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <div className="text-[11px] font-mono font-bold uppercase text-[#c89d54]">
+                      ΟΔΗΓΟΣ 02 · ΙΔΙΟΚΤΗΤΕΣ & ΜΗΧΑΝΙΚΟΙ
+                    </div>
+                    <div className="font-serif font-bold text-sm sm:text-base">
+                      🏛️ Δεσμευτικός Μορφολογικός Κανονισμός & Όροι Δόμησης Βροσίνας (Σ.Α. Ιωαννίνων)
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-black/40 font-mono text-[11px] text-[#c89d54] shrink-0">
+                    Πολεοδομία
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* TAB 1 CONTENT: ZERO-CAPITAL HERDER 5-STEP MEGA-GUIDE */}
+            {activeMegaGuideTab === "herder" ? (
+              <div className="p-5 sm:p-8 space-y-8 bg-[#f7f5f0]">
+                <div className="bg-white rounded p-5 sm:p-6 border border-stone-300 space-y-2">
+                  <div className="text-xs font-mono font-bold text-[#1f5c43]">
+                    {ZERO_CAPITAL_HERDER_GUIDE.badge}
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                    {ZERO_CAPITAL_HERDER_GUIDE.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                    {ZERO_CAPITAL_HERDER_GUIDE.subtitle}
+                  </p>
+                </div>
+
+                {/* Interactive 5-Step Selector */}
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h5 className="font-serif text-base sm:text-xl font-bold text-[#14191f]">
+                      {ZERO_CAPITAL_HERDER_GUIDE.roadmapTitle}
+                    </h5>
+                    <span className="text-xs font-mono text-stone-600">
+                      Πατήστε σε κάθε βήμα (1 έως 5) ή δείτε όλη τη ροή παρακάτω
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    {ZERO_CAPITAL_HERDER_GUIDE.steps.map((st, idx) => {
+                      const isStepActive = activeHerderStepIdx === idx;
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setActiveHerderStepIdx(idx);
+                            registerEngagement(
+                              "select_herder_step",
+                              `herder-step-${idx + 1}`,
+                              st.title
+                            );
+                          }}
+                          className={`p-3 rounded border text-left transition cursor-pointer ${
+                            isStepActive
+                              ? "bg-[#14191f] text-white border-[#14191f] ring-2 ring-[#c89d54]"
+                              : "bg-white hover:bg-stone-100 text-stone-800 border-stone-300"
+                          }`}
+                        >
+                          <div className="text-[11px] font-mono font-bold text-[#c89d54]">
+                            {st.stepNumber}
+                          </div>
+                          <div className="font-serif font-bold text-xs sm:text-sm mt-1 line-clamp-2">
+                            {st.title}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Highlighted Active Step Detail Card */}
+                  {(() => {
+                    const currentStep =
+                      ZERO_CAPITAL_HERDER_GUIDE.steps[activeHerderStepIdx];
+                    return (
+                      <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#1f5c43] space-y-4 shadow-sm">
+                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="px-2.5 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
+                              {currentStep.stepNumber}
+                            </span>
+                            <span className="text-xs font-mono text-stone-600 font-semibold">
+                              {currentStep.programBadge}
+                            </span>
+                          </div>
+                          <span className="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-[#1f5c43] font-mono text-xs font-bold">
+                            {currentStep.amountBadge}
+                          </span>
+                        </div>
+
+                        <h5 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                          {currentStep.title}
+                        </h5>
+                        <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                          {currentStep.summary}
+                        </p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
+                          <div className="p-3.5 rounded bg-stone-50 border border-stone-200 space-y-1">
+                            <div className="text-[11px] font-mono font-bold uppercase text-[#b85d3b]">
+                              • ΤΙ ΚΑΝΕΙΣ:
+                            </div>
+                            <p className="text-xs text-stone-800 leading-relaxed">
+                              {currentStep.whatYouDo}
+                            </p>
+                          </div>
+
+                          <div className="p-3.5 rounded bg-emerald-50/70 border border-emerald-200 space-y-1">
+                            <div className="text-[11px] font-mono font-bold uppercase text-[#1f5c43]">
+                              • ΤΟ ΚΕΡΔΟΣ ΣΟΥ:
+                            </div>
+                            <p className="text-xs text-stone-800 leading-relaxed">
+                              {currentStep.yourGain}
+                            </p>
+                          </div>
+
+                          <div className="p-3.5 rounded bg-[#14191f] text-white space-y-1">
+                            <div className="text-[11px] font-mono font-bold uppercase text-[#c89d54]">
+                              • ΠΩΣ ΣΕ ΚΑΛΥΠΤΕΙ ΤΟ «ΒΡΟΣΙΝΑ 2031»:
+                            </div>
+                            <p className="text-xs text-stone-200 leading-relaxed">
+                              {currentStep.vrosinaAdvantage}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+
+                {/* Financial Summary Table (43.100 €) + 3 Golden Rules */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                  {/* Left: Financial Breakdown Table */}
+                  <div className="lg:col-span-6 bg-[#14191f] text-white rounded p-5 sm:p-6 border border-stone-800 space-y-4">
+                    <h5 className="font-serif text-base sm:text-xl font-bold text-[#c89d54]">
+                      {ZERO_CAPITAL_HERDER_GUIDE.financialSummaryTitle}
+                    </h5>
+                    <div className="divide-y divide-stone-800 border border-stone-800 rounded overflow-hidden text-xs">
+                      <div className="grid grid-cols-12 bg-stone-950 px-3.5 py-2.5 font-mono text-stone-400 font-bold">
+                        <div className="col-span-6">Πρόγραμμα</div>
+                        <div className="col-span-3">Είδος</div>
+                        <div className="col-span-3 text-right">Ποσό</div>
+                      </div>
+                      {ZERO_CAPITAL_HERDER_GUIDE.financialTable.map((row, i) => (
+                        <div
+                          key={i}
+                          className={`grid grid-cols-12 px-3.5 py-3 items-center ${
+                            row.isTotal
+                              ? "bg-[#1f5c43] text-white font-bold"
+                              : "bg-stone-900 text-stone-200"
+                          }`}
+                        >
+                          <div className="col-span-6 pr-2">{row.program}</div>
+                          <div className="col-span-3 font-mono text-[11px] text-stone-300">
+                            {row.type}
+                          </div>
+                          <div className="col-span-3 text-right font-mono font-bold text-sm text-[#c89d54]">
+                            {row.amount}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-stone-300 leading-relaxed bg-stone-900 p-3.5 rounded border border-stone-800">
+                      {ZERO_CAPITAL_HERDER_GUIDE.secondYearBonus}
+                    </p>
+                  </div>
+
+                  {/* Right: The 3 Golden Rules */}
+                  <div className="lg:col-span-6 bg-white rounded p-5 sm:p-6 border border-stone-300 space-y-4">
+                    <h5 className="font-serif text-base sm:text-xl font-bold text-[#14191f]">
+                      {ZERO_CAPITAL_HERDER_GUIDE.goldenRulesTitle}
+                    </h5>
+                    <div className="space-y-3">
+                      {ZERO_CAPITAL_HERDER_GUIDE.goldenRules.map((rule, i) => (
+                        <div
+                          key={i}
+                          className="p-3.5 rounded bg-[#f7f5f0] border border-stone-300 space-y-1"
+                        >
+                          <div className="font-serif font-bold text-xs sm:text-sm text-[#14191f]">
+                            <span className="font-mono text-[#b85d3b] mr-1.5">
+                              {rule.number}.
+                            </span>
+                            {rule.title}
+                          </div>
+                          <p className="text-xs text-stone-700 leading-relaxed">
+                            {rule.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        openLeadModal(
+                          "producer",
+                          "Οδηγός 0€ Αρχικό Κεφάλαιο (#mega-guides) — Αίτηση Καθοδήγησης Νέου Κτηνοτρόφου (43.100€)",
+                          "Ενδιαφέρον για τον Οδικό Χάρτη 5 Βημάτων (Μετεγκατάσταση 10.000€ + Μικροπίστωση HDB 25.000€ + Νέοι Γεωργοί Π3-75.1 32.500€ + Πακέτο Πρώτου Κοπαδιού Βροσίνας)"
+                        )
+                      }
+                      className="w-full py-3 rounded bg-[#1f5c43] hover:bg-[#174632] text-white font-semibold text-xs sm:text-sm transition cursor-pointer"
+                    >
+                      Αίτηση Καθοδήγησης για τα 5 Βήματα (43.100 €) στη Βροσίνα →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* TAB 2 CONTENT: BINDING MORPHOLOGICAL REGULATION & VROSINA URBAN PLANNING */
+              <div className="p-5 sm:p-8 space-y-8 bg-[#f7f5f0]">
+                <div className="bg-white rounded p-5 sm:p-6 border border-stone-300 space-y-2">
+                  <div className="text-xs font-mono font-bold text-[#b85d3b]">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.badge}
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.subtitle}
+                  </p>
+                </div>
+
+                {/* 4 Regulated Elements */}
+                <div className="space-y-3">
+                  <h5 className="font-serif text-base sm:text-xl font-bold text-[#14191f]">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.whatItRegulatesTitle}
+                  </h5>
+                  <p className="text-xs sm:text-sm text-stone-700">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.whatItRegulatesIntro}
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.regulatedElements.map(
+                      (el, i) => (
+                        <div
+                          key={i}
+                          className="bg-white rounded p-4 border border-stone-300 space-y-1.5"
+                        >
+                          <div className="font-mono text-xs font-bold text-[#b85d3b]">
+                            ΚΑΝΟΝΑΣ {el.code}
+                          </div>
+                          <div className="font-serif font-bold text-sm text-[#14191f]">
+                            {el.title}
+                          </div>
+                          <p className="text-xs text-stone-700 leading-relaxed">
+                            {el.details}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* What specifically applies in Vrosina (Municipality of Zitsa / SA Ioannina) */}
+                <div className="bg-[#14191f] text-white rounded p-5 sm:p-6 border border-stone-800 space-y-5">
+                  <div className="space-y-1.5">
+                    <h5 className="font-serif text-base sm:text-xl font-bold text-[#c89d54]">
+                      {MORPHOLOGICAL_REGULATION_GUIDE.vrosinaSpecificsTitle}
+                    </h5>
+                    <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+                      {MORPHOLOGICAL_REGULATION_GUIDE.vrosinaSpecificsIntro}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {MORPHOLOGICAL_REGULATION_GUIDE.vrosinaAxes.map(
+                      (ax, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-stone-900 rounded p-4 border border-stone-700 space-y-2"
+                        >
+                          <div className="text-xs font-mono font-bold text-[#c89d54]">
+                            {ax.axisNumber}
+                          </div>
+                          <div className="font-serif font-bold text-sm sm:text-base text-white">
+                            {ax.title}
+                          </div>
+                          <p className="text-xs text-stone-300 leading-relaxed whitespace-pre-line">
+                            {ax.description}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </div>
+
+                  <div className="p-4 rounded bg-stone-950 border-l-4 border-emerald-400 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
+                      {MORPHOLOGICAL_REGULATION_GUIDE.howVrosina2031SolvesIt}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        openLeadModal(
+                          "owner",
+                          "Πολεοδομικός & Μορφολογικός Οδηγός (#mega-guides) — Έγκριση Σ.Α. Ιωαννίνων & Master Lease",
+                          "Αίτημα Ιδιοκτήτη για Δωρεάν Αρχιτεκτονική Μελέτη Όψεων (Σ.Α. Ιωαννίνων / ΥΔΟΜ Ζίτσας) & Ανακαίνιση με 0€ Επιβάρυνση"
+                        )
+                      }
+                      className="px-4 py-2.5 rounded bg-[#c89d54] hover:bg-[#b5893f] text-stone-950 font-semibold text-xs shrink-0 cursor-pointer"
+                    >
+                      Αίτηση Αποκατάστασης & Άδειας Σ.Α. →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -1,30 +1,239 @@
 import type { Metadata } from "next";
 import SeoSubpageShell from "@/components/SeoSubpageShell";
-import { HOUSING_CATEGORIES } from "@/data/vrosinaData";
+import {
+  HOUSING_CATEGORIES,
+  ZERO_CAPITAL_HERDER_GUIDE,
+  MORPHOLOGICAL_REGULATION_GUIDE,
+} from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
   title:
-    "Ανακαίνιση Κλειστών Κατοικιών (Master Lease) & «Έλα να Βοσκήσεις — Έλα να Μείνεις» | Βροσίνα 2031",
+    "Από Άνεργος Κτηνοτρόφος στο Βουνό (43.100 €) & Δεσμευτικός Μορφολογικός Κανονισμός Βροσίνας | Βροσίνα 2031",
   description:
-    "Πώς ανακαινίζονται 20 κλειστές κατοικίες και 5 καταστήματα στη Βροσίνα Ιωαννίνων με 0 € επιβάρυνση ιδιοκτήτη (Master Lease 9–12 ετών, Κατηγορίες Α: 20k €, Β: 37.5k €, Γ: 50k €) και πώς εγκαθίστανται 12 νέοι κτηνοτρόφοι με Πακέτο Πρώτου Κοπαδιού.",
+    "Πλήρης Οδηγός 5 Βημάτων για να ξεκινήσεις ως κτηνοτρόφος από το μηδέν χωρίς αρχικό κεφάλαιο (Μετεγκατάσταση 10.000€, Μικροπίστωση HDB 25.000€, Νέοι Γεωργοί Π3-75.1 32.500€), Master Lease κλειστών κατοικιών με 0€ επιβάρυνση και τι ισχύει πολεοδομικά στη Βροσίνα (Δήμος Ζίτσας & Σ.Α. Ιωαννίνων).",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/katoikia-neoi-paragogoi",
   },
 };
 
 export default function KatoikiaNeoiParagogoiPage() {
+  const howToJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: ZERO_CAPITAL_HERDER_GUIDE.title,
+    description: ZERO_CAPITAL_HERDER_GUIDE.subtitle,
+    totalTime: "P6M",
+    estimatedCost: {
+      "@type": "MonetaryAmount",
+      currency: "EUR",
+      value: "0",
+    },
+    step: ZERO_CAPITAL_HERDER_GUIDE.steps.map((st, idx) => ({
+      "@type": "HowToStep",
+      position: idx + 1,
+      name: `${st.stepNumber}: ${st.title}`,
+      text: `${st.summary} Τι κάνεις: ${st.whatYouDo} Το κέρδος: ${st.yourGain}`,
+    })),
+  };
+
   return (
     <SeoSubpageShell
-      sectionCode="ΠΥΛΩΝΕΣ 02 & 03 · ΚΑΤΟΙΚΙΑ, ΕΡΓΑΣΙΑ & ΔΗΜΟΓΡΑΦΙΚΟ"
-      categoryLabel="ΜΗΤΡΩΟ ΚΛΕΙΣΤΩΝ ΚΑΤΟΙΚΙΩΝ · MASTER LEASE · ΠΑΚΕΤΟ ΠΡΩΤΟΥ ΚΟΠΑΔΙΟΥ"
-      title="Αποκατάσταση Κλειστών Κατοικιών με 0 € Ίδια Συμμετοχή & Πρόγραμμα Νέων Παραγωγών «Έλα να Βοσκήσεις — Έλα να Μείνεις»"
-      subtitle="Ο Δεσμευτικός Μορφολογικός Κανονισμός της Βροσίνας (φυσική ηπειρωτική πέτρα, κεραμίδι & γκρίζα λιθόπλακα), το μοντέλο Master Lease 9–12 ετών για τους ιδιοκτήτες κλειστών σπιτιών, η επαναλειτουργία του Δημοτικού Σχολείου και η Σχολή Πετράδων (ΔΥΠΑ)."
+      sectionCode="ΠΥΛΩΝΕΣ 02 & 03 · ΚΑΤΟΙΚΙΑ, ΕΡΓΑΣΙΑ, ΠΟΛΕΟΔΟΜΙΑ & ΔΗΜΟΓΡΑΦΙΚΟ"
+      categoryLabel="MEGA-GUIDES · 0€ ΑΡΧΙΚΟ ΚΕΦΑΛΑΙΟ (43.100€) · ΜΟΡΦΟΛΟΓΙΚΟΣ ΚΑΝΟΝΙΣΜΟΣ & Σ.Α. ΙΩΑΝΝΙΝΩΝ"
+      title="Αποκατάσταση Κλειστών Κατοικιών (0 € Συμμετοχή), Οδηγός Νέου Κτηνοτρόφου από το Μηδέν & Πολεοδομικό Καθεστώς Βροσίνας"
+      subtitle="Ο πλήρης πρακτικός οδηγός 5 βημάτων για να γίνεις κτηνοτρόφος χωρίς αρχικό κεφάλαιο (43.100 € σε άμεσες ενισχύσεις), ο Δεσμευτικός Μορφολογικός Κανονισμός της Βροσίνας (Σ.Α. Ιωαννίνων, Δήμος Ζίτσας) και το μοντέλο Master Lease 9–12 ετών."
       canonicalPath="/katoikia-neoi-paragogoi"
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
+
+      {/* MEGA-GUIDE 1: ZERO-CAPITAL HERDER 5-STEP ROADMAP */}
+      <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#1f5c43] space-y-6">
+        <div className="space-y-2 border-b border-stone-200 pb-4">
+          <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+            {ZERO_CAPITAL_HERDER_GUIDE.badge}
+          </div>
+          <h2 className="font-serif text-xl sm:text-3xl font-bold text-[#14191f]">
+            {ZERO_CAPITAL_HERDER_GUIDE.title}
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+            {ZERO_CAPITAL_HERDER_GUIDE.subtitle}
+          </p>
+        </div>
+
+        <h3 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+          {ZERO_CAPITAL_HERDER_GUIDE.roadmapTitle}
+        </h3>
+
+        <div className="space-y-4">
+          {ZERO_CAPITAL_HERDER_GUIDE.steps.map((st, idx) => (
+            <div
+              key={idx}
+              className="p-5 rounded bg-[#f7f5f0] border border-stone-300 space-y-3"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
+                    {st.stepNumber}
+                  </span>
+                  <h4 className="font-serif font-bold text-base sm:text-lg text-[#14191f]">
+                    {st.title}
+                  </h4>
+                </div>
+                <span className="px-2.5 py-1 rounded bg-emerald-100 text-[#1f5c43] font-mono text-xs font-bold">
+                  {st.amountBadge}
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                {st.summary}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <div className="p-3 rounded bg-white border border-stone-200">
+                  <strong className="text-[#b85d3b] block font-mono mb-1">
+                    • ΤΙ ΚΑΝΕΙΣ:
+                  </strong>
+                  {st.whatYouDo}
+                </div>
+                <div className="p-3 rounded bg-white border border-stone-200">
+                  <strong className="text-[#1f5c43] block font-mono mb-1">
+                    • ΤΟ ΚΕΡΔΟΣ ΣΟΥ:
+                  </strong>
+                  {st.yourGain}
+                </div>
+                <div className="p-3 rounded bg-[#14191f] text-stone-200">
+                  <strong className="text-[#c89d54] block font-mono mb-1">
+                    • ΠΩΣ ΣΕ ΚΑΛΥΠΤΕΙ ΤΟ «ΒΡΟΣΙΝΑ 2031»:
+                  </strong>
+                  {st.vrosinaAdvantage}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Financial Summary Table & 3 Golden Rules */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+          <div className="bg-[#14191f] text-white rounded p-5 space-y-4">
+            <h3 className="font-serif font-bold text-lg text-[#c89d54]">
+              {ZERO_CAPITAL_HERDER_GUIDE.financialSummaryTitle}
+            </h3>
+            <div className="divide-y divide-stone-800 border border-stone-800 rounded overflow-hidden text-xs">
+              {ZERO_CAPITAL_HERDER_GUIDE.financialTable.map((row, i) => (
+                <div
+                  key={i}
+                  className={`grid grid-cols-12 px-3 py-2.5 items-center ${
+                    row.isTotal
+                      ? "bg-[#1f5c43] text-white font-bold"
+                      : "bg-stone-900 text-stone-200"
+                  }`}
+                >
+                  <div className="col-span-6 pr-2">{row.program}</div>
+                  <div className="col-span-3 font-mono text-[11px] text-stone-300">
+                    {row.type}
+                  </div>
+                  <div className="col-span-3 text-right font-mono font-bold text-sm text-[#c89d54]">
+                    {row.amount}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-stone-300 leading-relaxed">
+              {ZERO_CAPITAL_HERDER_GUIDE.secondYearBonus}
+            </p>
+          </div>
+
+          <div className="bg-[#f7f5f0] rounded p-5 border border-stone-300 space-y-3">
+            <h3 className="font-serif font-bold text-lg text-[#14191f]">
+              {ZERO_CAPITAL_HERDER_GUIDE.goldenRulesTitle}
+            </h3>
+            {ZERO_CAPITAL_HERDER_GUIDE.goldenRules.map((rule, i) => (
+              <div
+                key={i}
+                className="p-3 rounded bg-white border border-stone-200 space-y-1 text-xs"
+              >
+                <div className="font-serif font-bold text-sm text-[#14191f]">
+                  {rule.number}. {rule.title}
+                </div>
+                <p className="text-stone-700 leading-relaxed">{rule.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MEGA-GUIDE 2: MORPHOLOGICAL REGULATION & VROSINA URBAN PLANNING */}
+      <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#14191f] space-y-6">
+        <div className="space-y-2 border-b border-stone-200 pb-4">
+          <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+            {MORPHOLOGICAL_REGULATION_GUIDE.badge}
+          </div>
+          <h2 className="font-serif text-xl sm:text-3xl font-bold text-[#14191f]">
+            {MORPHOLOGICAL_REGULATION_GUIDE.title}
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+            {MORPHOLOGICAL_REGULATION_GUIDE.subtitle}
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+            {MORPHOLOGICAL_REGULATION_GUIDE.whatItRegulatesTitle}
+          </h3>
+          <p className="text-xs sm:text-sm text-stone-700">
+            {MORPHOLOGICAL_REGULATION_GUIDE.whatItRegulatesIntro}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {MORPHOLOGICAL_REGULATION_GUIDE.regulatedElements.map((el, i) => (
+              <div
+                key={i}
+                className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1 text-xs"
+              >
+                <div className="font-mono font-bold text-[#b85d3b]">
+                  ΚΑΝΟΝΑΣ {el.code} · {el.title}
+                </div>
+                <p className="text-stone-700 leading-relaxed">{el.details}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-[#14191f] text-white rounded p-5 sm:p-6 space-y-4">
+          <h3 className="font-serif text-lg sm:text-xl font-bold text-[#c89d54]">
+            {MORPHOLOGICAL_REGULATION_GUIDE.vrosinaSpecificsTitle}
+          </h3>
+          <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+            {MORPHOLOGICAL_REGULATION_GUIDE.vrosinaSpecificsIntro}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {MORPHOLOGICAL_REGULATION_GUIDE.vrosinaAxes.map((ax, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded bg-stone-900 border border-stone-700 space-y-1.5 text-xs"
+              >
+                <div className="font-mono font-bold text-[#c89d54]">
+                  {ax.axisNumber}
+                </div>
+                <h4 className="font-serif font-bold text-sm text-white">
+                  {ax.title}
+                </h4>
+                <p className="text-stone-300 leading-relaxed whitespace-pre-line">
+                  {ax.description}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="p-4 rounded bg-stone-950 border-l-4 border-emerald-400 text-xs sm:text-sm text-stone-200 leading-relaxed">
+            {MORPHOLOGICAL_REGULATION_GUIDE.howVrosina2031SolvesIt}
+          </div>
+        </div>
+      </section>
+
       {/* 3 Housing Categories */}
       <section className="space-y-4">
         <h2 className="font-serif text-2xl font-bold text-[#14191f]">
-          Οι 3 Κατηγορίες Μορφολογικής & Ενεργειακής Αποκατάστασης Κατοικιών
+          Οι 3 Κατηγορίες Μορφολογικής & Ενεργειακής Αποκατάστασης Κατοικιών (Master Lease 0 €)
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {HOUSING_CATEGORIES.map((cat, idx) => (
