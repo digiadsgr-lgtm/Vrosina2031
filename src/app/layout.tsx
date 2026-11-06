@@ -164,11 +164,28 @@ export default function RootLayout({
         "@type": "VideoObject",
         name: vid.title,
         description: vid.description,
-        thumbnailUrl: [`https://vrosina2031.gr${vid.thumbnail}`],
-        uploadDate: "2024-01-01T08:00:00+02:00",
+        thumbnailUrl: [
+          vid.thumbnail.startsWith("http")
+            ? vid.thumbnail
+            : `https://vrosina2031.gr${vid.thumbnail}`,
+          `https://i.ytimg.com/vi/${vid.id}/hqdefault.jpg`,
+        ],
+        uploadDate: "2026-01-01T08:00:00+02:00",
         embedUrl: `https://www.youtube.com/embed/${vid.id}`,
         contentUrl: `https://www.youtube.com/watch?v=${vid.id}`,
       })),
+      {
+        "@type": "WebSite",
+        "@id": "https://vrosina2031.gr/#website",
+        name: "ΒΡΟΣΙΝΑ 2031 — Ολοκληρωμένο Σχέδιο Αναγέννησης Ορεινής Κοινότητας",
+        url: "https://vrosina2031.gr",
+        inLanguage: "el-GR",
+        creator: {
+          "@type": "Organization",
+          name: "DIGIADS",
+          url: "https://digiads.gr",
+        },
+      },
       {
         "@type": "FAQPage",
         "@id": "https://vrosina2031.gr/#faq",

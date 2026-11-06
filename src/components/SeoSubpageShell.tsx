@@ -206,7 +206,7 @@ export default function SeoSubpageShell({
             <strong className="text-white font-serif">ΒΡΟΣΙΝΑ2031</strong> ·{" "}
             {SITE_CONFIG.location}
           </div>
-          <div className="flex gap-4 font-mono">
+          <div className="flex flex-wrap items-center gap-4 font-mono">
             <a href="/" className="hover:text-white">
               Αρχική
             </a>
@@ -215,6 +215,15 @@ export default function SeoSubpageShell({
             </a>
             <a href="/sitemap.xml" className="hover:text-white">
               sitemap.xml
+            </a>
+            <span className="text-stone-700">|</span>
+            <a
+              href="https://digiads.gr"
+              target="_blank"
+              rel="noopener"
+              className="text-stone-400 hover:text-[#c89d54] transition text-[11px]"
+            >
+              Designed by <strong className="text-white">DIGIADS</strong>
             </a>
           </div>
         </div>

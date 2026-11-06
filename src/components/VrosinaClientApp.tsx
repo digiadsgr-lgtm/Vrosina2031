@@ -15,6 +15,7 @@ import {
   DATA_ROOM_DOCUMENTS,
   FAQ_ITEMS,
   VISION_SPEECH_SECTIONS,
+  TV_MEDIA_APPEARANCES,
   REAL_VROSINA_VIDEOS,
   REAL_VS_2031_COMPARISONS,
   CAMP_VIDEO_AUTOPSY,
@@ -436,6 +437,12 @@ export default function VrosinaClientApp() {
                   className="px-4 sm:px-5 py-2.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold text-xs sm:text-sm transition"
                 >
                   Αυτοψία Πεδίου & Βίντεο Στρατοπέδου
+                </a>
+                <a
+                  href="#tv-media"
+                  className="px-4 sm:px-5 py-2.5 rounded bg-stone-900 hover:bg-stone-800 border border-[#c89d54]/60 text-[#c89d54] font-semibold text-xs sm:text-sm transition"
+                >
+                  Τηλεοπτικές Παρουσίες (2 Βίντεο)
                 </a>
                 <a
                   href="#investors"
@@ -944,15 +951,108 @@ export default function VrosinaClientApp() {
             })()}
           </div>
 
-          {/* 6 REAL YOUTUBE DRONE & FIELD VIDEOS GRID */}
+          {/* TV MEDIA APPEARANCES SHOWCASE (2 TELEVISION BROADCASTS) */}
+          <div
+            id="tv-media"
+            className="bg-[#14191f] text-white rounded-lg p-5 sm:p-8 border border-stone-800 shadow-lg space-y-6"
+          >
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-stone-800 pb-5">
+              <div className="space-y-1.5 max-w-3xl">
+                <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#c89d54]">
+                  ΤΗΛΕΟΠΤΙΚΕΣ ΠΑΡΟΥΣΙΕΣ · ΤΟ «ΒΡΟΣΙΝΑ 2031» ΣΤΑ ΜΜΕ ΤΗΣ ΗΠΕΙΡΟΥ
+                </div>
+                <h3 className="font-serif text-xl sm:text-3xl font-bold text-white">
+                  Δημόσιος Διάλογος & Τηλεοπτικές Συνεντεύξεις για την Αναγέννηση της Βροσίνας
+                </h3>
+                <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
+                  Παρακολουθήστε τις δύο τηλεοπτικές παρουσιάσεις της πρωτοβουλίας{" "}
+                  <strong>«Βροσίνα 2031»</strong> με τον εμπνευστή και συντονιστή επικοινωνίας{" "}
+                  <strong>Αθανάσιο Βούρδα</strong>, όπως προβλήθηκαν στα τηλεοπτικά δίκτυα της Ηπείρου (
+                  <em>EPIRUS TV1 / Epirus TV News</em>).
+                </p>
+              </div>
+              <div className="text-xs font-mono text-stone-400">
+                2 Τηλεοπτικά Αφιερώματα · Άμεση Αναπαραγωγή
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {TV_MEDIA_APPEARANCES.map((tv) => (
+                <div
+                  key={tv.id}
+                  className="bg-stone-900 border border-stone-800 rounded overflow-hidden flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="aspect-video w-full bg-black relative">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${tv.id}?rel=0`}
+                        title={tv.title}
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
+                      />
+                    </div>
+                    <div className="p-4 sm:p-5 space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
+                        <span className="text-[#c89d54] font-bold">
+                          {tv.badge} · {tv.channel}
+                        </span>
+                        <a
+                          href={tv.youtubeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-stone-300 hover:text-white underline"
+                        >
+                          Προβολή στο YouTube ↗
+                        </a>
+                      </div>
+                      <h4 className="font-serif text-base sm:text-xl font-bold text-white leading-snug">
+                        {tv.title}
+                      </h4>
+                      <div className="text-xs font-mono text-emerald-400">
+                        {tv.speaker}
+                      </div>
+                      <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+                        {tv.summary}
+                      </p>
+                      <ul className="space-y-1 pt-1 text-xs text-stone-400">
+                        {tv.keyTopics.map((topic, idx) => (
+                          <li key={idx}>• {topic}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="px-4 sm:px-5 py-3 bg-stone-950 border-t border-stone-800 flex items-center justify-between text-xs">
+                    <button
+                      onClick={() => setActiveVideoId(tv.id)}
+                      className="text-[#c89d54] hover:underline font-semibold cursor-pointer"
+                    >
+                      Μεγέθυνση Player στη σελίδα
+                    </button>
+                    <a
+                      href={tv.shortUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-stone-400 hover:text-white"
+                    >
+                      {tv.shortUrl} ↗
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 8 REAL YOUTUBE VIDEOS GRID (2 TV APPEARANCES + 6 DRONE & FIELD VIDEOS) */}
           <div className="space-y-5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
-                  ΟΠΤΙΚΟΑΚΟΥΣΤΙΚΟ ΑΡΧΕΙΟ · 6 ΒΙΝΤΕΟ DRONE & ΟΔΟΙΠΟΡΙΚΑ
+                  ΟΠΤΙΚΟΑΚΟΥΣΤΙΚΟ ΑΡΧΕΙΟ · 8 ΒΙΝΤΕΟ (ΤΗΛΕΟΠΤΙΚΕΣ ΠΑΡΟΥΣΙΕΣ, DRONE & ΑΥΤΟΨΙΕΣ)
                 </div>
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f] mt-1">
-                  Πτήσεις Drone πάνω από τον Οικισμό, τη Μονή Ραϊδιώτισσας & τα Γεφύρια
+                  Τηλεοπτικά Αφιερώματα, Πτήσεις Drone, Μονή Ραϊδιώτισσας & Ιστορικά Γεφύρια
                 </h3>
               </div>
               {activeVideoId && (
@@ -2251,10 +2351,21 @@ export default function VrosinaClientApp() {
               © 2026–2031 Πρωτοβουλία «Βροσίνα 2031» · ΚΟΙΝΣΕΠ Βροσίνας & Ταμείο
               Ευεργετών Βροσίνας.
             </span>
-            <span>
-              Τεκμηριωμένο με επίσημα στοιχεία ΕΛΣΤΑΤ 2021, Τ.Α.ΕΘ.Α. & ΗΠΕΙΡΟΣ
-              Α.Ε.
-            </span>
+            <div className="flex flex-wrap items-center gap-4">
+              <span>
+                Τεκμηριωμένο με επίσημα στοιχεία ΕΛΣΤΑΤ 2021, Τ.Α.ΕΘ.Α. & ΗΠΕΙΡΟΣ
+                Α.Ε.
+              </span>
+              <span className="text-stone-700">|</span>
+              <a
+                href="https://digiads.gr"
+                target="_blank"
+                rel="noopener"
+                className="text-stone-400 hover:text-[#c89d54] transition font-mono text-[11px]"
+              >
+                Designed by <strong className="text-white">DIGIADS</strong>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

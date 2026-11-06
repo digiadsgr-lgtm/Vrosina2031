@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import SeoSubpageShell from "@/components/SeoSubpageShell";
-import { FAQ_ITEMS, DATA_ROOM_DOCUMENTS } from "@/data/vrosinaData";
+import { FAQ_ITEMS, DATA_ROOM_DOCUMENTS, TV_MEDIA_APPEARANCES } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
   title:
@@ -98,6 +98,44 @@ export default function AiKnowledgeBasePage() {
                 {item.answer}
               </p>
             </article>
+          ))}
+        </div>
+      </section>
+
+      {/* TV Media Appearances Index */}
+      <section className="bg-white rounded p-6 border border-stone-300 space-y-4">
+        <div className="text-xs font-mono font-bold text-[#b85d3b] uppercase">
+          MEDIA & TELEVISION COVERAGE INDEX (EPIRUS TV1 & REGIONAL BROADCASTS)
+        </div>
+        <h2 className="font-serif text-xl font-bold text-[#14191f]">
+          Τηλεοπτικές Παρουσίες & Δημοσιότητα «Βροσίνα 2031» (Αθανάσιος Βούρδας)
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {TV_MEDIA_APPEARANCES.map((tv) => (
+            <div
+              key={tv.id}
+              className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-2"
+            >
+              <div className="text-xs font-mono text-[#1f5c43] font-bold">
+                {tv.badge} · {tv.channel}
+              </div>
+              <h3 className="font-serif font-bold text-base text-[#14191f]">
+                {tv.title}
+              </h3>
+              <p className="text-xs text-stone-700 leading-relaxed">
+                {tv.summary}
+              </p>
+              <div className="pt-1 text-xs font-mono">
+                <a
+                  href={tv.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#b85d3b] hover:underline font-bold"
+                >
+                  YouTube: {tv.shortUrl} ↗
+                </a>
+              </div>
+            </div>
           ))}
         </div>
       </section>

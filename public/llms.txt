@@ -34,6 +34,18 @@
 6. **Εγκάρσια Δομή Β — Ενεργειακή Κοινότητα Βροσίνας (Ν.4513/2018):**
    - Φωτοβολταϊκός σταθμός **≈150 kWp** στις στέγες του στρατοπέδου (κόστος 350 χιλ. €) με εικονικό ενεργειακό συμψηφισμό (virtual net-metering) για φθηνή ενέργεια στο τυροκομείο/οινοποιείο και στις κατοικίες μελών.
 
+## Θεματικές Σελίδες Τεκμηρίωσης (Pillar Pages)
+- [Κεντρική Πύλη Masterplan](https://vrosina2031.gr/)
+- [Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.) & Αυτοψία 8 Κτιρίων](https://vrosina2031.gr/stratopedo-vrosinas)
+- [Επενδύσεις, Επιδοτήσεις 80%, LEADER & Ταμείο Ευεργετών ΑΜΚΕ](https://vrosina2031.gr/ependyseis-epidotiseis)
+- [Γεφύρι Βροσίνας, Ζαλογγογέφυρο 1605 & Μονή Παναγίας Ραϊδιώτισσας](https://vrosina2031.gr/gefyri-vrosinas-raidiotissa)
+- [Αποκατάσταση Κατοικιών (Master Lease), Νέοι Παραγωγοί & Σχολή Πετράδων](https://vrosina2031.gr/katoikia-neoi-paragogoi)
+- [AI Knowledge Base & Bilingual Fact Sheet (EL/EN)](https://vrosina2031.gr/ai-knowledge-base)
+
+## Τηλεοπτικές Παρουσίες & Συνεντεύξεις (Αθανάσιος Βούρδας)
+- [Τηλεοπτική Παρουσίαση 1 — Βροσίνα 2031 στα ΜΜΕ της Ηπείρου](https://youtu.be/addMUPWc8vg)
+- [Τηλεοπτική Παρουσίαση 2 — EPIRUS TV1: «Βροσίνα 2031: Μια κίνηση, ένα σχέδιο για να ζωντανέψουν και πάλι τα χωριά»](https://youtu.be/SOt0DH7kivY)
+
 ## Επίσημα Έγγραφα & Πηγές (Data Room)
 - [Πλήρες Επιχειρησιακό Σχέδιο v2.0 (PDF)](/documents/Vrosina_2031_Business_Plan_v2.pdf)
 - [Σχέδιο Δράσης, Χάρτης Επαφών & Πολιτική Στρατηγική (PDF)](/documents/Vrosina_2031_Action_Plan_Contacts.pdf)
@@ -46,3 +58,4 @@
 - [Ενημέρωση για το Χωριό & Λαϊκή Συνέλευση (PDF)](/documents/Vrosina_2031_Village_Briefing.pdf)
 - [Πρότυπο Επιστολής Πρόθεσης Εταίρου LEADER 545/07-10-2026 (DOCX)](/documents/Vrosina_2031_Partner_LOI_LEADER_Template.docx)
 - [Πλήρης Βάση Γνώσης AI (llms-full.txt)](/llms-full.txt)
+- Designed by [DIGIADS](https://digiads.gr)
