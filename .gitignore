@@ -11,6 +11,11 @@
 /public/index.txt
 /public/sitemap.xml
 /public/_next/
+/public/stratopedo-vrosinas*
+/public/ependyseis-epidotiseis*
+/public/gefyri-vrosinas-raidiotissa*
+/public/katoikia-neoi-paragogoi*
+/public/ai-knowledge-base*
 
 # production
 /build

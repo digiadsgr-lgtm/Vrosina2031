@@ -2153,14 +2153,54 @@ export default function VrosinaClientApp() {
 
             <div className="space-y-1.5">
               <div className="font-mono font-bold text-white uppercase">
-                ΒΑΣΙΚΑ ΤΟΠΟΣΗΜΑ ΒΡΟΣΙΝΑΣ
+                ΘΕΜΑΤΙΚΕΣ ΣΕΛΙΔΕΣ ΤΕΚΜΗΡΙΩΣΗΣ
               </div>
               <ul className="space-y-1">
-                <li>• Πρώην Στρατόπεδο «Παπακωνσταντίνου» (13.695 τ.μ.)</li>
-                <li>• Πέτρινο Γεφύρι της Βροσίνας (εντός οικισμού)</li>
-                <li>• Ιστορικό Ζαλογγογέφυρο (1605)</li>
-                <li>• Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628)</li>
-                <li>• Ζαλογγίτικος Ποταμός (Παραπόταμος Καλαμά)</li>
+                <li>
+                  •{" "}
+                  <a
+                    href="/stratopedo-vrosinas"
+                    className="hover:text-white underline decoration-stone-700"
+                  >
+                    Στρατόπεδο «Παπακωνσταντίνου» (13.695 τ.μ.)
+                  </a>
+                </li>
+                <li>
+                  •{" "}
+                  <a
+                    href="/ependyseis-epidotiseis"
+                    className="hover:text-white underline decoration-stone-700"
+                  >
+                    Επενδύσεις, Επιδοτήσεις 80% & ΑΜΚΕ Ευεργετών
+                  </a>
+                </li>
+                <li>
+                  •{" "}
+                  <a
+                    href="/gefyri-vrosinas-raidiotissa"
+                    className="hover:text-white underline decoration-stone-700"
+                  >
+                    Γεφύρι Βροσίνας, Ζαλογγογέφυρο 1605 & Ραϊδιώτισσα
+                  </a>
+                </li>
+                <li>
+                  •{" "}
+                  <a
+                    href="/katoikia-neoi-paragogoi"
+                    className="hover:text-white underline decoration-stone-700"
+                  >
+                    Αποκατάσταση Κατοικιών & Νέοι Παραγωγοί
+                  </a>
+                </li>
+                <li>
+                  •{" "}
+                  <a
+                    href="/ai-knowledge-base"
+                    className="hover:text-white underline decoration-stone-700"
+                  >
+                    AI Knowledge Base & Fact Sheet (EL/EN)
+                  </a>
+                </li>
               </ul>
             </div>
 
