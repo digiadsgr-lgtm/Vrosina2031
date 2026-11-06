@@ -17,6 +17,7 @@ import {
   VISION_SPEECH_SECTIONS,
   REAL_VROSINA_VIDEOS,
   REAL_VS_2031_COMPARISONS,
+  CAMP_VIDEO_AUTOPSY,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
@@ -29,6 +30,10 @@ export default function VrosinaClientApp() {
   // Reality Before/After Comparison state
   const [selectedComparisonIdx, setSelectedComparisonIdx] = useState<number>(0);
   const [sliderPosition, setSliderPosition] = useState<number>(52);
+
+  // Camp Video Autopsy (hwaJv7EIjLg) state
+  const [selectedCampStepIdx, setSelectedCampStepIdx] = useState<number>(0);
+  const [campVideoStart, setCampVideoStart] = useState<number | null>(null);
 
   // Active YouTube Video Modal / Inline Player
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
@@ -762,6 +767,189 @@ export default function VrosinaClientApp() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* DEDICATED INCH-BY-INCH CAMP VIDEO AUTOPSY (hwaJv7EIjLg - 8 BUILDINGS/ZONES) */}
+          <div className="bg-[#14191f] text-white rounded-3xl p-6 sm:p-10 border-2 border-[#c89d54] shadow-2xl space-y-8">
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6">
+              <div className="max-w-3xl space-y-2">
+                <div className="inline-flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full bg-[#b85d3b] text-white font-mono text-xs font-bold">
+                    🎥 ΑΥΤΟΨΙΑ ΣΠΙΘΑΜΗ ΠΡΟΣ ΣΠΙΘΑΜΗ · ΒΙΝΤΕΟ 12:31
+                  </span>
+                  <span className="px-2.5 py-1 rounded bg-white/10 text-amber-300 font-mono text-xs">
+                    {CAMP_VIDEO_AUTOPSY.officialCampName} · {CAMP_VIDEO_AUTOPSY.totalLandArea}
+                  </span>
+                </div>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                  Ακτινογραφία του Πρώην Στρατοπέδου Βροσίνας: Τα 8 Κτίρια Σήμερα & η Χρήση τους το 2031
+                </h3>
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  {CAMP_VIDEO_AUTOPSY.executiveSummary}
+                </p>
+              </div>
+              <div className="bg-slate-900 border border-slate-700 rounded-xl p-3.5 text-xs font-mono shrink-0">
+                <div className="text-amber-300 font-bold">ΠΗΓΗ ΒΙΝΤΕΟ ΑΥΤΟΨΙΑΣ:</div>
+                <div className="text-white mt-0.5">{CAMP_VIDEO_AUTOPSY.creator}</div>
+                <div className="text-slate-400">Διάρκεια: {CAMP_VIDEO_AUTOPSY.duration}</div>
+              </div>
+            </div>
+
+            {/* 8 Timestamped Building/Zone Pills */}
+            <div className="space-y-2.5">
+              <div className="text-xs font-mono uppercase text-amber-300 font-bold">
+                ΕΠΙΛΕΞΤΕ ΚΤΙΡΙΟ / ΣΗΜΕΙΟ ΤΟΥ ΣΤΡΑΤΟΠΕΔΟΥ (ΚΛΙΚ ΓΙΑ ΑΛΜΑ ΣΤΟ ΧΡΟΝΟ ΤΟΥ ΒΙΝΤΕΟ):
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {CAMP_VIDEO_AUTOPSY.steps.map((st, idx) => {
+                  const isSelected = idx === selectedCampStepIdx;
+                  return (
+                    <button
+                      key={st.id}
+                      onClick={() => {
+                        setSelectedCampStepIdx(idx);
+                        setCampVideoStart(st.startSeconds);
+                      }}
+                      className={`p-3 rounded-xl border text-left transition cursor-pointer ${
+                        isSelected
+                          ? "bg-[#c89d54] text-[#14191f] border-white font-bold shadow-lg"
+                          : "bg-slate-900/90 hover:bg-slate-800 text-slate-200 border-slate-700"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between text-[11px] font-mono">
+                        <span
+                          className={
+                            isSelected ? "text-slate-950 font-bold" : "text-amber-300"
+                          }
+                        >
+                          ΚΤΙΡΙΟ #{st.stepNumber}
+                        </span>
+                        <span
+                          className={`px-1.5 py-0.5 rounded ${
+                            isSelected
+                              ? "bg-slate-950 text-amber-300"
+                              : "bg-white/10 text-white"
+                          }`}
+                        >
+                          ⏱ {st.timeDisplay}
+                        </span>
+                      </div>
+                      <div className="font-serif font-bold text-xs sm:text-sm mt-1 line-clamp-2">
+                        {st.buildingTitle}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Main Split: Embedded Timestamped YouTube Player + Building Autopsy Card */}
+            {(() => {
+              const currentStep = CAMP_VIDEO_AUTOPSY.steps[selectedCampStepIdx];
+              const embedSrc =
+                campVideoStart !== null
+                  ? `https://www.youtube.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${campVideoStart}&autoplay=1&rel=0`
+                  : `https://www.youtube.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${currentStep.startSeconds}&rel=0`;
+              return (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* Left: Embedded YouTube Player + Frame Capture */}
+                  <div className="lg:col-span-6 space-y-4">
+                    <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black border border-slate-700 shadow-xl">
+                      <iframe
+                        key={campVideoStart ?? "initial"}
+                        src={embedSrc}
+                        title={CAMP_VIDEO_AUTOPSY.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
+                      />
+                    </div>
+
+                    {/* Freeze-frame preview from that exact building */}
+                    <div className="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center gap-4">
+                      {currentStep.imageType === "direct" ? (
+                        <img
+                          src={currentStep.imageSrc}
+                          alt={currentStep.buildingTitle}
+                          className="w-32 h-20 rounded-lg object-cover border border-slate-600 shrink-0"
+                        />
+                      ) : (
+                        <div
+                          className="w-32 h-20 rounded-lg border border-slate-600 shrink-0 bg-no-repeat"
+                          style={{
+                            backgroundImage: `url(${currentStep.imageSrc})`,
+                            backgroundSize: "300% 300%",
+                            backgroundPosition: currentStep.spritePos || "0% 0%",
+                          }}
+                        />
+                      )}
+                      <div className="text-xs space-y-1">
+                        <div className="font-mono text-amber-300 font-bold">
+                          ΣΤΙΓΜΙΟΤΥΠΟ ΑΥΤΟΨΙΑΣ ({currentStep.timeDisplay}):
+                        </div>
+                        <div className="text-white font-semibold">
+                          {currentStep.buildingTitle}
+                        </div>
+                        <div className="text-slate-400">
+                          Δομική Κατάσταση: {currentStep.structuralStatus}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right: Detailed Building Analysis (Today vs 2031 Transformation) */}
+                  <div className="lg:col-span-6 bg-slate-900/90 border border-slate-700 rounded-2xl p-6 space-y-5">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                      <span className="px-2.5 py-1 rounded bg-amber-400/20 text-amber-300 font-mono text-xs font-bold">
+                        ΖΩΝΗ {currentStep.stepNumber} · ΧΡΟΝΟΣ ΒΙΝΤΕΟ {currentStep.timeDisplay}
+                      </span>
+                      <span className="text-xs font-mono text-slate-400">
+                        Πρώην Ρόλος: {currentStep.originalMilitaryRole}
+                      </span>
+                    </div>
+
+                    <h4 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                      {currentStep.buildingTitle}
+                    </h4>
+
+                    {/* Box 1: What the video shows today */}
+                    <div className="p-4 rounded-xl bg-red-950/30 border-l-4 border-[#b85d3b] space-y-1.5">
+                      <div className="text-xs font-mono font-bold text-amber-300 uppercase">
+                        🔍 ΤΙ ΔΕΙΧΝΕΙ Η ΑΥΤΟΨΙΑ ΣΤΟ ΒΙΝΤΕΟ ΣΗΜΕΡΑ:
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                        {currentStep.currentAutopsy}
+                      </p>
+                    </div>
+
+                    {/* Box 2: What Vrosina 2031 turns this exact building into */}
+                    <div className="p-4 rounded-xl bg-emerald-950/40 border-l-4 border-emerald-400 space-y-1.5">
+                      <div className="text-xs font-mono font-bold text-emerald-300 uppercase">
+                        🏗️ ΜΕΤΑΤΡΟΠΗ ΣΤΟ «ΒΡΟΣΙΝΑ 2031»: {currentStep.future2031Role}
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                        {currentStep.future2031Details}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800 text-xs font-mono">
+                      <div>
+                        <span className="text-slate-400">Κονδύλι CAPEX: </span>
+                        <strong className="text-[#c89d54]">
+                          {currentStep.capexAllocation}
+                        </strong>
+                      </div>
+                      <button
+                        onClick={() => setCampVideoStart(currentStep.startSeconds)}
+                        className="px-3.5 py-1.5 rounded-lg bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-bold transition cursor-pointer"
+                      >
+                        ▶ Παίξε στο {currentStep.timeDisplay.split(" ")[0]}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
           {/* 6 REAL YOUTUBE DRONE & FIELD VIDEOS GRID */}
