@@ -25,6 +25,7 @@ import {
   PRACTICAL_SOLUTIONS_MATRIX,
   INSTITUTIONAL_ROLES_MATRIX,
   FOURTEEN_FUNDING_TOOLS_DOC,
+  KOINSEP_MASTER_GUIDE,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
@@ -110,8 +111,8 @@ export default function VrosinaClientApp() {
 
   // Practical Solutions & Full Documentation Center state
   const [activePracticalTab, setActivePracticalTab] = useState<
-    "playbooks" | "institutions" | "funding14"
-  >("playbooks");
+    "koinsep" | "playbooks" | "institutions" | "funding14"
+  >("koinsep");
   const [selectedPlaybookIdx, setSelectedPlaybookIdx] = useState<number>(0);
 
   // Participation / Lead Modal & Form state (delivers to digiadsgr@gmail.com with exact origin tracking)
@@ -1199,20 +1200,25 @@ export default function VrosinaClientApp() {
               </p>
             </div>
 
-            {/* 3-Mode Switcher for Practical Center */}
+            {/* 4-Mode Switcher for Practical & KOINSEP Center */}
             <div className="flex flex-wrap gap-2 text-xs">
               {[
                 {
+                  id: "koinsep" as const,
+                  label:
+                    "🤝 1. Οδηγός Κοιν.Σ.Επ. Βροσίνας (Ν. 4430/2016 · Μερίδα 100€ · 11 Ερωτήσεις)",
+                },
+                {
                   id: "playbooks" as const,
-                  label: "🧭 1. Πρακτικές Λύσεις ανά Ενδιαφερόμενο (7 Οδηγοί)",
+                  label: "🧭 2. Πρακτικές Λύσεις ανά Ενδιαφερόμενο (7 Οδηγοί)",
                 },
                 {
                   id: "institutions" as const,
-                  label: "🏛️ 2. Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
+                  label: "🏛️ 3. Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
                 },
                 {
                   id: "funding14" as const,
-                  label: "📜 3. Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
+                  label: "📜 4. Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
                 },
               ].map((t) => (
                 <button
@@ -1237,6 +1243,240 @@ export default function VrosinaClientApp() {
               ))}
             </div>
           </div>
+
+          {/* MODE 0 (DEFAULT): COMPLETE KOINSEP MASTER GUIDE (LAW 4430/2016) */}
+          {activePracticalTab === "koinsep" && (
+            <div className="space-y-8">
+              {/* Top Hero Banner of KOINSEP Guide */}
+              <div className="bg-[#14191f] text-white rounded-lg p-5 sm:p-8 border-2 border-[#c89d54] space-y-5 shadow-lg">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-800 pb-3">
+                  <span className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                    {KOINSEP_MASTER_GUIDE.badge}
+                  </span>
+                  <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold">
+                    Ν. 4430/2016 (Άρθρα 14, 16, 17, 18 & 21)
+                  </span>
+                </div>
+
+                <h3 className="font-serif text-xl sm:text-3xl font-bold text-white leading-snug">
+                  {KOINSEP_MASTER_GUIDE.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
+                  {KOINSEP_MASTER_GUIDE.introPlainLanguage}
+                </p>
+
+                <blockquote className="p-4 rounded bg-stone-900 border-l-4 border-[#c89d54] font-serif italic text-amber-200 text-sm sm:text-base">
+                  {KOINSEP_MASTER_GUIDE.coreMotto}
+                </blockquote>
+
+                {/* 4 Statutory Pillars of Law 4430/2016 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-2">
+                  {KOINSEP_MASTER_GUIDE.legalPillars.map((lp, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-stone-900 rounded p-4 border border-stone-700 space-y-1.5"
+                    >
+                      <div className="text-[11px] font-mono font-bold text-[#c89d54]">
+                        {lp.article}
+                      </div>
+                      <div className="font-serif font-bold text-sm text-white">
+                        {lp.title}
+                      </div>
+                      <p className="text-xs text-stone-300 leading-relaxed">
+                        {lp.plainText}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Section A: How KOINSEP Becomes the Key Player (6 Core Competencies) & Why Everyone Benefits */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Left 7 cols: The 6 Roles of the Key Player */}
+                <div className="lg:col-span-7 bg-white rounded-lg p-5 sm:p-6 border border-stone-300 space-y-4">
+                  <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                    Ο ΜΑΕΣΤΡΟΣ ΤΟΥ ΣΧΕΔΙΟΥ · ΟΙ 6 ΑΡΜΟΔΙΟΤΗΤΕΣ ΤΗΣ ΚΟΙΝ.Σ.ΕΠ.
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                    {KOINSEP_MASTER_GUIDE.whyKeyPlayerTitle}
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    {KOINSEP_MASTER_GUIDE.keyPlayerRoles.map((role, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded bg-[#f7f5f0] border border-stone-300 space-y-1"
+                      >
+                        <div className="text-[10px] font-mono font-bold text-[#b85d3b]">
+                          {role.code}
+                        </div>
+                        <div className="font-serif font-bold text-xs sm:text-sm text-[#14191f]">
+                          {role.title}
+                        </div>
+                        <p className="text-xs text-stone-700 leading-relaxed">
+                          {role.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right 5 cols: Why Everyone Benefits */}
+                <div className="lg:col-span-5 bg-white rounded-lg p-5 sm:p-6 border border-stone-300 space-y-4">
+                  <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                    ΑΜΟΙΒΑΙΟ ΟΦΕΛΟΣ (WIN-WIN ΓΙΑ ΟΛΟΥΣ)
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                    {KOINSEP_MASTER_GUIDE.whyEveryoneBenefitsTitle}
+                  </h4>
+                  <div className="space-y-2.5">
+                    {KOINSEP_MASTER_GUIDE.benefitsByGroup.map((b, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 rounded bg-stone-50 border border-stone-200 space-y-0.5 text-xs"
+                      >
+                        <div className="font-serif font-bold text-sm text-[#1f5c43]">
+                          {b.group}
+                        </div>
+                        <p className="text-stone-700 leading-relaxed">
+                          {b.benefit}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Section B: The 11 Honest Questions & Answers ("Τι είναι και τι ρισκάρω; Οι ερωτήσεις που θα ακούσεις") */}
+              <div className="bg-white rounded-lg p-5 sm:p-8 border-2 border-[#1f5c43] space-y-5">
+                <div className="border-b border-stone-200 pb-4 space-y-1">
+                  <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                    ΕΡΩΤΗΣΕΙΣ & ΑΠΑΝΤΗΣΕΙΣ ΜΕ ΒΑΣΗ ΤΟΝ Ν. 4430/2016
+                  </div>
+                  <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+                    {KOINSEP_MASTER_GUIDE.elevenQuestionsTitle}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-600">
+                    {KOINSEP_MASTER_GUIDE.elevenQuestionsSubtitle}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {KOINSEP_MASTER_GUIDE.elevenQuestions.map((item) => (
+                    <div
+                      key={item.num}
+                      className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1.5"
+                    >
+                      <div className="font-serif font-bold text-sm sm:text-base text-[#14191f]">
+                        <span className="font-mono text-[#b85d3b] mr-1.5">
+                          {item.num}.
+                        </span>
+                        {item.q}
+                      </div>
+                      <p className="text-xs text-stone-800 leading-relaxed">
+                        {item.a}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Section C: Realistic 30-Day Launch Timeline + 5 Working Teams + 3 Protection Rules */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Left 6 cols: First 30 Days & Until Feb 4, 2027 */}
+                <div className="lg:col-span-6 bg-[#14191f] text-white rounded-lg p-5 sm:p-6 border border-stone-800 space-y-4">
+                  <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                    ΡΕΑΛΙΣΤΙΚΟ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΕΚΚΙΝΗΣΗΣ
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-white">
+                    {KOINSEP_MASTER_GUIDE.realTimelineTitle}
+                  </h4>
+                  <p className="text-xs text-stone-300 leading-relaxed bg-stone-900 p-3.5 rounded border border-stone-700">
+                    {KOINSEP_MASTER_GUIDE.realTimelineNote}
+                  </p>
+
+                  <div className="space-y-2.5">
+                    {KOINSEP_MASTER_GUIDE.first30Days.map((w, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded bg-stone-900 border border-stone-800 space-y-1 text-xs"
+                      >
+                        <div className="flex items-center justify-between font-mono">
+                          <span className="text-[#c89d54] font-bold">
+                            {w.week}
+                          </span>
+                          <span className="text-emerald-400">{w.owner}</span>
+                        </div>
+                        <p className="text-stone-200 leading-relaxed">
+                          {w.tasks}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right 6 cols: 5 Working Teams + 3 Rules that Protect the Project */}
+                <div className="lg:col-span-6 space-y-5">
+                  <div className="bg-white rounded-lg p-5 sm:p-6 border border-stone-300 space-y-3">
+                    <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                      ΟΙ 5 ΟΜΑΔΕΣ ΕΡΓΑΣΙΑΣ & ΟΙ ΕΙΔΙΚΟΤΗΤΕΣ ΠΟΥ ΧΡΕΙΑΖΟΜΑΣΤΕ
+                    </div>
+                    <div className="divide-y divide-stone-200 text-xs">
+                      {KOINSEP_MASTER_GUIDE.fiveWorkingTeams.map((t, idx) => (
+                        <div key={idx} className="py-2.5 space-y-0.5">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <strong className="font-serif text-sm text-[#14191f]">
+                              {t.team}
+                            </strong>
+                            <span className="px-2 py-0.5 rounded bg-emerald-50 text-[#1f5c43] font-mono font-semibold text-[11px]">
+                              {t.specialistsNeeded}
+                            </span>
+                          </div>
+                          <p className="text-stone-600">{t.scope}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#b85d3b] space-y-3">
+                    <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                      ΟΙ 3 ΚΑΝΟΝΕΣ ΠΟΥ ΠΡΟΣΤΑΤΕΥΟΥΝ ΤΟ ΕΓΧΕΙΡΗΜΑ
+                    </div>
+                    {KOINSEP_MASTER_GUIDE.threeProtectionRules.map((r, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 rounded bg-[#f7f5f0] border border-stone-200 space-y-1 text-xs"
+                      >
+                        <div className="font-serif font-bold text-[#14191f]">
+                          <span className="font-mono text-[#b85d3b] mr-1.5">
+                            {r.num}:
+                          </span>
+                          {r.title}
+                        </div>
+                        <p className="text-stone-700 leading-relaxed">
+                          {r.desc}
+                        </p>
+                      </div>
+                    ))}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        openLeadModal(
+                          "producer",
+                          "Οδηγός Κοιν.Σ.Επ. Βροσίνας (Ν. 4430/2016) — Δήλωση Ενδιαφέροντος Μέλους (100€) ή Ομάδας Εργασίας",
+                          "Δωρεάν & μη δεσμευτική Δήλωση Ενδιαφέροντος για συμμετοχή στην Κοιν.Σ.Επ. Βροσίνας (μερίδα 100€ κατά την ίδρυση) ή προσφορά ειδικότητας στις 5 Ομάδες Εργασίας"
+                        )
+                      }
+                      className="w-full py-3 rounded bg-[#1f5c43] hover:bg-[#174632] text-white font-bold text-xs sm:text-sm transition cursor-pointer"
+                    >
+                      Δωρεάν Δήλωση Ενδιαφέροντος στην Κοιν.Σ.Επ. Βροσίνας (Μέλος ή Ειδικότητα) →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* MODE 1: 7 PRACTICAL PLAYBOOKS BY ROLE */}
           {activePracticalTab === "playbooks" && (
@@ -2723,12 +2963,51 @@ export default function VrosinaClientApp() {
               </h2>
               <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
                 Πριν ζητηθεί το πρώτο ευρώ, το «Βροσίνα 2031» κλειδώνει
-                καταστατικά τη διακυβέρνησή του σε δύο επίπεδα: μητρικός
-                θεματοφύλακας είναι η{" "}
-                <strong>ΚΟΙΝΣΕΠ Συλλογικής και Κοινωνικής Ωφέλειας (Ν. 4430/2016)</strong>{" "}
-                και εκτελεστικός βραχίονας η{" "}
-                <strong>Εμπορική Θυγατρική Ειδικού Σκοπού</strong>.
+                καταστατικά τη διακυβέρνησή του: βασικός φορέας-θεματοφύλακας
+                είναι η{" "}
+                <strong>
+                  Κοιν.Σ.Επ. Συλλογικής και Παραγωγικής Σκοπιμότητας Βροσίνας
+                  (Ν. 4430/2016, άρθρα 14–21)
+                </strong>{" "}
+                με την αρχή <strong>«Ένα Μέλος – Μία Ψήφος»</strong>, ελάχιστη
+                υποχρεωτική μερίδα <strong>100 €</strong> (άρθρο 16) και
+                υποχρεωτική διάθεση των κερδών της Κοιν.Σ.Επ. σε{" "}
+                <strong>
+                  5% τακτικό αποθεματικό, έως 35% στους εργαζόμενους και 60%+ σε
+                  νέες θέσεις εργασίας και ανάπτυξη της παραγωγής στο χωριό
+                </strong>{" "}
+                (άρθρο 21), σε συνδυασμό με το επιχειρηματικό σχήμα συνεργασίας
+                με τον Δήμο Ζίτσας και τους στρατηγικούς εταίρους.
               </p>
+              <div className="pt-1 flex flex-wrap gap-2.5 text-xs">
+                <a
+                  href="#praktikes-lyseis"
+                  onClick={() => {
+                    setActivePracticalTab("koinsep");
+                    registerEngagement(
+                      "governance_jump_koinsep",
+                      "practical-koinsep",
+                      "Πλήρης Οδηγός Κοιν.Σ.Επ. & 11 Ερωτήσεις"
+                    );
+                  }}
+                  className="px-4 py-2 rounded bg-[#14191f] hover:bg-[#1f5c43] text-[#c89d54] font-bold transition"
+                >
+                  🤝 Δείτε τον Πλήρη Οδηγό της Κοιν.Σ.Επ. & τις 11 Ερωτήσεις («Τι είναι & τι ρισκάρω;») ↑
+                </a>
+                <button
+                  type="button"
+                  onClick={() =>
+                    openLeadModal(
+                      "producer",
+                      "Ενότητα Διακυβέρνησης (#governance) — Δήλωση Ενδιαφέροντος Κοιν.Σ.Επ. Βροσίνας",
+                      "Δωρεάν Δήλωση Ενδιαφέροντος για συμμετοχή στην Κοιν.Σ.Επ. Βροσίνας (μερίδα 100€) ή στις 5 Ομάδες Εργασίας"
+                    )
+                  }
+                  className="px-4 py-2 rounded bg-[#1f5c43] hover:bg-[#174632] text-white font-semibold transition cursor-pointer"
+                >
+                  Δωρεάν Δήλωση Ενδιαφέροντος στην Κοιν.Σ.Επ. →
+                </button>
+              </div>
             </div>
 
             <div className="bg-white rounded p-5 sm:p-8 border border-stone-300 space-y-6">
