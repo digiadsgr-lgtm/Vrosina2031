@@ -93,7 +93,7 @@ export default function GefyriVrosinasRaidiotissaPage() {
       {/* Video Archive */}
       <section className="space-y-4">
         <h2 className="font-serif text-2xl font-bold text-[#14191f]">
-          Τα 6 Πραγματικά Βίντεο Drone & Περιήγησης στη Βροσίνα
+          Τα 8 Βίντεο Τηλεοπτικών Παρουσιάσεων, Drone & Περιήγησης στη Βροσίνα
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {REAL_VROSINA_VIDEOS.map((vid) => (

@@ -107,7 +107,7 @@ export default function SeoSubpageShell({
             ΒΡΟΣΙΝΑ<span className="text-[#b85d3b]">2031</span>
           </a>
 
-          <nav className="hidden lg:flex items-center gap-2 xl:gap-4 text-xs font-semibold text-stone-800">
+          <nav className="hidden xl:flex items-center gap-2 text-xs font-semibold text-stone-800">
             <a
               href="/"
               className="px-2.5 py-1.5 rounded bg-stone-200 hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
@@ -118,7 +118,7 @@ export default function SeoSubpageShell({
               href="/#praktikes-lyseis"
               className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
             >
-              🤝 Κοιν.Σ.Επ. & Λύσεις
+              🏛️ Δημόσιο (463.700€) & Κοιν.Σ.Επ.
             </a>
             <a
               href="/stratopedo-vrosinas"
@@ -160,14 +160,20 @@ export default function SeoSubpageShell({
           </a>
         </div>
 
-        {/* Tier 2: Always-visible Subbar for Mobile/Tablet/Laptop */}
-        <div className="lg:hidden bg-[#14191f] text-stone-200 border-t border-stone-800">
-          <div className="max-w-7xl mx-auto px-2 py-1.5 flex items-center gap-1.5 overflow-x-auto text-[11px] font-semibold">
+        {/* Tier 2: Always-visible Subbar for Laptop (1024-1279px), Tablet & Mobile */}
+        <div className="bg-[#14191f] text-stone-200 border-t border-stone-800">
+          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-1.5 flex items-center gap-1.5 overflow-x-auto text-[11px] font-semibold">
             <a
               href="/"
-              className="px-2.5 py-1 rounded bg-[#c89d54] text-stone-950 whitespace-nowrap shrink-0"
+              className="px-2.5 py-1 rounded bg-[#c89d54] text-stone-950 whitespace-nowrap shrink-0 font-bold"
             >
               ← Αρχική
+            </a>
+            <a
+              href="/#praktikes-lyseis"
+              className="px-2.5 py-1 rounded bg-[#1f5c43] text-white whitespace-nowrap shrink-0"
+            >
+              🏛️ Τι Κερδίζει το Δημόσιο (463.700€/έτος)
             </a>
             <a
               href="/#praktikes-lyseis"
@@ -191,7 +197,7 @@ export default function SeoSubpageShell({
               href="/ependyseis-epidotiseis"
               className="px-2.5 py-1 rounded bg-stone-800 text-stone-200 whitespace-nowrap shrink-0"
             >
-              💶 Επενδύσεις 80%
+              💶 Επενδύσεις έως 75%
             </a>
             <a
               href="/gefyri-vrosinas-raidiotissa"

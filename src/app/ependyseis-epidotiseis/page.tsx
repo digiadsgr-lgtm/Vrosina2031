@@ -6,13 +6,14 @@ import {
   GOVERNANCE_SHIELD,
   FOURTEEN_FUNDING_TOOLS_DOC,
   INSTITUTIONAL_ROLES_MATRIX,
+  PUBLIC_FISCAL_BENEFIT_STUDY,
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
   title:
-    "Επενδύσεις στην Ήπειρο (Επιδότηση έως 75–80%) & Ταμείο Ευεργετών Βροσίνας (ΑΜΚΕ)",
+    "Επενδύσεις στην Ήπειρο (Επιδότηση έως 75%), Δημοσιονομικό Όφελος (463.700 €/έτος) & ΑΜΚΕ Ευεργετών | Βροσίνα 2031",
   description:
-    "Οδηγός επενδύσεων, επιδοτήσεων (Αναπτυξιακός Νόμος 4887/2022 έως 75%, LEADER ΗΠΕΙΡΟΣ Α.Ε. έως 80%), φοροαπαλλασσόμενων χορηγιών, Ονοματοδοσίας (Naming Rights) και ESG Impact στο πρότυπο έργο «Βροσίνα 2031» (10,45 εκ. €).",
+    "Οδηγός επενδύσεων, επιδοτήσεων (Αναπτυξιακός Νόμος 4887/2022 έως 75%, LEADER ΗΠΕΙΡΟΣ Α.Ε.), μελέτη «Τι Κερδίζει το Δημόσιο (463.700 €/έτος)», φοροαπαλλασσόμενες χορηγίες, Ονοματοδοσία (Naming Rights) και ESG Impact στο πρότυπο έργο «Βροσίνα 2031» (10,45 εκ. €).",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/ependyseis-epidotiseis",
   },
@@ -21,12 +22,49 @@ export const metadata: Metadata = {
 export default function EpendyseisEpidotiseisPage() {
   return (
     <SeoSubpageShell
-      sectionCode="ΕΠΕΝΔΥΤΙΚΟΣ & ΧΟΡΗΓΙΚΟΣ ΦΑΚΕΛΟΣ"
-      categoryLabel="CAPEX 10,45 ΕΚ. € · ΕΠΙΔΟΤΗΣΕΙΣ ΕΩΣ 80% · ΑΜΚΕ ΤΑΜΕΙΟ ΕΥΕΡΓΕΤΩΝ"
-      title="Επενδύσεις, Επιδοτήσεις έως 75%–80% & Φοροαπαλλασσόμενη Ονοματοδοσία Έργων στη Βροσίνα Ιωαννίνων"
-      subtitle="Πλήρης οδηγός για Στρατηγικούς Επενδυτές Αγροδιατροφής (35%–40% Εμπορικής Θυγατρικής), Επενδυτές Αγροτουρισμού (LEADER), Family Offices Διασποράς και Μεγάλους Ευεργέτες / Χορηγούς ESG μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας»."
+      sectionCode="ΕΠΕΝΔΥΤΙΚΟΣ, ΔΗΜΟΣΙΟΝΟΜΙΚΟΣ & ΧΟΡΗΓΙΚΟΣ ΦΑΚΕΛΟΣ"
+      categoryLabel="CAPEX 10,45 ΕΚ. € · ΕΠΙΔΟΤΗΣΕΙΣ ΕΩΣ 75% · 463.700 €/ΕΤΟΣ ΕΣΟΔΑ ΔΗΜΟΣΙΟΥ"
+      title="Επενδύσεις (Επιδότηση έως 75%), Τι Κερδίζει το Δημόσιο (463.700 €/έτος) & ΑΜΚΕ Ευεργετών στη Βροσίνα"
+      subtitle="Πλήρης οδηγός για Στρατηγικούς Επενδυτές Αγροδιατροφής (35%–40% Εμπορικής Θυγατρικής), Επενδυτές Αγροτουρισμού (LEADER), Θεσμικούς Αξιολογητές (463.700 €/έτος έσοδα Δημοσίου) και Μεγάλους Ευεργέτες / Χορηγούς ESG μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας»."
       canonicalPath="/ependyseis-epidotiseis"
     >
+      {/* What the State Gains Summary Section */}
+      <section className="bg-[#14191f] text-white rounded-lg p-6 sm:p-8 border-2 border-[#c89d54] space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-800 pb-3">
+          <span className="text-xs font-mono font-bold text-[#c89d54]">
+            {PUBLIC_FISCAL_BENEFIT_STUDY.badge}
+          </span>
+          <a
+            href="/documents/Vrosina_2031_What_The_State_Gains.pdf"
+            download
+            className="px-3 py-1 rounded bg-[#c89d54] text-stone-950 font-mono text-xs font-bold hover:bg-amber-400"
+          >
+            📄 Λήψη Μελέτης PDF (3 Σελίδες) ↓
+          </a>
+        </div>
+        <h2 className="font-serif text-xl sm:text-3xl font-bold text-white">
+          {PUBLIC_FISCAL_BENEFIT_STUDY.title}
+        </h2>
+        <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
+          {PUBLIC_FISCAL_BENEFIT_STUDY.subtitle}
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {PUBLIC_FISCAL_BENEFIT_STUDY.headlineMetrics.map((m, idx) => (
+            <div
+              key={idx}
+              className="p-4 rounded bg-stone-900 border border-stone-700 space-y-1"
+            >
+              <div className="font-mono text-2xl font-bold text-[#c89d54]">
+                {m.value}
+              </div>
+              <div className="font-serif font-bold text-sm text-white">
+                {m.label}
+              </div>
+              <p className="text-xs text-stone-300">{m.sub}</p>
+            </div>
+          ))}
+        </div>
+      </section>
       {/* 4 Investment & Sponsorship Channels */}
       <section className="space-y-4">
         <h2 className="font-serif text-2xl font-bold text-[#14191f]">

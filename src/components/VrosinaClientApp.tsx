@@ -363,7 +363,7 @@ export default function VrosinaClientApp() {
         annualBenefitValue: `${estimatedAnnualEbitdaShare.toLocaleString("el-GR")} € / έτος`,
         paybackLabel: `Εκτιμώμενη Απόσβεση Ιδίων Κεφαλαίων: ~${paybackYears} έτη + 100% Εγγυημένο Off-Take ΠΟΠ/ΠΓΕ`,
         perks: [
-          "Μόχλευση 1 προς 4: Με 25% ίδια συμμετοχή ενεργοποιείται παραγωγικό πάγιο τετραπλάσιας αξίας.",
+          "Μόχλευση 1 € Ιδιωτικό → 2,70 € Επένδυση (έως 75% επιδότηση στις παραγωγικές μονάδες μέσω Ν. 4887/2022).",
           "Εγγυοδοσία Ελληνικής Αναπτυξιακής Τράπεζας (HDB) έως 80% για τον τραπεζικό δανεισμό.",
           "Σύμβαση αποκλειστικής απορρόφησης (Off-Take Agreement) εκλεκτής Φέτας ΠΟΠ & Ντεμπίνας.",
           "Θεσμική συνιδιοκτησία με τον Δήμο Ζίτσας (20%) και τον Συνεταιρισμό Παραγωγών (30%).",
@@ -445,9 +445,9 @@ export default function VrosinaClientApp() {
 
   const executiveAnswers = [
     {
-      label: "Πώς επενδύω με επιδότηση έως 75–80%;",
+      label: "Πώς επενδύω με επιδότηση έως 75%;",
       answer:
-        "Το «Βροσίνα 2031» προσφέρει 4 θεσμικά κανάλια: (1) Στρατηγικός Εταίρος (έως 35–40% στην Εμπορική Θυγατρική του Τυροκομείου 1,65 εκ. € & Οινοποιείου 1,00 εκ. €) με επιδότηση έως 75% από τον Αναπτυξιακό Νόμο 4887/2022 και εγγυοδοσία 80% από την HDB. (2) Ιδιωτική επένδυση στους 10 Παραδοσιακούς Ξενώνες (1,00 εκ. €) με επιδότηση 65–80% μέσω LEADER ΗΠΕΙΡΟΣ Α.Ε. (3) Φοροαπαλλασσόμενη Χορηγία / Δωρεά μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας» με δικαίωμα Ονοματοδοσίας (Naming Rights) και ισχυρό ESG αποτύπωμα. (4) Συμμετοχή Επενδυτών Διασποράς (15%).",
+        "Το «Βροσίνα 2031» προσφέρει 4 θεσμικά κανάλια: (1) Στρατηγικός Εταίρος (έως 35–40% στην Εμπορική Θυγατρική του Τυροκομείου 1,65 εκ. € & Οινοποιείου 1,00 εκ. €) με επιδότηση έως 75% από τον Αναπτυξιακό Νόμο 4887/2022 και εγγυοδοσία 80% από την HDB. (2) Ιδιωτική επένδυση στους 10 Παραδοσιακούς Ξενώνες (1,00 εκ. €) με επιδότηση έως 65–75% μέσω LEADER / Αναπτυξιακού. (3) Φοροαπαλλασσόμενη Χορηγία / Δωρεά μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας» με δικαίωμα Ονοματοδοσίας (Naming Rights) και ισχυρό ESG αποτύπωμα. (4) Συμμετοχή Επενδυτών Διασποράς (15%).",
     },
     {
       label: "Ποια είναι τα επίσημα στοιχεία της Βροσίνας σήμερα;",
@@ -487,9 +487,9 @@ export default function VrosinaClientApp() {
     },
     {
       href: "#investors",
-      shortLabel: "💶 Επενδύσεις 80%",
-      label: "03. Υπολογιστής Επενδύσεων, LEADER & Ταμείο Ευεργετών",
-      badge: "ΕΩΣ 80% ΕΠΙΔΟΤΗΣΗ",
+      shortLabel: "💶 Επενδύσεις 75%",
+      label: "03. Υπολογιστής Επενδύσεων (έως 75%), LEADER & Ταμείο Ευεργετών",
+      badge: "ΕΩΣ 75% ΕΠΙΔΟΤΗΣΗ",
     },
     {
       href: "#governance",
@@ -1438,8 +1438,8 @@ export default function VrosinaClientApp() {
         className="py-12 sm:py-16 bg-[#f7f5f0] border-b-2 border-[#14191f]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-            <div className="max-w-3xl space-y-2">
+          <div className="space-y-5">
+            <div className="max-w-4xl space-y-2">
               <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
                 00 / ΚΕΝΤΡΟ ΤΕΚΜΗΡΙΩΣΗΣ, ΔΗΜΟΣΙΟΝΟΜΙΚΟΥ ΟΦΕΛΟΥΣ & ΠΡΑΚΤΙΚΩΝ ΛΥΣΕΩΝ
               </div>
@@ -1447,56 +1447,71 @@ export default function VrosinaClientApp() {
                 Τι Κερδίζει το Κράτος (463.700 €/έτος), Πώς Λειτουργεί η Κοιν.Σ.Επ. & Πρακτικές Απαντήσεις για Κάθε Ενδιαφερόμενο
               </h2>
               <p className="text-stone-700 text-xs sm:text-base leading-relaxed">
-                Κάθε αριθμός, πρόγραμμα και δράση στο <strong>«Βροσίνα 2031»</strong> τεκμηριώνεται με αριθμούς που αντέχουν σε έλεγχο αξιολογητή, τον ακριβή νόμο (ΦΕΚ), την ενεργή πρόσκληση και τον υπεύθυνο φορέα.
+                Κάθε αριθμός, πρόγραμμα και δράση στο <strong>«Βροσίνα 2031»</strong> τεκμηριώνεται με αριθμούς που αντέχουν σε έλεγχο αξιολογητή, τον ακριβή νόμο (ΦΕΚ), την ενεργή πρόσκληση και τον υπεύθυνο φορέα. Επιλέξτε μία από τις 5 θεματικές καρτέλες:
               </p>
             </div>
 
-            {/* 5-Mode Switcher for Fiscal Study, KOINSEP & Practical Center */}
-            <div className="flex flex-wrap gap-2 text-xs">
+            {/* Symmetrical 5-Column Tab Switcher (Zero Cramping on Laptop, Desktop, Tablet & Smartphone) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 text-xs">
               {[
                 {
                   id: "fiscal" as const,
-                  label:
-                    "🏛️ 1. Τι Κερδίζει το Δημόσιο (463.700 €/έτος · Απόσβεση 6–17 έτη · 1,6×)",
+                  badge: "01 · ΔΗΜΟΣΙΟΝΟΜΙΚΟ",
+                  label: "🏛️ Τι Κερδίζει το Δημόσιο (463.700 €/έτος · 1,6×)",
                 },
                 {
                   id: "koinsep" as const,
-                  label:
-                    "🤝 2. Οδηγός Κοιν.Σ.Επ. Βροσίνας (Ν. 4430/2016 · Μερίδα 100€ · 11 Ερωτήσεις)",
+                  badge: "02 · Ν. 4430/2016",
+                  label: "🤝 Οδηγός Κοιν.Σ.Επ. (Μερίδα 100€ · 11 Ερωτήσεις)",
                 },
                 {
                   id: "playbooks" as const,
-                  label: "🧭 3. Πρακτικές Λύσεις ανά Ενδιαφερόμενο (7 Οδηγοί)",
+                  badge: "03 · 7 ΟΔΗΓΟΙ ΡΟΛΩΝ",
+                  label: "🧭 Πρακτικές Λύσεις ανά Ενδιαφερόμενο (Πώς/Πού)",
                 },
                 {
                   id: "institutions" as const,
-                  label: "⚙️ 4. Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
+                  badge: "04 · ΑΡΜΟΔΙΟΤΗΤΕΣ",
+                  label: "⚙️ Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
                 },
                 {
                   id: "funding14" as const,
-                  label: "📜 5. Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
+                  badge: "05 · 14 ΕΡΓΑΛΕΙΑ & ΦΕΚ",
+                  label: "📜 Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
                 },
-              ].map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => {
-                    setActivePracticalTab(t.id);
-                    registerEngagement(
-                      "switch_practical_tab",
-                      `practical-${t.id}`,
-                      t.label
-                    );
-                  }}
-                  className={`px-3.5 py-2.5 rounded font-semibold transition cursor-pointer ${
-                    activePracticalTab === t.id
-                      ? "bg-[#14191f] text-[#c89d54] ring-2 ring-[#c89d54]"
-                      : "bg-white text-stone-800 border border-stone-300 hover:bg-stone-100"
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
+              ].map((t) => {
+                const isSelected = activePracticalTab === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      setActivePracticalTab(t.id);
+                      registerEngagement(
+                        "switch_practical_tab",
+                        `practical-${t.id}`,
+                        t.label
+                      );
+                    }}
+                    className={`p-3.5 rounded border text-left transition cursor-pointer flex flex-col justify-between gap-1 ${
+                      isSelected
+                        ? "bg-[#14191f] text-white border-[#14191f] ring-2 ring-[#c89d54] shadow-md"
+                        : "bg-white text-stone-800 border-stone-300 hover:bg-stone-100"
+                    }`}
+                  >
+                    <span
+                      className={`text-[10px] font-mono font-bold uppercase ${
+                        isSelected ? "text-[#c89d54]" : "text-[#1f5c43]"
+                      }`}
+                    >
+                      {t.badge}
+                    </span>
+                    <span className="font-serif font-bold text-xs sm:text-sm leading-snug">
+                      {t.label}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -1509,9 +1524,18 @@ export default function VrosinaClientApp() {
                   <span className="text-xs font-mono font-bold uppercase text-[#c89d54]">
                     {PUBLIC_FISCAL_BENEFIT_STUDY.badge}
                   </span>
-                  <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold">
-                    6,58 εκ. € Δημόσιο/Ε.Ε. (63%) + 3,87 εκ. € Ιδιωτικά (37%) = 10,45 εκ. €
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold">
+                      6,58 εκ. € Δημόσιο/Ε.Ε. (63%) + 3,87 εκ. € Ιδιωτικά (37%) = 10,45 εκ. €
+                    </span>
+                    <a
+                      href="/documents/Vrosina_2031_What_The_State_Gains.pdf"
+                      download
+                      className="px-3 py-1 rounded bg-[#c89d54] hover:bg-amber-400 text-stone-950 font-mono text-xs font-bold transition"
+                    >
+                      📄 Λήψη Μελέτης PDF (3 Σελίδες) ↓
+                    </a>
+                  </div>
                 </div>
 
                 <h3 className="font-serif text-xl sm:text-3xl font-bold text-white leading-snug">
@@ -1820,9 +1844,25 @@ export default function VrosinaClientApp() {
                   <span className="text-xs font-mono font-bold uppercase text-[#c89d54]">
                     {KOINSEP_MASTER_GUIDE.badge}
                   </span>
-                  <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold">
-                    Ν. 4430/2016 (Άρθρα 14, 16, 17, 18 & 21)
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold">
+                      Ν. 4430/2016 (Άρθρα 14, 16, 17, 18 & 21)
+                    </span>
+                    <a
+                      href="/documents/Vrosina_2031_KOINSEP_QA_Guide.pdf"
+                      download
+                      className="px-2.5 py-1 rounded bg-[#c89d54] hover:bg-amber-400 text-stone-950 font-mono text-xs font-bold transition"
+                    >
+                      📄 PDF: 11 Ερωτήσεις ↓
+                    </a>
+                    <a
+                      href="/documents/Vrosina_2031_KOINSEP_Launch_Playbook.pdf"
+                      download
+                      className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 border border-stone-600 font-mono text-xs font-semibold transition"
+                    >
+                      📄 PDF: Οδηγός Εκκίνησης ↓
+                    </a>
+                  </div>
                 </div>
 
                 <h3 className="font-serif text-xl sm:text-3xl font-bold text-white leading-snug">
@@ -2988,13 +3028,17 @@ export default function VrosinaClientApp() {
                       : "bg-white hover:bg-stone-100 text-stone-800 border-stone-300"
                   }`}
                 >
-                  <div className="flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center justify-between gap-2 text-xs font-mono">
                     <span
-                      className={active ? "text-[#c89d54]" : "text-[#b85d3b]"}
+                      className={`shrink-0 font-bold ${
+                        active ? "text-[#c89d54]" : "text-[#b85d3b]"
+                      }`}
                     >
                       ΠΥΛΩΝΑΣ {pillar.number}
                     </span>
-                    <span className="font-bold">{pillar.budget}</span>
+                    <span className="font-bold text-right truncate">
+                      {pillar.shortBudget || pillar.budget}
+                    </span>
                   </div>
                   <div className="font-serif font-bold text-sm sm:text-base mt-1.5">
                     {pillar.title}
