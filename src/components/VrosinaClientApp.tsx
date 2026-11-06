@@ -26,6 +26,7 @@ import {
   INSTITUTIONAL_ROLES_MATRIX,
   FOURTEEN_FUNDING_TOOLS_DOC,
   KOINSEP_MASTER_GUIDE,
+  PUBLIC_FISCAL_BENEFIT_STUDY,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
@@ -111,8 +112,8 @@ export default function VrosinaClientApp() {
 
   // Practical Solutions & Full Documentation Center state
   const [activePracticalTab, setActivePracticalTab] = useState<
-    "koinsep" | "playbooks" | "institutions" | "funding14"
-  >("koinsep");
+    "fiscal" | "koinsep" | "playbooks" | "institutions" | "funding14"
+  >("fiscal");
   const [selectedPlaybookIdx, setSelectedPlaybookIdx] = useState<number>(0);
 
   // Participation / Lead Modal & Form state (delivers to digiadsgr@gmail.com with exact origin tracking)
@@ -650,6 +651,16 @@ export default function VrosinaClientApp() {
             <a
               href="#praktikes-lyseis"
               onClick={() => {
+                setActivePracticalTab("fiscal");
+                registerEngagement("subbar_click", "fiscal-benefit", "Τι Κερδίζει το Δημόσιο 463.700€");
+              }}
+              className="px-2.5 py-1 rounded bg-[#1f5c43] hover:bg-emerald-700 text-white text-[11px] font-bold whitespace-nowrap transition shrink-0 border border-emerald-400/50"
+            >
+              🏛️ Τι Κερδίζει το Δημόσιο (463.700€/έτος)
+            </a>
+            <a
+              href="#praktikes-lyseis"
+              onClick={() => {
                 setActivePracticalTab("koinsep");
                 registerEngagement("subbar_click", "koinsep-guide", "Κοιν.Σ.Επ. 100€");
               }}
@@ -825,7 +836,7 @@ export default function VrosinaClientApp() {
                 <span>ΒΡΟΣΙΝΑ ΙΩΑΝΝΙΝΩΝ (35' ΑΠΟ ΙΩΑΝΝΙΝΑ)</span>
                 <span className="text-stone-600">·</span>
                 <span className="text-emerald-400 font-bold">
-                  58 ΚΑΤΟΙΚΟΙ ΣΗΜΕΡΑ → 200 ΤΟ 2031
+                  58 ΚΑΤΟΙΚΟΙ (ΕΛΣΤΑΤ 2021) → 140–160 ΤΟ 2031 (+80–100 ΝΕΟΙ)
                 </span>
               </div>
 
@@ -836,7 +847,7 @@ export default function VrosinaClientApp() {
               <p className="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed">
                 Ένα καταπράσινο χωριό στον Δήμο Ζίτσας παίρνει ξανά ζωή με ένα{" "}
                 <strong className="text-white">
-                  έτοιμο, κοστολογημένο σχέδιο 10,45 εκατ. € (έως 80% επιδοτήσεις)
+                  έτοιμο, κοστολογημένο σχέδιο 10,45 εκατ. € (έως 75% επιδοτήσεις)
                 </strong>
                 : το ανενεργό{" "}
                 <strong className="text-amber-200">
@@ -844,11 +855,11 @@ export default function VrosinaClientApp() {
                 </strong>{" "}
                 μετατρέπεται σε Αγροδιατροφικό Κέντρο,{" "}
                 <strong className="text-white">
-                  20 κλειστά σπίτια & 10 ξενώνες ανακαινίζονται με 0 € κόστος
+                  30 κτίρια (20 κλειστά σπίτια & 10 ξενώνες) ανακαινίζονται με 0 € κόστος
                 </strong>{" "}
                 για τους ιδιοκτήτες, το σχολείο ξανανοίγει και δημιουργούνται{" "}
                 <strong className="text-emerald-300">
-                  50 μόνιμες θέσεις εργασίας
+                  50 μόνιμες θέσεις εργασίας (463.700 €/έτος έσοδα Δημοσίου)
                 </strong>
                 .
               </p>
@@ -967,14 +978,14 @@ export default function VrosinaClientApp() {
                 {heroRoleTab === "investor" && (
                   <div className="p-3 rounded bg-stone-950 border border-stone-800 space-y-2.5 text-xs">
                     <div className="font-serif font-bold text-sm text-amber-200">
-                      Επιδότηση έως 80%, Μόχλευση 1:4 & Φοροαπαλλαγή Ευεργετών
+                      Επιδότηση έως 75%, Μόχλευση 1 € → 2,70 € & Φοροαπαλλαγή Ευεργετών
                     </div>
                     <ul className="space-y-1 text-stone-300 leading-relaxed">
                       <li>
                         • <strong>Στρατηγικός Εταίρος (35%–40%):</strong> Τυροκομείο ΠΟΠ & Οινοποιείο στο Στρατόπεδο με επιδότηση έως 75% (Ν. 4887/2022).
                       </li>
                       <li>
-                        • <strong>Ξενώνες LEADER (έως 80%) & ΑΜΚΕ Ευεργετών:</strong> Ενεργή Πρόσκληση έως 04/02/2027 ή Χορηγία Ονοματοδοσίας (Naming Rights).
+                        • <strong>Ξενώνες LEADER & ΑΜΚΕ Ευεργετών:</strong> Ενεργή Πρόσκληση έως 04/02/2027 ή Χορηγία Ονοματοδοσίας (Naming Rights).
                       </li>
                     </ul>
                     <div className="flex flex-wrap gap-2 pt-1">
@@ -1373,7 +1384,7 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
-          {/* 6 KPI Counter Cards */}
+          {/* 6 KPI Counter Cards + Instant "What the State Gains" Proof Strip */}
           <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {HERO_KPIS.map((kpi, i) => (
               <div
@@ -1392,10 +1403,36 @@ export default function VrosinaClientApp() {
               </div>
             ))}
           </div>
+
+          {/* Direct Proof Banner: What the State Gains from the 6,58M € Public/EU Investment */}
+          <div className="mt-4 bg-stone-900/95 border border-emerald-500/40 rounded-lg p-3.5 sm:p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+            <div className="space-y-0.5 text-xs">
+              <div className="font-mono font-bold text-emerald-400 uppercase">
+                🏛️ ΤΙ ΚΕΡΔΙΖΕΙ ΤΟ ΔΗΜΟΣΙΟ ΑΠΟ ΤΑ 6,58 ΕΚ. € (63% ΔΗΜΟΣΙΟΙ / Ε.Ε. ΠΟΡΟΙ):
+              </div>
+              <p className="text-stone-200 leading-relaxed">
+                <strong>463.700 € / έτος</strong> άμεσα έσοδα σε πλήρη λειτουργία (ΕΦΚΑ 327.600 € + ΦΜΥ 45.500 € + Φόρος Ν.Π. 39.600 € + Αντάλλαγμα Τ.Α.ΕΘ.Α. 51.000 €, <em>χωρίς καν να μετρήσουμε ΦΠΑ</em>) · <strong>Απόσβεση εθνικού σκέλους σε 6–10 έτη</strong> (ή 17 έτη αν 100% εθνικό κόστος) · <strong>1,6× επιστροφή (10,53 εκ. €) σε 25 έτη</strong> · <strong>0 € κόστος συντήρησης Στρατοπέδου για το ΥΠΕΘΑ</strong>.
+              </p>
+            </div>
+            <a
+              href="#praktikes-lyseis"
+              onClick={() => {
+                setActivePracticalTab("fiscal");
+                registerEngagement(
+                  "hero_fiscal_proof_click",
+                  "fiscal-benefit-study",
+                  "Τι Κερδίζει το Δημόσιο 463.700€"
+                );
+              }}
+              className="px-4 py-2 rounded bg-[#1f5c43] hover:bg-emerald-700 text-white font-mono text-xs font-bold whitespace-nowrap transition shrink-0 text-center"
+            >
+              Αναλυτική Απόδειξη Εσόδων Δημοσίου ↓
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* 3.5 SECTION 00 (#praktikes-lyseis): PRACTICAL SOLUTIONS & 100% DOCUMENTATION CENTER */}
+      {/* 3.5 SECTION 00 (#praktikes-lyseis): PRACTICAL SOLUTIONS, FISCAL PROOF & 100% DOCUMENTATION CENTER */}
       <section
         id="praktikes-lyseis"
         className="py-12 sm:py-16 bg-[#f7f5f0] border-b-2 border-[#14191f]"
@@ -1404,35 +1441,40 @@ export default function VrosinaClientApp() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
             <div className="max-w-3xl space-y-2">
               <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
-                00 / ΚΕΝΤΡΟ ΠΡΑΚΤΙΚΩΝ ΛΥΣΕΩΝ & ΠΛΗΡΟΥΣ ΘΕΣΜΙΚΗΣ ΤΕΚΜΗΡΙΩΣΗΣ
+                00 / ΚΕΝΤΡΟ ΤΕΚΜΗΡΙΩΣΗΣ, ΔΗΜΟΣΙΟΝΟΜΙΚΟΥ ΟΦΕΛΟΥΣ & ΠΡΑΚΤΙΚΩΝ ΛΥΣΕΩΝ
               </div>
               <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-                Πώς Γίνεται στην Πράξη: Από Πού, Με Τι Χρήματα, Πώς Τα Παίρνω, Τι Δίνω & Ποιος Εκπονεί Τι
+                Τι Κερδίζει το Κράτος (463.700 €/έτος), Πώς Λειτουργεί η Κοιν.Σ.Επ. & Πρακτικές Απαντήσεις για Κάθε Ενδιαφερόμενο
               </h2>
               <p className="text-stone-700 text-xs sm:text-base leading-relaxed">
-                Κάθε αριθμός, πρόγραμμα και δράση στο <strong>«Βροσίνα 2031»</strong> τεκμηριώνεται με τον ακριβή νόμο, την ενεργή πρόσκληση και τον υπεύθυνο φορέα. Επιλέξτε την ιδιότητά σας ή τον πίνακα αρμοδιοτήτων για να δείτε βήμα-προς-βήμα τι ισχύει.
+                Κάθε αριθμός, πρόγραμμα και δράση στο <strong>«Βροσίνα 2031»</strong> τεκμηριώνεται με αριθμούς που αντέχουν σε έλεγχο αξιολογητή, τον ακριβή νόμο (ΦΕΚ), την ενεργή πρόσκληση και τον υπεύθυνο φορέα.
               </p>
             </div>
 
-            {/* 4-Mode Switcher for Practical & KOINSEP Center */}
+            {/* 5-Mode Switcher for Fiscal Study, KOINSEP & Practical Center */}
             <div className="flex flex-wrap gap-2 text-xs">
               {[
                 {
+                  id: "fiscal" as const,
+                  label:
+                    "🏛️ 1. Τι Κερδίζει το Δημόσιο (463.700 €/έτος · Απόσβεση 6–17 έτη · 1,6×)",
+                },
+                {
                   id: "koinsep" as const,
                   label:
-                    "🤝 1. Οδηγός Κοιν.Σ.Επ. Βροσίνας (Ν. 4430/2016 · Μερίδα 100€ · 11 Ερωτήσεις)",
+                    "🤝 2. Οδηγός Κοιν.Σ.Επ. Βροσίνας (Ν. 4430/2016 · Μερίδα 100€ · 11 Ερωτήσεις)",
                 },
                 {
                   id: "playbooks" as const,
-                  label: "🧭 2. Πρακτικές Λύσεις ανά Ενδιαφερόμενο (7 Οδηγοί)",
+                  label: "🧭 3. Πρακτικές Λύσεις ανά Ενδιαφερόμενο (7 Οδηγοί)",
                 },
                 {
                   id: "institutions" as const,
-                  label: "🏛️ 3. Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
+                  label: "⚙️ 4. Ποιος Εκπονεί Τι (Δήμος · Κοινότητα · ΚΟΙΝΣΕΠ)",
                 },
                 {
                   id: "funding14" as const,
-                  label: "📜 4. Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
+                  label: "📜 5. Τα 14 Χρηματοδοτικά Εργαλεία & Νόμοι (ΦΕΚ)",
                 },
               ].map((t) => (
                 <button
@@ -1457,6 +1499,317 @@ export default function VrosinaClientApp() {
               ))}
             </div>
           </div>
+
+          {/* MODE FISCAL (DEFAULT): WHAT THE STATE GAINS (463.700 €/YEAR FISCAL & NON-FISCAL PROOF) */}
+          {activePracticalTab === "fiscal" && (
+            <div className="space-y-8">
+              {/* Top Executive Banner + 4 Headline Metrics */}
+              <div className="bg-[#14191f] text-white rounded-lg p-5 sm:p-8 border-2 border-[#c89d54] space-y-5 shadow-lg">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-800 pb-3">
+                  <span className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                    {PUBLIC_FISCAL_BENEFIT_STUDY.badge}
+                  </span>
+                  <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold">
+                    6,58 εκ. € Δημόσιο/Ε.Ε. (63%) + 3,87 εκ. € Ιδιωτικά (37%) = 10,45 εκ. €
+                  </span>
+                </div>
+
+                <h3 className="font-serif text-xl sm:text-3xl font-bold text-white leading-snug">
+                  {PUBLIC_FISCAL_BENEFIT_STUDY.title}
+                </h3>
+
+                <blockquote className="p-4 rounded bg-stone-900 border-l-4 border-[#c89d54] font-serif italic text-amber-200 text-sm sm:text-base">
+                  «{PUBLIC_FISCAL_BENEFIT_STUDY.subtitle}»
+                </blockquote>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-1">
+                  {PUBLIC_FISCAL_BENEFIT_STUDY.headlineMetrics.map((hm, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-stone-900 rounded p-4 border border-stone-700 space-y-1"
+                    >
+                      <div className="font-mono text-2xl sm:text-3xl font-bold text-[#c89d54]">
+                        {hm.value}
+                      </div>
+                      <div className="font-serif font-bold text-sm text-white">
+                        {hm.label}
+                      </div>
+                      <p className="text-xs text-stone-300 leading-snug">
+                        {hm.sub}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Row 1: Annual Revenue Breakdown (463.700 €) + What We Deliberately Exclude */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Left 7 cols: The 463.700 € / year Breakdown Table */}
+                <div className="lg:col-span-7 bg-white rounded-lg p-5 sm:p-6 border-2 border-[#14191f] space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+                    <div>
+                      <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                        ΑΝΑΛΥΣΗ ΕΤΗΣΙΩΝ ΑΜΕΣΩΝ ΕΣΟΔΩΝ ΔΗΜΟΣΙΟΥ (ΕΤΟΣ 5 · ΒΑΣΙΚΟ ΣΕΝΑΡΙΟ)
+                      </div>
+                      <h4 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                        Πώς Προκύπτουν τα 463.700 € / Έτος (Χωρίς ΦΠΑ)
+                      </h4>
+                    </div>
+                    <span className="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 font-mono text-sm font-bold text-[#1f5c43]">
+                      {PUBLIC_FISCAL_BENEFIT_STUDY.annualRevenueTotal}
+                    </span>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                      <thead>
+                        <tr className="border-b-2 border-stone-300 bg-stone-100 font-mono text-[11px] uppercase text-stone-700">
+                          <th className="p-2.5">Πηγή Εσόδου Δημοσίου</th>
+                          <th className="p-2.5">Βάση Υπολογισμού (Συντηρητικά)</th>
+                          <th className="p-2.5 text-right">Ετήσιο Ποσό</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-200">
+                        {PUBLIC_FISCAL_BENEFIT_STUDY.annualRevenueBreakdown.map(
+                          (row, idx) => (
+                            <tr key={idx} className="hover:bg-stone-50">
+                              <td className="p-2.5 font-serif font-bold text-[#14191f]">
+                                {row.source}
+                              </td>
+                              <td className="p-2.5 text-stone-700 font-mono text-xs">
+                                {row.calculationBasis}
+                              </td>
+                              <td className="p-2.5 text-right font-mono font-bold text-[#1f5c43] whitespace-nowrap">
+                                {row.annualAmount}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                        <tr className="bg-[#14191f] text-white font-bold">
+                          <td className="p-3 font-serif" colSpan={2}>
+                            ΣΥΝΟΛΟ ΑΜΕΣΩΝ ΕΤΗΣΙΩΝ ΕΣΟΔΩΝ ΔΗΜΟΣΙΟΥ (ΒΑΣΙΚΟ ΣΕΝΑΡΙΟ)
+                          </td>
+                          <td className="p-3 text-right font-mono text-[#c89d54] text-base whitespace-nowrap">
+                            {PUBLIC_FISCAL_BENEFIT_STUDY.annualRevenueTotal}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <p className="text-[11px] text-stone-600 bg-[#f7f5f0] p-3 rounded border border-stone-300 leading-relaxed">
+                    {PUBLIC_FISCAL_BENEFIT_STUDY.transparencyNote}
+                  </p>
+                </div>
+
+                {/* Right 5 cols: What We Deliberately Do NOT Count + Evaluator Metrics */}
+                <div className="lg:col-span-5 space-y-5">
+                  <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#b85d3b] space-y-3">
+                    <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                      ΘΩΡΑΚΙΣΗ ΑΞΙΟΠΙΣΤΙΑΣ ΑΠΕΝΑΝΤΙ ΣΕ ΑΞΙΟΛΟΓΗΤΕΣ
+                    </div>
+                    <h4 className="font-serif text-base sm:text-xl font-bold text-[#14191f]">
+                      {PUBLIC_FISCAL_BENEFIT_STUDY.deliberatelyExcludedTitle}
+                    </h4>
+                    <ul className="space-y-2 text-xs text-stone-700">
+                      {PUBLIC_FISCAL_BENEFIT_STUDY.deliberatelyExcluded.map(
+                        (ex, idx) => (
+                          <li
+                            key={idx}
+                            className="p-3 rounded bg-[#f7f5f0] border border-stone-200 leading-relaxed"
+                          >
+                            • {ex}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+
+                  {/* The 2 Evaluator Ratios */}
+                  <div className="bg-[#14191f] text-white rounded-lg p-5 border border-stone-800 space-y-3">
+                    <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                      ΟΙ 2 ΔΕΙΚΤΕΣ ΠΟΥ ΚΟΙΤΑΖΕΙ ΚΑΘΕ ΑΞΙΟΛΟΓΗΤΗΣ (ΜΕ ΟΛΕΣ ΤΙΣ ΥΠΟΔΟΜΕΣ)
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {PUBLIC_FISCAL_BENEFIT_STUDY.evaluatorMetrics.map(
+                        (em, idx) => (
+                          <div
+                            key={idx}
+                            className="p-3.5 rounded bg-stone-900 border border-stone-700 space-y-1 text-xs"
+                          >
+                            <div className="text-[11px] font-mono text-stone-400">
+                              {em.title}
+                            </div>
+                            <div className="font-mono text-lg font-bold text-[#c89d54]">
+                              {em.value}
+                            </div>
+                            <div className="text-[11px] text-emerald-400 font-mono">
+                              {em.range}
+                            </div>
+                            <p className="text-[11px] text-stone-300 leading-snug pt-1">
+                              {em.explanation}
+                            </p>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 2: 3 Scenarios Table (10 & 25 Years) + National vs EU Co-Financing Sensitivity */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Left 7 cols: 3 Scenarios Fiscal Return Table */}
+                <div className="lg:col-span-7 bg-white rounded-lg p-5 sm:p-6 border border-stone-300 space-y-4">
+                  <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                    ΣΥΓΚΡΙΣΗ 3 ΣΕΝΑΡΙΩΝ ΣΕ ΟΡΙΖΟΝΤΑ 10 & 25 ΕΤΩΝ (ΠΑΡΑΧΩΡΗΣΗ ΣΤΡΑΤΟΠΕΔΟΥ)
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                    Πόσα Εισπράττει το Δημόσιο σε 10 και 25 Έτη ανά Σενάριο
+                  </h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                      <thead>
+                        <tr className="border-b-2 border-stone-300 bg-stone-100 font-mono text-[11px] uppercase text-stone-700">
+                          <th className="p-2.5">Μέγεθος / Δείκτης</th>
+                          <th className="p-2.5 text-right">Συντηρητικό</th>
+                          <th className="p-2.5 text-right bg-emerald-50 text-[#1f5c43]">
+                            Βασικό (Σχεδιασμού)
+                          </th>
+                          <th className="p-2.5 text-right">Αισιόδοξο</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-200">
+                        {PUBLIC_FISCAL_BENEFIT_STUDY.threeScenariosFiscal.map(
+                          (r, idx) => (
+                            <tr key={idx} className="hover:bg-stone-50">
+                              <td className="p-2.5 font-medium text-[#14191f]">
+                                {r.metric}
+                              </td>
+                              <td className="p-2.5 text-right font-mono text-stone-700">
+                                {r.conservative}
+                              </td>
+                              <td className="p-2.5 text-right font-mono font-bold bg-emerald-50/60 text-[#1f5c43]">
+                                {r.baseline}
+                              </td>
+                              <td className="p-2.5 text-right font-mono text-stone-800">
+                                {r.optimistic}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-xs text-stone-700 bg-amber-50 p-3.5 rounded border border-amber-300 leading-relaxed">
+                    {PUBLIC_FISCAL_BENEFIT_STUDY.discountRateHonestyNote}
+                  </p>
+                </div>
+
+                {/* Right 5 cols: National vs EU Share Sensitivity Table */}
+                <div className="lg:col-span-5 bg-white rounded-lg p-5 sm:p-6 border border-stone-300 space-y-4">
+                  <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                    ΕΘΝΙΚΟΣ ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ VS ΕΥΡΩΠΑΪΚΟΙ ΠΟΡΟΙ (Ε.Ε.)
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+                    Πόσο Γρήγορα Αποσβένεται η Καθαρή Εθνική Συμμετοχή (6 έως 10 Έτη)
+                  </h4>
+                  <p className="text-xs text-stone-700 leading-relaxed">
+                    {PUBLIC_FISCAL_BENEFIT_STUDY.nationalVsEuSensitivityIntro}
+                  </p>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="border-b-2 border-stone-300 bg-stone-100 font-mono text-[10px] uppercase text-stone-700">
+                          <th className="p-2">Παραδοχή Εθνικού Σκέλους</th>
+                          <th className="p-2 text-right">Εθνικό Κόστος</th>
+                          <th className="p-2 text-right">Συντ.</th>
+                          <th className="p-2 text-right text-[#1f5c43]">Βασικό</th>
+                          <th className="p-2 text-right">Αισιόδ.</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-200 font-mono">
+                        {PUBLIC_FISCAL_BENEFIT_STUDY.nationalVsEuSensitivityTable.map(
+                          (s, idx) => (
+                            <tr key={idx} className="hover:bg-stone-50">
+                              <td className="p-2 font-sans font-semibold text-[#14191f]">
+                                {s.assumption}
+                              </td>
+                              <td className="p-2 text-right text-stone-800 font-bold">
+                                {s.nationalBudgetBurden}
+                              </td>
+                              <td className="p-2 text-right text-stone-600">
+                                {s.paybackConservative}
+                              </td>
+                              <td className="p-2 text-right font-bold text-[#1f5c43] bg-emerald-50">
+                                {s.paybackBaseline}
+                              </td>
+                              <td className="p-2 text-right text-stone-800">
+                                {s.paybackOptimistic}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 3: The 6 Non-Fiscal National Benefits + 3 Ready Interview Quotes */}
+              <div className="bg-white rounded-lg p-5 sm:p-8 border border-stone-300 space-y-6">
+                <div className="border-b border-stone-200 pb-3">
+                  <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                    ΠΕΡΑ ΑΠΟ ΤΟΥΣ ΦΟΡΟΥΣ & ΤΙΣ ΕΙΣΦΟΡΕΣ · ΤΑ 6 ΜΗ ΔΗΜΟΣΙΟΝΟΜΙΚΑ ΕΘΝΙΚΑ ΟΦΕΛΗ
+                  </div>
+                  <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+                    Τι Αγοράζει η Πολιτεία που Δεν Αποτυπώνεται Μόνο στον Κρατικό Προϋπολογισμό
+                  </h4>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {PUBLIC_FISCAL_BENEFIT_STUDY.sixNonFiscalBenefits.map(
+                    (nf) => (
+                      <div
+                        key={nf.num}
+                        className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1.5"
+                      >
+                        <div className="text-xs font-mono font-bold text-[#b85d3b]">
+                          ΟΦΕΛΟΣ {nf.num}
+                        </div>
+                        <div className="font-serif font-bold text-sm sm:text-base text-[#14191f]">
+                          {nf.title}
+                        </div>
+                        <p className="text-xs text-stone-700 leading-relaxed">
+                          {nf.desc}
+                        </p>
+                      </div>
+                    )
+                  )}
+                </div>
+
+                {/* 3 Ready Interview Quotes Box */}
+                <div className="bg-[#14191f] text-white rounded-lg p-5 sm:p-6 space-y-3">
+                  <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                    ΟΙ 3 ΕΤΟΙΜΕΣ ΑΠΑΝΤΗΣΕΙΣ ΓΙΑ ΣΥΝΕΝΤΕΥΞΗ, ΥΠΟΥΡΓΕΙΑ & ΔΗΜΟΣΙΟ ΔΙΑΛΟΓΟ:
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs sm:text-sm">
+                    {PUBLIC_FISCAL_BENEFIT_STUDY.interviewQuotes.map(
+                      (q, idx) => (
+                        <blockquote
+                          key={idx}
+                          className="p-4 rounded bg-stone-900 border-l-4 border-[#c89d54] font-serif italic text-stone-100 leading-relaxed"
+                        >
+                          {q}
+                        </blockquote>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* MODE 0 (DEFAULT): COMPLETE KOINSEP MASTER GUIDE (LAW 4430/2016) */}
           {activePracticalTab === "koinsep" && (
@@ -2742,6 +3095,70 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
+          {/* Explicit 10,45M € Arithmetic Reconciliation Card (Pillars + Shared Infrastructure = 10,45M €) */}
+          <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#14191f] space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+              <div>
+                <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                  ΑΡΙΘΜΗΤΙΚΗ ΣΥΜΦΩΝΙΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ · ΠΩΣ ΣΥΜΠΛΗΡΩΝΟΝΤΑΙ ΤΑ 10,45 ΕΚΑΤ. €
+                </div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+                  4 Κύριοι Πυλώνες (8,63 εκ. €) + Κοινές Υποδομές, Ενέργεια & Ωρίμανση (1,82 εκ. €) = 10,45 εκ. €
+                </h3>
+              </div>
+              <span className="px-3 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
+                100% Επαληθεύσιμο Άθροισμα: 10.450.000 €
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b-2 border-stone-300 bg-stone-100 font-mono text-[11px] uppercase text-stone-700">
+                    <th className="p-2.5">Πυλώνας / Οριζόντια Κατηγορία</th>
+                    <th className="p-2.5 text-right">Άμεσος Πυλώνας</th>
+                    <th className="p-2.5">Κοινές Υποδομές / Οριζόντια Έργα</th>
+                    <th className="p-2.5 text-right">Σύνολο με Υποδομές</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-200">
+                  {PUBLIC_FISCAL_BENEFIT_STUDY.capexArithmeticReconciliation.map(
+                    (row, idx) => (
+                      <tr key={idx} className="hover:bg-stone-50">
+                        <td className="p-2.5 font-serif font-bold text-[#14191f]">
+                          {row.item}
+                        </td>
+                        <td className="p-2.5 text-right font-mono text-stone-700 whitespace-nowrap">
+                          {row.pillarDirect}
+                        </td>
+                        <td className="p-2.5 font-mono text-stone-600">
+                          {row.sharedInfraAdded}
+                        </td>
+                        <td className="p-2.5 text-right font-mono font-bold text-[#1f5c43] whitespace-nowrap">
+                          {row.totalWithInfra}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                  <tr className="bg-[#14191f] text-white font-mono font-bold">
+                    <td className="p-2.5 font-serif">
+                      ΓΕΝΙΚΟ ΣΥΝΟΛΟ ΕΠΕΝΔΥΤΙΚΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ (2026–2031)
+                    </td>
+                    <td className="p-2.5 text-right text-stone-300 whitespace-nowrap">
+                      8,63 εκ. €
+                    </td>
+                    <td className="p-2.5 text-[#c89d54]">
+                      + 1,82 εκ. € (Υποδομές, Δίκτυα, Φ/Β 150 kWp & Μελέτες)
+                    </td>
+                    <td className="p-2.5 text-right text-[#c89d54] text-sm whitespace-nowrap">
+                      10,45 εκ. €
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           {/* 5-Year Ramp-up Timeline */}
           <div className="bg-white rounded p-5 sm:p-8 border border-stone-300 space-y-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2800,7 +3217,7 @@ export default function VrosinaClientApp() {
               03 / ΕΠΕΝΔΥΤΙΚΟ, ΣΤΡΑΤΗΓΙΚΟ & ΧΟΡΗΓΙΚΟ DESK
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white">
-              Μόχλευση Κεφαλαίου 1 προς 4, Επιδοτήσεις έως 80% & Θεσμικό Κύρος
+              Μόχλευση 63% Δημόσιο / 37% Ιδιωτικά (1 € → 2,70 €), Επιδοτήσεις έως 75% & Θεσμικό Κύρος
             </h2>
             <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
               Είτε είστε <strong>στρατηγικός επενδυτής αγροδιατροφής</strong>{" "}
