@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Οδηγός ιστορίας, αρχιτεκτονικής, φωτογραφιών και 6 βίντεο drone της Βροσίνας Δήμου Ζίτσας Ιωαννίνων: Το Πέτρινο Γεφύρι της Βροσίνας, το Ζαλογγογέφυρο του 1605 στον Ζαλογγίτικο ποταμό και η Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628) στα βράχια («ραϊδιά»).",
   alternates: {
-    canonical: "https://vrosina2031.gr/gefyri-vrosinas-raidiotissa",
+    canonical: "https://vrosina2031.vercel.app/gefyri-vrosinas-raidiotissa",
   },
 };
 

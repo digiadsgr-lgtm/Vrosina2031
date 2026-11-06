@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Πώς ανακαινίζονται 20 κλειστές κατοικίες και 5 καταστήματα στη Βροσίνα Ιωαννίνων με 0 € επιβάρυνση ιδιοκτήτη (Master Lease 9–12 ετών, Κατηγορίες Α: 20k €, Β: 37.5k €, Γ: 50k €) και πώς εγκαθίστανται 12 νέοι κτηνοτρόφοι με Πακέτο Πρώτου Κοπαδιού.",
   alternates: {
-    canonical: "https://vrosina2031.gr/katoikia-neoi-paragogoi",
+    canonical: "https://vrosina2031.vercel.app/katoikia-neoi-paragogoi",
   },
 };
 

@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://vrosina2031.gr";
+  const baseUrl = "https://vrosina2031.vercel.app";
   const lastModified = new Date("2026-11-06");
 
   return [

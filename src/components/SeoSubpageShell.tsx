@@ -28,13 +28,13 @@ export default function SeoSubpageShell({
         "@type": "ListItem",
         position: 1,
         name: "Βροσίνα 2031 — Αρχική",
-        item: "https://vrosina2031.gr",
+        item: "https://vrosina2031.vercel.app",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: title,
-        item: `https://vrosina2031.gr${canonicalPath}`,
+        item: `https://vrosina2031.vercel.app${canonicalPath}`,
       },
     ],
   };

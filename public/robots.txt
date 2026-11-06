@@ -35,4 +35,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://vrosina2031.gr/sitemap.xml
+Sitemap: https://vrosina2031.vercel.app/sitemap.xml

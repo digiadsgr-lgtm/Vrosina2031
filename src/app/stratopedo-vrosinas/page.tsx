@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Πλήρης αυτοψία, ιστορία (Ε.Φ. Λάβδανης & Μεθοριακά Φυλάκια), φωτογραφίες, βίντεο 12:31 και σχέδιο μετατροπής του πρώην Στρατοπέδου «Παπακωνσταντίνου» (13.695 τ.μ., ΤΑΕΘΑ) στη Βροσίνα Ιωαννίνων σε Τυροκομείο ΠΟΠ, Οινοποιείο Ντεμπίνας & Ενεργειακή Κοινότητα 150 kWp.",
   alternates: {
-    canonical: "https://vrosina2031.gr/stratopedo-vrosinas",
+    canonical: "https://vrosina2031.vercel.app/stratopedo-vrosinas",
   },
 };
 

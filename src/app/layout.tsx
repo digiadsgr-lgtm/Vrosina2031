@@ -3,7 +3,7 @@ import "./globals.css";
 import { SEO_KEYWORDS_EXTENDED, FAQ_ITEMS, REAL_VROSINA_VIDEOS } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vrosina2031.gr"),
+  metadataBase: new URL("https://vrosina2031.vercel.app"),
   title: {
     default:
       "Βροσίνα 2031 | Πρότυπο Αναγέννησης Ορεινής Κοινότητας Ηπείρου — Επενδυτικό & Αναπτυξιακό Σχέδιο 10,45 εκ. €",
@@ -16,36 +16,38 @@ export const metadata: Metadata = {
   creator: "Πρωτοβουλία Βροσίνα 2031",
   publisher: "ΚΟΙΝΣΕΠ Βροσίνα 2031 & Ταμείο Ευεργετών Βροσίνας",
   alternates: {
-    canonical: "https://vrosina2031.gr",
+    canonical: "https://vrosina2031.vercel.app/",
     languages: {
-      "el-GR": "https://vrosina2031.gr",
-      "en-US": "https://vrosina2031.gr",
+      "el-GR": "https://vrosina2031.vercel.app/",
+      "en-US": "https://vrosina2031.vercel.app/",
     },
   },
   openGraph: {
     type: "website",
     locale: "el_GR",
-    url: "https://vrosina2031.gr",
-    siteName: "Βροσίνα 2031 | Vrosina 2031 Masterplan",
+    url: "https://vrosina2031.vercel.app/",
+    siteName: "ΒΡΟΣΙΝΑ 2031 | Vrosina 2031 Masterplan",
     title:
-      "Βροσίνα 2031 | Πώς ένα χωριό 58 κατοίκων στην Ήπειρο γίνεται Εθνικό Πρότυπο Αναγέννησης (10,45 εκ. €)",
+      "ΒΡΟΣΙΝΑ 2031 | Ολοκληρωμένο Σχέδιο Αναγέννησης — Επένδυση 10,45 εκ. € & Επιδότηση έως 80%",
     description:
-      "Αυτοψία με πραγματικές φωτογραφίες, 6 drone βίντεο, ρεαλιστικά φωτορεαλιστικά 2031, πλήρες Data Room 13 εγγράφων και επενδυτικός οδηγός με επιδοτήσεις έως 75–80%.",
+      "Αυτοψία πεδίου στο πρώην Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.), τηλεοπτικές παρουσιάσεις, 8 drone & πεδίου βίντεο, Data Room 13 εγγράφων και επενδυτικός οδηγός (LEADER & Αναπτυξιακός Νόμος).",
     images: [
       {
-        url: "/images/real/real-vrosina-exploringgreece.jpg",
+        url: "https://vrosina2031.vercel.app/images/og-vrosina2031.jpg",
+        secureUrl: "https://vrosina2031.vercel.app/images/og-vrosina2031.jpg",
         width: 1200,
-        height: 675,
-        alt: "Βροσίνα Ιωαννίνων — Πανοραμική Άποψη Κοιλάδας Ζαλογγίτικου & Masterplan Βροσίνα 2031",
+        height: 630,
+        type: "image/jpeg",
+        alt: "ΒΡΟΣΙΝΑ 2031 — Ολοκληρωμένο Σχέδιο Παραγωγικής & Οικιστικής Αναγέννησης (10,45 εκ. €)",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Βροσίνα 2031 | Πρότυπο Αναγέννησης Ορεινής Κοινότητας Ηπείρου",
+    title: "ΒΡΟΣΙΝΑ 2031 | Ολοκληρωμένο Σχέδιο Αναγέννησης Ηπείρου (10,45 εκ. €)",
     description:
-      "Επένδυση 10,45 εκ. €, Στρατόπεδο Παπακωνσταντίνου 13.695 τ.μ., LEADER & Αναπτυξιακός Νόμος έως 80%, Γεφύρι Βροσίνας & Ζαλογγογέφυρο 1605.",
-    images: ["/images/real/real-vrosina-exploringgreece.jpg"],
+      "Στρατόπεδο Παπακωνσταντίνου 13.695 τ.μ., LEADER & Αναπτυξιακός Νόμος έως 80%, Ταμείο Ευεργετών ΑΜΚΕ, Γεφύρι Βροσίνας & Μονή Ραϊδιώτισσας.",
+    images: ["https://vrosina2031.vercel.app/images/og-vrosina2031.jpg"],
   },
   robots: {
     index: true,
@@ -70,7 +72,7 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "Place",
-        "@id": "https://vrosina2031.gr/#place-vrosina",
+        "@id": "https://vrosina2031.vercel.app/#place-vrosina",
         name: "Βροσίνα Ιωαννίνων (Vrosina, Municipality of Zitsa, Epirus, Greece)",
         alternateName: ["Vrosina", "Βροσίνα Ζίτσας", "Βροσίνα Μολοσσών", "Vrosina Ioannina"],
         description:
@@ -117,18 +119,18 @@ export default function RootLayout({
       },
       {
         "@type": "Organization",
-        "@id": "https://vrosina2031.gr/#organization-koinsep",
+        "@id": "https://vrosina2031.vercel.app/#organization-koinsep",
         name: "ΚΟΙΝΣΕΠ «Βροσίνα 2031» & Ταμείο Ευεργετών Βροσίνας (ΑΜΚΕ)",
-        url: "https://vrosina2031.gr",
+        url: "https://vrosina2031.vercel.app",
         description:
           "Κοινωνική Συνεταιριστική Επιχείρηση Συλλογικής και Κοινωνικής Ωφέλειας (Ν. 4430/2016) με Θυγατρική Εταιρεία Εκμετάλλευσης (65% ΚΟΙΝΣΕΠ / 35% Στρατηγικός Εταίρος) και ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας».",
         areaServed: {
-          "@id": "https://vrosina2031.gr/#place-vrosina",
+          "@id": "https://vrosina2031.vercel.app/#place-vrosina",
         },
       },
       {
         "@type": "Project",
-        "@id": "https://vrosina2031.gr/#project-vrosina-2031",
+        "@id": "https://vrosina2031.vercel.app/#project-vrosina-2031",
         name: "Βροσίνα 2031 — Ολοκληρωμένο Σχέδιο Αναγέννησης Ορεινής Κοινότητας",
         description:
           "Πενταετές ολοκληρωμένο επενδυτικό και αναπτυξιακό πρόγραμμα ύψους 10.450.000 € σε 4 Πυλώνες: Αγροδιατροφικό Κέντρο στο πρώην Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.), Πρωτογενής Παραγωγή, Κατοικία & Υποδομές Ζωής (50 σπίτια), και Ήπιος Αγροτουρισμός 4 Εποχών.",
@@ -142,22 +144,22 @@ export default function RootLayout({
           },
         },
         organizer: {
-          "@id": "https://vrosina2031.gr/#organization-koinsep",
+          "@id": "https://vrosina2031.vercel.app/#organization-koinsep",
         },
         location: {
-          "@id": "https://vrosina2031.gr/#place-vrosina",
+          "@id": "https://vrosina2031.vercel.app/#place-vrosina",
         },
       },
       {
         "@type": "Dataset",
-        "@id": "https://vrosina2031.gr/#dataset-financials",
+        "@id": "https://vrosina2031.vercel.app/#dataset-financials",
         name: "Οικονομικά Στοιχεία, Προϋπολογισμός CAPEX 10,45 εκ. € και 3 Σενάρια Ισολογισμού «Βροσίνα 2031»",
         description:
           "Πλήρης ανάλυση CAPEX ανά πυλώνα, πηγές χρηματοδότησης, 5ετής κλιμάκωση παραγωγής (Έτος 1–5) και τρία σενάρια ισολογισμού (Συντηρητικό 687k €, Βασικό 1.076k €, Αισιόδοξο 1.495k €).",
-        url: "https://vrosina2031.gr/documents/Vrosina_2031_Business_Plan_v2.pdf",
+        url: "https://vrosina2031.vercel.app/documents/Vrosina_2031_Business_Plan_v2.pdf",
         license: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
         creator: {
-          "@id": "https://vrosina2031.gr/#organization-koinsep",
+          "@id": "https://vrosina2031.vercel.app/#organization-koinsep",
         },
       },
       ...REAL_VROSINA_VIDEOS.map((vid) => ({
@@ -167,7 +169,7 @@ export default function RootLayout({
         thumbnailUrl: [
           vid.thumbnail.startsWith("http")
             ? vid.thumbnail
-            : `https://vrosina2031.gr${vid.thumbnail}`,
+            : `https://vrosina2031.vercel.app${vid.thumbnail}`,
           `https://i.ytimg.com/vi/${vid.id}/hqdefault.jpg`,
         ],
         uploadDate: "2026-01-01T08:00:00+02:00",
@@ -176,9 +178,9 @@ export default function RootLayout({
       })),
       {
         "@type": "WebSite",
-        "@id": "https://vrosina2031.gr/#website",
+        "@id": "https://vrosina2031.vercel.app/#website",
         name: "ΒΡΟΣΙΝΑ 2031 — Ολοκληρωμένο Σχέδιο Αναγέννησης Ορεινής Κοινότητας",
-        url: "https://vrosina2031.gr",
+        url: "https://vrosina2031.vercel.app",
         inLanguage: "el-GR",
         creator: {
           "@type": "Organization",
@@ -188,7 +190,7 @@ export default function RootLayout({
       },
       {
         "@type": "FAQPage",
-        "@id": "https://vrosina2031.gr/#faq",
+        "@id": "https://vrosina2031.vercel.app/#faq",
         mainEntity: FAQ_ITEMS.map((item) => ({
           "@type": "Question",
           name: item.question,

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Bilingual (Greek & English) canonical fact sheet, structured financial dataset, entity directory, and official reference guide for AI Search Engines (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews) on the Vrosina 2031 rural regeneration masterplan (€10.45M, Zitsa, Ioannina, Epirus, Greece).",
   alternates: {
-    canonical: "https://vrosina2031.gr/ai-knowledge-base",
+    canonical: "https://vrosina2031.vercel.app/ai-knowledge-base",
   },
 };
 

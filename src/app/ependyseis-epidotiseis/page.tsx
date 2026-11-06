@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Οδηγός επενδύσεων, επιδοτήσεων (Αναπτυξιακός Νόμος 4887/2022 έως 75%, LEADER ΗΠΕΙΡΟΣ Α.Ε. έως 80%), φοροαπαλλασσόμενων χορηγιών, Ονοματοδοσίας (Naming Rights) και ESG Impact στο πρότυπο έργο «Βροσίνα 2031» (10,45 εκ. €).",
   alternates: {
-    canonical: "https://vrosina2031.gr/ependyseis-epidotiseis",
+    canonical: "https://vrosina2031.vercel.app/ependyseis-epidotiseis",
   },
 };
 
