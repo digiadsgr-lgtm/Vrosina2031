@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { SEO_KEYWORDS_EXTENDED, FAQ_ITEMS, REAL_VROSINA_VIDEOS } from "@/data/vrosinaData";
 
@@ -223,6 +224,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased selection:bg-[#1f5c43] selection:text-white">
         {children}
+        <Analytics />
       </body>
     </html>
   );

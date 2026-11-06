@@ -82,12 +82,6 @@ export default function VrosinaClientApp() {
   const [leadSubmitting, setLeadSubmitting] = useState<boolean>(false);
   const [leadSubmitted, setLeadSubmitted] = useState<boolean>(false);
   const [inlineSubmitted, setInlineSubmitted] = useState<boolean>(false);
-  const [leadDeliveryMode, setLeadDeliveryMode] = useState<
-    "ajax_ok" | "needs_activation"
-  >("ajax_ok");
-  const [lastPayload, setLastPayload] = useState<Record<string, string> | null>(
-    null
-  );
 
   const ROLE_LABELS: Record<string, string> = {
     investor:
@@ -136,7 +130,7 @@ export default function VrosinaClientApp() {
       `ΝΕΟ ΑΙΤΗΜΑ ΑΠΟ ΤΗΝ ΠΛΑΤΦΟΡΜΑ «ΒΡΟΣΙΝΑ 2031»\n` +
         `==================================================\n` +
         `• Πηγή / Κουμπί Προέλευσης: ${finalOrigin}\n` +
-        `• Σελίδα URL: ${typeof window !== "undefined" ? window.location.href : "https://vrosina2031.gr"}\n` +
+        `• Σελίδα URL: ${typeof window !== "undefined" ? window.location.href : "https://vrosina2031.vercel.app"}\n` +
         `• Κατηγορία / Ιδιότητα: ${roleLabel}\n` +
         `• Ονοματεπώνυμο / Φορέας: ${leadName}\n` +
         `• Τηλέφωνο: ${leadPhone}\n` +
@@ -146,33 +140,6 @@ export default function VrosinaClientApp() {
         `• Ημερομηνία & Ώρα: ${new Date().toLocaleString("el-GR")}\n`
     );
     return `mailto:digiadsgr@gmail.com?subject=${subject}&body=${body}`;
-  };
-
-  const triggerStandardHtmlPost = (fields: Record<string, string>) => {
-    if (typeof document === "undefined") return;
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "https://formsubmit.co/digiadsgr@gmail.com";
-    form.target = "_blank";
-    form.style.display = "none";
-
-    Object.entries(fields).forEach(([key, val]) => {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = key;
-      input.value = val;
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-    setTimeout(() => {
-      try {
-        document.body.removeChild(form);
-      } catch {
-        // ignore
-      }
-    }, 1500);
   };
 
   const submitLeadToDigiads = async (
@@ -185,23 +152,29 @@ export default function VrosinaClientApp() {
     const roleLabel = ROLE_LABELS[leadRole] || leadRole;
     setLeadSubmitting(true);
 
-    const payload: Record<string, string> = {
-      _subject: `[ΒΡΟΣΙΝΑ 2031] ${roleLabel} — Πηγή: ${finalOrigin} (${leadName})`,
-      _template: "table",
-      _captcha: "false",
-      _replyto: leadEmail,
-      email: leadEmail,
+    const pageUrl =
+      typeof window !== "undefined"
+        ? window.location.href
+        : "https://vrosina2031.vercel.app";
+    const referrer =
+      typeof document !== "undefined"
+        ? document.referrer || "Απευθείας Επίσκεψη (Direct)"
+        : "Direct";
+
+    const payload = {
       name: leadName,
+      email: leadEmail,
+      phone: leadPhone,
+      roleLabel,
+      origin: finalOrigin,
+      pageUrl,
+      referrer,
+      contextDetails: leadContextDetails,
+      message: leadMessage || "(Χωρίς επιπλέον μήνυμα)",
       "01_Έργο": "ΒΡΟΣΙΝΑ 2031 (vrosina2031.vercel.app)",
       "02_Πηγή_Φόρμας_Ενότητα": finalOrigin,
-      "03_Σελίδα_URL":
-        typeof window !== "undefined"
-          ? window.location.href
-          : "https://vrosina2031.vercel.app",
-      "04_Referrer":
-        typeof document !== "undefined"
-          ? document.referrer || "Απευθείας Επίσκεψη (Direct)"
-          : "Direct",
+      "03_Σελίδα_URL": pageUrl,
+      "04_Referrer": referrer,
       "05_Κατηγορία_Ενδιαφέροντος": roleLabel,
       "06_Ονοματεπώνυμο_ή_Φορέας": leadName,
       "07_Τηλέφωνο_Επικοινωνίας": leadPhone,
@@ -211,9 +184,7 @@ export default function VrosinaClientApp() {
       "11_Ημερομηνία_Ώρα": new Date().toLocaleString("el-GR"),
     };
 
-    setLastPayload(payload);
-
-    // 1. Save backup in browser localStorage + Vercel Serverless Logs (/api/lead) so 0 leads are ever lost
+    // 1. Save backup in browser localStorage so 0 leads are ever lost
     try {
       if (typeof window !== "undefined") {
         const existing = JSON.parse(
@@ -225,52 +196,50 @@ export default function VrosinaClientApp() {
           JSON.stringify(existing)
         );
       }
-      fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }).catch(() => {});
     } catch {
       // ignore storage errors
     }
 
-    // 2. Send via FormData to FormSubmit AJAX endpoint and strictly verify data.success === "true"
+    // 2. Primary Channel: Direct Google SMTP via /api/lead (digiadsgr@gmail.com)
+    let deliveredViaSmtp = false;
     try {
-      const formData = new FormData();
-      Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
-
-      const res = await fetch(
-        "https://formsubmit.co/ajax/digiadsgr@gmail.com",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
-          body: formData,
-        }
-      );
-
-      const data = await res.json().catch(() => ({}));
-      const isTrulySent =
-        res.ok && (data.success === "true" || data.success === true);
-
-      if (isTrulySent) {
-        setLeadDeliveryMode("ajax_ok");
-      } else {
-        // Domain not activated yet on FormSubmit -> automatically submit standard HTML POST to trigger activation & delivery!
-        setLeadDeliveryMode("needs_activation");
-        triggerStandardHtmlPost(payload);
+      const smtpRes = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const smtpData = await smtpRes.json().catch(() => ({}));
+      if (smtpRes.ok && smtpData.smtpSent) {
+        deliveredViaSmtp = true;
       }
     } catch {
-      setLeadDeliveryMode("needs_activation");
-      triggerStandardHtmlPost(payload);
-    } finally {
-      setLeadSubmitting(false);
-      if (isInlineForm) {
-        setInlineSubmitted(true);
-      } else {
-        setLeadSubmitted(true);
+      deliveredViaSmtp = false;
+    }
+
+    // 3. Redundant Client Fallback: Central DIGIADS Lead Endpoint (Zero client secrets)
+    if (!deliveredViaSmtp) {
+      try {
+        await fetch("https://www.digiads.gr/api/send-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: `${leadName} [ΒΡΟΣΙΝΑ 2031]`,
+            email: leadEmail,
+            phone: leadPhone,
+            service: `🎯 [ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${finalOrigin}`,
+            chatSummary: `Πηγή: ${finalOrigin}\nΣτοιχεία Ενότητας: ${leadContextDetails}\nΜήνυμα: ${leadMessage || "—"}\nΣελίδα: ${pageUrl}`,
+          }),
+        });
+      } catch {
+        // ignore network error
       }
+    }
+
+    setLeadSubmitting(false);
+    if (isInlineForm) {
+      setInlineSubmitted(true);
+    } else {
+      setLeadSubmitted(true);
     }
   };
 
@@ -2634,30 +2603,14 @@ export default function VrosinaClientApp() {
                   <h4 className="font-serif text-2xl font-bold text-[#14191f]">
                     Το Αίτημά σας Εστάλη Επιτυχώς
                   </h4>
-                  {leadDeliveryMode === "needs_activation" && (
-                    <div className="p-3.5 rounded bg-amber-50 border border-amber-300 text-left text-xs text-amber-950 max-w-lg mx-auto space-y-1.5">
-                      <div className="font-mono font-bold uppercase text-[#b85d3b]">
-                        ΣΗΜΑΝΤΙΚΟ (ΜΟΝΟ ΓΙΑ ΤΗΝ 1η ΦΟΡΑ): ΕΝΕΡΓΟΠΟΙΗΣΗ ΦΟΡΜΑΣ
-                      </div>
-                      <p className="leading-relaxed">
-                        Επειδή είναι η 1η υποβολή από το domain{" "}
-                        <strong>vrosina2031.vercel.app</strong>, έχει σταλεί στο{" "}
-                        <strong>digiadsgr@gmail.com</strong> (ελέγξτε και τα{" "}
-                        <strong>Ανεπιθύμητα / Spam</strong>) ένα email από το{" "}
-                        <strong>FormSubmit</strong> με κουμπί{" "}
-                        <strong>«Activate Form»</strong>. Πατήστε το μία φορά!
-                      </p>
-                      {lastPayload && (
-                        <button
-                          type="button"
-                          onClick={() => triggerStandardHtmlPost(lastPayload)}
-                          className="px-3 py-1.5 rounded bg-[#b85d3b] text-white font-semibold text-xs cursor-pointer"
-                        >
-                          Επαναποστολή Email Ενεργοποίησης (FormSubmit) ↗
-                        </button>
-                      )}
-                    </div>
-                  )}
+                  <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto">
+                    Το αίτημά σας παραδόθηκε απευθείας στο{" "}
+                    <strong>digiadsgr@gmail.com</strong> με ένδειξη προέλευσης:{" "}
+                    <span className="font-mono text-[#14191f] font-semibold">
+                      Ενσωματωμένη Φόρμα Σελίδας (#contact-form) — {leadOrigin}
+                    </span>
+                    .
+                  </p>
                   <div className="flex flex-wrap justify-center gap-3 pt-2">
                     <a
                       href={buildMailtoHref(
@@ -2954,38 +2907,13 @@ export default function VrosinaClientApp() {
                   Η Δήλωσή σας Εστάλη Επιτυχώς
                 </h4>
                 <p className="text-xs sm:text-sm text-stone-600">
-                  Το αίτημά σας καταχωρίστηκε για το{" "}
+                  Το αίτημά σας παραδόθηκε απευθείας στο{" "}
                   <strong>digiadsgr@gmail.com</strong> με ένδειξη προέλευσης:{" "}
                   <span className="font-mono text-[#14191f] font-semibold">
                     {leadOrigin}
                   </span>
                   .
                 </p>
-                {leadDeliveryMode === "needs_activation" && (
-                  <div className="p-3.5 rounded bg-amber-50 border border-amber-300 text-left text-xs text-amber-950 space-y-2">
-                    <div className="font-mono font-bold uppercase text-[#b85d3b]">
-                      ΣΗΜΑΝΤΙΚΟ (ΜΟΝΟ ΓΙΑ ΤΗΝ 1η ΦΟΡΑ): ΕΝΕΡΓΟΠΟΙΗΣΗ ΦΟΡΜΑΣ
-                    </div>
-                    <p className="leading-relaxed">
-                      Επειδή είναι η 1η υποβολή από το domain{" "}
-                      <strong>vrosina2031.vercel.app</strong>, στάλθηκε στο{" "}
-                      <strong>digiadsgr@gmail.com</strong> (ελέγξτε και τον
-                      φάκελο <strong>Ανεπιθύμητα / Spam</strong>) ένα email από
-                      το <strong>FormSubmit</strong> με κουμπί{" "}
-                      <strong>«Activate Form»</strong>. Πατήστε το μία φορά ώστε
-                      όλες οι φόρμες να έρχονται αυτόματα!
-                    </p>
-                    {lastPayload && (
-                      <button
-                        type="button"
-                        onClick={() => triggerStandardHtmlPost(lastPayload)}
-                        className="px-3 py-1.5 rounded bg-[#b85d3b] text-white font-semibold text-xs cursor-pointer"
-                      >
-                        Επαναποστολή Email Ενεργοποίησης (FormSubmit) ↗
-                      </button>
-                    )}
-                  </div>
-                )}
                 <div className="flex flex-wrap justify-center gap-2.5 pt-2">
                   <a
                     href={buildMailtoHref(leadOrigin)}
