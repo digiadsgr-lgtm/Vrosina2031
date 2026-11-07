@@ -128,7 +128,7 @@ export default function SeoSubpageShell({
   ];
 
   return (
-    <div id="top" className="min-h-screen bg-[#F7F5F0] text-[#14191F] font-sans pb-16 lg:pb-0">
+    <div id="top" className="min-h-screen bg-[#F7F5F0] text-[#14191F] font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -375,44 +375,11 @@ export default function SeoSubpageShell({
         </aside>
       </main>
 
-      {/* Mobile Sticky Bottom Navigation Bar (Σ1: 4 αντικείμενα χωρίς κόψιμο λέξεων + πλήρες μενού ☰ στην κεφαλίδα) */}
-      <nav
-        aria-label="Κινητή Πλοήγηση"
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
-      >
-        <div className="grid grid-cols-4 text-center">
-          <a
-            href="/to-schedio"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
-          >
-            Σχέδιο
-          </a>
-          <a
-            href="/gia-ktinotrofous"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
-          >
-            Κτηνοτρόφοι
-          </a>
-          <a
-            href="/gia-epicheiriseis"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
-          >
-            Επιχειρήσεις
-          </a>
-          <a
-            href="#epikinonia"
-            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white"
-          >
-            Επικοινωνία
-          </a>
-        </div>
-      </nav>
-
-      {/* Floating Back-to-Top Button (Μ6: Μικρό και διακριτικό) */}
+      {/* Floating Back-to-Top Button */}
       <a
         href="#top"
         aria-label="Επιστροφή στην κορυφή της σελίδας"
-        className="fixed bottom-14 lg:bottom-5 right-3 z-30 px-2.5 py-1.5 rounded-full bg-[#14191F]/90 text-white text-xs font-semibold shadow border border-stone-600 hover:bg-[#1F5C43] transition"
+        className="fixed bottom-4 right-4 z-30 px-2.5 py-1.5 rounded-full bg-[#14191F]/90 text-white text-xs font-semibold shadow border border-stone-600 hover:bg-[#1F5C43] transition"
       >
         ↑ Πάνω
       </a>

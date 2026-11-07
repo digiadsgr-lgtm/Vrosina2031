@@ -379,7 +379,7 @@ export default function VrosinaClientApp() {
   return (
     <div
       id="top"
-      className="min-h-screen bg-[#f7f5f0] text-[#14191f] font-sans pb-16 lg:pb-0"
+      className="min-h-screen bg-[#f7f5f0] text-[#14191f] font-sans"
     >
       {/* SINGLE CLEAN NAVIGATION BAR: 5 Menu Items + 1 Contact Button + Mobile Hamburger Menu (Σ1) */}
       <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
@@ -523,53 +523,53 @@ export default function VrosinaClientApp() {
       {/* 1. FULL-BLEED HERO (#hero) — Η ΠΡΩΤΗ ΟΘΟΝΗ (Δρόμος Α: μία πραγματική φωτογραφία, χωρίς διακόπτη) */}
       <section
         id="hero"
-        className="relative min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
+        className="relative min-h-[560px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
       >
         {/* Background: real photo of Vrosina today */}
         <img
           src="/images/real/real-vrosina-exploringgreece.jpg"
           alt="Η Βροσίνα σήμερα, μέσα στην κοιλάδα του Ζαλογγίτικου"
           fetchPriority="high"
-          className="vr-slow-zoom absolute inset-0 h-full w-full object-cover object-center"
+          className="vr-slow-zoom absolute inset-0 h-full w-full object-cover object-[62%_38%] lg:object-center"
         />
 
-        {/* Dark gradient overlay — left & bottom heavy for text legibility */}
+        {/* Dark gradient overlay — light on top half on mobile so the village/river photo is clearly visible, dark at bottom for text legibility */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-[#14191F]/95 via-[#14191F]/65 to-[#14191F]/15 lg:bg-gradient-to-r lg:from-[#14191F]/95 lg:via-[#14191F]/65 lg:to-[#14191F]/10"
+          className="absolute inset-0 bg-gradient-to-t from-[#14191F]/95 via-[#14191F]/60 to-transparent lg:bg-gradient-to-r lg:from-[#14191F]/95 lg:via-[#14191F]/65 lg:to-[#14191F]/10"
         />
 
         {/* Content */}
-        <div className="relative z-10 mx-auto flex min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] max-w-7xl flex-col justify-end px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-14 lg:pb-10 lg:pt-16">
+        <div className="relative z-10 mx-auto flex min-h-[560px] max-w-7xl flex-col justify-end px-4 pb-6 sm:px-6 sm:pb-8 lg:pb-10">
           <div className="max-w-2xl">
-            <p className="mb-2 text-[11px] sm:text-xs font-medium uppercase tracking-[0.16em] text-[#C89D54]">
+            <p className="mb-2 text-xs font-medium uppercase tracking-[0.16em] text-[#C89D54]">
               ΒΡΟΣΙΝΑ 2031 · ΠΡΩΤΟΒΟΥΛΙΑ ΓΙΑ ΕΝΑ ΖΩΝΤΑΝΟ ΧΩΡΙΟ
             </p>
 
-            <h1 className="font-serif text-2xl leading-[1.14] font-semibold text-[#F7F5F0] sm:text-4xl lg:text-[46px]">
+            <h1 className="font-serif text-[1.75rem] leading-[1.14] font-semibold text-[#F7F5F0] sm:text-4xl lg:text-[46px]">
               Η Βροσίνα δεν χρειάζεται να ξαναγίνει αυτό που ήταν.{" "}
               <span className="text-[#C89D54]">
                 Μπορεί να γίνει κάτι καλύτερο.
               </span>
             </h1>
 
-            <p className="mt-3 sm:mt-4 max-w-xl text-sm leading-relaxed text-[#F7F5F0]/90 sm:text-lg">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#F7F5F0]/90 sm:text-xl">
               Ένα εγκαταλελειμμένο στρατόπεδο γίνεται τυροκομείο και οινοποιείο.
               Γύρω του έρχονται βοσκοί, αμπελουργοί, τεχνίτες και οικογένειες.
               Το χωριό ξαναγεμίζει με δουλειά.
             </p>
 
-            {/* Two buttons only — compact on mobile so both fit on one line above the bar */}
-            <div className="mt-5 sm:mt-6 flex flex-wrap items-center gap-2.5 sm:gap-4">
+            {/* Two buttons only */}
+            <div className="mt-5 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
               <a
                 href="#vima"
-                className="inline-flex items-center rounded-md bg-[#C89D54] px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold text-[#14191F] shadow-sm transition hover:bg-[#d8ae64] focus:outline-none focus:ring-2 focus:ring-[#C89D54]"
+                className="inline-flex items-center rounded-md bg-[#C89D54] px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold text-[#14191F] shadow-sm transition hover:bg-[#d8ae64] focus:outline-none focus:ring-2 focus:ring-[#C89D54]"
               >
                 Δες πώς γίνεται
               </a>
               <a
                 href="#contact-form"
-                className="inline-flex items-center rounded-md border border-[#F7F5F0]/70 bg-[#14191F]/40 px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-medium text-[#F7F5F0] backdrop-blur-sm transition hover:bg-[#F7F5F0]/15"
+                className="inline-flex items-center rounded-md border border-[#F7F5F0]/70 bg-[#14191F]/40 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-medium text-[#F7F5F0] backdrop-blur-sm transition hover:bg-[#F7F5F0]/15"
               >
                 Θέλω να συμμετάσχω
               </a>
@@ -577,7 +577,7 @@ export default function VrosinaClientApp() {
           </div>
 
           {/* Bottom caption */}
-          <div className="mt-5 sm:mt-6 border-t border-[#F7F5F0]/15 pt-3 text-[11px] sm:text-xs text-[#F7F5F0]/80">
+          <div className="mt-4 sm:mt-5 border-t border-[#F7F5F0]/15 pt-2.5 text-xs text-[#F7F5F0]/80">
             Φωτογραφία: Η Βροσίνα σήμερα (ExploringGreece.tv)
           </div>
         </div>
@@ -1706,44 +1706,11 @@ export default function VrosinaClientApp() {
         </div>
       </footer>
 
-      {/* Mobile Sticky Bottom Navigation Bar (4 διακριτά κουμπιά με κενό ανάμεσά τους ώστε να μην κολλάνε ποτέ) */}
-      <nav
-        aria-label="Κινητή Πλοήγηση"
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-sm border-t border-stone-300 shadow-lg px-1.5 py-1.5"
-      >
-        <div className="grid grid-cols-4 gap-1.5 text-center">
-          <a
-            href="/to-schedio"
-            className="py-2 px-1 rounded bg-[#F7F5F0] border border-stone-300 text-xs font-semibold text-[#14191F] truncate"
-          >
-            Σχέδιο
-          </a>
-          <a
-            href="/gia-ktinotrofous"
-            className="py-2 px-1 rounded bg-[#F7F5F0] border border-stone-300 text-xs font-semibold text-[#14191F] truncate"
-          >
-            Κτηνοτρόφοι
-          </a>
-          <a
-            href="/gia-epicheiriseis"
-            className="py-2 px-1 rounded bg-[#F7F5F0] border border-stone-300 text-xs font-semibold text-[#14191F] truncate"
-          >
-            Επιχειρήσεις
-          </a>
-          <a
-            href="#contact-form"
-            className="py-2 px-1 rounded bg-[#1F5C43] text-xs font-bold text-white truncate"
-          >
-            Επικοινωνία
-          </a>
-        </div>
-      </nav>
-
-      {/* Floating Back-to-Top Button (Μ6: Μικρό και διακριτικό πάνω από την κάτω μπάρα) */}
+      {/* Floating Back-to-Top Button */}
       <a
         href="#top"
         aria-label="Επιστροφή στην κορυφή της σελίδας"
-        className="fixed bottom-14 lg:bottom-5 right-3 z-30 px-2.5 py-1.5 rounded-full bg-[#14191f]/90 text-white text-xs font-semibold shadow border border-stone-600 hover:bg-[#174935] transition"
+        className="fixed bottom-4 right-4 z-30 px-2.5 py-1.5 rounded-full bg-[#14191f]/90 text-white text-xs font-semibold shadow border border-stone-600 hover:bg-[#174935] transition"
       >
         ↑ Πάνω
       </a>
