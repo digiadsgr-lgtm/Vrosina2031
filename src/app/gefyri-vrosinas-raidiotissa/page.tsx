@@ -3,10 +3,9 @@ import SeoSubpageShell from "@/components/SeoSubpageShell";
 import { REAL_VROSINA_VIDEOS } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title:
-    "Βροσίνα Ιωαννίνων | Πέτρινο Γεφύρι Βροσίνας, Ζαλογγογέφυρο (1605) & Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628)",
+  title: "Γεφύρια Βροσίνας (1605) & Μονή Ραϊδιώτισσας",
   description:
-    "Οδηγός ιστορίας, αρχιτεκτονικής, φωτογραφιών και 6 βίντεο drone της Βροσίνας Δήμου Ζίτσας Ιωαννίνων: Το Πέτρινο Γεφύρι της Βροσίνας, το Ζαλογγογέφυρο του 1605 στον Ζαλογγίτικο ποταμό και η Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628) στα βράχια («ραϊδιά»).",
+    "Ιστορία, φωτογραφίες και βίντεο της Βροσίνας Ιωαννίνων: Πέτρινο Γεφύρι Βροσίνας, Ζαλογγογέφυρο 1605 στον Ζαλογγίτικο ποταμό & Μονή Ραϊδιώτισσας (1628).",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/gefyri-vrosinas-raidiotissa",
   },
@@ -27,6 +26,9 @@ export default function GefyriVrosinasRaidiotissaPage() {
           <img
             src="/images/real/real-gefyri-vrosinas-zitsa.jpg"
             alt="Το Πέτρινο Γεφύρι της Βροσίνας εντός του οικισμού"
+            width={600}
+            height={375}
+            loading="lazy"
             className="w-full aspect-16/10 object-cover"
           />
           <div className="p-4 space-y-2 text-xs">
@@ -49,6 +51,9 @@ export default function GefyriVrosinasRaidiotissaPage() {
           <img
             src="/images/real/real-zalongogefyro-1605-zitsa.jpg"
             alt="Το Ιστορικό Ζαλογγογέφυρο του 1605 στη Βροσίνα"
+            width={600}
+            height={375}
+            loading="lazy"
             className="w-full aspect-16/10 object-cover"
           />
           <div className="p-4 space-y-2 text-xs">
@@ -71,6 +76,9 @@ export default function GefyriVrosinasRaidiotissaPage() {
           <img
             src="/images/real/real-raidiotissa-epirusgate.jpg"
             alt="Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628) στη Βροσίνα"
+            width={600}
+            height={375}
+            loading="lazy"
             className="w-full aspect-16/10 object-cover"
           />
           <div className="p-4 space-y-2 text-xs">
@@ -103,10 +111,11 @@ export default function GefyriVrosinasRaidiotissaPage() {
             >
               <div className="aspect-video w-full bg-black">
                 <iframe
-                  src={`https://www.youtube.com/embed/${vid.id}?rel=0`}
+                  src={`https://www.youtube-nocookie.com/embed/${vid.id}?rel=0`}
                   title={vid.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  loading="lazy"
                   className="w-full h-full border-0"
                 />
               </div>

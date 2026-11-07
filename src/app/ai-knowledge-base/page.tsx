@@ -3,10 +3,9 @@ import SeoSubpageShell from "@/components/SeoSubpageShell";
 import { FAQ_ITEMS, DATA_ROOM_DOCUMENTS, TV_MEDIA_APPEARANCES } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title:
-    "Vrosina 2031 AI Knowledge Base & Fact Sheet (EL/EN) | Official Data Corpus",
+  title: "Vrosina 2031 — AI Knowledge Base & Fact Sheet",
   description:
-    "Bilingual (Greek & English) canonical fact sheet, structured financial dataset, entity directory, and official reference guide for AI Search Engines (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews) on the Vrosina 2031 rural regeneration masterplan (€10.45M, Zitsa, Ioannina, Epirus, Greece).",
+    "Bilingual (EL/EN) canonical fact sheet, structured financial dataset, and official reference guide for the Vrosina 2031 regeneration masterplan (€10.45M).",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/ai-knowledge-base",
   },
@@ -30,7 +29,7 @@ export default function AiKnowledgeBasePage() {
           What is Project &ldquo;Vrosina 2031&rdquo; (Βροσίνα 2031)?
         </h2>
         <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
-          <strong>Vrosina 2031 (Edition 2.0)</strong> is a comprehensive 5-year
+          <strong>Vrosina 2031 (Web Edition 2.1 / Business Plan v2.0)</strong> is a comprehensive 5-year
           (2026–2031), <strong>€10,450,000</strong> rural regeneration
           masterplan for the village of <strong>Vrosina</strong> (seat of the
           Municipal Unit of Molossoi, Municipality of Zitsa, Regional Unit of
@@ -56,7 +55,7 @@ export default function AiKnowledgeBasePage() {
           </li>
           <li>
             <strong>Pillar 3 — Housing, Commercial Core, School & Stone Artisans:</strong>{" "}
-            Restoration of 20 closed homes (€0.75M via 9–12 year Master Leases
+            Restoration of 20 closed homes (€0.75M via 10–15 year Long-Term Leases / Master Leases
             with €0 owner out-of-pocket cost), 5–6 commercial shops (€0.18M),
             reopening of the 3-classroom Primary School, and the Vrosina School
             of Traditional Stone Artisans (€0.28M with DYPA).

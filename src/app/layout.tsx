@@ -1,21 +1,31 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { SEO_KEYWORDS_EXTENDED, FAQ_ITEMS, REAL_VROSINA_VIDEOS } from "@/data/vrosinaData";
 
+export const viewport: Viewport = {
+  themeColor: "#14191f",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://vrosina2031.vercel.app"),
   title: {
-    default:
-      "Βροσίνα 2031 | Πρότυπο Αναγέννησης Ορεινής Κοινότητας Ηπείρου — Επενδυτικό & Αναπτυξιακό Σχέδιο 10,45 εκ. €",
-    template: "%s | Βροσίνα 2031 (Vrosina 2031)",
+    default: "Βροσίνα 2031 — Σχέδιο Αναγέννησης Ορεινής Κοινότητας",
+    template: "%s | Βροσίνα 2031",
   },
   description:
-    "Ολοκληρωμένο Επιχειρησιακό & Επενδυτικό Σχέδιο Αναγέννησης της Βροσίνας Δήμου Ζίτσας Ιωαννίνων (2026–2031). Μετατροπή του πρώην Στρατοπέδου Παπακωνσταντίνου (13.695 τ.μ.) σε Αγροδιατροφικό Κέντρο, έως 80% επιδοτήσεις (Αναπτυξιακός Ν. 4887/2022, LEADER ΗΠΕΙΡΟΣ Α.Ε.), Καταστατική Ασπίδα ΚΟΙΝΣΕΠ & Ταμείο Ευεργετών Βροσίνας (ΑΜΚΕ).",
+    "Επενδυτικό σχέδιο 10,45 εκ. € στη Βροσίνα Ιωαννίνων: Στρατόπεδο 13.695 τ.μ., κατοικία, παραγωγή, ΚΟΙΝΣΕΠ & επιδοτήσεις έως 75%.",
   keywords: SEO_KEYWORDS_EXTENDED,
-  authors: [{ name: "Πρωτοβουλία Βροσίνα 2031 — ΚΟΙΝΣΕΠ Βροσίνας" }],
+  authors: [{ name: "Πρωτοβουλία Βροσίνα 2031 — ΚΟΙΝΣΕΠ Βροσίνας (υπό σύσταση)" }],
   creator: "Πρωτοβουλία Βροσίνα 2031",
-  publisher: "ΚΟΙΝΣΕΠ Βροσίνα 2031 & Ταμείο Ευεργετών Βροσίνας",
+  publisher: "Πρωτοβουλία Βροσίνα 2031 & Ταμείο Ευεργετών Βροσίνας",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   alternates: {
     canonical: "https://vrosina2031.vercel.app/",
     languages: {
@@ -29,9 +39,9 @@ export const metadata: Metadata = {
     url: "https://vrosina2031.vercel.app/",
     siteName: "ΒΡΟΣΙΝΑ 2031 | Vrosina 2031 Masterplan",
     title:
-      "ΒΡΟΣΙΝΑ 2031 | Ολοκληρωμένο Σχέδιο Αναγέννησης — Επένδυση 10,45 εκ. € & Επιδότηση έως 80%",
+      "ΒΡΟΣΙΝΑ 2031 | Ολοκληρωμένο Σχέδιο Αναγέννησης — Επένδυση 10,45 εκ. €",
     description:
-      "Αυτοψία πεδίου στο πρώην Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.), τηλεοπτικές παρουσιάσεις, 8 drone & πεδίου βίντεο, Data Room 13 εγγράφων και επενδυτικός οδηγός (LEADER & Αναπτυξιακός Νόμος).",
+      "Αυτοψία πεδίου στο πρώην Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.), τηλεοπτικές παρουσιάσεις, βίντεο πεδίου, Data Room 11 εγγράφων και επενδυτικός οδηγός (LEADER & Αναπτυξιακός Νόμος έως 75%).",
     images: [
       {
         url: "https://vrosina2031.vercel.app/images/og-vrosina2031.jpg",
@@ -45,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ΒΡΟΣΙΝΑ 2031 | Ολοκληρωμένο Σχέδιο Αναγέννησης Ηπείρου (10,45 εκ. €)",
+    title: "ΒΡΟΣΙΝΑ 2031 | Σχέδιο Αναγέννησης Ορεινής Κοινότητας (10,45 εκ. €)",
     description:
-      "Στρατόπεδο Παπακωνσταντίνου 13.695 τ.μ., LEADER & Αναπτυξιακός Νόμος έως 80%, Ταμείο Ευεργετών ΑΜΚΕ, Γεφύρι Βροσίνας & Μονή Ραϊδιώτισσας.",
+      "Στρατόπεδο Παπακωνσταντίνου 13.695 τ.μ., LEADER & Αναπτυξιακός Νόμος έως 75%, Ταμείο Ευεργετών ΑΜΚΕ, Γεφύρι Βροσίνας & Μονή Ραϊδιώτισσας.",
     images: ["https://vrosina2031.vercel.app/images/og-vrosina2031.jpg"],
   },
   robots: {

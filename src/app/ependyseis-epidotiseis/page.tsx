@@ -10,10 +10,9 @@ import {
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title:
-    "Επενδύσεις στην Ήπειρο (Επιδότηση έως 75%), Δημοσιονομικό Όφελος (463.700 €/έτος) & ΑΜΚΕ Ευεργετών | Βροσίνα 2031",
+  title: "Επενδύσεις, Επιδοτήσεις έως 75% & Δημόσιο",
   description:
-    "Οδηγός επενδύσεων, επιδοτήσεων (Αναπτυξιακός Νόμος 4887/2022 έως 75%, LEADER ΗΠΕΙΡΟΣ Α.Ε.), μελέτη «Τι Κερδίζει το Δημόσιο (463.700 €/έτος)», φοροαπαλλασσόμενες χορηγίες, Ονοματοδοσία (Naming Rights) και ESG Impact στο πρότυπο έργο «Βροσίνα 2031» (10,45 εκ. €).",
+    "Επενδύσεις στη Βροσίνα Ιωαννίνων (Αναπτυξιακός Νόμος έως 75%, LEADER), μελέτη «Τι Κερδίζει το Δημόσιο (463.700 €/έτος)» & Ταμείο Ευεργετών ΑΜΚΕ.",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/ependyseis-epidotiseis",
   },
@@ -98,7 +97,7 @@ export default function EpendyseisEpidotiseisPage() {
               Ανάπτυξη ξενώνων 3–5 δωματίων (συνολικό CAPEX 1,00 εκ. €) με
               επιδότηση 65%–80% μέσω LEADER ΗΠΕΙΡΟΣ Α.Ε. (1η Πρόσκληση
               545/07-10-2026, προθεσμία 4 Φεβρουαρίου 2027) και μηδενικό κόστος
-              αγοράς ακινήτου μέσω Master Lease 9–12 ετών.
+              αγοράς ακινήτου μέσω Μακροχρόνιας Μίσθωσης (Master Lease) 10–15 ετών.
             </p>
           </div>
 
@@ -241,7 +240,7 @@ export default function EpendyseisEpidotiseisPage() {
                 <div className="font-serif font-bold text-sm text-[#14191f]">
                   #{f.num} · {f.toolName}
                 </div>
-                <div className="font-mono text-[11px] text-stone-500">
+                <div className="font-mono text-xs text-stone-500">
                   {f.legalRef}
                 </div>
               </div>

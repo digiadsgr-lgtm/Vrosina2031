@@ -27,15 +27,19 @@ import {
   FOURTEEN_FUNDING_TOOLS_DOC,
   KOINSEP_MASTER_GUIDE,
   PUBLIC_FISCAL_BENEFIT_STUDY,
+  ABOUT_US_AND_STATUS,
+  BUSINESS_THREE_PATHS,
+  INVESTOR_RISK_AND_USE_OF_FUNDS,
+  WHAT_WE_DO_NOT_ASK_STATE,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
   // Mobile navigation drawer state
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-  // Hero interactive role tab ("Τι σημαίνει για εσάς σε 30''") & Hero media mode
+  // Hero interactive role tab ("Ποιος είστε;") & Hero media mode
   const [heroRoleTab, setHeroRoleTab] = useState<
-    "owner" | "investor" | "producer" | "citizen"
+    "owner" | "business" | "investor" | "citizen"
   >("owner");
   const [heroMediaView, setHeroMediaView] = useState<
     "map" | "tv1" | "tv2" | "camp"
@@ -47,10 +51,20 @@ export default function VrosinaClientApp() {
     MASTERPLAN_HOTSPOTS[1]?.id || "agrofood-camp"
   );
 
-  // Progressive disclosure states to prevent mobile scroll fatigue while keeping all content 1-click accessible
+  // Progressive disclosure states
   const [showAllVideos, setShowAllVideos] = useState<boolean>(false);
-  const [showAllDataRoom, setShowAllDataRoom] = useState<boolean>(false);
+  const [showAllDataRoom, setShowAllDataRoom] = useState<boolean>(true);
   const engagedTrackedRef = useRef<boolean>(false);
+
+  // Click-to-load YouTube No-Cookie consent state per video ID (Audit #12 & #32)
+  const [consentedVideos, setConsentedVideos] = useState<Record<string, boolean>>({});
+  const enableVideoEmbed = (videoId: string) => {
+    setConsentedVideos((prev) => ({ ...prev, [videoId]: true }));
+  };
+
+  // Privacy Policy Modal & GDPR Consent Checkbox state (Audit #16 & #32)
+  const [privacyModalOpen, setPrivacyModalOpen] = useState<boolean>(false);
+  const [gdprAccepted, setGdprAccepted] = useState<boolean>(false);
 
   const registerEngagement = (
     action: string,
@@ -59,10 +73,8 @@ export default function VrosinaClientApp() {
   ) => {
     try {
       track(action, { section: sectionSlug, label: label || "" });
-      if (typeof window !== "undefined") {
-        const url = new URL(window.location.href);
-        url.searchParams.set("section", sectionSlug);
-        window.history.pushState({ section: sectionSlug }, "", url.toString());
+      if (typeof window !== "undefined" && sectionSlug.startsWith("#")) {
+        window.history.replaceState(null, "", sectionSlug);
       }
     } catch {
       // ignore analytics errors
@@ -104,7 +116,7 @@ export default function VrosinaClientApp() {
   // Housing Calculator state
   const [selectedHousingIdx, setSelectedHousingIdx] = useState<number>(1); // Category B default
 
-  // Mega-Guides state (Zero-Capital Herder 5-Step Guide & Morphological / Urban Planning Guide)
+  // Practical Guides state (Zero-Capital Herder 5-Step Guide & Morphological / Urban Planning Guide)
   const [activeMegaGuideTab, setActiveMegaGuideTab] = useState<
     "herder" | "morphology"
   >("herder");
@@ -116,9 +128,9 @@ export default function VrosinaClientApp() {
   >("fiscal");
   const [selectedPlaybookIdx, setSelectedPlaybookIdx] = useState<number>(0);
 
-  // Participation / Lead Modal & Form state (delivers to digiadsgr@gmail.com with exact origin tracking)
+  // Participation / Lead Modal & Form state (default empty role per Audit Μέρος Β #3)
   const [leadModalOpen, setLeadModalOpen] = useState<boolean>(false);
-  const [leadRole, setLeadRole] = useState<string>("investor");
+  const [leadRole, setLeadRole] = useState<string>("");
   const [leadOrigin, setLeadOrigin] = useState<string>(
     "Κεντρική Σελίδα — Γενική Φόρμα Συμμετοχής"
   );
@@ -132,15 +144,23 @@ export default function VrosinaClientApp() {
   const [leadSubmitting, setLeadSubmitting] = useState<boolean>(false);
   const [leadSubmitted, setLeadSubmitted] = useState<boolean>(false);
   const [inlineSubmitted, setInlineSubmitted] = useState<boolean>(false);
+  const [deliveryChannelStatus, setDeliveryChannelStatus] = useState<
+    "server_ok" | "saved_local"
+  >("server_ok");
 
   const ROLE_LABELS: Record<string, string> = {
+    producer:
+      "Είμαι κτηνοτρόφος / αμπελουργός ή θέλω να γίνω νέος παραγωγός / τεχνίτης πέτρας",
+    owner:
+      "Έχω κλειστό σπίτι, κατάστημα ή γη στη Βροσίνα (Ανακαίνιση με Μακροχρόνια Μίσθωση)",
+    business:
+      "Θέλω να ανοίξω επιχείρηση (ξενώνα / κατάστημα) ή να αναλάβω έργο (εργολάβος / προμηθευτής)",
     investor:
-      "Στρατηγικός Επενδυτής / Family Office / Εταιρεία (35%–40% ή LEADER)",
+      "Θέλω να επενδύσω (Στρατηγικός Εταίρος Τυροκομείου / Οινοποιείου / Αγροτουρισμού)",
     benefactor:
-      "Μεγάλος Ευεργέτης / Χορηγός Ονοματοδοσίας (ΑΜΚΕ Ταμείο Ευεργετών)",
-    institutional: "Θεσμικός / Πολιτικός Φορέας / Αυτοδιοίκηση",
-    owner: "Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα",
-    producer: "Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας",
+      "Θέλω να κάνω Δωρεά / Χορηγία Ονοματοδοσίας (Ταμείο Ευεργετών Βροσίνας)",
+    institutional:
+      "Είμαι εκπρόσωπος Φορέα / Δήμου / Πολιτείας / ΜΜΕ",
   };
 
   useEffect(() => {
@@ -148,8 +168,18 @@ export default function VrosinaClientApp() {
       const params = new URLSearchParams(window.location.search);
       const src = params.get("source");
       const roleParam = params.get("role");
+      // Clean up any stale ?section=explore-masterplan param from shared URLs (Audit Μέρος Β #4)
+      if (params.get("section") === "explore-masterplan") {
+        params.delete("section");
+        const cleanQuery = params.toString();
+        window.history.replaceState(
+          null,
+          "",
+          window.location.pathname + (cleanQuery ? `?${cleanQuery}` : "") + window.location.hash
+        );
+      }
       if (src) {
-        setLeadOrigin(`Θεματική Υποσελίδα SEO: ${src}`);
+        setLeadOrigin(`Θεματική Υποσελίδα: ${src}`);
         setLeadContextDetails(`Προέλευση από υποσελίδα: ${src}`);
       }
       if (roleParam && ROLE_LABELS[roleParam]) {
@@ -160,7 +190,11 @@ export default function VrosinaClientApp() {
         if (engagedTrackedRef.current) return;
         if (window.scrollY > 380) {
           engagedTrackedRef.current = true;
-          registerEngagement("engaged_scroll", "explore-masterplan", "Scroll > 380px");
+          try {
+            track("engaged_scroll", { section: "main-page", label: "Scroll > 380px" });
+          } catch {
+            // ignore
+          }
         }
       };
       window.addEventListener("scroll", handleScrollEngage, { passive: true });
@@ -178,12 +212,12 @@ export default function VrosinaClientApp() {
     setLeadContextDetails(contextInfo);
     setLeadSubmitted(false);
     setLeadModalOpen(true);
-    registerEngagement("open_lead_modal", `form-${role}`, originLabel);
+    registerEngagement("open_lead_modal", `form-${role || "general"}`, originLabel);
   };
 
   const buildMailtoHref = (originOverride?: string) => {
     const finalOrigin = originOverride || leadOrigin;
-    const roleLabel = ROLE_LABELS[leadRole] || leadRole;
+    const roleLabel = ROLE_LABELS[leadRole] || leadRole || "Γενικό Ενδιαφέρον";
     const subject = encodeURIComponent(
       `[ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${finalOrigin} (${leadName || "Νέο Αίτημα"})`
     );
@@ -210,7 +244,7 @@ export default function VrosinaClientApp() {
   ) => {
     e.preventDefault();
     const finalOrigin = originOverride || leadOrigin;
-    const roleLabel = ROLE_LABELS[leadRole] || leadRole;
+    const roleLabel = ROLE_LABELS[leadRole] || leadRole || "Γενικό Ενδιαφέρον";
     setLeadSubmitting(true);
 
     const pageUrl =
@@ -222,6 +256,17 @@ export default function VrosinaClientApp() {
         ? document.referrer || "Απευθείας Επίσκεψη (Direct)"
         : "Direct";
 
+    let utmSummary = "";
+    if (typeof window !== "undefined") {
+      const p = new URLSearchParams(window.location.search);
+      const utmSource = p.get("utm_source") || "";
+      const utmMedium = p.get("utm_medium") || "";
+      const utmCampaign = p.get("utm_campaign") || "";
+      if (utmSource || utmMedium || utmCampaign) {
+        utmSummary = `utm_source=${utmSource} | utm_medium=${utmMedium} | utm_campaign=${utmCampaign}`;
+      }
+    }
+
     const payload = {
       name: leadName,
       email: leadEmail,
@@ -230,12 +275,15 @@ export default function VrosinaClientApp() {
       origin: finalOrigin,
       pageUrl,
       referrer,
+      utmSummary,
       contextDetails: leadContextDetails,
       message: leadMessage || "(Χωρίς επιπλέον μήνυμα)",
+      gdprConsent: "ΝΑΙ (Επιβεβαιωμένη Συγκατάθεση ΓΚΠΔ/GDPR)",
       "01_Έργο": "ΒΡΟΣΙΝΑ 2031 (vrosina2031.vercel.app)",
       "02_Πηγή_Φόρμας_Ενότητα": finalOrigin,
       "03_Σελίδα_URL": pageUrl,
       "04_Referrer": referrer,
+      "04β_UTM_Καμπάνια": utmSummary || "—",
       "05_Κατηγορία_Ενδιαφέροντος": roleLabel,
       "06_Ονοματεπώνυμο_ή_Φορέας": leadName,
       "07_Τηλέφωνο_Επικοινωνίας": leadPhone,
@@ -245,7 +293,16 @@ export default function VrosinaClientApp() {
       "11_Ημερομηνία_Ώρα": new Date().toLocaleString("el-GR"),
     };
 
-    // 1. Save backup in browser localStorage so 0 leads are ever lost
+    try {
+      track("lead_form_submit", {
+        role: leadRole || "unspecified",
+        origin: finalOrigin,
+      });
+    } catch {
+      // ignore analytics error
+    }
+
+    // 1. Save backup in browser localStorage
     try {
       if (typeof window !== "undefined") {
         const existing = JSON.parse(
@@ -262,7 +319,7 @@ export default function VrosinaClientApp() {
     }
 
     // 2. Primary Channel: Direct Google SMTP via /api/lead (digiadsgr@gmail.com)
-    let deliveredViaSmtp = false;
+    let deliveredServer = false;
     try {
       const smtpRes = await fetch("/api/lead", {
         method: "POST",
@@ -270,32 +327,36 @@ export default function VrosinaClientApp() {
         body: JSON.stringify(payload),
       });
       const smtpData = await smtpRes.json().catch(() => ({}));
-      if (smtpRes.ok && smtpData.smtpSent) {
-        deliveredViaSmtp = true;
+      if (smtpRes.ok && (smtpData.smtpSent || smtpData.ok)) {
+        deliveredServer = true;
       }
     } catch {
-      deliveredViaSmtp = false;
+      deliveredServer = false;
     }
 
-    // 3. Redundant Client Fallback: Central DIGIADS Lead Endpoint (Zero client secrets)
-    if (!deliveredViaSmtp) {
+    // 3. Redundant Client Fallback: Central DIGIADS Lead Endpoint
+    if (!deliveredServer) {
       try {
-        await fetch("https://www.digiads.gr/api/send-lead", {
+        const fallbackRes = await fetch("https://www.digiads.gr/api/send-lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: `${leadName} [ΒΡΟΣΙΝΑ 2031]`,
             email: leadEmail,
             phone: leadPhone,
-            service: `🎯 [ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${finalOrigin}`,
-            chatSummary: `Πηγή: ${finalOrigin}\nΣτοιχεία Ενότητας: ${leadContextDetails}\nΜήνυμα: ${leadMessage || "—"}\nΣελίδα: ${pageUrl}`,
+            service: `[ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${finalOrigin}`,
+            chatSummary: `Πηγή: ${finalOrigin}\nΣτοιχεία Ενότητας: ${leadContextDetails}\nUTM: ${utmSummary || "—"}\nΜήνυμα: ${leadMessage || "—"}\nΣελίδα: ${pageUrl}`,
           }),
         });
+        if (fallbackRes.ok) {
+          deliveredServer = true;
+        }
       } catch {
         // ignore network error
       }
     }
 
+    setDeliveryChannelStatus(deliveredServer ? "server_ok" : "saved_local");
     setLeadSubmitting(false);
     if (isInlineForm) {
       setInlineSubmitted(true);
@@ -341,32 +402,46 @@ export default function VrosinaClientApp() {
     [selectedStakeholderId]
   );
 
-  // Verified Investor Leverage Computation (cross-checked against Business Plan v2.0 Ch. 8, 10, 11, 12)
+  // Realistic Investor Simulation (Audit Μέρος Α #1, #27 & Μέρος Β Page 3)
+  //Separates subsidiary net distributable profit (after depreciation, tax 22%, and 15% community dividend) from ecosystem-wide gross EBITDA
   const investorSimulation = useMemo(() => {
     if (investorTrack === "strategic") {
-      const totalProjectCapex = Math.round(investmentAmount / 0.25);
-      const stateGrant = totalProjectCapex - investmentAmount;
-      const estimatedAnnualEbitdaShare = Math.round(
-        activeScenario.ebitdaMidpoint * 0.35
+      // Subsidiary CAPEX (Dairy 1.65M + Winery 1.00M = 2.65M €). With ~60% average effective grant rate, private equity + loan is ~1.06M €.
+      const totalProjectCapex = Math.round(investmentAmount / 0.35);
+      const stateGrant = Math.round(totalProjectCapex * 0.6);
+      // Subsidiary represents ~68% of ecosystem EBITDA; after depreciation (~95k), corporate tax (22%) and 15% statutory community dividend, net distributable profit is ~32% of ecosystem EBITDA:
+      const subsidiaryNetDistributable = Math.round(
+        activeScenario.ebitdaMidpoint * 0.32
+      );
+      const investorSharePct = Math.min(
+        0.4,
+        Math.max(0.15, (investmentAmount / 375000) * 0.35)
+      );
+      const estimatedAnnualNetDividend = Math.round(
+        subsidiaryNetDistributable * investorSharePct
       );
       const paybackYears = (
-        investmentAmount / Math.max(estimatedAnnualEbitdaShare, 1)
-      ).toFixed(1);
+        investmentAmount / Math.max(estimatedAnnualNetDividend, 1)
+      )
+        .toFixed(1)
+        .replace(".", ",");
       return {
-        title: "Στρατηγικός Εταίρος Αγροδιατροφής (έως 35%–40% Θυγατρικής)",
+        title: "Στρατηγικός Εταίρος Αγροδιατροφής (έως 35%–40% Εμπορικής Θυγατρικής)",
         subtitle:
-          "Συμμετοχή στο Τυροκομείο ΠΟΠ (1,65 εκ. €) & στο Οινοποιείο Ντεμπίνας (1,00 εκ. €) στο πρώην Στρατόπεδο Παπακωνσταντίνου",
-        grantRateLabel: "Έως 75% (Αναπτυξιακός Ν. 4887/2022 + ΚΑΠ / LEADER)",
+          "Συμμετοχή στο Τυροκομείο ΠΟΠ (1,65 εκ. €) & στο Οινοποιείο Ντεμπίνας (1,00 εκ. €) στο πρώην Στρατόπεδο Παπακωνσταντίνου (Ενδεικτική Προσομοίωση Προκαταρκτικού Μοντέλου)",
+        grantRateLabel:
+          "Στόχος Ενίσχυσης 50%–75% (Π3-73-4.2 ΣΣ ΚΑΠ / Αναπτυξιακός Ν. 4887/2022)",
         mobilizedCapex: totalProjectCapex,
         publicGrant: stateGrant,
-        annualBenefitLabel: "Εκτιμώμενο Μερίδιο Λειτουργικών Κερδών (35% EBITDA)",
-        annualBenefitValue: `${estimatedAnnualEbitdaShare.toLocaleString("el-GR")} € / έτος`,
-        paybackLabel: `Εκτιμώμενη Απόσβεση Ιδίων Κεφαλαίων: ~${paybackYears} έτη + 100% Εγγυημένο Off-Take ΠΟΠ/ΠΓΕ`,
+        annualBenefitLabel:
+          "Εκτιμώμενο Καθαρό Διανεμητέο Μέρισμα Εταίρου (μετά φόρων 22%, αποσβέσεων & 15% κοινωνικού μερίσματος)",
+        annualBenefitValue: `~${estimatedAnnualNetDividend.toLocaleString("el-GR")} € / έτος`,
+        paybackLabel: `Εκτιμώμενη Απόσβεση Ιδίων Κεφαλαίων: ~${paybackYears} έτη (σε πλήρη λειτουργία) + Σύμβαση Απορρόφησης ΠΟΠ/ΠΓΕ`,
         perks: [
-          "Μόχλευση 1 € Ιδιωτικό → 2,70 € Επένδυση (έως 75% επιδότηση στις παραγωγικές μονάδες μέσω Ν. 4887/2022).",
-          "Εγγυοδοσία Ελληνικής Αναπτυξιακής Τράπεζας (HDB) έως 80% για τον τραπεζικό δανεισμό.",
-          "Σύμβαση αποκλειστικής απορρόφησης (Off-Take Agreement) εκλεκτής Φέτας ΠΟΠ & Ντεμπίνας.",
-          "Θεσμική συνιδιοκτησία με τον Δήμο Ζίτσας (20%) και τον Συνεταιρισμό Παραγωγών (30%).",
+          "Μόχλευση Κεφαλαίου: Κάθε 1 € ιδιωτικού κεφαλαίου συμπληρώνεται από 1,70 € δημόσιων/ευρωπαϊκών πόρων (συνολικά 2,70 € επένδυσης στο οικοσύστημα).",
+          "Δυνατότητα τραπεζικού δανεισμού μέσω Ταμείου Εγγυοδοσίας HDB / ΤΕΠΙΧ ΙΙΙ (υπό την αίρεση τραπεζικής αξιολόγησης).",
+          "Πολυετής σύμβαση εμπορικής διάθεσης εκλεκτής Φέτας ΠΟΠ, Γαλοτυριού ΠΟΠ & Ντεμπίνας.",
+          "Θεσμική συνιδιοκτησία με τον Συνεταιρισμό/Κοιν.Σ.Επ. (30%), τον Δήμο Ζίτσας (έως 20%) και το Ταμείο Ευεργετών (15%).",
         ],
       };
     }
@@ -374,161 +449,162 @@ export default function VrosinaClientApp() {
     if (investorTrack === "agrotourism") {
       const totalProjectCapex = Math.round(investmentAmount / 0.3);
       const stateGrant = totalProjectCapex - investmentAmount;
-      const annualNetIncome = Math.round(totalProjectCapex * 0.14);
+      const annualNetIncome = Math.round(totalProjectCapex * 0.085);
       const paybackYears = (
         investmentAmount / Math.max(annualNetIncome, 1)
-      ).toFixed(1);
+      )
+        .toFixed(1)
+        .replace(".", ",");
       return {
-        title: "Επενδυτής Ξενώνων 4 Εποχών & Εμπορικού Πυρήνα (LEADER)",
+        title: "Επενδυτής Ξενώνων 4 Εποχών & Εμπορικού Πυρήνα (LEADER / Αναπτυξιακός)",
         subtitle:
-          "Ανάπτυξη 10 Παραδοσιακών Ξενώνων (40 κλίνες συνολικά, 1,00 εκ. €) & 5–6 Χώρων Εστίασης/Πωλητηρίου (180 χιλ. €)",
-        grantRateLabel: "65% έως 80% (Πρόγραμμα LEADER ΗΠΕΙΡΟΣ Α.Ε. & ΕΣΠΑ)",
+          "Ανάπτυξη 10 Παραδοσιακών Ξενώνων (40 κλίνες συνολικά, 1,00 εκ. €) & 5 Χώρων Εστίασης/Πωλητηρίου (180 χιλ. €)",
+        grantRateLabel: "Στόχος Ενίσχυσης 65% έως 80% (Πρόγραμμα LEADER ΗΠΕΙΡΟΣ Α.Ε. & Αναπτυξιακός)",
         mobilizedCapex: totalProjectCapex,
         publicGrant: stateGrant,
-        annualBenefitLabel: "Εκτιμώμενο Ετήσιο Καθαρό Εισόδημα Εκμετάλλευσης",
-        annualBenefitValue: `${annualNetIncome.toLocaleString("el-GR")} € / έτος`,
-        paybackLabel: `Εκτιμώμενη Απόσβεση Ιδίων Κεφαλαίων: ~${paybackYears} έτη (Συντηρητική–Αισιόδοξη Πληρότητα 14%–35%)`,
+        annualBenefitLabel: "Εκτιμώμενο Ετήσιο Καθαρό Αποτέλεσμα Εκμετάλλευσης (μετά φόρων & συντήρησης)",
+        annualBenefitValue: `~${annualNetIncome.toLocaleString("el-GR")} € / έτος`,
+        paybackLabel: `Εκτιμώμενη Απόσβεση Ιδίων Κεφαλαίων: ~${paybackYears} έτη (Πληρότητα βασικού σεναρίου 25% — 280 διανυκτερεύσεις/ξενώνα)`,
         perks: [
-          "Επιδότηση έως 80% μέσω της 1ης Πρόσκλησης LEADER (545/07-10-2026) και των επόμενων προκηρύξεων.",
-          "Μηδενικό κόστος αγοράς ακινήτου μέσω μακροχρόνιου Master Lease (9–12 έτη) από το Μητρώο Κλειστών Κατοικιών.",
-          "Έτοιμη ροή 6.000–15.000 επισκεπτών/έτος από το Αγροδιατροφικό Κέντρο, το Γεφύρι 1605 και τη Μονή Ραϊδιώτισσας.",
+          "Στόχος επιδότησης 65%–80% μέσω των προσκλήσεων LEADER και του Αναπτυξιακού Νόμου (με τίτλο ιδιοκτησίας ή μίσθωση ≥10–15 ετών).",
+          "Μηδενικό κόστος αγοράς ακινήτου μέσω μακροχρόνιας μίσθωσης (10–15 έτη) από το Μητρώο Κλειστών Κατοικιών.",
+          "Συνέργεια με τους 6.000–15.000 επισκέπτες/έτος από το Αγροδιατροφικό Κέντρο, το Γεφύρι 1605 και τη Μονή Ραϊδιώτισσας.",
           "Μειωμένο ενεργειακό κόστος μέσω της Ενεργειακής Κοινότητας Βροσίνας (150 kWp).",
         ],
       };
     }
 
     if (investorTrack === "benefactor") {
-      const coTriggeredPublicFunds = Math.round(investmentAmount * 3.2);
+      const coTriggeredPublicFunds = Math.round(investmentAmount * 1.7);
       const taxDeductionEstimate = Math.round(investmentAmount * 0.22);
       return {
-        title: "Μεγάλος Ευεργέτης / Ονοματοδοσία & Εταιρικό ESG («Ταμείο Ευεργετών Βροσίνας» ΑΜΚΕ)",
+        title: "Μεγάλος Ευεργέτης / Τιμητική Ονοματοδοσία & ΕΚΕ («Ταμείο Ευεργετών Βροσίνας» ΑΜΚΕ)",
         subtitle:
-          "100% Νόμιμη, Διαφανής Φοροαπαλλασσόμενη Χορηγία / Δωρεά με Εθνικό Κύρος & Θεσμικές Διασυνδέσεις",
-        grantRateLabel: "Ξεκλείδωμα 3,2x Δημόσιων Πόρων (Κάλυψη Ιδίας Συμμετοχής Έργων)",
+          "Διαφανής Δωρεά / Χορηγία Ειδικού Σκοπού με Δικαίωμα Ονοματοδοσίας Έργου & Απολογισμό Αντικτύπου",
+        grantRateLabel: "Μόχλευση 1 € Ιδιωτικής Δωρεάς → +1,70 € Δημόσιων/Ευρωπαϊκών Πόρων (2,70 € Έργου)",
         mobilizedCapex: investmentAmount + coTriggeredPublicFunds,
         publicGrant: coTriggeredPublicFunds,
-        annualBenefitLabel: "Άμεσο Φορολογικό Όφελος (ΚΦΕ Ν. 4172/2013 Άρθρα 19 & 22Α)",
-        annualBenefitValue: `Έως ${taxDeductionEstimate.toLocaleString("el-GR")} € έκπτωση φόρου`,
+        annualBenefitLabel: "Ενδεικτική Φορολογική Έκπτωση (ΚΦΕ Ν. 4172/2013 Άρθρα 19 & 22Α, υπό προϋποθέσεις)",
+        annualBenefitValue: `Έως ~${taxDeductionEstimate.toLocaleString("el-GR")} € φορολογικό όφελος`,
         paybackLabel:
-          "Ισόβια Ονοματοδοσία (Naming Rights) + Πιστοποιημένο Αποτύπωμα ESG + Θεσμική Αναγνώριση",
+          "Τιμητική Ονοματοδοσία Έργου + Ετήσιος Απολογισμός Κοινωνικού Αντικτύπου",
         perks: [
-          "Ονοματοδοσία (Naming Rights) σε έργα-σύμβολα: Δημοτικό Σχολείο, Κελάρι Παλαίωσης, Παραποτάμιο Μονοπάτι 1605 ή Σχολή Πετράδων.",
-          "Πλήρης φορολογική αναγνώριση δωρεάς/χορηγίας μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας» με έλεγχο ορκωτού λογιστή.",
-          "Θεσμική συν-παρουσία με Υπουργεία (ΥΠΕΘΑ, ΥΠΑΑΤ), Προεδρία Κυβέρνησης (Ειδική Γραμματεία Ορεινών Περιοχών) & Περιφέρεια Ηπείρου.",
-          "Συνέχιση της ιστορικής παράδοσης των Μεγάλων Ηπειρωτών Ευεργετών σε ένα πρότυπο εθνικής εμβέλειας.",
+          "Δικαίωμα Ονοματοδοσίας σε έργα-σύμβολα: Δημοτικό Σχολείο, Κελάρι Παλαίωσης, Παραποτάμιο Μονοπάτι 1605 ή Σχολή Πετράδων.",
+          "Δέσμευση του ποσού σε ειδικό λογαριασμό έργου της υπό σύσταση ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας» με έλεγχο παραστατικών.",
+          "Φορολογική μεταχείριση δωρεάς/χορηγίας σύμφωνα με την ισχύουσα νομοθεσία (κατόπιν εξατομικευμένου φορολογικού ελέγχου).",
+          "Συνέχιση της ιστορικής παράδοσης των Ηπειρωτών Ευεργετών με μετρήσιμο δημογραφικό αποτύπωμα.",
         ],
       };
     }
 
-    const totalProjectCapex = Math.round(investmentAmount * 2.8);
+    const totalProjectCapex = Math.round(investmentAmount * 2.7);
     const stateGrant = totalProjectCapex - investmentAmount;
-    const annualDividend = Math.round(investmentAmount * 0.11);
+    const annualDividend = Math.round(investmentAmount * 0.08);
+    const paybackYears = (
+      investmentAmount / Math.max(annualDividend, 1)
+    )
+      .toFixed(1)
+      .replace(".", ",");
     return {
-      title: "Επενδυτής Διασποράς & Family Office (Μερίδιο 15% + Γέφυρα Ρευστότητας)",
+      title: "Επενδυτής Διασποράς & Συμμετοχικό Κεφάλαιο (Μερίδιο 15% + Γέφυρα Ρευστότητας)",
       subtitle:
-        "Συν-επένδυση στο μετοχικό κεφάλαιο και χρηματοδότηση-γέφυρα (Bridge Finance) έναντι εγκεκριμένων επιδοτήσεων",
-      grantRateLabel: "Μόχλευση 2,8x + Εξασφάλιση έναντι Εγκεκριμένων Επιδοτήσεων",
+        "Συν-επένδυση στο εταιρικό κεφάλαιο και χρηματοδότηση-γέφυρα έναντι εγκεκριμένων επιδοτήσεων",
+      grantRateLabel: "Μόχλευση 1 € → 2,70 € Συνολικής Επένδυσης",
       mobilizedCapex: totalProjectCapex,
       publicGrant: stateGrant,
-      annualBenefitLabel: "Εκτιμώμενη Ετήσια Απόδοση Μερίσματος & Κεφαλαίου",
-      annualBenefitValue: `~${annualDividend.toLocaleString("el-GR")} € / έτος (9%–12%)`,
-      paybackLabel:
-        "Θεσμική Συμμετοχή στο Εποπτικό Συμβούλιο + Δικαίωμα Πρώτης Προτίμησης σε Νέα Έργα",
+      annualBenefitLabel: "Εκτιμώμενη Ετήσια Απόδοση Μερίσματος (σε πλήρη λειτουργία)",
+      annualBenefitValue: `~${annualDividend.toLocaleString("el-GR")} € / έτος (~7%–9%)`,
+      paybackLabel: `Εκτιμώμενη Απόσβεση: ~${paybackYears} έτη + Συμμετοχή στο Εποπτικό Συμβούλιο`,
       perks: [
-        "Επένδυση με πραγματικό αντίκρισμα σε γη, κτίρια, παραγωγή ΠΟΠ και τουριστικές υποδομές στην Ήπειρο.",
-        "Πλήρης νομική προστασία μειοψηφίας μέσω του Καταστατικού της ΚΟΙΝΣΕΠ και της Θυγατρικής.",
-        "Ετήσια έκθεση αντικτύπου (Impact Report) με μετρήσιμους δείκτες δημογραφικής και οικονομικής αναγέννησης.",
-        "Δυνατότητα συνδυασμού μετοχικής συμμετοχής με ανακαίνιση οικογενειακού ακινήτου στη Βροσίνα.",
+        "Επένδυση με πραγματικό αντίκρισμα σε παραγωγή ΠΟΠ και τουριστικές υποδομές στην Ήπειρο.",
+        "Πλήρης νομική προστασία μειοψηφίας μέσω του Καταστατικού της Κοιν.Σ.Επ. και της Θυγατρικής.",
+        "Ετήσια έκθεση αντικτύπου με μετρήσιμους δείκτες δημογραφικής και οικονομικής αναγέννησης.",
+        "Δυνατότητα συνδυασμού συμμετοχής με ανακαίνιση οικογενειακού ακινήτου στη Βροσίνα.",
       ],
     };
   }, [investorTrack, investmentAmount, activeScenario]);
 
   const executiveAnswers = [
     {
-      label: "Πώς επενδύω με επιδότηση έως 75%;",
+      label: "Πώς κατανέμεται η χρηματοδότηση των 10,45 εκ. €;",
       answer:
-        "Το «Βροσίνα 2031» προσφέρει 4 θεσμικά κανάλια: (1) Στρατηγικός Εταίρος (έως 35–40% στην Εμπορική Θυγατρική του Τυροκομείου 1,65 εκ. € & Οινοποιείου 1,00 εκ. €) με επιδότηση έως 75% από τον Αναπτυξιακό Νόμο 4887/2022 και εγγυοδοσία 80% από την HDB. (2) Ιδιωτική επένδυση στους 10 Παραδοσιακούς Ξενώνες (1,00 εκ. €) με επιδότηση έως 65–75% μέσω LEADER / Αναπτυξιακού. (3) Φοροαπαλλασσόμενη Χορηγία / Δωρεά μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας» με δικαίωμα Ονοματοδοσίας (Naming Rights) και ισχυρό ESG αποτύπωμα. (4) Συμμετοχή Επενδυτών Διασποράς (15%).",
+        "Το συνολικό επενδυτικό πρόγραμμα (10,45 εκ. €) χρηματοδοτείται κατά 63% (6,58 εκ. €) από δημόσιους και ευρωπαϊκούς πόρους (14 χρηματοδοτικά εργαλεία: LEADER, ΣΣ ΚΑΠ, Αναπτυξιακός Ν. 4887/2022, ΠεΠ Ηπείρου) και κατά 37% (3,87 εκ. €) από ιδιωτικά, συνεταιριστικά και χορηγικά κεφάλαια. Κάθε 1 € ιδιωτικού κεφαλαίου συμπληρώνεται από 1,70 € δημόσιων/ευρωπαϊκών πόρων (συνολικά 2,70 € επένδυσης).",
     },
     {
       label: "Ποια είναι τα επίσημα στοιχεία της Βροσίνας σήμερα;",
       answer:
-        "Η Βροσίνα (έδρα της Δ.Ε. Μολοσσών του Δήμου Ζίτσας) βρίσκεται σε υψόμετρο 117 μ. στην κοιλάδα του Ζαλογγίτικου ποταμού (παραπόταμου του Καλαμά), επί της Ε.Ο. Ιωαννίνων–Ηγουμενίτσας (43 χλμ. / 35–40 λεπτά από τα Ιωάννινα). Κατά την απογραφή ΕΛΣΤΑΤ 2021 αριθμεί 58 μόνιμους κατοίκους στον οικισμό (63 στην Τοπική Κοινότητα). Διαθέτει το ανενεργό Στρατόπεδο «Παπακωνσταντίνου» (13.695 τ.μ.), κλειστό 3θέσιο Δημοτικό Σχολείο, 6 κλειστούς επαγγελματικούς χώρους, το πέτρινο Γεφύρι της Βροσίνας, το Ζαλογγογέφυρο του 1605 και την Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628).",
+        "Η Βροσίνα (έδρα της πρώην Δ.Ε. Μολοσσών του Δήμου Ζίτσας) βρίσκεται σε υψόμετρο 117 μ. στην κοιλάδα του Ζαλογγίτικου ποταμού (παραπόταμου του Καλαμά), επί της Ε.Ο. Ιωαννίνων–Ηγουμενίτσας (43 χλμ. / 35–40 λεπτά από τα Ιωάννινα). Κατά την απογραφή ΕΛΣΤΑΤ 2021 αριθμεί 58 μόνιμους κατοίκους στον οικισμό (63 στην Τοπική Κοινότητα). Με +80 έως 100 νέους κατοίκους, ο στόχος για το 2031 είναι 138–158 μόνιμοι κάτοικοι (περίπου 140–160).",
     },
     {
       label: "Πώς κλειδώνει η Καταστατική Ασπίδα (Κεφ. 8);",
       answer:
-        "Μητρικός φορέας-θεματοφύλακας είναι η «Βροσίνα Αγροδιατροφική ΚΟΙΝΣΕΠ Συλλογικής και Κοινωνικής Ωφέλειας» (Ν. 4430/2016). Στην Εμπορική Θυγατρική συμμετέχουν: 30% Συνεταιρισμός Παραγωγών, 35% Στρατηγικός Εταίρος, 20% Δήμος Ζίτσας και 15% Ταμείο Ευεργετών/Διασπορά. Ισχύει ανώτατο όριο μετόχου 40%, υπερπλειοψηφία 75%+ για κρίσιμες αποφάσεις, δικαίωμα πρώτης άρνησης (ROFR), τεχνοκρατική διοίκηση με ανοιχτή προκήρυξη και υποχρεωτικό Κοινωνικό Μέρισμα 15% στην κοινότητα.",
+        "Μητρικός φορέας-θεματοφύλακας είναι η υπό σύσταση «Κοιν.Σ.Επ. Συλλογικής και Κοινωνικής Ωφέλειας Βροσίνα 2031» (Ν. 4430/2016). Στην υπό σύσταση Εμπορική Θυγατρική προβλέπεται να συμμετέχουν: 30% Συνεταιρισμός/Κοιν.Σ.Επ., 35% Στρατηγικός Εταίρος, έως 20% Δήμος Ζίτσας (εντός του ορίου 25% για διατήρηση ιδιότητας ΜΜΕ) και 15% Ταμείο Ευεργετών/Διασπορά. Ισχύει ανώτατο όριο μετόχου 40%, υπερπλειοψηφία 75%+ για κρίσιμες αποφάσεις, δικαίωμα πρώτης προτίμησης και υποχρεωτικό Κοινωνικό Μέρισμα 15% στην κοινότητα.",
     },
     {
       label: "Έχω κλειστό σπίτι στη Βροσίνα — τι κερδίζω;",
       answer:
-        "Εγγράφετε το ακίνητό σας στο Μητρώο Κλειστών Κατοικιών & Καταστημάτων. Με σύμβαση Master Lease (9–12 ετών), ο φορέας αναλαμβάνει την πλήρη αποκατάσταση με 0 € δική σας επιβάρυνση (Κατηγορία Α: 20.000 €, Κατηγορία Β με λιθεπένδυση & κεραμίδι: 37.500 €, Κατηγορία Γ με γκρίζα λιθόπλακα: 50.000 €), με επιδότηση 60–80%, απαλλαγή δημοτικών τελών/ΤΑΠ και εγγυημένο εισόδημα.",
+        "Εγγράφετε το ακίνητό σας στο Μητρώο Κλειστών Κατοικιών & Καταστημάτων. Με σύμβαση μακροχρόνιας μίσθωσης 10–15 ετών (ώστε να καλύπτεται η 10ετής υποχρέωση ΕΣΠΑ/LEADER), ο φορέας αναλαμβάνει την αποκατάσταση χωρίς δική σας προκαταβολή (Κατηγορία Α: 20.000 €, Κατηγορία Β: 37.500 €, Κατηγορία Γ: 50.000 €), με επιδότηση 65–75% και συμψηφισμό της ιδιωτικής συμμετοχής από τα μισθώματα.",
     },
   ];
 
+  // Clean, visitor-centric navigation items without emojis or internal jargon (Audit Μέρος Β #1, #2, #7, #8)
   const navItems = [
     {
-      href: "#praktikes-lyseis",
-      shortLabel: "🤝 Κοιν.Σ.Επ. & Λύσεις",
-      label: "00. Κοιν.Σ.Επ. (Ν.4430/2016) & Πρακτικές Λύσεις (Πώς/Πού)",
-      badge: "ΝΕΟ · ΒΑΣΙΚΟΣ ΟΔΗΓΟΣ",
-    },
-    {
-      href: "#autopsia-real",
-      shortLabel: "🎥 Στρατόπεδο & TV",
-      label: "01. Αυτοψία 8 Κτιρίων Στρατοπέδου, Drone & Τηλεόραση",
-      badge: "8 ΒΙΝΤΕΟ & ΠΡΙΝ/ΜΕΤΑ",
-    },
-    {
       href: "#masterplan",
-      shortLabel: "🏛️ 4 Πυλώνες",
-      label: "02. Οι 4 Πυλώνες & 5ετές Χρονοδιάγραμμα (10,45 εκ. €)",
-      badge: "MASTERPLAN",
-    },
-    {
-      href: "#investors",
-      shortLabel: "💶 Επενδύσεις 75%",
-      label: "03. Υπολογιστής Επενδύσεων (έως 75%), LEADER & Ταμείο Ευεργετών",
-      badge: "ΕΩΣ 75% ΕΠΙΔΟΤΗΣΗ",
-    },
-    {
-      href: "#governance",
-      shortLabel: "🛡️ Διακυβέρνηση",
-      label: "04. Καταστατική Ασπίδα & 9 Φάκελοι Φορέων (One-Pagers)",
-      badge: "ΚΕΦ. 8 & ΦΟΡΕΙΣ",
+      shortLabel: "Το σχέδιο",
+      label: "01. Το Σχέδιο: Οι 4 Πυλώνες & το Στρατόπεδο (10,45 εκ. €)",
+      badge: "ΤΟ ΣΧΕΔΙΟ (4 ΠΥΛΩΝΕΣ)",
     },
     {
       href: "#community",
-      shortLabel: "🏡 Σπίτια 0€ & Παραγωγοί",
-      label: "05. Κλειστά Σπίτια (0€ Master Lease) & Νέοι Παραγωγοί",
-      badge: "ΚΑΤΟΙΚΙΑ & ΚΟΠΑΔΙ",
+      shortLabel: "Για κτηνοτρόφους & κατοίκους",
+      label: "02. Για Κτηνοτρόφους, Αμπελουργούς & Ιδιοκτήτες Κατοικιών",
+      badge: "ΚΤΗΝΟΤΡΟΦΟΙ & ΚΑΤΟΙΚΙΕΣ",
     },
     {
-      href: "#mega-guides",
-      shortLabel: "🗺️ Οδηγοί 43.100€ / Σ.Α.",
-      label: "06. Mega-Guides: Από Άνεργος Κτηνοτρόφος (43.100€) & Πολεοδομία Σ.Α.",
-      badge: "2 ΠΛΗΡΕΙΣ ΟΔΗΓΟΙ",
+      href: "#gia-epicheiriseis",
+      shortLabel: "Για επιχειρήσεις",
+      label: "03. Για Μικρές & Μεγάλες Επιχειρήσεις, Ξενώνες & Εργολάβους",
+      badge: "ΞΕΝΩΝΕΣ, ΚΑΤΑΣΤΗΜΑΤΑ & ΕΡΓΑ",
+    },
+    {
+      href: "#investors",
+      shortLabel: "Για επενδυτές",
+      label: "04. Για Στρατηγικούς Επενδυτές & Μεγάλους Ευεργέτες",
+      badge: "ΕΠΕΝΔΥΤΕΣ & ΕΥΕΡΓΕΤΕΣ",
+    },
+    {
+      href: "#praktikes-lyseis",
+      shortLabel: "Για φορείς",
+      label: "05. Για Φορείς & Πολιτεία: Τι Κερδίζει το Δημόσιο (463.700 €/έτος)",
+      badge: "ΔΗΜΟΣΙΟ ΟΦΕΛΟΣ & ΦΟΡΕΙΣ",
+    },
+    {
+      href: "#poioi-eimaste",
+      shortLabel: "Ποιοι είμαστε",
+      label: "06. Ποιοι Είμαστε, Ομάδα & Πού Βρισκόμαστε Σήμερα",
+      badge: "ΟΜΑΔΑ & ΠΟΡΕΙΑ ΕΡΓΟΥ",
     },
     {
       href: "#dataroom",
-      shortLabel: "📂 Data Room",
-      label: "07. Επίσημο Data Room (13 Έγγραφα), Ομιλία & FAQ",
-      badge: "13 ΑΡΧΕΙΑ PDF/DOCX",
+      shortLabel: "Έγγραφα",
+      label: `07. Βιβλιοθήκη Εγγράφων (${DATA_ROOM_DOCUMENTS.length} Αρχεία) & Συχνές Ερωτήσεις`,
+      badge: `${DATA_ROOM_DOCUMENTS.length} ΔΗΜΟΣΙΑ ΕΓΓΡΑΦΑ`,
     },
   ];
 
   const subpageLinks = [
     {
       href: "/katoikia-neoi-paragogoi",
-      label: "Σελίδα: Οδηγός 0€ Κεφάλαιο (43.100€), Κατοικίες & Σ.Α. Ιωαννίνων",
-    },
-    {
-      href: "/stratopedo-vrosinas",
-      label: "Σελίδα: Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.) & 8 Κτίρια",
+      label: "Σελίδα: Για Κτηνοτρόφους & Ιδιοκτήτες Κατοικιών",
     },
     {
       href: "/ependyseis-epidotiseis",
-      label: "Σελίδα: Επενδύσεις, 14 Χρηματοδοτικά Εργαλεία & ΑΜΚΕ Ευεργετών",
+      label: "Σελίδα: Για Επενδυτές, Επιχειρήσεις & Ευεργέτες",
+    },
+    {
+      href: "/stratopedo-vrosinas",
+      label: "Σελίδα: Για Φορείς & Στρατόπεδο Παπακωνσταντίνου",
     },
     {
       href: "/gefyri-vrosinas-raidiotissa",
@@ -536,14 +612,14 @@ export default function VrosinaClientApp() {
     },
     {
       href: "/ai-knowledge-base",
-      label: "Σελίδα: AI Knowledge Base & Bilingual Fact Sheet (EL/EN)",
+      label: "Σελίδα: Βάση Δεδομένων & Δίγλωσση Σύνοψη (EL/EN)",
     },
   ];
 
   return (
     <div className="min-h-screen bg-[#f7f5f0] text-[#1a2129] font-sans overflow-x-hidden">
       {/* 1. SUBTLE INSTITUTIONAL TOP BAR: LEADER CALL 545/07-10-2026 */}
-      <div className="bg-[#14191f] text-stone-300 border-b border-stone-800 px-4 py-1.5 text-[11px] sm:text-xs">
+      <div className="bg-[#14191f] text-stone-300 border-b border-stone-800 px-4 py-1.5 text-xs">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="font-mono uppercase tracking-wider text-[#c89d54] font-semibold">
@@ -581,11 +657,10 @@ export default function VrosinaClientApp() {
         </div>
       </div>
 
-      {/* 2. 100% RESPONSIVE TWO-TIER HEADER + UNIVERSAL MEGA-MENU (ZERO OVERFLOW ON LAPTOP, TABLET & MOBILE) */}
+      {/* 2. SINGLE CLEAN RESPONSIVE HEADER (ZERO OVERFLOW ON 1366px/1536px LAPTOPS, TABLETS & PHONES) */}
       <header className="sticky top-0 z-40 bg-[#f7f5f0]/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
-        {/* Tier 1: Brand + Compact Laptop Nav + Universal Mega-Menu Button + CTA */}
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2">
-          {/* Minimalist Logo: ΒΡΟΣΙΝΑ2031 */}
+          {/* Logo: ΒΡΟΣΙΝΑ2031 */}
           <a
             href="#"
             className="font-serif font-bold text-lg sm:text-2xl tracking-tight text-[#14191f] shrink-0"
@@ -593,8 +668,8 @@ export default function VrosinaClientApp() {
             ΒΡΟΣΙΝΑ<span className="text-[#b85d3b]">2031</span>
           </a>
 
-          {/* Compact Desktop/Laptop Primary Links (never overflows on 1280px+ screens) */}
-          <nav className="hidden xl:flex items-center gap-1 text-xs font-semibold text-stone-800">
+          {/* Single Clean Navigation Bar (7 Visitor-Centric Links — fits on 1024px+ / 1366px laptops without overflowing) */}
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 text-xs font-semibold text-stone-800">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -602,27 +677,27 @@ export default function VrosinaClientApp() {
                 onClick={() =>
                   registerEngagement("header_nav_click", item.href, item.shortLabel)
                 }
-                className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+                className="px-2 xl:px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
               >
                 {item.shortLabel}
               </a>
             ))}
           </nav>
 
-          {/* Right Actions: Universal Index/Mega-Menu Button (visible on ALL screens including laptops!) + Primary CTA */}
+          {/* Right Actions: Full Sitemap Toggle + Contact CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Άνοιγμα Πλήρους Μενού Ενοτήτων & Οδηγών"
-              className={`px-2.5 sm:px-3 py-1.5 rounded border text-xs font-mono font-bold transition cursor-pointer flex items-center gap-1.5 ${
+              aria-label="Άνοιγμα Πλήρους Μενού Ενοτήτων & Θεματικών Σελίδων"
+              className={`px-2.5 py-1.5 rounded border text-xs font-mono font-bold transition cursor-pointer flex items-center gap-1.5 ${
                 mobileMenuOpen
                   ? "bg-[#14191f] text-[#c89d54] border-[#14191f]"
                   : "bg-white hover:bg-stone-200 text-[#14191f] border-stone-400"
               }`}
             >
               <span>{mobileMenuOpen ? "✕" : "☰"}</span>
-              <span className="hidden sm:inline">Όλες οι Ενότητες & Οδηγοί</span>
+              <span className="hidden sm:inline">Ευρετήριο</span>
               <span className="sm:hidden">ΜΕΝΟΥ</span>
             </button>
 
@@ -630,131 +705,25 @@ export default function VrosinaClientApp() {
               type="button"
               onClick={() =>
                 openLeadModal(
-                  "investor",
-                  "Κεφαλίδα (Header CTA) — Κουμπί Συμμετοχή / Επικοινωνία",
-                  "Γενική εκδήλωση ενδιαφέροντος από την Κεφαλίδα της σελίδας"
+                  "",
+                  "Κεφαλίδα (Header CTA) — Κουμπί Επικοινωνία",
+                  "Εκδήλωση ενδιαφέροντος από την Κεφαλίδα της σελίδας"
                 )
               }
               className="px-3 sm:px-4 py-1.5 sm:py-2 rounded bg-[#1f5c43] text-white text-xs font-semibold hover:bg-[#174632] transition cursor-pointer whitespace-nowrap"
             >
-              Συμμετοχή / Επικοινωνία
+              Επικοινωνία
             </button>
           </div>
         </div>
 
-        {/* Tier 2: Always-Visible Quick-Jump Bar for Laptop (1024-1366px), Tablet & Mobile — ZERO LOST CONTENT */}
-        <div className="bg-[#14191f] text-stone-200 border-t border-stone-800">
-          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-1.5 flex items-center gap-1.5 overflow-x-auto">
-            <span className="text-[10px] font-mono uppercase text-[#c89d54] font-bold shrink-0 pr-1 hidden sm:inline">
-              ΑΜΕΣΗ ΜΕΤΑΒΑΣΗ:
-            </span>
-            <a
-              href="#praktikes-lyseis"
-              onClick={() => {
-                setActivePracticalTab("fiscal");
-                registerEngagement("subbar_click", "fiscal-benefit", "Τι Κερδίζει το Δημόσιο 463.700€");
-              }}
-              className="px-2.5 py-1 rounded bg-[#1f5c43] hover:bg-emerald-700 text-white text-[11px] font-bold whitespace-nowrap transition shrink-0 border border-emerald-400/50"
-            >
-              🏛️ Τι Κερδίζει το Δημόσιο (463.700€/έτος)
-            </a>
-            <a
-              href="#praktikes-lyseis"
-              onClick={() => {
-                setActivePracticalTab("koinsep");
-                registerEngagement("subbar_click", "koinsep-guide", "Κοιν.Σ.Επ. 100€");
-              }}
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-amber-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              🤝 Κοιν.Σ.Επ. (Ν.4430/2016 · 100€)
-            </a>
-            <a
-              href="#praktikes-lyseis"
-              onClick={() => {
-                setActivePracticalTab("playbooks");
-                registerEngagement("subbar_click", "playbooks-7", "7 Πρακτικοί Οδηγοί");
-              }}
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              🧭 Πώς/Από Πού (7 Οδηγοί)
-            </a>
-            <a
-              href="#praktikes-lyseis"
-              onClick={() => {
-                setActivePracticalTab("institutions");
-                registerEngagement("subbar_click", "institutions-roles", "Δήμος/Κοινότητα/ΚΟΙΝΣΕΠ");
-              }}
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              🏛️ Ποιος Κάνει Τι (Δήμος/ΚΟΙΝΣΕΠ)
-            </a>
-            <a
-              href="#praktikes-lyseis"
-              onClick={() => {
-                setActivePracticalTab("funding14");
-                registerEngagement("subbar_click", "funding-14", "14 Χρηματοδοτικά Εργαλεία");
-              }}
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#1f5c43] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              📜 14 Νόμοι & Προγράμματα
-            </a>
-            <a
-              href="#mega-guides"
-              onClick={() => {
-                setActiveMegaGuideTab("herder");
-                registerEngagement("subbar_click", "herder-43100", "0€ Κεφάλαιο 43.100€");
-              }}
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#b85d3b] text-emerald-300 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              🗺️ 0€ Κεφάλαιο → 43.100€ (5 Βήματα)
-            </a>
-            <a
-              href="#mega-guides"
-              onClick={() => {
-                setActiveMegaGuideTab("morphology");
-                registerEngagement("subbar_click", "morphology-sa", "Πολεοδομία & Σ.Α.");
-              }}
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-[#b85d3b] text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              🪨 Πολεοδομία & Σ.Α. Ιωαννίνων
-            </a>
-            <a
-              href="#autopsia-real"
-              onClick={() =>
-                registerEngagement("subbar_click", "camp-autopsy", "Στρατόπεδο & 8 Βίντεο")
-              }
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              🎥 Στρατόπεδο & 8 Βίντεο
-            </a>
-            <a
-              href="#investors"
-              onClick={() =>
-                registerEngagement("subbar_click", "investors-calc", "Επενδύσεις 80%")
-              }
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              💶 Επενδύσεις & Ευεργέτες
-            </a>
-            <a
-              href="#dataroom"
-              onClick={() =>
-                registerEngagement("subbar_click", "dataroom-13", "Data Room 13 Αρχεία")
-              }
-              className="px-2.5 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white text-[11px] font-semibold whitespace-nowrap transition shrink-0"
-            >
-              📂 Data Room (13 Αρχεία)
-            </a>
-          </div>
-        </div>
-
-        {/* Universal Mega-Menu Drawer (Works on Laptop, Desktop, Tablet & Smartphone) */}
+        {/* Universal Index Drawer (Accessible on All Devices) */}
         {mobileMenuOpen && (
           <div className="bg-[#f7f5f0] border-b-2 border-[#14191f] px-4 sm:px-6 lg:px-8 py-5 shadow-2xl max-h-[82vh] overflow-y-auto">
             <div className="max-w-7xl mx-auto space-y-5">
               <div className="flex items-center justify-between border-b border-stone-300 pb-2.5">
                 <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
-                  ΠΛΗΡΗΣ ΧΑΡΤΗΣ ΠΛΟΗΓΗΣΗΣ «ΒΡΟΣΙΝΑ 2031» (ΟΛΕΣ ΟΙ ΕΝΟΤΗΤΕΣ, ΟΙ ΟΔΗΓΟΙ & ΟΙ ΣΕΛΙΔΕΣ)
+                  ΠΛΗΡΗΣ ΧΑΡΤΗΣ ΠΛΟΗΓΗΣΗΣ «ΒΡΟΣΙΝΑ 2031» (ΕΝΟΤΗΤΕΣ, ΘΕΜΑΤΙΚΕΣ ΣΕΛΙΔΕΣ & ΕΓΓΡΑΦΑ)
                 </div>
                 <button
                   type="button"
@@ -765,7 +734,7 @@ export default function VrosinaClientApp() {
                 </button>
               </div>
 
-              {/* 8 Main Page Sections */}
+              {/* 7 Main Sections */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                 {navItems.map((item) => (
                   <a
@@ -774,7 +743,7 @@ export default function VrosinaClientApp() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="p-3 rounded bg-white border border-stone-300 hover:border-[#14191f] hover:shadow-sm transition flex flex-col justify-between gap-1"
                   >
-                    <span className="text-[10px] font-mono font-bold text-[#b85d3b]">
+                    <span className="text-xs font-mono font-bold text-[#b85d3b]">
                       {item.badge}
                     </span>
                     <span className="text-xs sm:text-sm font-serif font-bold text-[#14191f] leading-snug">
@@ -784,10 +753,10 @@ export default function VrosinaClientApp() {
                 ))}
               </div>
 
-              {/* 5 Dedicated Thematic SEO Subpages + Key Downloads */}
+              {/* 5 Dedicated Thematic Subpages + Key Downloads */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-3 border-t border-stone-300 items-center">
                 <div className="lg:col-span-8 space-y-1.5">
-                  <div className="text-[11px] font-mono font-bold uppercase text-stone-500">
+                  <div className="text-xs font-mono font-bold uppercase text-stone-600">
                     ΑΝΕΞΑΡΤΗΤΕΣ ΘΕΜΑΤΙΚΕΣ ΣΕΛΙΔΕΣ ΕΜΒΑΘΥΝΣΗΣ:
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -810,14 +779,14 @@ export default function VrosinaClientApp() {
                     rel="noopener noreferrer"
                     className="px-3 py-2 rounded bg-[#14191f] text-[#c89d54] font-semibold hover:bg-stone-800"
                   >
-                    📄 Business Plan v2.0 (PDF)
+                    Business Plan v2.0 (PDF)
                   </a>
                   <a
                     href="/documents/Vrosina_2031_Partner_LOI_LEADER_Template.docx"
                     download
                     className="px-3 py-2 rounded bg-amber-100 border border-amber-300 text-amber-950 font-semibold hover:bg-amber-200"
                   >
-                    📝 Πρότυπο LOI LEADER (.docx)
+                    Πρότυπο LOI LEADER (.docx)
                   </a>
                 </div>
               </div>
@@ -826,17 +795,17 @@ export default function VrosinaClientApp() {
         )}
       </header>
 
-      {/* 3. HERO SECTION: HUMAN-FIRST, INSTANT ROLE SELECTOR & MULTI-MODE MEDIA / MAP VIEWER */}
+      {/* 3. HERO SECTION: HUMAN STORY FIRST, 4 CLEAR AUDIENCE PATHS & MULTI-MODE MEDIA / MAP VIEWER */}
       <section className="bg-[#14191f] text-white border-b border-stone-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-14">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
             {/* Left Column: Clear Human Story & Instant 30-Second Role Selector */}
             <div className="lg:col-span-5 space-y-4 sm:space-y-5">
-              <div className="inline-flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-wider text-[#c89d54] bg-stone-900/90 border border-stone-800 px-3 py-1.5 rounded">
-                <span>ΒΡΟΣΙΝΑ ΙΩΑΝΝΙΝΩΝ (35' ΑΠΟ ΙΩΑΝΝΙΝΑ)</span>
+              <div className="inline-flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#c89d54] bg-stone-900/90 border border-stone-800 px-3 py-1.5 rounded">
+                <span>ΒΡΟΣΙΝΑ ΙΩΑΝΝΙΝΩΝ (35–40' ΑΠΟ ΙΩΑΝΝΙΝΑ)</span>
                 <span className="text-stone-600">·</span>
                 <span className="text-emerald-400 font-bold">
-                  58 ΚΑΤΟΙΚΟΙ (ΕΛΣΤΑΤ 2021) → 140–160 ΤΟ 2031 (+80–100 ΝΕΟΙ)
+                  58 ΚΑΤΟΙΚΟΙ ΣΗΜΕΡΑ (ΕΛΣΤΑΤ 2021) + 80–100 ΝΕΟΙ = 138–158 ΤΟ 2031
                 </span>
               </div>
 
@@ -844,10 +813,15 @@ export default function VrosinaClientApp() {
                 Από σύμβολο εγκατάλειψης, σε ζωντανό πρότυπο αναγέννησης της ελληνικής υπαίθρου.
               </h1>
 
-              <p className="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed">
+              {/* 5-Line Human Story (Μέρος Β #5) */}
+              <div className="p-3.5 rounded bg-stone-900/80 border-l-4 border-[#c89d54] text-xs sm:text-sm text-stone-200 leading-relaxed">
+                {ABOUT_US_AND_STATUS.shortHumanStoryTop}
+              </div>
+
+              <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
                 Ένα καταπράσινο χωριό στον Δήμο Ζίτσας παίρνει ξανά ζωή με ένα{" "}
                 <strong className="text-white">
-                  έτοιμο, κοστολογημένο σχέδιο 10,45 εκατ. € (έως 75% επιδοτήσεις)
+                  έτοιμο, κοστολογημένο σχέδιο 10,45 εκατ. € (63% δημόσιοι/ΕΕ πόροι — έως 75% στον Αναπτυξιακό & έως 80% σε δράσεις LEADER/ΚΑΠ)
                 </strong>
                 : το ανενεργό{" "}
                 <strong className="text-amber-200">
@@ -855,7 +829,7 @@ export default function VrosinaClientApp() {
                 </strong>{" "}
                 μετατρέπεται σε Αγροδιατροφικό Κέντρο,{" "}
                 <strong className="text-white">
-                  30 κτίρια (20 κλειστά σπίτια & 10 ξενώνες) ανακαινίζονται με 0 € κόστος
+                  35 κτίρια (20 κατοικίες, 5 καταστήματα & 10 ξενώνες) ανακαινίζονται με 0 € κόστος
                 </strong>{" "}
                 για τους ιδιοκτήτες, το σχολείο ξανανοίγει και δημιουργούνται{" "}
                 <strong className="text-emerald-300">
@@ -864,11 +838,11 @@ export default function VrosinaClientApp() {
                 .
               </p>
 
-              {/* INTERACTIVE 30-SECOND ROLE SELECTOR RIGHT IN THE HERO */}
+              {/* INTERACTIVE 30-SECOND ROLE SELECTOR RIGHT IN THE HERO (4 VISITORS) */}
               <div className="bg-stone-900/95 border border-stone-700 rounded-lg p-3.5 sm:p-4 space-y-3 shadow-lg">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#c89d54] font-bold">
-                    ΕΠΙΛΕΞΤΕ ΠΟΙΟΙ ΕΙΣΤΕ — ΔΕΙΤΕ ΤΙ ΚΕΡΔΙΖΕΤΕ ΣΕ 30'':
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#c89d54] font-bold">
+                    ΠΟΙΟΣ ΕΙΣΤΕ; ΔΕΙΤΕ ΤΙ ΣΑΣ ΑΦΟΡΑ ΣΕ 30'':
                   </span>
                 </div>
 
@@ -876,19 +850,19 @@ export default function VrosinaClientApp() {
                   {[
                     {
                       id: "owner" as const,
-                      label: "🏡 Έχω Σπίτι / Γη στη Βροσίνα",
+                      label: "1. Κτηνοτρόφοι, Κάτοικοι & Ιδιοκτήτες",
+                    },
+                    {
+                      id: "business" as const,
+                      label: "2. Επιχειρήσεις, Ξενώνες & Εργολάβοι",
                     },
                     {
                       id: "investor" as const,
-                      label: "💶 Επενδυτής / Ευεργέτης",
-                    },
-                    {
-                      id: "producer" as const,
-                      label: "🐑 Νέος Παραγωγός / Τεχνίτης",
+                      label: "3. Επενδυτές & Ευεργέτες",
                     },
                     {
                       id: "citizen" as const,
-                      label: "🏛️ Πολίτης / Φορέας / ΜΜΕ",
+                      label: "4. Φορείς, Δήμος & Πολιτεία",
                     },
                   ].map((tab) => {
                     const active = heroRoleTab === tab.id;
@@ -900,7 +874,7 @@ export default function VrosinaClientApp() {
                           setHeroRoleTab(tab.id);
                           registerEngagement(
                             "select_hero_role",
-                            `role-${tab.id}`,
+                            `#role-${tab.id}`,
                             tab.label
                           );
                         }}
@@ -920,14 +894,14 @@ export default function VrosinaClientApp() {
                 {heroRoleTab === "owner" && (
                   <div className="p-3 rounded bg-stone-950 border border-stone-800 space-y-2.5 text-xs">
                     <div className="font-serif font-bold text-sm text-amber-200">
-                      Έχετε κλειστό σπίτι, μαγαζί ή χωράφι στη Βροσίνα;
+                      Κτηνοτρόφοι της περιοχής, Νέοι Παραγωγοί & Ιδιοκτήτες Κλειστών Σπιτιών
                     </div>
                     <ul className="space-y-1 text-stone-300 leading-relaxed">
                       <li>
-                        • <strong>0 € δική σας επιβάρυνση:</strong> Πλήρης ανακαίνιση με πέτρα & κεραμοσκεπή (20.000 € έως 50.000 €) μέσω 9–12ετούς Master Lease.
+                        • <strong>Υφιστάμενοι Κτηνοτρόφοι & Αμπελουργοί:</strong> Μερίδα <strong>100 €</strong> στην Κοιν.Σ.Επ., συμβόλαιο γάλακτος με <strong>ελάχιστη τιμή + πριμ +8% έως +12%</strong> & ζωοτροφές χονδρικής (-15% έως -20%).
                       </li>
                       <li>
-                        • <strong>Κρατάτε 100% την κυριότητα:</strong> Το ακίνητο δεν πωλείται, αποκτά υπεραξία, απαλλάσσεται από δημοτικά τέλη και σας αποδίδει εισόδημα.
+                        • <strong>Ιδιοκτήτες Σπιτιών & Νέοι Παραγωγοί:</strong> Πλήρης ανακαίνιση με <strong>0 € ίδια συμμετοχή</strong> (Μακροχρόνια Μίσθωση 10–15 ετών) & Πακέτο Πρώτου Κοπαδιού (έως 80% επιδότηση).
                       </li>
                     </ul>
                     <div className="flex flex-wrap gap-2 pt-1">
@@ -936,40 +910,83 @@ export default function VrosinaClientApp() {
                         onClick={() =>
                           registerEngagement(
                             "hero_jump",
-                            "housing-calculator",
-                            "Υπολογιστής Σπιτιού"
+                            "#community",
+                            "Κτηνοτρόφοι & Κάτοικοι"
                           )
                         }
                         className="px-3 py-1.5 rounded bg-[#1f5c43] hover:bg-emerald-700 text-white font-semibold"
                       >
-                        Υπολογιστής Αποκατάστασης Σπιτιού ↓
+                        Οδηγός Κτηνοτρόφων & Κατοικιών ↓
                       </a>
                       <a
-                        href="#mega-guides"
-                        onClick={() => {
-                          setActiveMegaGuideTab("morphology");
-                          registerEngagement(
-                            "hero_jump",
-                            "guide-morphological-regulation",
-                            "Μορφολογικός Κανονισμός & Σ.Α. Ιωαννίνων"
-                          );
-                        }}
+                        href="/katoikia-neoi-paragogoi"
                         className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
                       >
-                        🏛️ Οδηγός Πολεοδομίας & Σ.Α. Ιωαννίνων ↓
+                        Σελίδα Κατοικίας & Παραγωγών ↗
                       </a>
                       <button
                         type="button"
                         onClick={() =>
                           openLeadModal(
                             "owner",
-                            "Hero 30'' Selector — Ιδιοκτήτης Κλειστού Σπιτιού / Γης",
-                            "Ενδιαφέρον για ένταξη κλειστής κατοικίας / καταστήματος στο Master Lease (0 € ίδια συμμετοχή)"
+                            "Hero 30'' Selector — Κτηνοτρόφος / Κάτοικος / Ιδιοκτήτης Ακινήτου",
+                            "Ενδιαφέρον για Κοιν.Σ.Επ. (100€), συμβόλαιο γάλακτος/σταφυλιού ή ένταξη κλειστής κατοικίας (0€ ίδια συμμετοχή)"
                           )
                         }
                         className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-[#c89d54] font-semibold cursor-pointer"
                       >
-                        Δήλωση Ακινήτου →
+                        Δήλωση Συμμετοχής →
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {heroRoleTab === "business" && (
+                  <div className="p-3 rounded bg-stone-950 border border-stone-800 space-y-2.5 text-xs">
+                    <div className="font-serif font-bold text-sm text-amber-200">
+                      Ξενώνες, Καταστήματα, Τοπικοί Εργολάβοι & Αγροδιατροφικές Επιχειρήσεις
+                    </div>
+                    <ul className="space-y-1 text-stone-300 leading-relaxed">
+                      <li>
+                        • <strong>10 Ξενώνες & 5 Καταστήματα (LEADER έως 80%):</strong> Έτοιμα ανακαινισμένα κτίρια (ιδία συμμετοχή 24.000–36.000 € ανά ξενώνα, καθαρό εισόδημα 18.000–28.000 €/έτος σε 28% πληρότητα).
+                      </li>
+                      <li>
+                        • <strong>Εργολάβοι / Προμηθευτές (2,23 εκ. € έργα):</strong> Δημόσιοι διαγωνισμοί Δήμου Ζίτσας & ιδιωτικές αναθέσεις Κοιν.Σ.Επ. για 35 κτίρια, πέτρα, ξυλεία & Η/Μ.
+                      </li>
+                    </ul>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <a
+                        href="#gia-epicheiriseis"
+                        onClick={() =>
+                          registerEngagement(
+                            "hero_jump",
+                            "#gia-epicheiriseis",
+                            "Οι 3 Δρόμοι για Επιχειρήσεις"
+                          )
+                        }
+                        className="px-3 py-1.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold"
+                      >
+                        Δείτε τους 3 Δρόμους για Επιχειρήσεις ↓
+                      </a>
+                      <a
+                        href="/documents/Vrosina_2031_Partner_LOI_LEADER_Template.docx"
+                        download
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
+                      >
+                        Πρότυπο LOI LEADER (.docx) ↓
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openLeadModal(
+                            "investor",
+                            "Hero 30'' Selector — Επιχείρηση / Ξενώνας / Εργολάβος",
+                            "Ενδιαφέρον για λειτουργία Ξενώνα/Καταστήματος (LEADER), Μητρώο Εργολάβων ή Αγροδιατροφική Συνεργασία"
+                          )
+                        }
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-[#c89d54] font-semibold cursor-pointer"
+                      >
+                        Εγγραφή Επιχείρησης →
                       </button>
                     </div>
                   </div>
@@ -978,14 +995,14 @@ export default function VrosinaClientApp() {
                 {heroRoleTab === "investor" && (
                   <div className="p-3 rounded bg-stone-950 border border-stone-800 space-y-2.5 text-xs">
                     <div className="font-serif font-bold text-sm text-amber-200">
-                      Επιδότηση έως 75%, Μόχλευση 1 € → 2,70 € & Φοροαπαλλαγή Ευεργετών
+                      Στρατηγικοί Επενδυτές (35%–40%), Διασπορά (15%) & Ταμείο Ευεργετών (ΑΜΚΕ)
                     </div>
                     <ul className="space-y-1 text-stone-300 leading-relaxed">
                       <li>
-                        • <strong>Στρατηγικός Εταίρος (35%–40%):</strong> Τυροκομείο ΠΟΠ & Οινοποιείο στο Στρατόπεδο με επιδότηση έως 75% (Ν. 4887/2022).
+                        • <strong>Στρατηγικός Εταίρος στο Στρατόπεδο:</strong> Τυροκομείο ΠΟΠ & Οινοποιείο με επιδότηση έως 75% (Ν. 4887/2022) και ρεαλιστική απόσβεση ιδίων κεφαλαίων σε <strong>6,5–8,5 έτη</strong>.
                       </li>
                       <li>
-                        • <strong>Ξενώνες LEADER & ΑΜΚΕ Ευεργετών:</strong> Ενεργή Πρόσκληση έως 04/02/2027 ή Χορηγία Ονοματοδοσίας (Naming Rights).
+                        • <strong>Ταμείο Ευεργετών (ΑΜΚΕ):</strong> Εκπιπτόμενη χορηγία (Άρθρο 19 Ν. 4172/2013), Ονοματοδοσία Κτιρίων (Naming Rights) & πιστοποιημένο ESG Impact.
                       </li>
                     </ul>
                     <div className="flex flex-wrap gap-2 pt-1">
@@ -994,13 +1011,19 @@ export default function VrosinaClientApp() {
                         onClick={() =>
                           registerEngagement(
                             "hero_jump",
-                            "investor-simulator",
-                            "Υπολογιστής Επενδύσεων"
+                            "#investors",
+                            "Υπολογιστής Επενδύσεων & Ρίσκα"
                           )
                         }
                         className="px-3 py-1.5 rounded bg-[#c89d54] hover:bg-amber-400 text-stone-950 font-bold"
                       >
-                        Υπολογιστής Επιδοτήσεων (έως 80%) ↓
+                        Υπολογιστής, Χρήση Κεφαλαίων & Ρίσκα ↓
+                      </a>
+                      <a
+                        href="/ependyseis-epidotiseis"
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
+                      >
+                        Σελίδα Επενδύσεων ↗
                       </a>
                       <button
                         type="button"
@@ -1019,105 +1042,53 @@ export default function VrosinaClientApp() {
                   </div>
                 )}
 
-                {heroRoleTab === "producer" && (
-                  <div className="p-3 rounded bg-stone-950 border border-stone-800 space-y-2.5 text-xs">
-                    <div className="font-serif font-bold text-sm text-amber-200">
-                      Πρόγραμμα «Έλα να βοσκήσεις — έλα να μείνεις»
-                    </div>
-                    <ul className="space-y-1 text-stone-300 leading-relaxed">
-                      <li>
-                        • <strong>Πρώτο Κοπάδι (50–80 ζώα) & Αμπελώνας:</strong> Έως 80% επιδότηση + προκαταβολή-γέφυρα από την 1η μέρα.
-                      </li>
-                      <li>
-                        • <strong>Εγγυημένη απορρόφηση + Σπίτι:</strong> Συμβόλαιο με το Τυροκομείο/Οινοποιείο, ανακαινισμένη κατοικία & αμειβόμενη Σχολή Πετράδων ΔΥΠΑ.
-                      </li>
-                    </ul>
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      <a
-                        href="#mega-guides"
-                        onClick={() => {
-                          setActiveMegaGuideTab("herder");
-                          registerEngagement(
-                            "hero_jump",
-                            "guide-zero-capital-herder",
-                            "Οδηγός 0€ Κεφάλαιο 43.100€"
-                          );
-                        }}
-                        className="px-3 py-1.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold"
-                      >
-                        🗺️ Οδηγός 0 € Κεφάλαιο (43.100 € σε 5 Βήματα) ↓
-                      </a>
-                      <a
-                        href="#community"
-                        onClick={() =>
-                          registerEngagement(
-                            "hero_jump",
-                            "young-producers",
-                            "Πακέτο Παραγωγών"
-                          )
-                        }
-                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
-                      >
-                        Πακέτο Παραγωγών ↓
-                      </a>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          openLeadModal(
-                            "producer",
-                            "Hero 30'' Selector — Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης",
-                            "Ενδιαφέρον για Πακέτο Πρώτου Κοπαδιού / Αμπελώνα / Σχολή Πετράδων"
-                          )
-                        }
-                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-[#c89d54] font-semibold cursor-pointer"
-                      >
-                        Αίτηση Συμμετοχής →
-                      </button>
-                    </div>
-                  </div>
-                )}
-
                 {heroRoleTab === "citizen" && (
                   <div className="p-3 rounded bg-stone-950 border border-stone-800 space-y-2.5 text-xs">
                     <div className="font-serif font-bold text-sm text-amber-200">
-                      Ξενάγηση Πεδίου, Τηλεοπτικές Παρουσίες & Θεσμικά Έγγραφα
+                      Υπουργεία, Τ.Α.ΕΘ.Α., Δήμος Ζίτσας, Περιφέρεια Ηπείρου & ΗΠΕΙΡΟΣ Α.Ε.
                     </div>
                     <ul className="space-y-1 text-stone-300 leading-relaxed">
                       <li>
-                        • <strong>Αυτοψία Σπιθαμή προς Σπιθαμή:</strong> Δείτε τα 8 κτίρια του Στρατοπέδου «Παπακωνσταντίνου» (13.695 τ.μ.) σήμερα & το 2031.
+                        • <strong>Τι κερδίζει το Δημόσιο:</strong> <strong>463.700 €/έτος</strong> άμεσα έσοδα (ΕΦΚΑ, ΦΜΥ, Φόρος Ν.Π., Αντάλλαγμα Τ.Α.ΕΘ.Α.), απόσβεση σε <strong>17 έτη</strong> (ή 6–10 έτη επί του εθνικού σκέλους) & 1,6× επιστροφή σε 25 έτη.
                       </li>
                       <li>
-                        • <strong>2 Τηλεοπτικές Συνεντεύξεις:</strong> Ο Αθανάσιος Βούρδας παρουσιάζει το σχέδιο στα κανάλια της Ηπείρου.
+                        • <strong>Τι ΔΕΝ ζητάμε:</strong> Καμία έκτακτη κρατική επιχορήγηση εκτός θεσμοθετημένων προγραμμάτων και 0 € επιβάρυνση του δημοτικού προϋπολογισμού.
                       </li>
                     </ul>
                     <div className="flex flex-wrap gap-2 pt-1">
                       <a
-                        href="#autopsia-real"
+                        href="#governance"
                         onClick={() =>
                           registerEngagement(
                             "hero_jump",
-                            "camp-tour-8-buildings",
-                            "Ξενάγηση Στρατοπέδου"
+                            "#governance",
+                            "Θεσμικοί Φάκελοι ανά Φορέα"
                           )
                         }
-                        className="px-3 py-1.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold"
+                        className="px-3 py-1.5 rounded bg-[#1f5c43] hover:bg-emerald-700 text-white font-semibold"
                       >
-                        Ξενάγηση στα 8 Κτίρια Στρατοπέδου ↓
+                        Θεσμικά Αιτήματα ανά Φορέα ↓
                       </a>
-                      <button
-                        type="button"
+                      <a
+                        href="#praktikes-lyseis"
                         onClick={() => {
-                          setHeroMediaView("tv1");
+                          setActivePracticalTab("fiscal");
                           registerEngagement(
-                            "hero_play_tv1",
-                            "hero-tv-player",
-                            "Τηλεοπτική Παρουσίαση 1"
+                            "hero_jump",
+                            "#praktikes-lyseis",
+                            "Τι Κερδίζει το Δημόσιο 463.700€"
                           );
                         }}
-                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-[#c89d54] font-semibold cursor-pointer"
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-amber-200 font-semibold"
                       >
-                        ▶ Παίξτε το Βίντεο Τηλεόρασης εδώ
-                      </button>
+                        Μελέτη Εσόδων Δημοσίου (463.700€) ↓
+                      </a>
+                      <a
+                        href="/stratopedo-vrosinas"
+                        className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-[#c89d54] font-semibold"
+                      >
+                        Φάκελος Στρατοπέδου ↗
+                      </a>
                     </div>
                   </div>
                 )}
@@ -1132,22 +1103,22 @@ export default function VrosinaClientApp() {
                   {
                     id: "map" as const,
                     badge: "ΔΙΑΔΡΑΣΤΙΚΟΣ ΧΑΡΤΗΣ",
-                    label: "🗺️ Χάρτης Σήμερα ↔ 2031",
+                    label: "Χάρτης Σήμερα ↔ 2031",
                   },
                   {
                     id: "tv1" as const,
                     badge: "ΤΗΛΕΟΡΑΣΗ #1",
-                    label: "📺 Παρουσίαση Σχεδίου",
+                    label: "Παρουσίαση Σχεδίου",
                   },
                   {
                     id: "tv2" as const,
                     badge: "EPIRUS TV1",
-                    label: "📺 Συνέντευξη Α. Βούρδα",
+                    label: "Συνέντευξη Α. Βούρδα",
                   },
                   {
                     id: "camp" as const,
                     badge: "ΑΥΤΟΨΙΑ 12:31",
-                    label: "🎥 Βίντεο Στρατοπέδου",
+                    label: "Βίντεο Στρατοπέδου",
                   },
                 ].map((m) => {
                   const active = heroMediaView === m.id;
@@ -1159,7 +1130,7 @@ export default function VrosinaClientApp() {
                         setHeroMediaView(m.id);
                         registerEngagement(
                           "switch_hero_media",
-                          `hero-${m.id}`,
+                          `#hero-${m.id}`,
                           m.label
                         );
                       }}
@@ -1170,13 +1141,13 @@ export default function VrosinaClientApp() {
                       }`}
                     >
                       <div
-                        className={`text-[9px] font-mono uppercase ${
+                        className={`text-xs font-mono uppercase ${
                           active ? "text-stone-900 font-bold" : "text-[#c89d54]"
                         }`}
                       >
                         {m.badge}
                       </div>
-                      <div className="text-[11px] sm:text-xs font-semibold truncate mt-0.5">
+                      <div className="text-xs font-semibold truncate mt-0.5">
                         {m.label}
                       </div>
                     </button>
@@ -1188,19 +1159,19 @@ export default function VrosinaClientApp() {
                 {heroMediaView === "map" ? (
                   <>
                     <div className="px-3 sm:px-4 py-2.5 bg-stone-900 border-b border-stone-800 flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-[11px] font-mono text-stone-300 uppercase">
+                      <span className="text-xs font-mono text-stone-300 uppercase">
                         {heroMode === "vision"
-                          ? "ΧΑΡΤΗΣ 2031 (ΒΑΣΙΣΜΕΝΟΣ ΣΤΗΝ ΠΡΑΓΜΑΤΙΚΗ ΑΕΡΟΦΩΤΟΓΡΑΦΙΑ)"
+                          ? "ΧΑΡΤΗΣ 2031 (ΕΝΔΕΙΚΤΙΚΗ ΦΩΤΟΡΕΑΛΙΣΤΙΚΗ ΑΠΕΙΚΟΝΙΣΗ — CONCEPT RENDER)"
                           : "ΠΡΑΓΜΑΤΙΚΗ ΑΕΡΟΦΩΤΟΓΡΑΦΙΑ ΒΡΟΣΙΝΑΣ ΣΗΜΕΡΑ (DRONE)"}
                       </span>
-                      <div className="inline-flex rounded bg-stone-950 p-0.5 text-[11px] border border-stone-800">
+                      <div className="inline-flex rounded bg-stone-950 p-0.5 text-xs border border-stone-800">
                         <button
                           type="button"
                           onClick={() => {
                             setHeroMode("real");
                             registerEngagement(
                               "toggle_hero_map",
-                              "map-real-drone",
+                              "#map-real-drone",
                               "Σήμερα (Drone)"
                             );
                           }}
@@ -1218,7 +1189,7 @@ export default function VrosinaClientApp() {
                             setHeroMode("vision");
                             registerEngagement(
                               "toggle_hero_map",
-                              "map-vision-2031",
+                              "#map-vision-2031",
                               "Σχέδιο 2031"
                             );
                           }}
@@ -1243,11 +1214,19 @@ export default function VrosinaClientApp() {
                         }
                         alt={
                           heroMode === "vision"
-                            ? "Ρεαλιστικό Masterplan Βροσίνα 2031 βασισμένο στην πραγματική αεροφωτογραφία του χωριού"
+                            ? "Ενδεικτική φωτορεαλιστική απεικόνιση (Concept Render) Masterplan Βροσίνα 2031 βασισμένη στην αεροφωτογραφία του χωριού"
                             : "Πραγματική αεροφωτογραφία της Βροσίνας Ιωαννίνων και του Ζαλογγίτικου ποταμού σήμερα"
                         }
+                        width={1200}
+                        height={750}
                         className="w-full h-full object-cover transition-all duration-500"
                       />
+
+                      {heroMode === "vision" && (
+                        <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded bg-black/80 text-amber-200 text-xs font-mono border border-amber-400/40 pointer-events-none">
+                          Ενδεικτική φωτορεαλιστική απεικόνιση (Concept Render)
+                        </div>
+                      )}
 
                       {MASTERPLAN_HOTSPOTS.map((spot, idx) => {
                         const isSelected = spot.id === activeHotspot.id;
@@ -1259,7 +1238,7 @@ export default function VrosinaClientApp() {
                               setActiveHotspotId(spot.id);
                               registerEngagement(
                                 "select_map_hotspot",
-                                `hotspot-${spot.id}`,
+                                `#hotspot-${spot.id}`,
                                 spot.title
                               );
                             }}
@@ -1298,7 +1277,7 @@ export default function VrosinaClientApp() {
                       <p className="text-stone-300 leading-relaxed">
                         {activeHotspot.description}
                       </p>
-                      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-stone-400 pt-1 border-t border-stone-800">
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-stone-400 pt-1 border-t border-stone-800">
                         <span>Χρηματοδότηση: {activeHotspot.funding}</span>
                         <span>
                           Πατήστε τους αριθμούς (1–6) ή επιλέξτε Τηλεόραση / Βίντεο πάνω
@@ -1315,6 +1294,7 @@ export default function VrosinaClientApp() {
                             title: TV_MEDIA_APPEARANCES[0].title,
                             sub: `${TV_MEDIA_APPEARANCES[0].channel} · ${TV_MEDIA_APPEARANCES[0].speaker}`,
                             desc: TV_MEDIA_APPEARANCES[0].summary,
+                            thumb: TV_MEDIA_APPEARANCES[0].thumbnail,
                           }
                         : heroMediaView === "tv2"
                           ? {
@@ -1322,17 +1302,20 @@ export default function VrosinaClientApp() {
                               title: TV_MEDIA_APPEARANCES[1].title,
                               sub: `${TV_MEDIA_APPEARANCES[1].channel} · ${TV_MEDIA_APPEARANCES[1].speaker}`,
                               desc: TV_MEDIA_APPEARANCES[1].summary,
+                              thumb: TV_MEDIA_APPEARANCES[1].thumbnail,
                             }
                           : {
                               id: CAMP_VIDEO_AUTOPSY.videoId,
                               title: CAMP_VIDEO_AUTOPSY.title,
-                              sub: `${CAMP_VIDEO_AUTOPSY.officialCampName} · Διάρκεια ${CAMP_VIDEO_AUTOPSY.duration}`,
+                              sub: `${CAMP_VIDEO_AUTOPSY.officialCampName} · Διάρκεια ${CAMP_VIDEO_AUTOPSY.duration} · Δημιουργός: ${CAMP_VIDEO_AUTOPSY.creator}`,
                               desc: CAMP_VIDEO_AUTOPSY.executiveSummary,
+                              thumb: "/images/real/camp-gate-real.jpg",
                             };
+                    const isConsented = !!consentedVideos[videoMeta.id];
                     return (
                       <>
                         <div className="px-3 sm:px-4 py-2.5 bg-stone-900 border-b border-stone-800 flex flex-wrap items-center justify-between gap-2">
-                          <span className="text-[11px] font-mono text-[#c89d54] font-bold uppercase truncate">
+                          <span className="text-xs font-mono text-[#c89d54] font-bold uppercase truncate">
                             {videoMeta.sub}
                           </span>
                           <button
@@ -1343,15 +1326,38 @@ export default function VrosinaClientApp() {
                             ← Επιστροφή στον Χάρτη 2031
                           </button>
                         </div>
-                        <div className="aspect-video w-full bg-black">
-                          <iframe
-                            key={videoMeta.id}
-                            src={`https://www.youtube.com/embed/${videoMeta.id}?autoplay=1&rel=0`}
-                            title={videoMeta.title}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="w-full h-full border-0"
-                          />
+                        <div className="aspect-video w-full bg-black relative">
+                          {isConsented ? (
+                            <iframe
+                              key={videoMeta.id}
+                              src={`https://www.youtube-nocookie.com/embed/${videoMeta.id}?autoplay=1&rel=0`}
+                              title={videoMeta.title}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="w-full h-full border-0"
+                            />
+                          ) : (
+                            <div
+                              onClick={() => enableVideoEmbed(videoMeta.id)}
+                              className="w-full h-full relative cursor-pointer group flex items-center justify-center"
+                            >
+                              <img
+                                src={videoMeta.thumb}
+                                alt={videoMeta.title}
+                                width={1200}
+                                height={675}
+                                className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:opacity-90 transition"
+                              />
+                              <div className="relative z-10 p-4 rounded-lg bg-black/85 border border-[#c89d54] text-center max-w-md mx-4 space-y-2">
+                                <div className="px-4 py-2 rounded bg-[#c89d54] text-stone-950 font-mono text-xs font-bold inline-block">
+                                  ▶ ΠΑΤΗΣΤΕ ΓΙΑ ΑΝΑΠΑΡΑΓΩΓΗ ΒΙΝΤΕΟ (YouTube No-Cookie)
+                                </div>
+                                <p className="text-xs text-stone-300">
+                                  Το βίντεο φορτώνει από το youtube-nocookie.com μόνο μετά το κλικ σας για προστασία απορρήτου (GDPR) και ταχύτητα σελίδας.
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <div className="p-3.5 sm:p-4 bg-stone-900 border-t border-stone-800 text-xs space-y-2">
                           <div className="font-serif font-bold text-sm sm:text-base text-white">
@@ -1370,7 +1376,7 @@ export default function VrosinaClientApp() {
                             <button
                               type="button"
                               onClick={() => setHeroMediaView("map")}
-                              className="text-stone-400 hover:text-white font-mono text-[11px] cursor-pointer"
+                              className="text-stone-400 hover:text-white font-mono text-xs cursor-pointer"
                             >
                               Προβολή Χάρτη 6 Σημείων
                             </button>
@@ -1384,7 +1390,7 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
-          {/* 6 KPI Counter Cards + Instant "What the State Gains" Proof Strip */}
+          {/* 6 KPI Counter Cards */}
           <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {HERO_KPIS.map((kpi, i) => (
               <div
@@ -1397,7 +1403,7 @@ export default function VrosinaClientApp() {
                 <div className="text-xs font-semibold text-white mt-1">
                   {kpi.label}
                 </div>
-                <div className="text-[11px] text-stone-400 mt-1 leading-snug">
+                <div className="text-xs text-stone-400 mt-1 leading-snug">
                   {kpi.sub}
                 </div>
               </div>
@@ -1408,10 +1414,10 @@ export default function VrosinaClientApp() {
           <div className="mt-4 bg-stone-900/95 border border-emerald-500/40 rounded-lg p-3.5 sm:p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
             <div className="space-y-0.5 text-xs">
               <div className="font-mono font-bold text-emerald-400 uppercase">
-                🏛️ ΤΙ ΚΕΡΔΙΖΕΙ ΤΟ ΔΗΜΟΣΙΟ ΑΠΟ ΤΑ 6,58 ΕΚ. € (63% ΔΗΜΟΣΙΟΙ / Ε.Ε. ΠΟΡΟΙ):
+                ΤΙ ΚΕΡΔΙΖΕΙ ΤΟ ΔΗΜΟΣΙΟ ΑΠΟ ΤΑ 6,58 ΕΚ. € (63% ΔΗΜΟΣΙΟΙ / Ε.Ε. ΠΟΡΟΙ):
               </div>
               <p className="text-stone-200 leading-relaxed">
-                <strong>463.700 € / έτος</strong> άμεσα έσοδα σε πλήρη λειτουργία (ΕΦΚΑ 327.600 € + ΦΜΥ 45.500 € + Φόρος Ν.Π. 39.600 € + Αντάλλαγμα Τ.Α.ΕΘ.Α. 51.000 €, <em>χωρίς καν να μετρήσουμε ΦΠΑ</em>) · <strong>Απόσβεση εθνικού σκέλους σε 6–10 έτη</strong> (ή 17 έτη αν 100% εθνικό κόστος) · <strong>1,6× επιστροφή (10,53 εκ. €) σε 25 έτη</strong> · <strong>0 € κόστος συντήρησης Στρατοπέδου για το ΥΠΕΘΑ</strong>.
+                <strong>463.700 € / έτος</strong> άμεσα έσοδα σε πλήρη λειτουργία (ΕΦΚΑ 327.600 € + ΦΜΥ 45.500 € + Φόρος Ν.Π. 39.600 € + Αντάλλαγμα Τ.Α.ΕΘ.Α. 51.000 €, <em>χωρίς ΦΠΑ</em>) · <strong>Απόσβεση συνολικής δημόσιας δαπάνης σε 17 έτη</strong> (ή 6–10 έτη επί του εθνικού σκέλους ανάλογα με τη συγχρηματοδότηση Ε.Ε.) · <strong>1,6× επιστροφή (10,53 εκ. €) σε 25 έτη</strong>.
               </p>
             </div>
             <a
@@ -1420,19 +1426,418 @@ export default function VrosinaClientApp() {
                 setActivePracticalTab("fiscal");
                 registerEngagement(
                   "hero_fiscal_proof_click",
-                  "fiscal-benefit-study",
+                  "#praktikes-lyseis",
                   "Τι Κερδίζει το Δημόσιο 463.700€"
                 );
               }}
               className="px-4 py-2 rounded bg-[#1f5c43] hover:bg-emerald-700 text-white font-mono text-xs font-bold whitespace-nowrap transition shrink-0 text-center"
             >
-              Αναλυτική Απόδειξη Εσόδων Δημοσίου ↓
+              Αναλυτική Μελέτη Εσόδων Δημοσίου ↓
             </a>
           </div>
         </div>
       </section>
 
-      {/* 3.5 SECTION 00 (#praktikes-lyseis): PRACTICAL SOLUTIONS, FISCAL PROOF & 100% DOCUMENTATION CENTER */}
+      {/* 3.2 SECTION (#poioi-eimaste): WHO WE ARE, COORDINATOR, LOCAL VOICES & PROJECT STATUS TIMELINE (Μέρος Β #5, #11) */}
+      <section
+        id="poioi-eimaste"
+        className="py-12 sm:py-16 bg-[#ebe6dc] border-b border-stone-300"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="max-w-3xl space-y-2">
+            <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#b85d3b]">
+              ΠΟΙΟΙ ΕΙΜΑΣΤΕ · ΚΑΤΑΣΤΑΣΗ ΩΡΙΜΑΝΣΗΣ & ΦΩΝΕΣ ΤΟΥ ΧΩΡΙΟΥ
+            </div>
+            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
+              Οι Άνθρωποι Πίσω από την Πρωτοβουλία & Πού Βρισκόμαστε Σήμερα
+            </h2>
+            <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
+              Διαφάνεια από την πρώτη γραμμή: ποιος συντονίζει την πρωτοβουλία, σε ποιο νομικό στάδιο βρίσκεται κάθε φορέας σήμερα και τι λένε οι ίδιοι οι άνθρωποι της Βροσίνας.
+            </p>
+          </div>
+
+          {/* Coordinator Card + 3 Governance Entities Status */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="lg:col-span-5 bg-[#14191f] text-white rounded-lg p-5 sm:p-6 border border-stone-800 space-y-4">
+              <div className="flex items-center gap-3.5 border-b border-stone-800 pb-4">
+                <img
+                  src="/images/real/tv-SOt0DH7kivY-hqdefault.jpg"
+                  alt={ABOUT_US_AND_STATUS.coordinatorCard.name}
+                  width={96}
+                  height={96}
+                  loading="lazy"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-[#c89d54] shrink-0"
+                />
+                <div>
+                  <div className="text-xs font-mono text-[#c89d54] font-bold uppercase">
+                    ΣΥΝΤΟΝΙΣΜΟΣ ΠΡΩΤΟΒΟΥΛΙΑΣ
+                  </div>
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                    {ABOUT_US_AND_STATUS.coordinatorCard.name}
+                  </h3>
+                  <div className="text-xs text-emerald-400">
+                    {ABOUT_US_AND_STATUS.coordinatorCard.role}
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+                {ABOUT_US_AND_STATUS.coordinatorCard.bio}
+              </p>
+              <div className="p-3 rounded bg-stone-900 border border-stone-800 text-xs font-mono text-amber-200">
+                {ABOUT_US_AND_STATUS.coordinatorCard.directCallNote} · Έδρα: {ABOUT_US_AND_STATUS.coordinatorCard.seat}
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 grid grid-cols-1 gap-3.5">
+              {ABOUT_US_AND_STATUS.governanceEntitiesStatus.map((ent, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-lg p-4 sm:p-5 border border-stone-300 space-y-1.5"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h4 className="font-serif font-bold text-base text-[#14191f]">
+                      {ent.name}
+                    </h4>
+                    <span className="px-2.5 py-0.5 rounded bg-amber-100 border border-amber-300 text-amber-950 font-mono text-xs font-bold">
+                      {ent.status}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                    {ent.role}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 4-Column Project Timeline Status */}
+          <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#14191f] space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+              <div>
+                <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                  ΚΑΤΑΣΤΑΣΗ ΕΡΓΟΥ ΣΗΜΕΡΑ (PROJECT MATURITY TRACKER)
+                </div>
+                <h3 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
+                  Πού Βρισκόμαστε Σήμερα: Τι Έχει Ολοκληρωθεί, Τι Τρέχει Τώρα & Τι Έπεται
+                </h3>
+              </div>
+              <span className="px-3 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
+                1η Προθεσμία LEADER: {SITE_CONFIG.leaderCall.deadlineDisplay}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {ABOUT_US_AND_STATUS.projectTimelineStatus.map((col, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-2"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-mono font-bold text-[#b85d3b] uppercase">
+                      {col.date}
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-stone-200 text-stone-800 font-mono text-xs font-bold">
+                      {col.stage}
+                    </span>
+                  </div>
+                  <div className="font-serif font-bold text-sm sm:text-base text-[#14191f]">
+                    {col.title}
+                  </div>
+                  <p className="text-xs text-stone-700 leading-relaxed">
+                    {col.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Local Voices / Testimonials */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {ABOUT_US_AND_STATUS.localVoices.map((v, idx) => (
+              <blockquote
+                key={idx}
+                className="bg-white rounded-lg p-5 border border-stone-300 border-l-4 border-l-[#1f5c43] flex flex-col justify-between space-y-3"
+              >
+                <p className="font-serif italic text-xs sm:text-sm text-stone-800 leading-relaxed">
+                  {v.quote}
+                </p>
+                <div className="pt-2 border-t border-stone-200">
+                  <div className="text-xs font-mono font-bold text-[#1f5c43]">
+                    {v.role}
+                  </div>
+                </div>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3.3 SECTION (#masterplan): FIRST THE PLAN (THE 4 PILLARS + ARITHMETIC RECONCILIATION + 5-YEAR RAMP-UP) */}
+      <section id="masterplan" className="py-12 sm:py-16 lg:py-20 bg-[#f7f5f0] border-b border-stone-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-2.5">
+            <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
+              01 / ΤΟ ΣΧΕΔΙΟ «ΒΡΟΣΙΝΑ 2031» · 4 ΑΛΛΗΛΕΝΔΕΤΟΙ ΠΥΛΩΝΕΣ (10,45 ΕΚ. €)
+            </div>
+            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
+              Από τη Γη, στο Ράφι, στο Χωριό: Τι Ακριβώς Δημιουργείται στη Βροσίνα
+            </h2>
+            <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
+              Οι κτηνοτρόφοι και οι αμπελουργοί (Πυλώνας 2) τροφοδοτούν το
+              Τυροκομείο και το Οινοποιείο στο πρώην Στρατόπεδο (Πυλώνας 1), οι
+              εργαζόμενοι κατοικούν στα ανακαινισμένα σπίτια με ανοιχτό σχολείο
+              (Πυλώνας 3), και οι επισκέπτες του Γεφυριού 1605 και της Μονής
+              Ραϊδιώτισσας (Πυλώνας 4) καταναλώνουν τα προϊόντα στον τόπο
+              παραγωγής τους.
+            </p>
+          </div>
+
+          {/* Pillar Selector Tabs */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {FOUR_PILLARS.map((pillar) => {
+              const active = pillar.id === activePillar.id;
+              return (
+                <button
+                  key={pillar.id}
+                  onClick={() => setActivePillarId(pillar.id)}
+                  className={`p-4 rounded border text-left transition cursor-pointer ${
+                    active
+                      ? "bg-[#14191f] text-white border-[#14191f]"
+                      : "bg-white hover:bg-stone-100 text-stone-800 border-stone-300"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 text-xs font-mono">
+                    <span
+                      className={`shrink-0 font-bold ${
+                        active ? "text-[#c89d54]" : "text-[#b85d3b]"
+                      }`}
+                    >
+                      ΠΥΛΩΝΑΣ {pillar.number}
+                    </span>
+                    <span className="font-bold text-right truncate">
+                      {pillar.shortBudget || pillar.budget}
+                    </span>
+                  </div>
+                  <div className="font-serif font-bold text-sm sm:text-base mt-1.5">
+                    {pillar.title}
+                  </div>
+                  <div
+                    className={`text-xs mt-1 ${
+                      active ? "text-stone-300" : "text-stone-500"
+                    }`}
+                  >
+                    Ενίσχυση: {pillar.subsidyRate}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Pillar Detail Card */}
+          <div className="bg-white rounded border border-stone-300 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            <div className="lg:col-span-5 bg-stone-900 flex flex-col justify-between">
+              <div className="relative aspect-16/11 w-full">
+                <img
+                  src={activePillar.heroImage}
+                  alt={activePillar.title}
+                  width={900}
+                  height={620}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/80 text-amber-200 text-xs font-mono">
+                  Ενδεικτική φωτορεαλιστική απεικόνιση (Concept Render)
+                </div>
+                <div className="absolute bottom-3 left-3 right-3 px-3 py-2 rounded bg-black/85 text-white text-xs">
+                  <div className="font-mono text-[#c89d54] font-bold">
+                    ΠΥΛΩΝΑΣ {activePillar.number} · {activePillar.budget}
+                  </div>
+                  <div>{activePillar.subtitle}</div>
+                </div>
+              </div>
+              {activePillar.secondaryImage && (
+                <div className="p-4 bg-[#14191f] text-white border-t border-stone-800 flex items-center gap-4">
+                  <img
+                    src={activePillar.secondaryImage}
+                    alt={activePillar.title}
+                    width={192}
+                    height={128}
+                    loading="lazy"
+                    className="w-24 h-16 rounded object-cover border border-stone-700 shrink-0"
+                  />
+                  <div className="text-xs text-stone-300">
+                    <strong className="text-[#c89d54] block">
+                      Θεσμικό & Χρηματοδοτικό Πλαίσιο:
+                    </strong>
+                    {activePillar.legalFramework}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="lg:col-span-7 p-5 sm:p-8 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="text-xs font-mono text-[#1f5c43] font-bold uppercase">
+                  ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ: {activePillar.budget} · ΕΠΙΔΟΤΗΣΗ:{" "}
+                  {activePillar.subsidyRate}
+                </div>
+                <h3 className="font-serif text-xl sm:text-3xl font-bold text-[#14191f]">
+                  {activePillar.title}
+                </h3>
+                <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
+                  {activePillar.summary}
+                </p>
+
+                <div className="space-y-2 pt-1">
+                  <div className="text-xs font-mono font-bold uppercase text-stone-500">
+                    ΚΥΡΙΕΣ ΠΑΡΕΜΒΑΣΕΙΣ & ΥΠΟΕΡΓΑ:
+                  </div>
+                  <ul className="grid grid-cols-1 gap-2">
+                    {activePillar.highlights.map((h, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-2.5 text-xs sm:text-sm text-stone-800 bg-stone-50 p-2.5 rounded border border-stone-200"
+                      >
+                        <span className="font-mono text-[#1f5c43] font-bold">
+                          0{i + 1}.
+                        </span>
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-stone-200">
+                {activePillar.kpis.map((k, i) => (
+                  <div
+                    key={i}
+                    className="bg-stone-100 rounded p-3 border border-stone-200"
+                  >
+                    <div className="font-mono font-bold text-sm sm:text-base text-[#14191f]">
+                      {k.value}
+                    </div>
+                    <div className="text-xs text-stone-600 mt-0.5">
+                      {k.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Explicit 10,45M € Arithmetic Reconciliation Card (Pillars + Shared Infrastructure = Categories A-D = 10,45M €) */}
+          <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#14191f] space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+              <div>
+                <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                  ΑΡΙΘΜΗΤΙΚΗ ΣΥΜΦΩΝΙΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ · ΠΥΛΩΝΕΣ 1–4 ΚΑΙ ΚΑΤΗΓΟΡΙΕΣ Α–Δ (10,45 ΕΚ. €)
+                </div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+                  4 Κύριοι Πυλώνες (8,63 εκ. €) + Κοινές Υποδομές, Ενέργεια & Ωρίμανση (1,82 εκ. €) = 10,45 εκ. €
+                </h3>
+              </div>
+              <span className="px-3 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
+                100% Επαληθεύσιμο Άθροισμα: 10.450.000 €
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b-2 border-stone-300 bg-stone-100 font-mono text-xs uppercase text-stone-700">
+                    <th className="p-2.5">Πυλώνας / Οριζόντια Κατηγορία</th>
+                    <th className="p-2.5 text-right">Άμεσος Πυλώνας</th>
+                    <th className="p-2.5">Κοινές Υποδομές / Αντιστοίχιση Κατηγοριών Α–Δ</th>
+                    <th className="p-2.5 text-right">Σύνολο με Υποδομές</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-200">
+                  {PUBLIC_FISCAL_BENEFIT_STUDY.capexArithmeticReconciliation.map(
+                    (row, idx) => (
+                      <tr key={idx} className="hover:bg-stone-50">
+                        <td className="p-2.5 font-serif font-bold text-[#14191f]">
+                          {row.item}
+                        </td>
+                        <td className="p-2.5 text-right font-mono text-stone-700 whitespace-nowrap">
+                          {row.pillarDirect}
+                        </td>
+                        <td className="p-2.5 font-mono text-stone-600">
+                          {row.sharedInfraAdded}
+                        </td>
+                        <td className="p-2.5 text-right font-mono font-bold text-[#1f5c43] whitespace-nowrap">
+                          {row.totalWithInfra}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                  <tr className="bg-[#14191f] text-white font-mono font-bold">
+                    <td className="p-2.5 font-serif">
+                      ΓΕΝΙΚΟ ΣΥΝΟΛΟ (Α: 2,25 εκ. + Β: 6,14 εκ. + Γ: 1,54 εκ. + Δ: 0,52 εκ.)
+                    </td>
+                    <td className="p-2.5 text-right text-stone-300 whitespace-nowrap">
+                      8,63 εκ. €
+                    </td>
+                    <td className="p-2.5 text-[#c89d54]">
+                      + 1,82 εκ. € (Υποδομές, Δίκτυα, Φ/Β 150 kWp & Μελέτες)
+                    </td>
+                    <td className="p-2.5 text-right text-[#c89d54] text-sm whitespace-nowrap">
+                      10,45 εκ. €
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 5-Year Ramp-up Timeline */}
+          <div className="bg-white rounded p-5 sm:p-8 border border-stone-300 space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span className="text-xs font-mono uppercase text-[#b85d3b] font-bold">
+                  ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΥΛΟΠΟΙΗΣΗΣ & ΚΛΙΜΑΚΩΣΗΣ (2026–2031)
+                </span>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+                  Η Πενταετής Διαδρομή προς την Ωριμότητα (Έτος 1 έως Έτος 5)
+                </h3>
+              </div>
+              <span className="text-xs font-mono bg-stone-100 px-3 py-1.5 rounded border border-stone-300">
+                Στόχος Έτους 5: 2.550.000 € Κύκλος Εργασιών · 50 Θέσεις Εργασίας
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+              {FIVE_YEAR_RAMPUP.map((step, i) => (
+                <div
+                  key={i}
+                  className="rounded p-4 bg-[#f7f5f0] border border-stone-300 flex flex-col justify-between space-y-3"
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-mono font-bold text-[#1f5c43]">
+                      <span>{step.year}</span>
+                      <span>{step.jobs} θέσεις</span>
+                    </div>
+                    <div className="font-mono text-base sm:text-lg font-bold text-[#14191f] mt-1.5">
+                      Έσοδα: {step.revenue}
+                    </div>
+                    <p className="text-xs text-stone-700 mt-2 leading-relaxed">
+                      {step.milestones}
+                    </p>
+                  </div>
+                  <div className="w-full bg-stone-300 h-1 rounded-full overflow-hidden">
+                    <div
+                      className="bg-[#1f5c43] h-full"
+                      style={{ width: `${(i + 1) * 20}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5 SECTION (#praktikes-lyseis): FISCAL PROOF (463.700 €/YEAR), KOINSEP & 7 PRACTICAL PLAYBOOKS */}
       <section
         id="praktikes-lyseis"
         className="py-12 sm:py-16 bg-[#f7f5f0] border-b-2 border-[#14191f]"
@@ -1829,6 +2234,26 @@ export default function VrosinaClientApp() {
                         </blockquote>
                       )
                     )}
+                  </div>
+                </div>
+
+                {/* WHAT WE DO NOT ASK FROM THE STATE (Μέρος Β Page 4) */}
+                <div className="bg-emerald-50 rounded-lg p-5 sm:p-6 border-2 border-[#1f5c43] space-y-3">
+                  <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                    ΘΕΣΜΙΚΗ ΚΑΘΑΡΟΤΗΤΑ ΑΠΕΝΑΝΤΙ ΣΕ ΥΠΟΥΡΓΕΙΑ, ΔΗΜΟ & ΠΕΡΙΦΕΡΕΙΑ
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+                    Τι ΔΕΝ Ζητάμε από το Δημόσιο & την Αυτοδιοίκηση
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-stone-800">
+                    {WHAT_WE_DO_NOT_ASK_STATE.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded bg-white border border-emerald-200 leading-relaxed"
+                      >
+                        ✓ {item}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -2523,6 +2948,9 @@ export default function VrosinaClientApp() {
                 <img
                   src={activeComparison.visionImage}
                   alt={activeComparison.visionCaption}
+                  width={1200}
+                  height={750}
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
 
@@ -2533,6 +2961,9 @@ export default function VrosinaClientApp() {
                   <img
                     src={activeComparison.realImage}
                     alt={activeComparison.realCaption}
+                    width={1200}
+                    height={750}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
@@ -2546,11 +2977,11 @@ export default function VrosinaClientApp() {
                   </div>
                 </div>
 
-                <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-xs bg-[#14191f]/90 text-white text-[11px] font-mono">
-                  ΣΗΜΕΡΑ
+                <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-xs bg-[#14191f]/90 text-white text-xs font-mono">
+                  ΣΗΜΕΡΑ (ΠΡΑΓΜΑΤΙΚΗ ΦΩΤΟΓΡΑΦΙΑ)
                 </div>
-                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-xs bg-[#1f5c43]/95 text-white text-[11px] font-mono">
-                  ΣΧΕΔΙΟ 2031
+                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-xs bg-[#1f5c43]/95 text-white text-xs font-mono">
+                  ΣΧΕΔΙΟ 2031 (CONCEPT RENDER)
                 </div>
 
                 <input
@@ -2576,7 +3007,7 @@ export default function VrosinaClientApp() {
                 </div>
                 <div className="p-3 bg-white border border-stone-200 border-l-4 border-l-[#1f5c43]">
                   <div className="font-mono font-bold text-[#1f5c43] mb-1">
-                    ΑΠΟΚΑΤΑΣΤΑΣΗ 2031:
+                    ΕΝΔΕΙΚΤΙΚΗ ΑΠΕΙΚΟΝΙΣΗ 2031 (CONCEPT RENDER):
                   </div>
                   <p className="text-stone-700 leading-relaxed">
                     {activeComparison.visionCaption}
@@ -2600,16 +3031,23 @@ export default function VrosinaClientApp() {
                   {CAMP_VIDEO_AUTOPSY.executiveSummary}
                 </p>
               </div>
-              <div className="bg-stone-900 border border-stone-800 rounded p-3 text-xs font-mono shrink-0">
-                <div className="text-[#c89d54] font-bold">ΤΕΚΜΗΡΙΟ ΠΕΔΙΟΥ:</div>
-                <div className="text-white mt-0.5">{CAMP_VIDEO_AUTOPSY.creator}</div>
+              <div className="bg-stone-900 border border-stone-800 rounded p-3 text-xs font-mono shrink-0 space-y-1">
+                <div className="text-[#c89d54] font-bold">ΠΗΓΗ / ΔΗΜΙΟΥΡΓΟΣ ΒΙΝΤΕΟ:</div>
+                <a
+                  href={CAMP_VIDEO_AUTOPSY.videoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-[#c89d54] underline block font-semibold"
+                >
+                  {CAMP_VIDEO_AUTOPSY.creator} ↗
+                </a>
                 <div className="text-stone-400">Διάρκεια: {CAMP_VIDEO_AUTOPSY.duration}</div>
               </div>
             </div>
 
             {/* 8 Timestamped Building/Zone Selector Grid */}
             <div className="space-y-2">
-              <div className="text-[11px] font-mono uppercase text-stone-400">
+              <div className="text-xs font-mono uppercase text-stone-400">
                 ΕΠΙΛΕΞΤΕ ΚΤΙΡΙΟ / ΖΩΝΗ (ΜΕΤΑΦΕΡΕΙ ΑΥΤΟΜΑΤΑ ΤΟ ΒΙΝΤΕΟ ΣΤΟ ΑΚΡΙΒΕΣ ΛΕΠΤΟ):
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
@@ -2621,9 +3059,10 @@ export default function VrosinaClientApp() {
                       onClick={() => {
                         setSelectedCampStepIdx(idx);
                         setCampVideoStart(st.startSeconds);
+                        enableVideoEmbed(CAMP_VIDEO_AUTOPSY.videoId);
                         registerEngagement(
                           "select_camp_building",
-                          `camp-building-${st.stepNumber}`,
+                          `#camp-building-${st.stepNumber}`,
                           st.buildingTitle
                         );
                       }}
@@ -2633,7 +3072,7 @@ export default function VrosinaClientApp() {
                           : "bg-stone-900 hover:bg-stone-800 text-stone-200 border-stone-800"
                       }`}
                     >
-                      <div className="flex items-center justify-between text-[11px] font-mono">
+                      <div className="flex items-center justify-between text-xs font-mono">
                         <span
                           className={
                             isSelected ? "text-stone-950 font-bold" : "text-[#c89d54]"
@@ -2660,26 +3099,51 @@ export default function VrosinaClientApp() {
               </div>
             </div>
 
-            {/* Main Split: Embedded Timestamped YouTube Player + Building Autopsy Card */}
+            {/* Main Split: Embedded Timestamped YouTube No-Cookie Player + Building Autopsy Card */}
             {(() => {
               const currentStep = CAMP_VIDEO_AUTOPSY.steps[selectedCampStepIdx];
+              const isCampConsented = !!consentedVideos[CAMP_VIDEO_AUTOPSY.videoId];
               const embedSrc =
                 campVideoStart !== null
-                  ? `https://www.youtube.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${campVideoStart}&autoplay=1&rel=0`
-                  : `https://www.youtube.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${currentStep.startSeconds}&rel=0`;
+                  ? `https://www.youtube-nocookie.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${campVideoStart}&autoplay=1&rel=0`
+                  : `https://www.youtube-nocookie.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${currentStep.startSeconds}&autoplay=1&rel=0`;
               return (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                   {/* Left: Embedded YouTube Player + Frame Capture */}
                   <div className="lg:col-span-6 space-y-3">
-                    <div className="aspect-video w-full rounded overflow-hidden bg-black border border-stone-700">
-                      <iframe
-                        key={campVideoStart ?? "initial"}
-                        src={embedSrc}
-                        title={CAMP_VIDEO_AUTOPSY.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="w-full h-full border-0"
-                      />
+                    <div className="aspect-video w-full rounded overflow-hidden bg-black border border-stone-700 relative">
+                      {isCampConsented ? (
+                        <iframe
+                          key={campVideoStart ?? "initial"}
+                          src={embedSrc}
+                          title={CAMP_VIDEO_AUTOPSY.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full border-0"
+                        />
+                      ) : (
+                        <div
+                          onClick={() => enableVideoEmbed(CAMP_VIDEO_AUTOPSY.videoId)}
+                          className="w-full h-full relative cursor-pointer group flex items-center justify-center"
+                        >
+                          <img
+                            src="/images/real/camp-gate-real.jpg"
+                            alt={CAMP_VIDEO_AUTOPSY.title}
+                            width={1200}
+                            height={675}
+                            loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:opacity-90 transition"
+                          />
+                          <div className="relative z-10 p-4 rounded-lg bg-black/85 border border-[#c89d54] text-center max-w-md mx-4 space-y-2">
+                            <div className="px-4 py-2 rounded bg-[#c89d54] text-stone-950 font-mono text-xs font-bold inline-block">
+                              ▶ ΑΝΑΠΑΡΑΓΩΓΗ ΑΥΤΟΨΙΑΣ ΣΤΡΑΤΟΠΕΔΟΥ ({currentStep.timeDisplay})
+                            </div>
+                            <p className="text-xs text-stone-300">
+                              Δημιουργός: {CAMP_VIDEO_AUTOPSY.creator} · Φόρτωση μέσω youtube-nocookie.com με το κλικ σας.
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="bg-stone-900 border border-stone-800 rounded p-3 flex flex-col sm:flex-row sm:items-center gap-3">
@@ -2687,6 +3151,9 @@ export default function VrosinaClientApp() {
                         <img
                           src={currentStep.imageSrc}
                           alt={currentStep.buildingTitle}
+                          width={256}
+                          height={160}
+                          loading="lazy"
                           className="w-full sm:w-32 h-32 sm:h-20 rounded object-cover border border-stone-700 shrink-0"
                         />
                       ) : (
@@ -2707,7 +3174,7 @@ export default function VrosinaClientApp() {
                           {currentStep.buildingTitle}
                         </div>
                         <div className="text-stone-400">
-                          Δομική Κατάσταση: {currentStep.structuralStatus}
+                          Εικόνα Πεδίου: {currentStep.structuralStatus}
                         </div>
                       </div>
                     </div>
@@ -2729,7 +3196,7 @@ export default function VrosinaClientApp() {
                     </h4>
 
                     <div className="p-3.5 sm:p-4 bg-stone-950 border-l-4 border-[#b85d3b] space-y-1">
-                      <div className="text-[11px] font-mono font-bold text-[#b85d3b] uppercase">
+                      <div className="text-xs font-mono font-bold text-[#b85d3b] uppercase">
                         ΚΑΤΑΓΡΑΦΗ ΑΥΤΟΨΙΑΣ ΣΗΜΕΡΑ:
                       </div>
                       <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
@@ -2738,7 +3205,7 @@ export default function VrosinaClientApp() {
                     </div>
 
                     <div className="p-3.5 sm:p-4 bg-stone-950 border-l-4 border-[#1f5c43] space-y-1">
-                      <div className="text-[11px] font-mono font-bold text-emerald-400 uppercase">
+                      <div className="text-xs font-mono font-bold text-emerald-400 uppercase">
                         ΧΡΗΣΗ ΣΤΟ «ΒΡΟΣΙΝΑ 2031»: {currentStep.future2031Role}
                       </div>
                       <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
@@ -2754,7 +3221,10 @@ export default function VrosinaClientApp() {
                         </strong>
                       </div>
                       <button
-                        onClick={() => setCampVideoStart(currentStep.startSeconds)}
+                        onClick={() => {
+                          setCampVideoStart(currentStep.startSeconds);
+                          enableVideoEmbed(CAMP_VIDEO_AUTOPSY.videoId);
+                        }}
                         className="px-3.5 py-1.5 rounded bg-[#b85d3b] hover:bg-[#a04e2f] text-white font-semibold transition cursor-pointer"
                       >
                         Προβολή στο {currentStep.timeDisplay.split(" ")[0]}
@@ -2787,75 +3257,99 @@ export default function VrosinaClientApp() {
                 </p>
               </div>
               <div className="text-xs font-mono text-stone-400">
-                2 Τηλεοπτικά Αφιερώματα · Άμεση Αναπαραγωγή
+                2 Τηλεοπτικά Αφιερώματα · YouTube No-Cookie
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {TV_MEDIA_APPEARANCES.map((tv) => (
-                <div
-                  key={tv.id}
-                  className="bg-stone-900 border border-stone-800 rounded overflow-hidden flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="aspect-video w-full bg-black relative">
-                      <iframe
-                        src={`https://www.youtube.com/embed/${tv.id}?rel=0`}
-                        title={tv.title}
-                        loading="lazy"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="w-full h-full border-0"
-                      />
+              {TV_MEDIA_APPEARANCES.map((tv) => {
+                const isTvConsented = !!consentedVideos[tv.id];
+                return (
+                  <div
+                    key={tv.id}
+                    className="bg-stone-900 border border-stone-800 rounded overflow-hidden flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="aspect-video w-full bg-black relative">
+                        {isTvConsented ? (
+                          <iframe
+                            src={`https://www.youtube-nocookie.com/embed/${tv.id}?autoplay=1&rel=0`}
+                            title={tv.title}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="w-full h-full border-0"
+                          />
+                        ) : (
+                          <div
+                            onClick={() => enableVideoEmbed(tv.id)}
+                            className="w-full h-full relative cursor-pointer group flex items-center justify-center"
+                          >
+                            <img
+                              src={tv.thumbnail}
+                              alt={tv.title}
+                              width={800}
+                              height={450}
+                              loading="lazy"
+                              className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:opacity-90 transition"
+                            />
+                            <div className="relative z-10 px-4 py-2 rounded bg-[#c89d54] text-stone-950 font-mono text-xs font-bold shadow-lg">
+                              ▶ ΠΑΤΗΣΤΕ ΓΙΑ ΑΝΑΠΑΡΑΓΩΓΗ (YouTube No-Cookie)
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-4 sm:p-5 space-y-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                          <span className="text-[#c89d54] font-bold">
+                            {tv.badge} · {tv.channel}
+                          </span>
+                          <a
+                            href={tv.youtubeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-stone-300 hover:text-white underline"
+                          >
+                            Προβολή στο YouTube ↗
+                          </a>
+                        </div>
+                        <h4 className="font-serif text-base sm:text-xl font-bold text-white leading-snug">
+                          {tv.title}
+                        </h4>
+                        <div className="text-xs font-mono text-emerald-400">
+                          {tv.speaker}
+                        </div>
+                        <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+                          {tv.summary}
+                        </p>
+                        <ul className="space-y-1 pt-1 text-xs text-stone-400">
+                          {tv.keyTopics.map((topic, idx) => (
+                            <li key={idx}>• {topic}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                    <div className="p-4 sm:p-5 space-y-3">
-                      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
-                        <span className="text-[#c89d54] font-bold">
-                          {tv.badge} · {tv.channel}
-                        </span>
-                        <a
-                          href={tv.youtubeUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-stone-300 hover:text-white underline"
-                        >
-                          Προβολή στο YouTube ↗
-                        </a>
-                      </div>
-                      <h4 className="font-serif text-base sm:text-xl font-bold text-white leading-snug">
-                        {tv.title}
-                      </h4>
-                      <div className="text-xs font-mono text-emerald-400">
-                        {tv.speaker}
-                      </div>
-                      <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
-                        {tv.summary}
-                      </p>
-                      <ul className="space-y-1 pt-1 text-xs text-stone-400">
-                        {tv.keyTopics.map((topic, idx) => (
-                          <li key={idx}>• {topic}</li>
-                        ))}
-                      </ul>
+                    <div className="px-4 sm:px-5 py-3 bg-stone-950 border-t border-stone-800 flex items-center justify-between text-xs">
+                      <button
+                        onClick={() => {
+                          setActiveVideoId(tv.id);
+                          enableVideoEmbed(tv.id);
+                        }}
+                        className="text-[#c89d54] hover:underline font-semibold cursor-pointer"
+                      >
+                        Μεγέθυνση Player στη σελίδα
+                      </button>
+                      <a
+                        href={tv.shortUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-stone-400 hover:text-white"
+                      >
+                        {tv.shortUrl} ↗
+                      </a>
                     </div>
                   </div>
-                  <div className="px-4 sm:px-5 py-3 bg-stone-950 border-t border-stone-800 flex items-center justify-between text-xs">
-                    <button
-                      onClick={() => setActiveVideoId(tv.id)}
-                      className="text-[#c89d54] hover:underline font-semibold cursor-pointer"
-                    >
-                      Μεγέθυνση Player στη σελίδα
-                    </button>
-                    <a
-                      href={tv.shortUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-stone-400 hover:text-white"
-                    >
-                      {tv.shortUrl} ↗
-                    </a>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -2884,7 +3378,7 @@ export default function VrosinaClientApp() {
               <div className="bg-[#14191f] p-3 sm:p-4 rounded border border-[#c89d54] shadow-xl">
                 <div className="aspect-video w-full rounded overflow-hidden bg-black">
                   <iframe
-                    src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0`}
+                    src={`https://www.youtube-nocookie.com/embed/${activeVideoId}?autoplay=1&rel=0`}
                     title="Βίντεο Βροσίνας Ιωαννίνων"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -2994,258 +3488,81 @@ export default function VrosinaClientApp() {
         </div>
       </section>
 
-      {/* 5. SECTION 2 (#masterplan): THE 4 PILLARS + 5-YEAR RAMP-UP */}
-      <section id="masterplan" className="py-12 sm:py-16 lg:py-20 bg-[#f7f5f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      {/* 5. SECTION (#gia-epicheiriseis): FOR SMALL & LARGE BUSINESSES — THE 3 PATHS (Μέρος Β Page 4) */}
+      <section
+        id="gia-epicheiriseis"
+        className="py-12 sm:py-16 lg:py-20 bg-[#f7f5f0] border-b border-stone-300"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="max-w-3xl space-y-2.5">
-            <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
-              02 / ΑΡΧΙΤΕΚΤΟΝΙΚΗ ΤΟΥ ΣΧΕΔΙΟΥ · 4 ΑΛΛΗΛΕΝΔΕΤΟΙ ΠΥΛΩΝΕΣ
+            <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#b85d3b]">
+              02 / ΓΙΑ ΜΙΚΡΕΣ & ΜΕΓΑΛΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ, ΞΕΝΩΝΕΣ & ΤΟΠΙΚΟΥΣ ΕΡΓΟΛΑΒΟΥΣ
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-              Από τη Γη, στο Ράφι, στο Χωριό: Το Οικοσύστημα των 10,45 εκ. €
+              Οι 3 Δρόμοι Συμμετοχής Επιχειρήσεων στο «Βροσίνα 2031»
             </h2>
             <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-              Οι κτηνοτρόφοι και οι αμπελουργοί (Πυλώνας 2) τροφοδοτούν το
-              Τυροκομείο και το Οινοποιείο στο πρώην Στρατόπεδο (Πυλώνας 1), οι
-              εργαζόμενοι κατοικούν στα ανακαινισμένα σπίτια με ανοιχτό σχολείο
-              (Πυλώνας 3), και οι επισκέπτες του Γεφυριού 1605 και της Μονής
-              Ραϊδιώτισσας (Πυλώνας 4) καταναλώνουν τα προϊόντα στον τόπο
-              παραγωγής τους.
+              Κάθε επιχειρηματικό προφίλ — από έναν οικογενειακό ξενώνα ή καφενείο έως ένα τεχνικό γραφείο της Ηπείρου ή μια βιομηχανία τυροκομικών/οίνου — βρίσκει ξεκάθαρους οικονομικούς όρους, κόστος συμμετοχής και διαδικασία επιλογής:
             </p>
           </div>
 
-          {/* Pillar Selector Tabs */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {FOUR_PILLARS.map((pillar) => {
-              const active = pillar.id === activePillar.id;
-              return (
-                <button
-                  key={pillar.id}
-                  onClick={() => setActivePillarId(pillar.id)}
-                  className={`p-4 rounded border text-left transition cursor-pointer ${
-                    active
-                      ? "bg-[#14191f] text-white border-[#14191f]"
-                      : "bg-white hover:bg-stone-100 text-stone-800 border-stone-300"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2 text-xs font-mono">
-                    <span
-                      className={`shrink-0 font-bold ${
-                        active ? "text-[#c89d54]" : "text-[#b85d3b]"
-                      }`}
-                    >
-                      ΠΥΛΩΝΑΣ {pillar.number}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+            {BUSINESS_THREE_PATHS.map((bp) => (
+              <div
+                key={bp.id}
+                className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#14191f] shadow-xs flex flex-col justify-between space-y-5"
+              >
+                <div className="space-y-4">
+                  <div className="border-b border-stone-200 pb-3 space-y-1">
+                    <span className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                      {bp.badge}
                     </span>
-                    <span className="font-bold text-right truncate">
-                      {pillar.shortBudget || pillar.budget}
-                    </span>
+                    <h3 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+                      {bp.title}
+                    </h3>
                   </div>
-                  <div className="font-serif font-bold text-sm sm:text-base mt-1.5">
-                    {pillar.title}
-                  </div>
-                  <div
-                    className={`text-xs mt-1 ${
-                      active ? "text-stone-300" : "text-stone-500"
-                    }`}
-                  >
-                    Ενίσχυση: {pillar.subsidyRate}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
 
-          {/* Active Pillar Detail Card */}
-          <div className="bg-white rounded border border-stone-300 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-5 bg-stone-900 flex flex-col justify-between">
-              <div className="relative aspect-16/11 w-full">
-                <img
-                  src={activePillar.heroImage}
-                  alt={activePillar.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute bottom-3 left-3 right-3 px-3 py-2 rounded bg-black/85 text-white text-xs">
-                  <div className="font-mono text-[#c89d54] font-bold">
-                    ΠΥΛΩΝΑΣ {activePillar.number} · {activePillar.budget}
-                  </div>
-                  <div>{activePillar.subtitle}</div>
-                </div>
-              </div>
-              {activePillar.secondaryImage && (
-                <div className="p-4 bg-[#14191f] text-white border-t border-stone-800 flex items-center gap-4">
-                  <img
-                    src={activePillar.secondaryImage}
-                    alt={activePillar.title}
-                    className="w-24 h-16 rounded object-cover border border-stone-700 shrink-0"
-                  />
-                  <div className="text-xs text-stone-300">
-                    <strong className="text-[#c89d54] block">
-                      Θεσμικό & Χρηματοδοτικό Πλαίσιο:
-                    </strong>
-                    {activePillar.legalFramework}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="lg:col-span-7 p-5 sm:p-8 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="text-xs font-mono text-[#1f5c43] font-bold uppercase">
-                  ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ: {activePillar.budget} · ΕΠΙΔΟΤΗΣΗ:{" "}
-                  {activePillar.subsidyRate}
-                </div>
-                <h3 className="font-serif text-xl sm:text-3xl font-bold text-[#14191f]">
-                  {activePillar.title}
-                </h3>
-                <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-                  {activePillar.summary}
-                </p>
-
-                <div className="space-y-2 pt-1">
-                  <div className="text-xs font-mono font-bold uppercase text-stone-500">
-                    ΚΥΡΙΕΣ ΠΑΡΕΜΒΑΣΕΙΣ & ΥΠΟΕΡΓΑ:
-                  </div>
-                  <ul className="grid grid-cols-1 gap-2">
-                    {activePillar.highlights.map((h, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-2.5 text-xs sm:text-sm text-stone-800 bg-stone-50 p-2.5 rounded border border-stone-200"
+                  <div className="space-y-3">
+                    {bp.opportunities.map((opp, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded bg-[#f7f5f0] border border-stone-300 space-y-1.5 text-xs"
                       >
-                        <span className="font-mono text-[#1f5c43] font-bold">
-                          0{i + 1}.
-                        </span>
-                        <span>{h}</span>
-                      </li>
+                        <div className="font-serif font-bold text-sm text-[#14191f]">
+                          {opp.name}
+                        </div>
+                        <div className="font-mono text-[#b85d3b] font-semibold">
+                          Προϋπολογισμός: {opp.capex}
+                        </div>
+                        <div className="font-mono text-[#1f5c43] font-semibold">
+                          {opp.grantTarget}
+                        </div>
+                        <p className="text-stone-700 leading-relaxed">
+                          <strong>Οικονομικά Στοιχεία:</strong> {opp.economics}
+                        </p>
+                        <p className="text-stone-600 leading-relaxed pt-1 border-t border-stone-200">
+                          <strong>Κανόνες Επιλογής:</strong> {opp.selectionRule}
+                        </p>
+                      </div>
                     ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-stone-200">
-                {activePillar.kpis.map((k, i) => (
-                  <div
-                    key={i}
-                    className="bg-stone-100 rounded p-3 border border-stone-200"
-                  >
-                    <div className="font-mono font-bold text-sm sm:text-base text-[#14191f]">
-                      {k.value}
-                    </div>
-                    <div className="text-[11px] text-stone-600 mt-0.5">
-                      {k.label}
-                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Explicit 10,45M € Arithmetic Reconciliation Card (Pillars + Shared Infrastructure = 10,45M €) */}
-          <div className="bg-white rounded-lg p-5 sm:p-6 border-2 border-[#14191f] space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
-              <div>
-                <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
-                  ΑΡΙΘΜΗΤΙΚΗ ΣΥΜΦΩΝΙΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ · ΠΩΣ ΣΥΜΠΛΗΡΩΝΟΝΤΑΙ ΤΑ 10,45 ΕΚΑΤ. €
                 </div>
-                <h3 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
-                  4 Κύριοι Πυλώνες (8,63 εκ. €) + Κοινές Υποδομές, Ενέργεια & Ωρίμανση (1,82 εκ. €) = 10,45 εκ. €
-                </h3>
-              </div>
-              <span className="px-3 py-1 rounded bg-[#14191f] text-[#c89d54] font-mono text-xs font-bold">
-                100% Επαληθεύσιμο Άθροισμα: 10.450.000 €
-              </span>
-            </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr className="border-b-2 border-stone-300 bg-stone-100 font-mono text-[11px] uppercase text-stone-700">
-                    <th className="p-2.5">Πυλώνας / Οριζόντια Κατηγορία</th>
-                    <th className="p-2.5 text-right">Άμεσος Πυλώνας</th>
-                    <th className="p-2.5">Κοινές Υποδομές / Οριζόντια Έργα</th>
-                    <th className="p-2.5 text-right">Σύνολο με Υποδομές</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-200">
-                  {PUBLIC_FISCAL_BENEFIT_STUDY.capexArithmeticReconciliation.map(
-                    (row, idx) => (
-                      <tr key={idx} className="hover:bg-stone-50">
-                        <td className="p-2.5 font-serif font-bold text-[#14191f]">
-                          {row.item}
-                        </td>
-                        <td className="p-2.5 text-right font-mono text-stone-700 whitespace-nowrap">
-                          {row.pillarDirect}
-                        </td>
-                        <td className="p-2.5 font-mono text-stone-600">
-                          {row.sharedInfraAdded}
-                        </td>
-                        <td className="p-2.5 text-right font-mono font-bold text-[#1f5c43] whitespace-nowrap">
-                          {row.totalWithInfra}
-                        </td>
-                      </tr>
+                <button
+                  type="button"
+                  onClick={() =>
+                    openLeadModal(
+                      "investor",
+                      `Ενότητα Επιχειρήσεων (#gia-epicheiriseis) — ${bp.badge}`,
+                      `Ενδιαφέρον Επιχείρησης για: ${bp.title}`
                     )
-                  )}
-                  <tr className="bg-[#14191f] text-white font-mono font-bold">
-                    <td className="p-2.5 font-serif">
-                      ΓΕΝΙΚΟ ΣΥΝΟΛΟ ΕΠΕΝΔΥΤΙΚΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ (2026–2031)
-                    </td>
-                    <td className="p-2.5 text-right text-stone-300 whitespace-nowrap">
-                      8,63 εκ. €
-                    </td>
-                    <td className="p-2.5 text-[#c89d54]">
-                      + 1,82 εκ. € (Υποδομές, Δίκτυα, Φ/Β 150 kWp & Μελέτες)
-                    </td>
-                    <td className="p-2.5 text-right text-[#c89d54] text-sm whitespace-nowrap">
-                      10,45 εκ. €
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* 5-Year Ramp-up Timeline */}
-          <div className="bg-white rounded p-5 sm:p-8 border border-stone-300 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <span className="text-xs font-mono uppercase text-[#b85d3b] font-bold">
-                  ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΥΛΟΠΟΙΗΣΗΣ & ΚΛΙΜΑΚΩΣΗΣ (2026–2031)
-                </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-                  Η Πενταετής Διαδρομή προς την Ωριμότητα (Έτος 1 έως Έτος 5)
-                </h3>
-              </div>
-              <span className="text-xs font-mono bg-stone-100 px-3 py-1.5 rounded border border-stone-300">
-                Στόχος Έτους 5: 2.550.000 € Κύκλος Εργασιών · 50 Θέσεις Εργασίας
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-              {FIVE_YEAR_RAMPUP.map((step, i) => (
-                <div
-                  key={i}
-                  className="rounded p-4 bg-[#f7f5f0] border border-stone-300 flex flex-col justify-between space-y-3"
+                  }
+                  className="w-full py-3 rounded bg-[#14191f] hover:bg-[#1f5c43] text-white font-semibold text-xs sm:text-sm transition cursor-pointer"
                 >
-                  <div>
-                    <div className="flex items-center justify-between text-xs font-mono font-bold text-[#1f5c43]">
-                      <span>{step.year}</span>
-                      <span>{step.jobs} θέσεις</span>
-                    </div>
-                    <div className="font-mono text-base sm:text-lg font-bold text-[#14191f] mt-1.5">
-                      Έσοδα: {step.revenue}
-                    </div>
-                    <p className="text-xs text-stone-700 mt-2 leading-relaxed">
-                      {step.milestones}
-                    </p>
-                  </div>
-                  <div className="w-full bg-stone-300 h-1 rounded-full overflow-hidden">
-                    <div
-                      className="bg-[#1f5c43] h-full"
-                      style={{ width: `${(i + 1) * 20}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                  Δήλωση Ενδιαφέροντος Επιχείρησης →
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -3342,7 +3659,10 @@ export default function VrosinaClientApp() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center pt-4 border-t border-stone-800">
               <div className="lg:col-span-5 space-y-4 bg-stone-950 p-5 rounded border border-stone-800">
                 <div>
-                  <label className="text-[11px] font-mono uppercase text-stone-400 block">
+                  <label
+                    htmlFor="investor-capital-slider"
+                    className="text-xs font-mono uppercase text-stone-400 block"
+                  >
                     2. ΙΔΙΑ ΣΥΜΜΕΤΟΧΗ / ΚΕΦΑΛΑΙΟ ΠΟΥ ΔΙΑΘΕΤΕΤΕ:
                   </label>
                   <div className="font-mono text-2xl sm:text-4xl font-bold text-[#c89d54] mt-1">
@@ -3351,16 +3671,18 @@ export default function VrosinaClientApp() {
                 </div>
 
                 <input
+                  id="investor-capital-slider"
                   type="range"
                   min={25000}
                   max={1000000}
                   step={25000}
                   value={investmentAmount}
                   onChange={(e) => setInvestmentAmount(Number(e.target.value))}
+                  aria-label="Επιλογή Ίδιας Συμμετοχής / Κεφαλαίου Επένδυσης"
                   className="w-full accent-[#c89d54] cursor-pointer"
                 />
 
-                <div className="flex justify-between text-[11px] font-mono text-stone-400">
+                <div className="flex justify-between text-xs font-mono text-stone-400">
                   <span>25.000 €</span>
                   <span>250.000 €</span>
                   <span>500.000 €</span>
@@ -3389,7 +3711,7 @@ export default function VrosinaClientApp() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="bg-stone-950 border border-stone-800 rounded p-3.5">
-                    <div className="text-[10px] font-mono text-stone-400 uppercase">
+                    <div className="text-xs font-mono text-stone-400 uppercase">
                       ΣΥΝΟΛΙΚΗ ΑΞΙΑ ΕΡΓΟΥ ΠΟΥ ΕΝΕΡΓΟΠΟΙΕΙΤΑΙ
                     </div>
                     <div className="font-mono text-xl sm:text-2xl font-bold text-white mt-1">
@@ -3397,7 +3719,7 @@ export default function VrosinaClientApp() {
                     </div>
                   </div>
                   <div className="bg-stone-950 border border-emerald-800/60 rounded p-3.5">
-                    <div className="text-[10px] font-mono text-emerald-300 uppercase">
+                    <div className="text-xs font-mono text-emerald-300 uppercase">
                       ΔΗΜΟΣΙΑ / ΕΥΡΩΠΑΪΚΗ ΕΠΙΔΟΤΗΣΗ
                     </div>
                     <div className="font-mono text-xl sm:text-2xl font-bold text-emerald-400 mt-1">
@@ -3405,7 +3727,7 @@ export default function VrosinaClientApp() {
                     </div>
                   </div>
                   <div className="bg-stone-950 border border-[#c89d54]/60 rounded p-3.5">
-                    <div className="text-[10px] font-mono text-[#c89d54] uppercase">
+                    <div className="text-xs font-mono text-[#c89d54] uppercase">
                       {investorSimulation.annualBenefitLabel}
                     </div>
                     <div className="font-mono text-lg sm:text-xl font-bold text-[#c89d54] mt-1">
@@ -3446,6 +3768,68 @@ export default function VrosinaClientApp() {
                     Αποστολή Επενδυτικού / Χορηγικού Αιτήματος με Αυτές τις Παραμέτρους →
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* INVESTOR DUE DILIGENCE: COUNTERPARTY, USE OF FUNDS TIMELINE & 4-ROW RISK MITIGATION MATRIX (Μέρος Β Page 3) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* Left 5 cols: Counterparty & Use of Funds Timeline */}
+            <div className="lg:col-span-5 bg-stone-900 border border-stone-800 rounded-lg p-5 sm:p-6 space-y-4">
+              <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
+                ΑΝΤΙΣΥΜΒΑΛΛΟΜΕΝΟΣ ΦΟΡΕΑΣ & ΧΡΗΣΗ ΚΕΦΑΛΑΙΩΝ
+              </div>
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                Με Ποιο Νομικό Πρόσωπο Υπογράφετε & Πότε Εκταμιεύονται τα Κεφάλαια
+              </h3>
+              <p className="text-xs text-stone-300 leading-relaxed bg-stone-950 p-3.5 rounded border border-stone-800">
+                {INVESTOR_RISK_AND_USE_OF_FUNDS.counterpartyNote}
+              </p>
+
+              <div className="space-y-2.5">
+                {INVESTOR_RISK_AND_USE_OF_FUNDS.useOfFundsTimeline.map((uf, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded bg-stone-950 border border-stone-800 space-y-1 text-xs"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2 font-mono">
+                      <span className="text-[#c89d54] font-bold">{uf.period}</span>
+                      <span className="text-emerald-400 font-bold">{uf.allocation}</span>
+                    </div>
+                    <p className="text-stone-300 leading-relaxed">Πηγή: {uf.source}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right 7 cols: 4-Row Risk & Mitigation Matrix */}
+            <div className="lg:col-span-7 bg-stone-900 border border-stone-800 rounded-lg p-5 sm:p-6 space-y-4">
+              <div className="text-xs font-mono font-bold uppercase text-[#b85d3b]">
+                ΠΙΝΑΚΑΣ ΒΑΣΙΚΩΝ ΚΙΝΔΥΝΩΝ & ΔΙΚΛΕΙΔΩΝ ΑΣΦΑΛΕΙΑΣ (RISK MATRIX)
+              </div>
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                Τι Συμβαίνει αν Καθυστερήσει το Στρατόπεδο, οι Επιδοτήσεις ή η Πρώτη Ύλη
+              </h3>
+              <div className="space-y-2.5">
+                {INVESTOR_RISK_AND_USE_OF_FUNDS.riskMitigationMatrix.map((rk, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded bg-stone-950 border border-stone-800 space-y-1.5 text-xs"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="font-serif font-bold text-sm text-amber-200">
+                        {rk.risk}
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-stone-800 text-stone-300 font-mono text-xs">
+                        Βαρύτητα: {rk.severity}
+                      </span>
+                    </div>
+                    <p className="text-stone-300 leading-relaxed">
+                      <strong className="text-emerald-400">Δικλείδα Ασφαλείας (Plan B):</strong>{" "}
+                      {rk.mitigation}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -3895,7 +4279,7 @@ export default function VrosinaClientApp() {
         </div>
       </section>
 
-      {/* 8. SECTION 5 (#community): VILLAGERS, CLOSED HOMES REGISTRY & YOUNG PRODUCERS */}
+      {/* 8. SECTION 5 (#community): EXISTING LOCAL HERDERS, CLOSED HOMES REGISTRY & YOUNG PRODUCERS */}
       <section
         id="community"
         className="py-12 sm:py-16 lg:py-20 bg-[#f7f5f0] border-b border-stone-300"
@@ -3903,18 +4287,74 @@ export default function VrosinaClientApp() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-2.5">
             <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
-              05 / ΚΑΤΟΙΚΙΑ, ΜΗΤΡΩΟ ΑΚΙΝΗΤΩΝ & ΝΕΟΙ ΠΑΡΑΓΩΓΟΙ
+              05 / ΓΙΑ ΚΤΗΝΟΤΡΟΦΟΥΣ ΤΗΣ ΠΕΡΙΟΧΗΣ, ΝΕΟΥΣ ΠΑΡΑΓΩΓΟΥΣ & ΙΔΙΟΚΤΗΤΕΣ ΣΠΙΤΙΩΝ
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-              Ανακαινίζουμε τα Κλειστά Σπίτια με 0 € Δική σας Επιβάρυνση & Δίνουμε Πρώτο Κοπάδι
+              Συμβόλαια Γάλακτος για τους Κτηνοτρόφους μας, Πρώτο Κοπάδι & Ανακαίνιση Κλειστών Σπιτιών με 0 €
             </h2>
             <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-              Ο <strong>Δεσμευτικός Μορφολογικός Κανονισμός</strong> επενδύει
-              τις όψεις των υφιστάμενων κατοικιών (1960–1990) με φυσική
-              ηπειρωτική πέτρα και αποκαθιστά τις κεραμοσκεπές (ή τοποθετεί
-              γκρίζα λιθόπλακα στα εμβληματικά κτίρια) μέσω{" "}
-              <strong>Master Lease 9–12 ετών</strong>.
+              Είτε είστε ήδη κτηνοτρόφος ή αμπελουργός στη Βροσίνα και στα γύρω χωριά της Δ.Ε. Μολοσσών, είτε έχετε κλειστό πατρικό σπίτι (μέσω{" "}
+              <strong>Μακροχρόνιας Μίσθωσης 10–15 ετών — Master Lease</strong>), είτε θέλετε να εγκατασταθείτε ως νέος παραγωγός, εδώ βρίσκετε τους ακριβείς όρους συμμετοχής.
             </p>
+          </div>
+
+          {/* DEDICATED CARD FOR EXISTING LOCAL HERDERS & VINEYARD GROWERS (Μέρος Β Page 3) */}
+          <div className="bg-white rounded-lg p-5 sm:p-8 border-2 border-[#1f5c43] shadow-sm space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 pb-4">
+              <div>
+                <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
+                  ΕΙΔΙΚΟ ΠΡΟΓΡΑΜΜΑ ΓΙΑ ΤΟΥΣ ΥΦΙΣΤΑΜΕΝΟΥΣ ΚΤΗΝΟΤΡΟΦΟΥΣ & ΑΜΠΕΛΟΥΡΓΟΥΣ ΤΗΣ ΠΕΡΙΟΧΗΣ
+                </div>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f] mt-1">
+                  Έχετε Ήδη Κοπάδι ή Αμπέλι στη Βροσίνα / Δ.Ε. Μολοσσών; Δείτε Πώς Γίνεστε Συνιδιοκτήτες με 100 €
+                </h3>
+              </div>
+              <a
+                href="/documents/Vrosina_2031_Village_Open_Call.pdf"
+                download
+                className="px-3.5 py-2 rounded bg-[#14191f] hover:bg-stone-800 text-[#c89d54] font-mono text-xs font-bold transition shrink-0"
+              >
+                Εκτυπώσιμο Ανοιχτό Κάλεσμα Χωριού (PDF) ↓
+              </a>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+              <div className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1.5">
+                <div className="font-mono text-xs font-bold text-[#b85d3b]">
+                  01. ΣΥΝΙΔΙΟΚΤΗΣΙΑ ΜΕ 100 €
+                </div>
+                <div className="font-serif font-bold text-base text-[#14191f]">
+                  Ένα Μέλος – Μία Ψήφος (Ν. 4430/2016)
+                </div>
+                <p className="text-xs text-stone-700 leading-relaxed">
+                  Με μία συνεταιριστική μερίδα <strong>100 €</strong> γίνεστε ισότιμο μέλος της Κοιν.Σ.Επ. Βροσίνας (που κατέχει το 35%–40% του Τυροκομείου & Οινοποιείου), χωρίς ευθύνη για εμπορικά χρέη.
+                </p>
+              </div>
+
+              <div className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1.5">
+                <div className="font-mono text-xs font-bold text-[#1f5c43]">
+                  02. ΦΟΡΜΟΥΛΑ ΤΙΜΗΣ ΓΑΛΑΚΤΟΣ
+                </div>
+                <div className="font-serif font-bold text-base text-[#14191f]">
+                  Ελάχιστη Τιμή + Πριμ +8% έως +12%
+                </div>
+                <p className="text-xs text-stone-700 leading-relaxed">
+                  3ετές συμβόλαιο απορρόφησης αιγοπρόβειου γάλακτος με <strong>εγγυημένη ελάχιστη τιμή ασφαλείας</strong>, πριμ λιποπρωτεΐνης/βιολογικού <strong>+8% έως +12%</strong> πάνω από τον μέσο όρο Ηπείρου και εξόφληση εντός 30 ημερών.
+                </p>
+              </div>
+
+              <div className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1.5">
+                <div className="font-mono text-xs font-bold text-[#b85d3b]">
+                  03. ΜΕΙΩΣΗ ΚΟΣΤΟΥΣ ΠΑΡΑΓΩΓΗΣ
+                </div>
+                <div className="font-serif font-bold text-base text-[#14191f]">
+                  Ζωοτροφές Χονδρικής (-15% έως -20%)
+                </div>
+                <p className="text-xs text-stone-700 leading-relaxed">
+                  Ομαδική προμήθεια ζωοτροφών, κτηνιατρική κάλυψη κοπαδιών, δωρεάν γεωπονική υποστήριξη για αμπέλια Ντεμπίνας και επιδότηση έως 70% για εκσυγχρονισμό υφιστάμενου στάβλου.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
@@ -3940,7 +4380,7 @@ export default function VrosinaClientApp() {
                         : "bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-300"
                     }`}
                   >
-                    <div className="text-[11px] font-mono font-bold text-[#c89d54]">
+                    <div className="text-xs font-mono font-bold text-[#c89d54]">
                       {cat.code}
                     </div>
                     <div className="font-serif font-bold text-sm mt-1">
@@ -4056,9 +4496,7 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
-          {/* INTERACTIVE DUAL MEGA-GUIDE SWITCHER:
-              1. "Από Άνεργος, Κτηνοτρόφος στο Βουνό με 0€ Αρχικό Κεφάλαιο (43.100€ σε 5 Βήματα)"
-              2. "Τι είναι ο Δεσμευτικός Μορφολογικός Κανονισμός & Τι Ισχύει Πολεοδομικά στη Βροσίνα (Σ.Α. Ιωαννίνων)" */}
+          {/* INTERACTIVE DUAL MEGA-GUIDE SWITCHER */}
           <div
             id="mega-guides"
             className="bg-white rounded-lg border-2 border-[#14191f] shadow-lg overflow-hidden"
@@ -4074,7 +4512,7 @@ export default function VrosinaClientApp() {
                     Πώς Ξεκινάς Χωρίς Κεφάλαιο στο Βουνό & Τι Ισχύει Πολεοδομικά στη Βροσίνα
                   </h3>
                   <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
-                    Επιλέξτε έναν από τους δύο αναλυτικούς οδηγούς βήμα-προς-βήμα για να δείτε πώς συνδυάζονται τα 4 κρατικά/ευρωπαϊκά προγράμματα (<strong>43.100 € άμεση ενίσχυση</strong>) και πώς λειτουργεί ο <strong>Δεσμευτικός Μορφολογικός Κανονισμός & το Συμβούλιο Αρχιτεκτονικής (Σ.Α.) Ιωαννίνων</strong> στη Βροσίνα.
+                    Επιλέξτε έναν από τους δύο αναλυτικούς οδηγούς βήμα-προς-βήμα για να δείτε πώς συνδυάζονται τα 4 κρατικά/ευρωπαϊκά προγράμματα (<strong>έως 42.500 € εφάπαξ ενισχύσεις + 600 €/έτος</strong>) και πώς λειτουργεί ο <strong>Δεσμευτικός Μορφολογικός Κανονισμός & το Συμβούλιο Αρχιτεκτονικής (Σ.Α.) Ιωαννίνων</strong> στη Βροσίνα.
                   </p>
                 </div>
                 <a
@@ -4092,8 +4530,8 @@ export default function VrosinaClientApp() {
                     setActiveMegaGuideTab("herder");
                     registerEngagement(
                       "select_mega_guide",
-                      "guide-zero-capital-herder",
-                      "Από Άνεργος Κτηνοτρόφος 43.100€"
+                      "#guide-zero-capital-herder",
+                      "Από Άνεργος Κτηνοτρόφος έως 42.500€"
                     );
                   }}
                   className={`p-4 rounded border text-left transition cursor-pointer flex items-start justify-between gap-3 ${
@@ -4103,14 +4541,14 @@ export default function VrosinaClientApp() {
                   }`}
                 >
                   <div className="space-y-1">
-                    <div className="text-[11px] font-mono font-bold uppercase text-[#c89d54]">
+                    <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
                       ΟΔΗΓΟΣ 01 · ΝΕΟΙ ΠΑΡΑΓΩΓΟΙ (5 ΒΗΜΑΤΑ)
                     </div>
                     <div className="font-serif font-bold text-sm sm:text-base">
-                      🗺️ Από Άνεργος, Κτηνοτρόφος στο Βουνό (Χωρίς Αρχικό Κεφάλαιο — 43.100 €)
+                      Από Άνεργος, Κτηνοτρόφος στο Βουνό (Έως 42.500 € εφάπαξ + 600 €/έτος)
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-black/40 font-mono text-[11px] text-[#c89d54] shrink-0">
+                  <span className="px-2 py-0.5 rounded bg-black/40 font-mono text-xs text-[#c89d54] shrink-0">
                     5 Βήματα
                   </span>
                 </button>
@@ -4121,7 +4559,7 @@ export default function VrosinaClientApp() {
                     setActiveMegaGuideTab("morphology");
                     registerEngagement(
                       "select_mega_guide",
-                      "guide-morphological-regulation",
+                      "#guide-morphological-regulation",
                       "Μορφολογικός Κανονισμός & Σ.Α. Ιωαννίνων"
                     );
                   }}
@@ -4132,14 +4570,14 @@ export default function VrosinaClientApp() {
                   }`}
                 >
                   <div className="space-y-1">
-                    <div className="text-[11px] font-mono font-bold uppercase text-[#c89d54]">
+                    <div className="text-xs font-mono font-bold uppercase text-[#c89d54]">
                       ΟΔΗΓΟΣ 02 · ΙΔΙΟΚΤΗΤΕΣ & ΜΗΧΑΝΙΚΟΙ
                     </div>
                     <div className="font-serif font-bold text-sm sm:text-base">
-                      🏛️ Δεσμευτικός Μορφολογικός Κανονισμός & Όροι Δόμησης Βροσίνας (Σ.Α. Ιωαννίνων)
+                      Δεσμευτικός Μορφολογικός Κανονισμός & Όροι Δόμησης Βροσίνας (Σ.Α. Ιωαννίνων)
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-black/40 font-mono text-[11px] text-[#c89d54] shrink-0">
+                  <span className="px-2 py-0.5 rounded bg-black/40 font-mono text-xs text-[#c89d54] shrink-0">
                     Πολεοδομία
                   </span>
                 </button>
@@ -4149,7 +4587,7 @@ export default function VrosinaClientApp() {
             {/* TAB 1 CONTENT: ZERO-CAPITAL HERDER 5-STEP MEGA-GUIDE */}
             {activeMegaGuideTab === "herder" ? (
               <div className="p-5 sm:p-8 space-y-8 bg-[#f7f5f0]">
-                <div className="bg-white rounded p-5 sm:p-6 border border-stone-300 space-y-2">
+                <div className="bg-white rounded p-5 sm:p-6 border border-stone-300 space-y-3">
                   <div className="text-xs font-mono font-bold text-[#1f5c43]">
                     {ZERO_CAPITAL_HERDER_GUIDE.badge}
                   </div>
@@ -4159,6 +4597,9 @@ export default function VrosinaClientApp() {
                   <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
                     {ZERO_CAPITAL_HERDER_GUIDE.subtitle}
                   </p>
+                  <div className="p-3.5 rounded bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed">
+                    {ZERO_CAPITAL_HERDER_GUIDE.eligibilityDisclaimer}
+                  </div>
                 </div>
 
                 {/* Interactive 5-Step Selector */}
@@ -4330,13 +4771,13 @@ export default function VrosinaClientApp() {
                       onClick={() =>
                         openLeadModal(
                           "producer",
-                          "Οδηγός 0€ Αρχικό Κεφάλαιο (#mega-guides) — Αίτηση Καθοδήγησης Νέου Κτηνοτρόφου (43.100€)",
+                          "Οδηγός 0€ Αρχικό Κεφάλαιο (#mega-guides) — Αίτηση Καθοδήγησης Νέου Κτηνοτρόφου (έως 42.500€ εφάπαξ + 600€/έτος)",
                           "Ενδιαφέρον για τον Οδικό Χάρτη 5 Βημάτων (Μετεγκατάσταση 10.000€ + Μικροπίστωση HDB 25.000€ + Νέοι Γεωργοί Π3-75.1 32.500€ + Πακέτο Πρώτου Κοπαδιού Βροσίνας)"
                         )
                       }
                       className="w-full py-3 rounded bg-[#1f5c43] hover:bg-[#174632] text-white font-semibold text-xs sm:text-sm transition cursor-pointer"
                     >
-                      Αίτηση Καθοδήγησης για τα 5 Βήματα (43.100 €) στη Βροσίνα →
+                      Αίτηση Καθοδήγησης για τα 5 Βήματα (έως 42.500 € εφάπαξ) στη Βροσίνα →
                     </button>
                   </div>
                 </div>
@@ -4443,14 +4884,14 @@ export default function VrosinaClientApp() {
         </div>
       </section>
 
-      {/* 9. SECTION 6 (#dataroom): OFFICIAL DATA ROOM (13 FILES), VISION SPEECH & FAQ */}
+      {/* 9. SECTION 6 (#dataroom): OFFICIAL DATA ROOM (11 PUBLIC FILES), VERSION 2.1 RECONCILIATION, VISION SPEECH & FAQ */}
       <section id="dataroom" className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="space-y-5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <div className="text-xs font-mono font-bold uppercase tracking-widest text-[#1f5c43]">
-                  06 / ΕΠΙΣΗΜΟ DATA ROOM & ΒΙΒΛΙΟΘΗΚΗ ΤΕΚΜΗΡΙΩΣΗΣ
+                  06 / ΕΠΙΣΗΜΟ DATA ROOM & ΒΙΒΛΙΟΘΗΚΗ ΤΕΚΜΗΡΙΩΣΗΣ (11 ΔΗΜΟΣΙΑ ΕΓΓΡΑΦΑ)
                 </div>
                 <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f] mt-1">
                   Όλα τα Επίσημα Έγγραφα & Υποδείγματα του «Βροσίνα 2031»
@@ -4465,6 +4906,16 @@ export default function VrosinaClientApp() {
               </a>
             </div>
 
+            {/* VERSION 2.1 vs PDF v2.0 RECONCILIATION BANNER (Μέρος Α #24, Μέρος Β #4) */}
+            <div className="p-4 sm:p-5 rounded-lg bg-amber-50 border-2 border-amber-300 text-xs sm:text-sm text-amber-950 space-y-1.5">
+              <div className="font-mono font-bold uppercase text-[#b85d3b]">
+                ΣΗΜΕΙΩΣΗ ΕΚΔΟΣΗΣ (WEB ΕΚΔΟΣΗ 2.1 — ΕΝΑΡΜΟΝΙΣΗ ΜΕ ΤΑ PDF ΕΚΔΟΣΗΣ 2.0):
+              </div>
+              <p className="leading-relaxed">
+                Η παρούσα διαδικτυακή <strong>Έκδοση 2.1 (Νοέμβριος 2026)</strong> επικαιροποιεί και εναρμονίζει επιμέρους παραμέτρους σε σχέση με τα αρχικά αρχεία PDF της Έκδοσης 2.0: (α) η ενδεικτική διάρκεια της <strong>Μακροχρόνιας Μίσθωσης (Master Lease)</strong> ενοποιείται σε <strong>10–15 έτη</strong> (έναντι 9–12 ετών σε πρώιμα προσχέδια), (β) η μετοχική σύνθεση της Εμπορικής Θυγατρικής στο Στρατόπεδο «Παπακωνσταντίνου» αποτυπώνεται ως <strong>35%–40% ΚΟΙΝΣΕΠ, 35%–40% Στρατηγικός Εταίρος, 15% Επενδυτές Διασποράς, 10% ΟΤΑ/Αναπτυξιακός Οργανισμός</strong> (με καταστατικό κατώφλι ελέγχου τοπικής κοινωνίας + ΟΤΑ ≥ 45%), και (γ) η στέγη του παλαιού Δημοτικού Σχολείου αναφέρεται ενιαία ως <strong>παραδοσιακή ξύλινη κεραμοσκεπή</strong>.
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {(showAllDataRoom
                 ? DATA_ROOM_DOCUMENTS
@@ -4477,7 +4928,7 @@ export default function VrosinaClientApp() {
                   onClick={() =>
                     registerEngagement(
                       "download_dataroom_doc",
-                      `doc-${idx + 1}`,
+                      `#doc-${idx + 1}`,
                       doc.title
                     )
                   }
@@ -4488,7 +4939,7 @@ export default function VrosinaClientApp() {
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between text-[11px] font-mono">
+                    <div className="flex items-center justify-between text-xs font-mono">
                       <span className="text-stone-600 uppercase font-semibold">
                         {doc.category}
                       </span>
@@ -4518,7 +4969,7 @@ export default function VrosinaClientApp() {
                   setShowAllDataRoom(!showAllDataRoom);
                   registerEngagement(
                     "toggle_all_dataroom",
-                    "dataroom-all",
+                    "#dataroom",
                     showAllDataRoom ? "collapse" : "expand"
                   );
                 }}
@@ -4526,7 +4977,7 @@ export default function VrosinaClientApp() {
               >
                 {showAllDataRoom
                   ? "Σύμπτυξη Data Room (Εμφάνιση 3 Βασικών Εγγράφων)"
-                  : `Προβολή Όλων των ${DATA_ROOM_DOCUMENTS.length} Επίσημων Εγγράφων & Υποδειγμάτων (+${DATA_ROOM_DOCUMENTS.length - 3} μελέτες) ↓`}
+                  : `Προβολή Όλων των ${DATA_ROOM_DOCUMENTS.length} Επίσημων Εγγράφων & Υποδειγμάτων ↓`}
               </button>
             </div>
           </div>
@@ -4558,17 +5009,21 @@ export default function VrosinaClientApp() {
               </div>
 
               <div className="p-4 rounded bg-stone-900 border border-stone-800 text-xs sm:text-sm text-stone-200 leading-relaxed">
-                <div className="font-mono text-[10px] text-[#c89d54] mb-1 uppercase">
-                  ΤΕΚΜΗΡΙΩΜΕΝΗ ΑΠΑΝΤΗΣΗ (ΕΚΔΟΣΗ 2.0):
+                <div className="font-mono text-xs text-[#c89d54] mb-1 uppercase">
+                  ΤΕΚΜΗΡΙΩΜΕΝΗ ΑΠΑΝΤΗΣΗ (ΕΚΔΟΣΗ 2.1):
                 </div>
                 {executiveAnswers[quickQaIdx].answer}
               </div>
 
               <div className="pt-1">
-                <label className="text-[11px] font-mono text-stone-400 block mb-1">
+                <label
+                  htmlFor="faq-search-input"
+                  className="text-xs font-mono text-stone-400 block mb-1"
+                >
                   Αναζήτηση όρου στις Συχνές Ερωτήσεις:
                 </label>
                 <input
+                  id="faq-search-input"
                   type="text"
                   value={faqQuery}
                   onChange={(e) => setFaqQuery(e.target.value)}
@@ -4655,21 +5110,21 @@ export default function VrosinaClientApp() {
                 07 / ΑΜΕΣΗ ΕΠΙΚΟΙΝΩΝΙΑ & ΜΗΤΡΩΟ ΣΥΜΜΕΤΟΧΗΣ
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
-                Δηλώστε Συμμετοχή ως Επενδυτής, Ευεργέτης, Ιδιοκτήτης Ακινήτου ή Νέος Παραγωγός
+                Δηλώστε Συμμετοχή ως Κτηνοτρόφος, Ιδιοκτήτης Ακινήτου, Επιχείρηση, Επενδυτής ή Φορέας
               </h3>
               <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
-                Κάθε αίτημα αποστέλλεται άμεσα στην ομάδα συντονισμού του{" "}
-                <strong>«Βροσίνα 2031»</strong> με πλήρη ένδειξη της κατηγορίας
+                Κάθε αίτημα αποστέλλεται άμεσα στον συντονιστή της πρωτοβουλίας{" "}
+                <strong>Αθανάσιο Βούρδα</strong> (<strong>«Βροσίνα 2031»</strong>) με πλήρη ένδειξη της κατηγορίας
                 και της ενότητας ενδιαφέροντος, ώστε να λάβετε τον αντίστοιχο
-                εξατομικευμένο φάκελο (LOI LEADER, Καταστατικό ΚΟΙΝΣΕΠ/ΑΜΚΕ ή
-                Όρους Master Lease).
+                εξατομικευμένο φάκελο (LOI LEADER, Καταστατικό Κοιν.Σ.Επ./ΑΜΚΕ ή
+                Όρους Μακροχρόνιας Μίσθωσης 10–15 ετών).
               </p>
               <div className="p-4 rounded bg-white border border-stone-300 space-y-1.5 text-xs font-mono">
                 <div className="text-stone-500 uppercase">
                   ΕΠΙΣΗΜΟ DESK ΥΠΟΔΟΧΗΣ ΑΙΤΗΜΑΤΩΝ:
                 </div>
                 <div className="font-bold text-[#14191f]">
-                  {SITE_CONFIG.contact.email}
+                  Συντονιστής: Αθανάσιος Βούρδας ({SITE_CONFIG.contact.email})
                 </div>
                 <div className="text-stone-600">
                   Προθεσμία 1ης Πρόσκλησης LEADER:{" "}
@@ -4691,47 +5146,59 @@ export default function VrosinaClientApp() {
                   className="space-y-4 text-xs sm:text-sm"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-stone-200">
-                    <span className="font-mono text-[11px] font-bold text-[#1f5c43] uppercase">
+                    <span className="font-mono text-xs font-bold text-[#1f5c43] uppercase">
                       ΦΟΡΜΑ ΕΚΔΗΛΩΣΗΣ ΕΝΔΙΑΦΕΡΟΝΤΟΣ «ΒΡΟΣΙΝΑ 2031»
                     </span>
-                    <span className="font-mono text-[11px] text-stone-500">
+                    <span className="font-mono text-xs text-stone-500">
                       Πηγή: {leadOrigin}
                     </span>
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-1 text-[#14191f]">
+                    <label
+                      htmlFor="inline-lead-role"
+                      className="block font-semibold mb-1 text-[#14191f]"
+                    >
                       Ιδιότητα / Κατηγορία Ενδιαφέροντος *
                     </label>
                     <select
+                      id="inline-lead-role"
+                      required
                       value={leadRole}
                       onChange={(e) => setLeadRole(e.target.value)}
                       className="w-full p-2.5 rounded border border-stone-300 bg-stone-50 font-medium text-[#14191f]"
                     >
+                      <option value="" disabled>
+                        — Επιλέξτε ποιος είστε —
+                      </option>
+                      <option value="owner">
+                        Κάτοικος / Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα
+                      </option>
+                      <option value="producer">
+                        Υφιστάμενος ή Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας
+                      </option>
                       <option value="investor">
-                        Στρατηγικός Επενδυτής / Family Office / Εταιρεία (35%–40% ή LEADER)
+                        Επιχείρηση / Ξενώνας LEADER / Εργολάβος / Στρατηγικός Επενδυτής (35%–40%)
                       </option>
                       <option value="benefactor">
                         Μεγάλος Ευεργέτης / Χορηγός Ονοματοδοσίας (ΑΜΚΕ Ταμείο Ευεργετών)
                       </option>
                       <option value="institutional">
-                        Θεσμικός / Πολιτικός Φορέας / Αυτοδιοίκηση
-                      </option>
-                      <option value="owner">
-                        Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα
-                      </option>
-                      <option value="producer">
-                        Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας
+                        Θεσμικός Φορέας / Αυτοδιοίκηση / Υπουργείο
                       </option>
                     </select>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-semibold mb-1 text-[#14191f]">
+                      <label
+                        htmlFor="inline-lead-name"
+                        className="block font-semibold mb-1 text-[#14191f]"
+                      >
                         Ονοματεπώνυμο / Φορέας *
                       </label>
                       <input
+                        id="inline-lead-name"
                         type="text"
                         required
                         value={leadName}
@@ -4741,10 +5208,14 @@ export default function VrosinaClientApp() {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold mb-1 text-[#14191f]">
+                      <label
+                        htmlFor="inline-lead-phone"
+                        className="block font-semibold mb-1 text-[#14191f]"
+                      >
                         Τηλέφωνο Επικοινωνίας *
                       </label>
                       <input
+                        id="inline-lead-phone"
                         type="tel"
                         required
                         value={leadPhone}
@@ -4756,10 +5227,14 @@ export default function VrosinaClientApp() {
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-1 text-[#14191f]">
+                    <label
+                      htmlFor="inline-lead-email"
+                      className="block font-semibold mb-1 text-[#14191f]"
+                    >
                       Email *
                     </label>
                     <input
+                      id="inline-lead-email"
                       type="email"
                       required
                       value={leadEmail}
@@ -4770,16 +5245,42 @@ export default function VrosinaClientApp() {
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-1 text-[#14191f]">
+                    <label
+                      htmlFor="inline-lead-message"
+                      className="block font-semibold mb-1 text-[#14191f]"
+                    >
                       Μήνυμα / Περιγραφή Ακινήτου ή Επενδυτικού Προφίλ
                     </label>
                     <textarea
+                      id="inline-lead-message"
                       rows={3}
                       value={leadMessage}
                       onChange={(e) => setLeadMessage(e.target.value)}
-                      placeholder="Σημειώστε αν σας ενδιαφέρει το LOI για την Πρόσκληση LEADER (04/02/2027), η ΑΜΚΕ Ευεργετών ή η ένταξη ακινήτου..."
+                      placeholder="Σημειώστε αν σας ενδιαφέρει η Κοιν.Σ.Επ. (100€), η ένταξη ακινήτου (0€ ίδια συμμετοχή), το LOI LEADER (04/02/2027) ή η ΑΜΚΕ Ευεργετών..."
                       className="w-full p-2.5 rounded border border-stone-300 text-[#14191f]"
                     />
+                  </div>
+
+                  <div className="flex items-start gap-2.5 p-3 rounded bg-stone-50 border border-stone-200 text-xs text-stone-700">
+                    <input
+                      id="inline-gdpr-consent"
+                      type="checkbox"
+                      required
+                      checked={gdprAccepted}
+                      onChange={(e) => setGdprAccepted(e.target.checked)}
+                      className="mt-0.5 accent-[#1f5c43] cursor-pointer"
+                    />
+                    <label htmlFor="inline-gdpr-consent" className="leading-relaxed cursor-pointer">
+                      Συναινώ στην επεξεργασία των στοιχείων επικοινωνίας μου αποκλειστικά για την ενημέρωσή μου σχετικά με την Πρωτοβουλία «Βροσίνα 2031» (Υπεύθυνος Επεξεργασίας: Αθανάσιος Βούρδας, αποστολή μέσω FormSubmit στο digiadsgr@gmail.com), σύμφωνα με την{" "}
+                      <button
+                        type="button"
+                        onClick={() => setPrivacyModalOpen(true)}
+                        className="text-[#1f5c43] font-semibold underline cursor-pointer"
+                      >
+                        Πολιτική Απορρήτου (GDPR)
+                      </button>
+                      . *
+                    </label>
                   </div>
 
                   <button
@@ -4845,6 +5346,9 @@ export default function VrosinaClientApp() {
                 (Δ.Ε. Μολοσσών, Δήμος Ζίτσας, Π.Ε. Ιωαννίνων, Περιφέρεια
                 Ηπείρου).
               </p>
+              <p className="text-stone-300">
+                Συντονιστής Πρωτοβουλίας: <strong className="text-white">Αθανάσιος Βούρδας</strong>
+              </p>
             </div>
 
             <div className="space-y-1.5">
@@ -4867,7 +5371,7 @@ export default function VrosinaClientApp() {
                     href="/ependyseis-epidotiseis"
                     className="hover:text-white underline decoration-stone-700"
                   >
-                    Επενδύσεις, Επιδοτήσεις 80% & ΑΜΚΕ Ευεργετών
+                    Επενδύσεις, Επιδοτήσεις έως 80% & ΑΜΚΕ Ευεργετών
                   </a>
                 </li>
                 <li>
@@ -4894,7 +5398,7 @@ export default function VrosinaClientApp() {
                     href="/ai-knowledge-base"
                     className="hover:text-white underline decoration-stone-700"
                   >
-                    AI Knowledge Base & Fact Sheet (EL/EN)
+                    Βάση Δεδομένων & Δίγλωσση Σύνοψη (EL/EN)
                   </a>
                 </li>
               </ul>
@@ -4907,18 +5411,24 @@ export default function VrosinaClientApp() {
               <ul className="space-y-1">
                 <li>• 1η Πρόσκληση LEADER ΗΠΕΙΡΟΣ Α.Ε. (545/07-10-2026)</li>
                 <li>• Αναπτυξιακός Νόμος 4887/2022 (έως 75%)</li>
-                <li>• ΚΟΙΝΣΕΠ Συλλογικής & Κοινωνικής Ωφέλειας (Ν.4430/2016)</li>
-                <li>• Ταμείο Ευεργετών Βροσίνας (ΑΜΚΕ — Naming Rights)</li>
+                <li>• Κοιν.Σ.Επ. Βροσίνας (Ν.4430/2016 — υπό σύσταση)</li>
+                <li>• Ταμείο Ευεργετών Βροσίνας (ΑΜΚΕ — υπό σύσταση)</li>
                 <li>• Ενεργειακή Κοινότητα Βροσίνας (150 kWp)</li>
               </ul>
             </div>
 
             <div className="space-y-2.5">
               <div className="font-mono font-bold text-white uppercase">
-                ΕΠΙΚΟΙΝΩΝΙΑ & ΤΕΚΜΗΡΙΩΣΗ
+                ΕΠΙΚΟΙΝΩΝΙΑ & ΠΟΛΙΤΙΚΗ ΑΠΟΡΡΗΤΟΥ
               </div>
-              <p>Email: {SITE_CONFIG.contact.email}</p>
-              <p>Investor Desk: {SITE_CONFIG.contact.investorDeskEmail}</p>
+              <p>Συντονισμός / Email: {SITE_CONFIG.contact.email}</p>
+              <button
+                type="button"
+                onClick={() => setPrivacyModalOpen(true)}
+                className="text-[#c89d54] hover:underline font-semibold cursor-pointer block"
+              >
+                Πολιτική Απορρήτου & Προστασίας Δεδομένων (GDPR)
+              </button>
               <div className="flex flex-wrap gap-2 pt-1">
                 <a
                   href="/llms.txt"
@@ -4944,20 +5454,18 @@ export default function VrosinaClientApp() {
 
           <div className="pt-6 border-t border-stone-800 flex flex-wrap items-center justify-between gap-4">
             <span>
-              © 2026–2031 Πρωτοβουλία «Βροσίνα 2031» · ΚΟΙΝΣΕΠ Βροσίνας & Ταμείο
-              Ευεργετών Βροσίνας.
+              © 2026 Πρωτοβουλία Κατοίκων, Παραγωγών & Αποδήμων «Βροσίνα 2031» (Κοιν.Σ.Επ. Βροσίνας & Ταμείο Ευεργετών υπό σύσταση).
             </span>
             <div className="flex flex-wrap items-center gap-4">
               <span>
-                Τεκμηριωμένο με επίσημα στοιχεία ΕΛΣΤΑΤ 2021, Τ.Α.ΕΘ.Α. & ΗΠΕΙΡΟΣ
-                Α.Ε.
+                Τεκμηριωμένο με επίσημα στοιχεία ΕΛΣΤΑΤ 2021, Τ.Α.ΕΘ.Α. & ΗΠΕΙΡΟΣ Α.Ε.
               </span>
               <span className="text-stone-700">|</span>
               <a
                 href="https://digiads.gr"
                 target="_blank"
                 rel="noopener"
-                className="text-stone-400 hover:text-[#c89d54] transition font-mono text-[11px]"
+                className="text-stone-400 hover:text-[#c89d54] transition font-mono text-xs"
               >
                 Designed by <strong className="text-white">DIGIADS</strong>
               </a>
@@ -4966,73 +5474,66 @@ export default function VrosinaClientApp() {
         </div>
       </footer>
 
+      {/* FLOATING BACK-TO-TOP BUTTON (Μέρος Β #7) */}
+      <a
+        href="#"
+        aria-label="Επιστροφή στην κορυφή της σελίδας"
+        className="hidden lg:flex fixed bottom-5 right-5 z-30 px-3 py-2 rounded-full bg-[#14191f]/90 hover:bg-[#1f5c43] text-[#c89d54] hover:text-white border border-stone-700 shadow-lg font-mono text-xs font-bold transition items-center gap-1"
+      >
+        <span>↑ Πάνω</span>
+      </a>
+
       {/* MOBILE STICKY BOTTOM QUICK-ACTION BAR (1-THUMB NAVIGATION FOR SMARTPHONE VISITORS) */}
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-[#14191f]/98 backdrop-blur-md border-t border-stone-700 px-1.5 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
-        <div className="grid grid-cols-5 gap-1 max-w-lg mx-auto text-[10px] sm:text-[11px] font-semibold">
+        <div className="grid grid-cols-5 gap-1 max-w-lg mx-auto text-xs font-semibold">
           <a
-            href="#praktikes-lyseis"
+            href="#masterplan"
             onClick={() =>
-              registerEngagement(
-                "mobile_bar_click",
-                "practical-solutions",
-                "Πώς/Από Πού"
-              )
+              registerEngagement("mobile_bar_click", "#masterplan", "Το σχέδιο")
             }
             className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-stone-900 border border-[#c89d54]/60 text-amber-200 text-center"
           >
-            <span>🧭 Πώς/Πού</span>
-          </a>
-          <a
-            href="#autopsia-real"
-            onClick={() =>
-              registerEngagement(
-                "mobile_bar_click",
-                "camp-autopsy",
-                "Στρατόπεδο & Τουρ"
-              )
-            }
-            className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-stone-900 border border-stone-700 text-stone-200 text-center"
-          >
-            <span>🎥 Στρατόπεδο</span>
+            <span>Σχέδιο</span>
           </a>
           <a
             href="#community"
             onClick={() =>
-              registerEngagement(
-                "mobile_bar_click",
-                "housing-calculator",
-                "Σπίτια 0€"
-              )
+              registerEngagement("mobile_bar_click", "#community", "Κάτοικοι")
             }
             className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-stone-900 border border-stone-700 text-stone-200 text-center"
           >
-            <span>🏡 Σπίτια 0€</span>
+            <span>Κάτοικοι</span>
+          </a>
+          <a
+            href="#gia-epicheiriseis"
+            onClick={() =>
+              registerEngagement("mobile_bar_click", "#gia-epicheiriseis", "Επιχειρήσεις")
+            }
+            className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-stone-900 border border-stone-700 text-stone-200 text-center"
+          >
+            <span>Επιχειρ.</span>
           </a>
           <a
             href="#investors"
             onClick={() =>
-              registerEngagement(
-                "mobile_bar_click",
-                "investor-simulator",
-                "Επιδότηση 80%"
-              )
+              registerEngagement("mobile_bar_click", "#investors", "Επενδυτές")
             }
             className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-stone-900 border border-[#c89d54]/50 text-[#c89d54] text-center"
           >
-            <span>💶 Επιδότηση</span>
+            <span>Επενδυτές</span>
           </a>
           <button
             type="button"
             onClick={() =>
               openLeadModal(
-                "owner",
+                "",
                 "Κινητή Μπάρα Άμεσης Δράσης (Mobile Bottom Bar)",
                 "Άμεση εκδήλωση ενδιαφέροντος από κινητή συσκευή"
               )
             }
             className="flex flex-col items-center justify-center py-1.5 px-1 rounded bg-[#1f5c43] text-white font-bold text-center cursor-pointer"
           >
-            <span>✉️ Συμμετοχή</span>
+            <span>Επικοιν.</span>
           </button>
         </div>
       </div>
@@ -5050,6 +5551,7 @@ export default function VrosinaClientApp() {
                   setLeadModalOpen(false);
                   setLeadSubmitted(false);
                 }}
+                aria-label="Κλείσιμο παραθύρου επικοινωνίας"
                 className="text-stone-500 hover:text-stone-900 font-bold text-lg cursor-pointer"
               >
                 ✕
@@ -5065,7 +5567,7 @@ export default function VrosinaClientApp() {
                   Εκδήλωση Ενδιαφέροντος & Θεσμική Επικοινωνία
                 </h3>
 
-                <div className="p-2.5 rounded bg-stone-100 border border-stone-300 text-[11px] font-mono space-y-1">
+                <div className="p-2.5 rounded bg-stone-100 border border-stone-300 text-xs font-mono space-y-1">
                   <div>
                     <span className="text-stone-500">ΠΗΓΗ ΑΙΤΗΜΑΤΟΣ: </span>
                     <strong className="text-[#1f5c43]">{leadOrigin}</strong>
@@ -5076,38 +5578,50 @@ export default function VrosinaClientApp() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold mb-1">
-                    Ιδιότητα / Κατηγορία Ενδιαφέροντος:
+                  <label
+                    htmlFor="modal-lead-role"
+                    className="block font-semibold mb-1"
+                  >
+                    Ιδιότητα / Κατηγορία Ενδιαφέροντος *
                   </label>
                   <select
+                    id="modal-lead-role"
+                    required
                     value={leadRole}
                     onChange={(e) => setLeadRole(e.target.value)}
                     className="w-full p-2.5 rounded border border-stone-300 bg-stone-50 font-medium"
                   >
+                    <option value="" disabled>
+                      — Επιλέξτε ποιος είστε —
+                    </option>
+                    <option value="owner">
+                      Κάτοικος / Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα
+                    </option>
+                    <option value="producer">
+                      Υφιστάμενος ή Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας
+                    </option>
                     <option value="investor">
-                      Στρατηγικός Επενδυτής / Family Office / Εταιρεία (35%–40% ή LEADER)
+                      Επιχείρηση / Ξενώνας LEADER / Εργολάβος / Στρατηγικός Επενδυτής (35%–40%)
                     </option>
                     <option value="benefactor">
                       Μεγάλος Ευεργέτης / Χορηγός Ονοματοδοσίας (ΑΜΚΕ Ταμείο Ευεργετών)
                     </option>
                     <option value="institutional">
-                      Θεσμικός / Πολιτικός Φορέας / Αυτοδιοίκηση
-                    </option>
-                    <option value="owner">
-                      Ιδιοκτήτης Κλειστής Κατοικίας ή Καταστήματος στη Βροσίνα
-                    </option>
-                    <option value="producer">
-                      Νέος Κτηνοτρόφος / Αμπελουργός / Τεχνίτης Πέτρας
+                      Θεσμικός Φορέας / Αυτοδιοίκηση / Υπουργείο
                     </option>
                   </select>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold mb-1">
+                    <label
+                      htmlFor="modal-lead-name"
+                      className="block font-semibold mb-1"
+                    >
                       Ονοματεπώνυμο / Φορέας *
                     </label>
                     <input
+                      id="modal-lead-name"
                       type="text"
                       required
                       value={leadName}
@@ -5117,10 +5631,14 @@ export default function VrosinaClientApp() {
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold mb-1">
+                    <label
+                      htmlFor="modal-lead-phone"
+                      className="block font-semibold mb-1"
+                    >
                       Τηλέφωνο Επικοινωνίας *
                     </label>
                     <input
+                      id="modal-lead-phone"
                       type="tel"
                       required
                       value={leadPhone}
@@ -5132,8 +5650,14 @@ export default function VrosinaClientApp() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold mb-1">Email *</label>
+                  <label
+                    htmlFor="modal-lead-email"
+                    className="block font-semibold mb-1"
+                  >
+                    Email *
+                  </label>
                   <input
+                    id="modal-lead-email"
                     type="email"
                     required
                     value={leadEmail}
@@ -5144,16 +5668,42 @@ export default function VrosinaClientApp() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold mb-1">
+                  <label
+                    htmlFor="modal-lead-message"
+                    className="block font-semibold mb-1"
+                  >
                     Σύντομο Μήνυμα / Περιγραφή Ακινήτου ή Επενδυτικού Προφίλ:
                   </label>
                   <textarea
+                    id="modal-lead-message"
                     rows={3}
                     value={leadMessage}
                     onChange={(e) => setLeadMessage(e.target.value)}
-                    placeholder="Σημειώστε αν σας ενδιαφέρει το LOI για την Πρόσκληση LEADER (04/02/2027), η ΑΜΚΕ Ευεργετών ή η ένταξη ακινήτου..."
+                    placeholder="Σημειώστε αν σας ενδιαφέρει η Κοιν.Σ.Επ. (100€), η ένταξη ακινήτου (0€ ίδια συμμετοχή), το LOI LEADER (04/02/2027) ή η ΑΜΚΕ Ευεργετών..."
                     className="w-full p-2.5 rounded border border-stone-300"
                   />
+                </div>
+
+                <div className="flex items-start gap-2.5 p-3 rounded bg-stone-50 border border-stone-200 text-xs text-stone-700">
+                  <input
+                    id="modal-gdpr-consent"
+                    type="checkbox"
+                    required
+                    checked={gdprAccepted}
+                    onChange={(e) => setGdprAccepted(e.target.checked)}
+                    className="mt-0.5 accent-[#1f5c43] cursor-pointer"
+                  />
+                  <label htmlFor="modal-gdpr-consent" className="leading-relaxed cursor-pointer">
+                    Συναινώ στην επεξεργασία των στοιχείων επικοινωνίας μου αποκλειστικά για την ενημέρωσή μου σχετικά με την Πρωτοβουλία «Βροσίνα 2031» (Υπεύθυνος Επεξεργασίας: Αθανάσιος Βούρδας), σύμφωνα με την{" "}
+                    <button
+                      type="button"
+                      onClick={() => setPrivacyModalOpen(true)}
+                      className="text-[#1f5c43] font-semibold underline cursor-pointer"
+                    >
+                      Πολιτική Απορρήτου (GDPR)
+                    </button>
+                    . *
+                  </label>
                 </div>
 
                 <button
@@ -5208,6 +5758,52 @@ export default function VrosinaClientApp() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* PRIVACY POLICY & GDPR MODAL (Μέρος Α #16 & #32) */}
+      {privacyModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white text-[#14191f] rounded-lg max-w-2xl w-full p-5 sm:p-8 shadow-2xl border border-stone-300 space-y-4 max-h-[90vh] overflow-y-auto text-xs sm:text-sm">
+            <div className="flex items-center justify-between border-b border-stone-200 pb-3">
+              <span className="font-mono text-xs font-bold uppercase text-[#1f5c43]">
+                ΠΟΛΙΤΙΚΗ ΑΠΟΡΡΗΤΟΥ & ΠΡΟΣΤΑΣΙΑΣ ΔΕΔΟΜΕΝΩΝ (GDPR — ΕΕ 2016/679)
+              </span>
+              <button
+                type="button"
+                onClick={() => setPrivacyModalOpen(false)}
+                className="text-stone-500 hover:text-stone-900 font-bold text-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+            <h3 className="font-serif text-xl font-bold text-[#14191f]">
+              Ενημέρωση Επεξεργασίας Προσωπικών Δεδομένων — Πρωτοβουλία «Βροσίνα 2031»
+            </h3>
+            <div className="space-y-3 text-stone-700 leading-relaxed">
+              <p>
+                <strong>1. Υπεύθυνος Επεξεργασίας:</strong> Η Πρωτοβουλία Κατοίκων, Παραγωγών & Αποδήμων «Βροσίνα 2031» (Κοιν.Σ.Επ. Βροσίνας & Ταμείο Ευεργετών υπό σύσταση), με συντονιστή επικοινωνίας τον <strong>Αθανάσιο Βούρδα</strong> (Email επικοινωνίας: <strong>digiadsgr@gmail.com</strong>).
+              </p>
+              <p>
+                <strong>2. Σκοπός & Νομική Βάση Επεξεργασίας:</strong> Τα στοιχεία που καταχωρείτε στη φόρμα ενδιαφέροντος (ονοματεπώνυμο/φορέας, τηλέφωνο, email, ιδιότητα και μήνυμα) συλλέγονται αποκλειστικά με τη ρητή συγκατάθεσή σας (Άρθρο 6 παρ. 1α ΓΚΠΔ/GDPR) για την αποστολή του ενημερωτικού φακέλου που ζητήσατε (υπόδειγμα LOI LEADER, καταστατικό Κοιν.Σ.Επ., όροι Μακροχρόνιας Μίσθωσης ακινήτων ή επενδυτικό πληροφοριακό υλικό).
+              </p>
+              <p>
+                <strong>3. Εκτελούντες την Επεξεργασία & Τρίτες Υπηρεσίες:</strong> Η τεχνική διαβίβαση των μηνυμάτων της φόρμας πραγματοποιείται μέσω της υπηρεσίας <em>FormSubmit.co</em> απευθείας στη διεύθυνση ηλεκτρονικού ταχυδρομείου του συντονισμού (digiadsgr@gmail.com). Τα ενσωματωμένα βίντεο χρησιμοποιούν τη λειτουργία ενισχυμένου απορρήτου <em>youtube-nocookie.com</em> και φορτώνουν μόνο κατόπιν δικής σας επιλογής (Click-to-Load). Η ανάλυση επισκεψιμότητας (Vercel Web Analytics) είναι ανώνυμη χωρίς χρήση cookies ταυτοποίησης.
+              </p>
+              <p>
+                <strong>4. Χρόνος Τήρησης & Δικαιώματα Υποκειμένων:</strong> Τα στοιχεία τηρούνται για όσο διάστημα διαρκεί η διαδικασία ωρίμανσης και ίδρυσης των φορέων του σχεδίου «Βροσίνα 2031» και διαγράφονται άμεσα κατόπιν αιτήματός σας. Έχετε ανά πάσα στιγμή δικαίωμα πρόσβασης, διόρθωσης, διαγραφής («δικαίωμα στη λήθη») ή ανάκλησης της συγκατάθεσής σας με απλό μήνυμα στο <strong>digiadsgr@gmail.com</strong>.
+              </p>
+            </div>
+            <div className="pt-3 border-t border-stone-200 text-right">
+              <button
+                type="button"
+                onClick={() => setPrivacyModalOpen(false)}
+                className="px-4 py-2 rounded bg-[#14191f] text-white text-xs font-semibold cursor-pointer"
+              >
+                Κατάνοηση & Κλείσιμο
+              </button>
+            </div>
           </div>
         </div>
       )}

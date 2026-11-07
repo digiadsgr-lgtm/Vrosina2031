@@ -7,10 +7,9 @@ import {
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title:
-    "Από Άνεργος Κτηνοτρόφος στο Βουνό (43.100 €) & Δεσμευτικός Μορφολογικός Κανονισμός Βροσίνας | Βροσίνα 2031",
+  title: "Κατοικίες & Νέοι Κτηνοτρόφοι στη Βροσίνα",
   description:
-    "Πλήρης Οδηγός 5 Βημάτων για να ξεκινήσεις ως κτηνοτρόφος από το μηδέν χωρίς αρχικό κεφάλαιο (Μετεγκατάσταση 10.000€, Μικροπίστωση HDB 25.000€, Νέοι Γεωργοί Π3-75.1 32.500€), Master Lease κλειστών κατοικιών με 0€ επιβάρυνση και τι ισχύει πολεοδομικά στη Βροσίνα (Δήμος Ζίτσας & Σ.Α. Ιωαννίνων).",
+    "Οδηγός 5 βημάτων για νέους κτηνοτρόφους (έως 42.500 € εφάπαξ + 600 €/έτος), αποκατάσταση κατοικιών με 0 € επιβάρυνση (10–15 έτη) & Μορφολογικός Κανονισμός.",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/katoikia-neoi-paragogoi",
   },
@@ -39,9 +38,9 @@ export default function KatoikiaNeoiParagogoiPage() {
   return (
     <SeoSubpageShell
       sectionCode="ΠΥΛΩΝΕΣ 02 & 03 · ΚΑΤΟΙΚΙΑ, ΕΡΓΑΣΙΑ, ΠΟΛΕΟΔΟΜΙΑ & ΔΗΜΟΓΡΑΦΙΚΟ"
-      categoryLabel="MEGA-GUIDES · 0€ ΑΡΧΙΚΟ ΚΕΦΑΛΑΙΟ (43.100€) · ΜΟΡΦΟΛΟΓΙΚΟΣ ΚΑΝΟΝΙΣΜΟΣ & Σ.Α. ΙΩΑΝΝΙΝΩΝ"
+      categoryLabel="MEGA-GUIDES · 0€ ΑΡΧΙΚΟ ΚΕΦΑΛΑΙΟ (ΕΩΣ 42.500€ + 600€/ΕΤΟΣ) · ΜΟΡΦΟΛΟΓΙΚΟΣ ΚΑΝΟΝΙΣΜΟΣ"
       title="Αποκατάσταση Κλειστών Κατοικιών (0 € Συμμετοχή), Οδηγός Νέου Κτηνοτρόφου από το Μηδέν & Πολεοδομικό Καθεστώς Βροσίνας"
-      subtitle="Ο πλήρης πρακτικός οδηγός 5 βημάτων για να γίνεις κτηνοτρόφος χωρίς αρχικό κεφάλαιο (43.100 € σε άμεσες ενισχύσεις), ο Δεσμευτικός Μορφολογικός Κανονισμός της Βροσίνας (Σ.Α. Ιωαννίνων, Δήμος Ζίτσας) και το μοντέλο Master Lease 9–12 ετών."
+      subtitle="Ο πλήρης πρακτικός οδηγός 5 βημάτων για να γίνεις κτηνοτρόφος χωρίς αρχικό κεφάλαιο (έως 42.500 € εφάπαξ ενισχύσεις + 600 €/έτος), ο Δεσμευτικός Μορφολογικός Κανονισμός της Βροσίνας (Σ.Α. Ιωαννίνων, Δήμος Ζίτσας) και το μοντέλο Μακροχρόνιας Μίσθωσης 10–15 ετών."
       canonicalPath="/katoikia-neoi-paragogoi"
     >
       <script
@@ -61,6 +60,11 @@ export default function KatoikiaNeoiParagogoiPage() {
           <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
             {ZERO_CAPITAL_HERDER_GUIDE.subtitle}
           </p>
+        </div>
+
+        {/* Eligibility Disclaimer Box */}
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#b85d3b] text-xs text-stone-800 leading-relaxed">
+          {ZERO_CAPITAL_HERDER_GUIDE.eligibilityDisclaimer}
         </div>
 
         <h3 className="font-serif text-lg sm:text-2xl font-bold text-[#14191f]">
@@ -130,7 +134,7 @@ export default function KatoikiaNeoiParagogoiPage() {
                   }`}
                 >
                   <div className="col-span-6 pr-2">{row.program}</div>
-                  <div className="col-span-3 font-mono text-[11px] text-stone-300">
+                  <div className="col-span-3 font-mono text-xs text-stone-300">
                     {row.type}
                   </div>
                   <div className="col-span-3 text-right font-mono font-bold text-sm text-[#c89d54]">

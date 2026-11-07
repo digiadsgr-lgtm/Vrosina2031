@@ -3,10 +3,9 @@ import SeoSubpageShell from "@/components/SeoSubpageShell";
 import { CAMP_VIDEO_AUTOPSY } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title:
-    "Στρατόπεδο Βροσίνας («Παπακωνσταντίνου», 13.695 τ.μ.) | Αυτοψία 8 Κτιρίων & Αγροδιατροφικό Κέντρο 2031",
+  title: "Στρατόπεδο Βροσίνας (13.695 τ.μ.) & Αυτοψία",
   description:
-    "Πλήρης αυτοψία, ιστορία (Ε.Φ. Λάβδανης & Μεθοριακά Φυλάκια), φωτογραφίες, βίντεο 12:31 και σχέδιο μετατροπής του πρώην Στρατοπέδου «Παπακωνσταντίνου» (13.695 τ.μ., ΤΑΕΘΑ) στη Βροσίνα Ιωαννίνων σε Τυροκομείο ΠΟΠ, Οινοποιείο Ντεμπίνας & Ενεργειακή Κοινότητα 150 kWp.",
+    "Αυτοψία πεδίου στα 8 κτίρια του πρώην Στρατοπέδου Παπακωνσταντίνου (13.695 τ.μ.) στη Βροσίνα Ιωαννίνων και σχέδιο μετατροπής σε Αγροδιατροφικό Κέντρο.",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/stratopedo-vrosinas",
   },
@@ -37,7 +36,7 @@ export default function StratopedoVrosinasPage() {
       sectionCode="ΠΥΛΩΝΑΣ 01 & ΑΥΤΟΨΙΑ ΠΕΔΙΟΥ"
       categoryLabel="ΣΤΡΑΤΟΠΕΔΟ «ΠΑΠΑΚΩΝΣΤΑΝΤΙΝΟΥ» · 13.695 Τ.Μ. · Τ.Α.ΕΘ.Α."
       title="Πρώην Στρατόπεδο Βροσίνας («Παπακωνσταντίνου»): Αυτοψία των 8 Κτιρίων & Μετατροπή σε Αγροδιατροφικό Κέντρο"
-      subtitle="Καταγραφή σπιθαμή προς σπιθαμή των υφιστάμενων εγκαταστάσεων του ανενεργού στρατοπέδου στη Βροσίνα Ιωαννίνων και η κοστολογημένη αξιοποίησή τους (3,60 εκατ. € συνολικά) σε Πρότυπο Τυροκομείο ΠΟΠ, Οινοποιείο Ντεμπίνας, Επισκέψιμο Κέντρο Γευσιγνωσίας και Φωτοβολταϊκό Σταθμό 150 kWp."
+      subtitle="Καταγραφή των υφιστάμενων εγκαταστάσεων του ανενεργού στρατοπέδου στη Βροσίνα Ιωαννίνων και η κοστολογημένη αξιοποίησή τους (3,60 εκατ. € συνολικά) σε Πρότυπο Τυροκομείο ΠΟΠ, Οινοποιείο Ντεμπίνας, Επισκέψιμο Κέντρο Γευσιγνωσίας και Φωτοβολταϊκό Σταθμό 150 kWp."
       canonicalPath="/stratopedo-vrosinas"
       jsonLd={jsonLd}
     >
@@ -47,11 +46,14 @@ export default function StratopedoVrosinasPage() {
           <img
             src="/images/real/camp-hwaJv7EIjLg-maxresdefault.jpg"
             alt="Πρώην Στρατόπεδο Παπακωνσταντίνου στη Βροσίνα Ιωαννίνων σήμερα"
+            width={800}
+            height={500}
+            loading="lazy"
             className="w-full aspect-16/10 object-cover"
           />
           <div className="p-4 text-xs space-y-1">
             <div className="font-mono font-bold text-[#b85d3b]">
-              ΣΗΜΕΡΑ (ΑΥΤΟΨΙΑ ΠΕΔΙΟΥ):
+              ΣΗΜΕΡΑ (ΕΙΚΟΝΑ ΠΕΔΙΟΥ):
             </div>
             <p className="text-stone-700">
               Το επίπεδο πλάτωμα 13.695 τ.μ. με τους δύο ισόγειους θαλάμους
@@ -61,15 +63,23 @@ export default function StratopedoVrosinasPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded border border-stone-300 overflow-hidden">
-          <img
-            src="/images/pillar1-agrofood-center.jpg"
-            alt="Ρεαλιστική Απεικόνιση Αγροδιατροφικού Κέντρου Βροσίνας 2031 στο ίδιο στρατόπεδο"
-            className="w-full aspect-16/10 object-cover"
-          />
+        <div className="bg-white rounded border border-stone-300 overflow-hidden relative">
+          <div className="relative">
+            <img
+              src="/images/pillar1-agrofood-center.jpg"
+              alt="Ενδεικτική Αρχιτεκτονική Απεικόνιση (Concept Render) Αγροδιατροφικού Κέντρου Βροσίνας 2031"
+              width={800}
+              height={500}
+              loading="lazy"
+              className="w-full aspect-16/10 object-cover"
+            />
+            <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-stone-950/80 text-stone-200 font-mono text-xs border border-stone-600">
+              Ενδεικτική Αρχιτεκτονική Απεικόνιση (Concept Render)
+            </span>
+          </div>
           <div className="p-4 text-xs space-y-1">
             <div className="font-mono font-bold text-[#1f5c43]">
-              ΣΧΕΔΙΟ 2031 (ΣΤΑ ΙΔΙΑ ΚΤΙΡΙΑ):
+              ΣΧΕΔΙΟ 2031 (ΣΤΑ ΙΔΙΑ ΚΤΙΡΙΑ — CONCEPT RENDER):
             </div>
             <p className="text-stone-700">
               Αποκατάσταση των ίδιων ισόγειων κτιρίων με φυσική ηπειρωτική
@@ -86,16 +96,22 @@ export default function StratopedoVrosinasPage() {
           <h2 className="font-serif text-xl sm:text-2xl font-bold">
             Βίντεο Αυτοψίας (12:31): Περιήγηση σε Όλα τα Κτίρια του Στρατοπέδου Βροσίνας
           </h2>
-          <span className="text-xs font-mono text-[#c89d54]">
-            Πηγή: {CAMP_VIDEO_AUTOPSY.creator}
-          </span>
+          <a
+            href={CAMP_VIDEO_AUTOPSY.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-mono text-[#c89d54] hover:underline"
+          >
+            Πηγή: {CAMP_VIDEO_AUTOPSY.creator} ↗
+          </a>
         </div>
         <div className="aspect-video w-full rounded overflow-hidden bg-black">
           <iframe
-            src={`https://www.youtube.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?rel=0`}
+            src={`https://www.youtube-nocookie.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?rel=0`}
             title={CAMP_VIDEO_AUTOPSY.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            loading="lazy"
             className="w-full h-full border-0"
           />
         </div>
@@ -124,7 +140,7 @@ export default function StratopedoVrosinasPage() {
                 {st.buildingTitle}
               </h3>
               <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
-                <strong>Σημερινή Αυτοψία:</strong> {st.currentAutopsy}
+                <strong>Εικόνα Πεδίου:</strong> {st.currentAutopsy}
               </p>
               <p className="text-xs sm:text-sm text-stone-800 leading-relaxed bg-[#f7f5f0] p-3 rounded border-l-4 border-[#1f5c43]">
                 <strong>Χρήση στο «Βροσίνα 2031» ({st.future2031Role}):</strong>{" "}
