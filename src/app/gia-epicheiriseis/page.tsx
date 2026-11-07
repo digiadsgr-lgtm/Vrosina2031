@@ -3,151 +3,131 @@ import SeoSubpageShell from "@/components/SeoSubpageShell";
 import { BUSINESS_THREE_PATHS } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title: "Για Επιχειρήσεις, Ξενώνες & Εργολάβους",
+  title: "Ευκαιρίες για Επιχειρήσεις στη Βροσίνα 2031",
   description:
-    "Οι 3 δρόμοι συμμετοχής επιχειρήσεων στη Βροσίνα: 10 ξενώνες, 5 καταστήματα πλατείας (0 € ενοίκιο 2 ετών), τεχνικά έργα 2,23 εκ. € & στρατηγική συνεργασία μεταποίησης.",
+    "Ευκαιρίες για επιχειρήσεις στη Βροσίνα 2031: 10 ξενώνες, 5 καταστήματα, έργα αποκατάστασης κτιρίων (750.000 €, 350.000 €, 180.000 €), φωτοβολταϊκό και στρατηγικές συνεργασίες μεταποίησης.",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/gia-epicheiriseis",
   },
 };
 
 export default function GiaEpicheiriseisPage() {
-  const openOpportunitiesSummary = [
-    {
-      num: "10",
-      title: "Παραδοσιακοί Ξενώνες (40 Κλίνες)",
-      budget: "100.000 € ανά ξενώνα (1.000.000 € συνολικά)",
-      grant: "Έως 65%–80% επιδότηση (LEADER / Αναπτυξιακός)",
-      when: "1η Πρόσκληση LEADER (έως 04/02/2027) & Επόμενος Κύκλος 2027",
-    },
-    {
-      num: "5",
-      title: "Καταστήματα Κεντρικής Πλατείας",
-      budget: "30.000 €–40.000 € ανά κατάστημα (180.000 € συνολικά)",
-      grant: "Έως 65% επιδότηση + 0 € ενοίκιο για τα πρώτα 2 έτη",
-      when: "Εκκίνηση μισθώσεων: 2027",
-    },
-    {
-      num: "20",
-      title: "Αποκαταστάσεις Όψεων & Στεγών Κατοικιών",
-      budget: "750.000 € κατασκευαστικό έργο για τοπικούς εργολάβους",
-      grant: "Ανάθεση ανά ομάδα κτιρίων (20.000 €–50.000 € / κτίριο)",
-      when: "Α' Φάση (10 κατοικίες): 2027–2028 · Β' Φάση: 2028–2029",
-    },
-    {
-      num: "150 kWp",
-      title: "Φωτοβολταϊκός Σταθμός & Υποδομές Στρατοπέδου",
-      budget: "350.000 € (Φ/Β) + 600.000 € (Υποδομές) + 350.000 € (Πλατεία)",
-      grant: "Διαγωνισμοί προμήθειας και τεχνικών έργων (1.300.000 €)",
-      when: "Μετά την παραχώρηση του Στρατοπέδου (2027–2028)",
-    },
-  ];
-
   return (
     <SeoSubpageShell
-      sectionCode="ΚΟΙΝΟ 02 · ΜΙΚΡΕΣ & ΜΕΓΑΛΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ"
-      categoryLabel="10 ΞΕΝΩΝΕΣ · 5 ΚΑΤΑΣΤΗΜΑΤΑ · ΕΡΓΑ 2,23 ΕΚ. € · ΜΕΤΑΠΟΙΗΣΗ"
-      title="Για Μικρές και Μεγάλες Επιχειρήσεις, Ξενώνες, Εργολάβους & Προμηθευτές"
-      subtitle="Ποια είναι η ευκαιρία, πόσο κοστίζει, τι απόδοση έχει με ρεαλιστικές παραδοχές, ποιες είναι οι προϋποθέσεις και πώς επιλέγονται οι συνεργάτες με ανοιχτά κριτήρια (χωρίς «γνωριμίες»)."
+      sectionCode="Για επιχειρήσεις"
+      categoryLabel="10 ξενώνες · 5 καταστήματα · Τεχνικά έργα · Στρατηγικές συνεργασίες"
+      title="Ευκαιρίες για επιχειρήσεις στη Βροσίνα 2031"
+      subtitle="Είμαστε στη φάση προετοιμασίας. Δίνουμε το πλαίσιο και τις εκτιμήσεις του σχεδίου. Η επιλογή των ενδιαφερομένων θα γίνει με ανοιχτή πρόσκληση και δημόσια κριτήρια."
       canonicalPath="/gia-epicheiriseis"
     >
-      {/* Summary Grid: Τι Ευκαιρίες Ανοίγουν */}
-      <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 pb-4">
-          <div>
-            <div className="text-sm font-bold text-[#174935]">
-              ΣΥΝΟΠΤΙΚΟΣ ΠΙΝΑΚΑΣ ΕΠΙΧΕΙΡΗΜΑΤΙΚΩΝ ΕΥΚΑΙΡΙΩΝ
-            </div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-              Τι Ευκαιρίες Ανοίγουν στη Βροσίνα (Προϋπολογισμός, Επιδότηση & Χρόνος)
-            </h2>
+      {/* Γ3: Το επίσημο κείμενο της σελίδας «Για επιχειρήσεις» */}
+      <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#B85D3B] space-y-6">
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F] border-b border-stone-200 pb-4">
+          Ευκαιρίες για επιχειρήσεις στη Βροσίνα 2031
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-base">
+          {/* 1. Θέλω να ανοίξω δική μου επιχείρηση */}
+          <div className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 space-y-3">
+            <h3 className="font-serif font-bold text-xl text-[#A34A2B]">
+              Θέλω να ανοίξω δική μου επιχείρηση
+            </h3>
+            <ul className="space-y-2.5 text-[#14191F] leading-relaxed">
+              <li>
+                • 10 ξενώνες (εκτίμηση του σχεδίου: περίπου 100.000 € ο καθένας, με δυνατότητα ενίσχυσης από το LEADER)
+              </li>
+              <li>• 5 καταστήματα</li>
+            </ul>
           </div>
-          <a
-            href="/documents/Vrosina_2031_Plan_In_5_Steps.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2.5 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 transition"
-          >
-            Εκτυπώσιμη Σύνοψη Σχεδίου (PDF) ↓
-          </a>
+
+          {/* 2. Θέλω να κατασκευάσω ή να προμηθεύσω */}
+          <div className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 space-y-3">
+            <h3 className="font-serif font-bold text-xl text-[#1F5C43]">
+              Θέλω να κατασκευάσω ή να προμηθεύσω
+            </h3>
+            <ul className="space-y-2.5 text-[#14191F] leading-relaxed">
+              <li>
+                • Αποκατάσταση κτιρίων: τρία έργα, με εκτιμήσεις του σχεδίου 750.000 €, 350.000 € και 180.000 €, για τοπικούς εργολάβους και τεχνίτες πέτρας.
+              </li>
+              <li>
+                • Φωτοβολταϊκό και προμήθειες για τη λειτουργία του χωριού.
+              </li>
+            </ul>
+          </div>
+
+          {/* 3. Θέλω στρατηγική συνεργασία */}
+          <div className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 space-y-3">
+            <h3 className="font-serif font-bold text-xl text-[#14191F]">
+              Θέλω στρατηγική συνεργασία
+            </h3>
+            <ul className="space-y-2.5 text-[#14191F] leading-relaxed">
+              <li>
+                • Συνεργασίες με επιχειρήσεις μεταποίησης (τυροκομείο, οινοποιείο), με συμμετοχή του εταίρου στην εταιρεία λειτουργίας.
+              </li>
+            </ul>
+            <p className="text-sm text-[#14191F] pt-2 border-t border-stone-300">
+              Το ποσοστό ενίσχυσης ορίζεται ανά δράση στην πρόσκληση LEADER (545/07-10-2026) και δεν είναι εγγυημένο. Για την αγροδιατροφική μεταποίηση (δράση 1.1), το ανώτατο της πρόσκλησης είναι 65% και 400.000 €.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {openOpportunitiesSummary.map((item, idx) => (
-            <div
-              key={idx}
-              className="p-5 rounded-lg bg-[#f7f5f0] border border-stone-300 space-y-2"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="px-3 py-1 rounded bg-[#14191f] text-[#c89d54] font-bold text-base">
-                  {item.num}
-                </span>
-                <span className="text-sm font-semibold text-[#174935]">
-                  {item.when}
-                </span>
-              </div>
-              <h3 className="font-serif font-bold text-lg text-[#14191f]">
-                {item.title}
-              </h3>
-              <p className="text-base text-stone-800">
-                <strong>Προϋπολογισμός:</strong> {item.budget}
-              </p>
-              <p className="text-base text-[#9e4727] font-semibold">
-                {item.grant}
-              </p>
-            </div>
-          ))}
+        {/* Τι ισχύει σήμερα */}
+        <div className="p-5 rounded-lg bg-[#F7F5F0] border-l-4 border-[#14191F] space-y-2">
+          <h3 className="font-serif font-bold text-lg text-[#14191F]">
+            Τι ισχύει σήμερα
+          </h3>
+          <p className="text-base text-[#14191F] leading-relaxed">
+            Είμαστε στη φάση προετοιμασίας. Δίνουμε το πλαίσιο και τις εκτιμήσεις του σχεδίου. Οι τελικές τιμές, οι όροι και τα οικονομικά στοιχεία κάθε επένδυσης θα καθοριστούν στο επόμενο στάδιο, από τους αρμόδιους φορείς και συμβούλους. Η επιλογή των ενδιαφερομένων θα γίνει με ανοιχτή πρόσκληση και δημόσια κριτήρια. Δηλώστε ενδιαφέρον από τη φόρμα.
+          </p>
         </div>
       </section>
 
-      {/* The 3 Paths in Detail */}
-      <section className="space-y-6">
-        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
-          Οι 3 Δρόμοι Συμμετοχής Επιχειρήσεων (Κόστος, Απόδοση & Κανόνες Επιλογής)
-        </h2>
+      {/* Αναλυτικές Ενότητες Εκτιμήσεων Σχεδίου (Καταστήματα, Έργα, Συνεργασίες) */}
+      <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-6">
+        <div className="space-y-1 border-b border-stone-200 pb-4">
+          <div className="text-sm font-bold text-[#A34A2B]">
+            Εκτιμήσεις του επιχειρησιακού σχεδίου
+          </div>
+          <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
+            Αναλυτική Επισκόπηση ανά Κατηγορία Επιχειρηματικής Δραστηριότητας
+          </h2>
+        </div>
 
-        <div className="space-y-6">
-          {BUSINESS_THREE_PATHS.map((bp) => (
-            <article
-              key={bp.id}
-              className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#14191f] space-y-5"
+        <div className="space-y-5">
+          {BUSINESS_THREE_PATHS.map((tr) => (
+            <div
+              key={tr.id}
+              className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 space-y-3"
             >
-              <div className="border-b border-stone-200 pb-3 space-y-1">
-                <div className="text-sm font-bold text-[#9e4727]">
-                  {bp.badge}
-                </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-                  {bp.title}
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {bp.opportunities.map((opp, idx) => (
+              <div className="text-sm font-bold text-[#A34A2B]">{tr.badge}</div>
+              <h3 className="font-serif font-bold text-lg text-[#14191F]">
+                {tr.title}
+              </h3>
+              <div className="space-y-3">
+                {tr.opportunities.map((opp, i) => (
                   <div
-                    key={idx}
-                    className="p-5 rounded-lg bg-[#f7f5f0] border border-stone-300 space-y-2.5 text-base"
+                    key={i}
+                    className="p-4 rounded bg-white border border-stone-300 space-y-1.5 text-sm text-[#14191F]"
                   >
-                    <h4 className="font-serif font-bold text-lg text-[#14191f]">
+                    <div className="font-serif font-bold text-base text-[#14191F]">
                       {opp.name}
-                    </h4>
-                    <div className="text-[#9e4727] font-semibold">
-                      <strong>Ποσό / CAPEX:</strong> {opp.capex}
                     </div>
-                    <div className="text-[#174935] font-semibold">
-                      <strong>Επιδότηση & Ίδια Συμμετοχή:</strong> {opp.grantTarget}
+                    <div>
+                      <strong>Εκτίμηση του σχεδίου:</strong> {opp.capex}
                     </div>
-                    <p className="text-stone-800 leading-relaxed">
-                      <strong>Έσοδα, Πληρότητα & Απόσβεση:</strong> {opp.economics}
-                    </p>
-                    <p className="text-stone-800 leading-relaxed pt-2 border-t border-stone-300">
-                      <strong>Πώς επιλέγονται (Κανόνες χωρίς «γνωριμίες»):</strong>{" "}
-                      {opp.selectionRule}
-                    </p>
+                    <div>
+                      <strong>Κριτήρια επιλογής:</strong> {opp.selectionRule}
+                    </div>
                   </div>
                 ))}
               </div>
-            </article>
+            </div>
           ))}
+        </div>
+
+        {/* Α4: Υποχρεωτική Επιφύλαξη */}
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed">
+          Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
         </div>
       </section>
     </SeoSubpageShell>

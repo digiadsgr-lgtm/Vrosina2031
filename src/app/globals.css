@@ -2,12 +2,14 @@
 
 @layer base {
   :root {
-    --bg-limestone: #f7f5f0;
-    --bg-slate-deep: #14191f;
-    --text-primary: #14191f;
-    --accent-terracotta: #9e4727;
-    --accent-emerald: #174935;
-    --accent-gold: #c89d54;
+    --ink: #14191F;
+    --paper: #F7F5F0;
+    --sand: #EBE6DC;
+    --gold: #C89D54; /* μόνο σε σκούρο φόντο ή ως διακόσμηση */
+    --gold-text: #85611C; /* κείμενο χρυσού σε ανοιχτό φόντο (5,18:1 σε κρεμ) */
+    --forest: #1F5C43; /* 7,22:1 σε κρεμ */
+    --terra: #B85D3B;
+    --terra-text: #A34A2B; /* 5,4:1 σε κρεμ */
   }
 
   html {
@@ -17,18 +19,18 @@
   }
 
   body {
-    background-color: var(--bg-limestone);
-    color: var(--text-primary);
-    font-size: 1rem;
+    font-size: 16px;
+    color: var(--ink);
+    background-color: var(--paper);
     line-height: 1.6;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
-/* Enforce audit rules (Μέρος Β #9):
-   1. Minimum 14px (0.875rem) for all text elements; 16px (1rem) for body text.
-   2. Normal readable sans-serif font for labels (with tabular numerals instead of noisy monospace).
-   3. High contrast >= 4.5:1 across light and dark containers. */
+/* Enforce audit rules (Έκδοση 2 · Κεφ. Β & Δ):
+   1. Κείμενο 16 px, δευτερεύοντα όχι κάτω από 14 px, ετικέτες όχι όλες κεφαλαία.
+   2. Κανονική ευανάγνωστη γραμματοσειρά αντί για μικρή γραφομηχανή.
+   3. Χρυσό σε ανοιχτό φόντο -> #85611C (5,18:1), τερακότα κειμένου -> #A34A2B (5,4:1), πράσινο -> #1F5C43 (7,22:1). */
 .text-xs,
 .text-\[10px\],
 .text-\[11px\] {
@@ -48,10 +50,33 @@
 }
 
 .uppercase {
-  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+  letter-spacing: 0.01em !important;
 }
 
-/* Contrast reinforcement (>= 4.5:1) */
+/* Automatic WCAG contrast enforcement for terracotta, forest, and gold on light backgrounds */
+.text-\[\#9e4727\],
+.text-\[\#b85d3b\] {
+  color: var(--terra-text) !important;
+}
+
+.text-\[\#174935\],
+.text-\[\#1f5c43\] {
+  color: var(--forest) !important;
+}
+
+.bg-white .text-\[\#c89d54\],
+.bg-\[\#f7f5f0\] .text-\[\#c89d54\] {
+  color: var(--gold-text) !important;
+}
+
+/* Keep #C89D54 bright gold inside dark containers (#14191F / stone-900 / stone-950) */
+.bg-\[\#14191f\] .text-\[\#c89d54\],
+.bg-stone-900 .text-\[\#c89d54\],
+.bg-stone-950 .text-\[\#c89d54\] {
+  color: var(--gold) !important;
+}
+
 .text-stone-500 {
   color: #44403c !important;
 }
@@ -62,15 +87,8 @@
 
 .bg-\[\#14191f\] .text-stone-400,
 .bg-stone-900 .text-stone-400,
-.bg-stone-950 .text-stone-400,
-.bg-\[\#0d1115\] .text-stone-400 {
+.bg-stone-950 .text-stone-400 {
   color: #e7e5e4 !important;
-}
-
-.bg-\[\#14191f\] .text-stone-500,
-.bg-stone-900 .text-stone-500,
-.bg-stone-950 .text-stone-500 {
-  color: #d6d3d1 !important;
 }
 
 /* Custom subtle scrollbars */
@@ -80,7 +98,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #ebe6dc;
+  background: var(--sand);
 }
 
 ::-webkit-scrollbar-thumb {

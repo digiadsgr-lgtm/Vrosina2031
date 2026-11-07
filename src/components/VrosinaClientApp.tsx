@@ -292,54 +292,66 @@ export default function VrosinaClientApp() {
   const audiencePathCards = [
     {
       href: "/gia-ktinotrofous",
-      badge: "1 · ΚΤΗΝΟΤΡΟΦΟΙ, ΑΜΠΕΛΟΥΡΓΟΙ & ΙΔΙΟΚΤΗΤΕΣ ΣΠΙΤΙΩΝ",
-      buttonLabel: "Έχω σπίτι, γη ή κοπάδι / Θέλω να γίνω κτηνοτρόφος →",
-      title: "Για τους Κτηνοτρόφους και τους Κατοίκους της Βροσίνας",
+      badge: "Για κτηνοτρόφους και κατοίκους",
+      topBorderClass: "border-t-4 border-t-[#1F5C43]",
+      badgeColorClass: "text-[#1F5C43]",
+      buttonColorClass: "bg-[#1F5C43] hover:bg-[#174935]",
+      buttonLabel: "Για κτηνοτρόφους και κατοίκους →",
+      title: "Για κτηνοτρόφους και κατοίκους της Βροσίνας και της περιοχής",
       summary:
-        "Απλά ελληνικά, χωρίς ψιλά γράμματα: πώς γίνεσαι μέλος με μερίδα 100 € (μία ψήφος), με τι τιμή πληρώνεσαι το γάλα, πώς παίρνεις φθηνότερες ζωοτροφές, πώς ανακαινίζεται το κλειστό σου σπίτι με 10–15ετή μίσθωση (0 € προκαταβολή) και ο οδηγός 5 βημάτων για νέους κτηνοτρόφους.",
+        "Στόχος μας είναι σταθερός αγοραστής για το γάλα σου, με γραπτό συμβόλαιο. Την τιμή και τους όρους θα τους μάθεις πρώτος, πριν από οποιαδήποτε δέσμευση. Ένα μέλος, μία ψήφος (ελάχιστη μερίδα 100 €, ν. 4430/2016).",
       highlights: [
-        "Τιμή γάλακτος: Μέση τιμή Ηπείρου + 0,05 € έως +0,08 €/κιλό & εξόφληση σε 30 ημέρες",
-        "Κλειστά σπίτια: Ανακαίνιση 20.000 €–50.000 € χωρίς δική σου προκαταβολή (μίσθωση 10–15 ετών)",
-        "Νέοι κτηνοτρόφοι: Οδικός χάρτης έως 42.500 € εφάπαξ ενισχύσεις + 600 €/έτος",
+        "Σταθερή ελάχιστη τιμή με γραπτό συμβόλαιο (καθορίζεται πριν από κάθε δέσμευση)",
+        "Μέλος στην κοινότητα: ένα μέλος, μία ψήφος · Ελάχιστη μερίδα 100 €",
+        "Οδηγός για νέους παραγωγούς & Μητρώο 25 κατοικιών προς αναζωογόνηση",
       ],
     },
     {
       href: "/gia-epicheiriseis",
-      badge: "2 · ΜΙΚΡΕΣ & ΜΕΓΑΛΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ, ΞΕΝΩΝΕΣ & ΕΡΓΟΛΑΒΟΙ",
-      buttonLabel: "Θέλω να ανοίξω επιχείρηση ή να αναλάβω έργο →",
-      title: "Για Επιχειρήσεις, Ξενώνες, Καταστήματα & Τεχνικά Συνεργεία",
+      badge: "Για επιχειρήσεις",
+      topBorderClass: "border-t-4 border-t-[#B85D3B]",
+      badgeColorClass: "text-[#A34A2B]",
+      buttonColorClass: "bg-[#A34A2B] hover:bg-[#8a3c21]",
+      buttonLabel: "Ευκαιρίες για επιχειρήσεις →",
+      title: "Ευκαιρίες για επιχειρήσεις στη Βροσίνα 2031",
       summary:
-        "Οι 3 ξεκάθαροι δρόμοι συνεργασίας: (Α) Άνοιγμα ενός από τους 10 ξενώνες (100.000 € με LEADER) ή από τα 5 καταστήματα πλατείας (0 € ενοίκιο για 2 έτη), (Β) Κατασκευαστικά έργα 2,23 εκ. € για τοπικούς εργολάβους & προμηθευτές, (Γ) Εμπορική συνεργασία στο τυροκομείο/οινοποιείο.",
+        "Θέλω να ανοίξω δική μου επιχείρηση (10 ξενώνες & 5 καταστήματα), θέλω να κατασκευάσω ή να προμηθεύσω (έργα αποκατάστασης κτιρίων & φωτοβολταϊκό) ή θέλω στρατηγική συνεργασία μεταποίησης.",
       highlights: [
-        "10 Ξενώνες: Έσοδα ~26.600 €–30.000 €/έτος, καθαρό ~11.000 €–14.000 €, απόσβεση 3,5–5 έτη",
-        "5 Καταστήματα (καφενεία, φούρνος, παντοπωλείο): 0 € ενοίκιο για τους πρώτους 24 μήνες",
-        "Ανοιχτή διαδικασία επιλογής με δημοσιευμένα κριτήρια (χωρίς «γνωριμίες»)",
+        "10 ξενώνες (εκτίμηση του σχεδίου: περίπου 100.000 € ο καθένας) & 5 καταστήματα",
+        "Αποκατάσταση κτιρίων: τρία έργα με εκτιμήσεις του σχεδίου 750.000 €, 350.000 € και 180.000 €",
+        "Συνεργασίες μεταποίησης (τυροκομείο, οινοποιείο) με ανοιχτή πρόσκληση και δημόσια κριτήρια",
       ],
     },
     {
       href: "/gia-ependytes",
-      badge: "3 · ΕΠΕΝΔΥΤΕΣ, ΣΤΡΑΤΗΓΙΚΟΙ ΕΤΑΙΡΟΙ & ΕΥΕΡΓΕΤΕΣ (ΑΜΚΕ)",
-      buttonLabel: "Θέλω να επενδύσω ή να στηρίξω ως ευεργέτης →",
-      title: "Για Στρατηγικούς Επενδυτές Αγροδιατροφής & Δωρητές",
+      badge: "Για επενδυτές",
+      topBorderClass: "border-t-4 border-t-[#C89D54]",
+      badgeColorClass: "text-[#85611C]",
+      buttonColorClass: "bg-[#85611C] hover:bg-[#6b4d15]",
+      buttonLabel: "Για επενδυτές & οικονομικό μοντέλο →",
+      title: "Για Επενδυτές, Στρατηγικούς Εταίρους & Δωρητές",
       summary:
-        "Η επενδυτική θέση σε μία σελίδα: συμμετοχή έως 35%–40% στην Εμπορική Θυγατρική (Τυροκομείο 1,65 εκ. € & Οινοποιείο 1,00 εκ. €), τα 3 σενάρια ισολογισμού με τις παραδοχές τους, ο πίνακας κινδύνων (Plan B), η χρήση κεφαλαίων και λήψη του οικονομικού μοντέλου (.csv / Excel).",
+        "Κίνδυνοι και πώς τους διαχειριζόμαστε, τρία σενάρια λειτουργίας (ώστε να φαίνεται τι ισχύει και στο συντηρητικό), κανόνες διακυβέρνησης και λήψη του οικονομικού μοντέλου (.csv / Excel).",
       highlights: [
-        "Μόχλευση 63% δημόσιοι/ΕΕ πόροι (6,58 εκ. €) · 37% ιδιωτικά/συνεταιριστικά (3,87 εκ. €)",
-        "Ρεαλιστική απόσβεση μεταποίησης: 6,5–8,5 έτη · Κερδοφορία ακόμα και στο συντηρητικό σενάριο",
-        "Καταστατική προστασία: 40% ανώτατο όριο μετόχου, 75% υπερπλειοψηφία, κανόνας 25% ΜΜΕ",
+        "Εκτίμηση επένδυσης: 10,45 εκ. € (63% δημόσια και 37% ιδιωτική συμμετοχή)",
+        "Έγγραφη δέσμευση παραχώρησης στρατοπέδου πριν από κάθε κατάθεση κεφαλαίου",
+        "Διακυβέρνηση: πλαφόν 40% σε έναν επενδυτή και υπερπλειοψηφία 75% για τις βασικές αποφάσεις",
       ],
     },
     {
       href: "/gia-foreis",
-      badge: "4 · ΔΗΜΟΣΙΟΙ ΦΟΡΕΙΣ, ΑΥΤΟΔΙΟΙΚΗΣΗ & ΥΠΟΥΡΓΕΙΑ",
-      buttonLabel: "Εκπροσωπώ Δημόσιο Φορέα, Δήμο ή Οργανισμό →",
-      title: "Για τον Δήμο Ζίτσας, την Περιφέρεια Ηπείρου & τα Υπουργεία",
+      badge: "Για φορείς",
+      topBorderClass: "border-t-4 border-t-[#14191F]",
+      badgeColorClass: "text-[#14191F]",
+      buttonColorClass: "bg-[#14191F] hover:bg-[#1F5C43]",
+      buttonLabel: "Για φορείς και Πολιτεία →",
+      title: "Για Φορείς, τον Δήμο Ζίτσας & την Πολιτεία",
       summary:
-        "Πλήρης θεσμικός φάκελος: τι ακριβώς ζητάμε από κάθε φορέα, με ποια διοικητική πράξη και προθεσμία, τι ΔΕΝ ζητάμε από το Δημόσιο, η μελέτη «Τι κερδίζει το Δημόσιο (463.700 €/έτος — απόσβεση σε 17 έτη)» και τα 14 θεσμοθετημένα χρηματοδοτικά εργαλεία.",
+        "Δεν ζητάμε από το Δημόσιο να χρηματοδοτήσει τη λειτουργία του έργου. Ζητάμε θεσμική στήριξη και μακροχρόνια παραχώρηση ή μίσθωση του πρώην στρατοπέδου για τουλάχιστον 10 έτη.",
       highlights: [
-        "Ετήσια άμεσα έσοδα Δημοσίου & ΕΦΚΑ στην ωριμότητα: ~463.700 €/έτος (χωρίς ΦΠΑ)",
-        "Στρατόπεδο Παπακωνσταντίνου: 0 € κόστος συντήρησης ΥΠΕΘΑ + αντάλλαγμα 2–3% επί του τζίρου",
-        "1η Πρόσκληση LEADER ΗΠΕΙΡΟΣ Α.Ε. (545/07-10-2026): Προθεσμία 4 Φεβρουαρίου 2027",
+        "Εκτίμηση άμεσων εσόδων Δημοσίου στην ωριμότητα: ~463.700 €/έτος (χωρίς ΦΠΑ)",
+        "Μακροχρόνια παραχώρηση ή μίσθωση του πρώην στρατοπέδου (τουλάχιστον 10 έτη)",
+        "Ο χρονικός ορίζοντας της πρόσκλησης LEADER (προθεσμία 4/2/2027) καθορίζει τη σειρά των ενεργειών",
       ],
     },
   ];
@@ -438,18 +450,15 @@ export default function VrosinaClientApp() {
                 Βροσίνα 2031: Από τη Γη, στο Ράφι, στο Χωριό
               </h1>
 
-              {/* 5-Line Human Story at the Top (Μέρος Β #5) */}
-              <div className="p-5 rounded-lg bg-[#f7f5f0] border-l-4 border-[#9e4727] space-y-2">
-                <div className="text-sm font-bold text-[#9e4727]">
-                  Η ΙΣΤΟΡΙΑ ΜΑΣ ΣΕ 5 ΓΡΑΜΜΕΣ
-                </div>
-                <p className="text-base text-stone-900 leading-relaxed">
-                  {ABOUT_US_AND_STATUS.shortHumanStoryTop}
+              {/* Γ1: Αρχική — σύντομη ιστορία (5 γραμμές, πριν τους πίνακες) */}
+              <div className="p-5 rounded-lg bg-[#F7F5F0] border-l-4 border-[#A34A2B] space-y-2">
+                <p className="text-base sm:text-lg text-[#14191F] leading-relaxed font-medium">
+                  Η Βροσίνα, στο Δήμο Ζίτσας των Ιωαννίνων, αδειάζει. Εμείς προτείνουμε να γίνει ξανά ζωντανή. Το σχέδιο προβλέπει αξιοποίηση του πρώην στρατοπέδου, 25 κατοικίες και περίπου 50 νέες θέσεις εργασίας, με βάση την τοπική παραγωγή. Η επένδυση εκτιμάται σε 10,45 εκ. €, με 63% δημόσια και 37% ιδιωτική συμμετοχή. Καλούμε κατοίκους, παραγωγούς, επιχειρήσεις και φορείς να ενώσουμε δυνάμεις. Ποιος είστε;
                 </p>
                 <div className="pt-1">
                   <a
                     href="/poioi-eimaste"
-                    className="text-sm font-bold text-[#174935] underline hover:text-[#123828]"
+                    className="text-sm font-bold text-[#1F5C43] underline hover:text-[#174935]"
                   >
                     Διαβάστε την πλήρη ιστορία («Το χωριό που σωπαίνει») & γνωρίστε την ομάδα →
                   </a>
@@ -523,11 +532,11 @@ export default function VrosinaClientApp() {
                 </div>
               </div>
 
-              <div className="relative rounded-lg overflow-hidden border-2 border-stone-300 bg-stone-900 aspect-16/10">
+              <div className="relative rounded-lg overflow-hidden border-2 border-stone-300 bg-stone-900 h-64 sm:h-80">
                 {heroViewMode === "video" ? (
                   heroVideoLoaded ? (
                     <iframe
-                      src="https://www.youtube-nocookie.com/embed/v1eNMWJc7-0?autoplay=1&rel=0"
+                      src="https://www.youtube-nocookie.com/embed/tr6AsCzCH5M?autoplay=1&rel=0"
                       title="Βροσίνα Ιωαννίνων Drone"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -537,43 +546,43 @@ export default function VrosinaClientApp() {
                     <button
                       type="button"
                       onClick={() => setHeroVideoLoaded(true)}
-                      className="relative w-full h-full group cursor-pointer text-left"
+                      className="relative w-full h-full group cursor-pointer text-left block"
                     >
                       <img
-                        src="/images/real/aerial-v1eNMWJc7-0-hqdefault.jpg"
+                        src="/images/real/yt-thumb-tr6AsCzCH5M.jpg"
                         alt="Εναέρια λήψη Βροσίνας Ιωαννίνων"
                         width={800}
                         height={500}
-                        className="w-full h-full object-cover"
+                        className="w-full h-64 sm:h-80 object-cover block"
                       />
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <span className="px-5 py-2.5 rounded bg-white text-[#14191f] font-bold text-base shadow-lg">
+                        <span className="px-5 py-2.5 rounded bg-white text-[#14191F] font-bold text-base shadow-lg">
                           Αναπαραγωγή Βίντεο Drone (YouTube)
                         </span>
                       </div>
                     </button>
                   )
                 ) : heroViewMode === "today" ? (
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-64 sm:h-80">
                     <img
-                      src="/images/real/aerial-v1eNMWJc7-0-hqdefault.jpg"
-                      alt="Η Βροσίνα Ιωαννίνων σήμερα — Πραγματική αεροφωτογραφία"
+                      src="/images/real/real-vrosina-exploringgreece.jpg"
+                      alt="Η Βροσίνα Ιωαννίνων σήμερα — Πραγματική φωτογραφία"
                       width={800}
                       height={500}
-                      className="w-full h-full object-cover"
+                      className="w-full h-64 sm:h-80 object-cover block"
                     />
                     <span className="absolute bottom-2 left-2 px-3 py-1 rounded bg-stone-950/85 text-white text-sm font-medium">
                       Πραγματική Φωτογραφία: Η Βροσίνα σήμερα (58 κάτοικοι, Απογραφή 2021)
                     </span>
                   </div>
                 ) : (
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-64 sm:h-80">
                     <img
-                      src="/images/hero-masterplan-aerial.jpg"
+                      src="/images/hero-masterplan.jpg"
                       alt="Ενδεικτική Αρχιτεκτονική Απεικόνιση (Concept Render) Βροσίνα 2031"
                       width={800}
                       height={500}
-                      className="w-full h-full object-cover"
+                      className="w-full h-64 sm:h-80 object-cover block"
                     />
                     {MASTERPLAN_HOTSPOTS.map((spot, idx) => {
                       const isSelected = activeHotspot.id === spot.id;
@@ -586,8 +595,8 @@ export default function VrosinaClientApp() {
                           aria-label={`Σημείο ${idx + 1}: ${spot.title}`}
                           className={`-translate-x-1/2 -translate-y-1/2 absolute w-8 h-8 rounded-full font-bold text-sm flex items-center justify-center transition cursor-pointer shadow-md ${
                             isSelected
-                              ? "bg-[#9e4727] text-white ring-4 ring-white scale-110 z-20"
-                              : "bg-white text-[#14191f] hover:bg-[#174935] hover:text-white z-10"
+                              ? "bg-[#A34A2B] text-white ring-4 ring-white scale-110 z-20"
+                              : "bg-white text-[#14191F] hover:bg-[#1F5C43] hover:text-white z-10"
                           }`}
                         >
                           0{idx + 1}
@@ -601,22 +610,31 @@ export default function VrosinaClientApp() {
                 )}
               </div>
 
-              {/* Active Hotspot Detail Bar */}
-              <div className="p-4 rounded-lg bg-[#f7f5f0] border border-stone-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="space-y-0.5">
-                  <div className="text-sm font-bold text-[#9e4727]">
-                    {activeHotspot.category} · {activeHotspot.capex}
+              {/* Active Hotspot Detail Bar with Thumbnail */}
+              <div className="p-4 rounded-lg bg-[#F7F5F0] border border-stone-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <img
+                    src={activeHotspot.image}
+                    alt={activeHotspot.title}
+                    width={96}
+                    height={64}
+                    className="w-24 h-16 rounded object-cover border border-stone-300 shrink-0"
+                  />
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-bold text-[#A34A2B]">
+                      {activeHotspot.category} · {activeHotspot.capex}
+                    </div>
+                    <div className="font-serif font-bold text-base text-[#14191F]">
+                      {activeHotspot.title}
+                    </div>
+                    <p className="text-sm text-[#14191F]">
+                      {activeHotspot.description}
+                    </p>
                   </div>
-                  <div className="font-serif font-bold text-base text-[#14191f]">
-                    {activeHotspot.title}
-                  </div>
-                  <p className="text-sm text-stone-800">
-                    {activeHotspot.description}
-                  </p>
                 </div>
                 <a
                   href="/to-schedio"
-                  className="px-3.5 py-2 rounded bg-white border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 transition shrink-0"
+                  className="px-3.5 py-2 rounded bg-white border border-stone-400 text-[#14191F] text-sm font-semibold hover:bg-stone-200 transition shrink-0"
                 >
                   Όλοι οι 4 Πυλώνες →
                 </a>
@@ -672,19 +690,19 @@ export default function VrosinaClientApp() {
             {audiencePathCards.map((card) => (
               <article
                 key={card.href}
-                className="bg-white rounded-lg p-6 sm:p-7 border-2 border-[#14191f] shadow-xs flex flex-col justify-between space-y-5"
+                className={`bg-white rounded-lg p-6 sm:p-7 border border-stone-300 ${card.topBorderClass} shadow-xs flex flex-col justify-between space-y-5`}
               >
                 <div className="space-y-3">
-                  <div className="text-sm font-bold text-[#9e4727]">
+                  <div className={`text-sm font-bold ${card.badgeColorClass}`}>
                     {card.badge}
                   </div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
                     {card.title}
                   </h3>
-                  <p className="text-base text-stone-800 leading-relaxed">
+                  <p className="text-base text-[#14191F] leading-relaxed">
                     {card.summary}
                   </p>
-                  <ul className="space-y-1.5 pt-2 border-t border-stone-200 text-sm text-stone-800">
+                  <ul className="space-y-1.5 pt-2 border-t border-stone-200 text-sm text-[#14191F]">
                     {card.highlights.map((hl, i) => (
                       <li key={i} className="leading-relaxed">
                         • {hl}
@@ -696,7 +714,7 @@ export default function VrosinaClientApp() {
                 <div className="pt-2 flex flex-wrap items-center gap-3">
                   <a
                     href={card.href}
-                    className="w-full sm:w-auto text-center px-5 py-3 rounded bg-[#174935] hover:bg-[#123828] text-white font-bold text-base transition"
+                    className={`w-full sm:w-auto text-center px-5 py-3 rounded ${card.buttonColorClass} text-white font-bold text-base transition`}
                   >
                     {card.buttonLabel}
                   </a>
@@ -740,16 +758,16 @@ export default function VrosinaClientApp() {
                 className="bg-[#f7f5f0] rounded-lg border border-stone-300 overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-16/10 bg-stone-900">
+                  <div className="relative h-48 bg-stone-900">
                     <img
                       src={pillar.heroImage}
                       alt={pillar.title}
                       width={500}
                       height={312}
                       loading="lazy"
-                      className="w-full h-full object-cover"
+                      className="w-full h-48 object-cover block"
                     />
-                    <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded bg-stone-950/85 text-[#c89d54] font-bold text-sm">
+                    <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded bg-stone-950/85 text-[#C89D54] font-bold text-sm">
                       Πυλώνας {pillar.number}
                     </span>
                     <span className="absolute bottom-1.5 right-1.5 px-2 py-0.5 rounded bg-stone-950/80 text-white text-xs">
@@ -870,59 +888,110 @@ export default function VrosinaClientApp() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-5 bg-white rounded-lg p-6 border-2 border-[#14191f] space-y-4">
-              <div className="flex items-center gap-4 border-b border-stone-200 pb-4">
+            {/* Γ6: Ποιοι είμαστε + Φωτογραφία & Εμπειρία Αθανάσιου Βούρδα */}
+            <div className="lg:col-span-6 bg-white rounded-lg p-6 sm:p-7 border-2 border-[#14191F] space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-stone-200 pb-4">
                 <img
-                  src="/images/real/tv-SOt0DH7kivY-hqdefault.jpg"
-                  alt={ABOUT_US_AND_STATUS.coordinatorCard.name}
-                  width={96}
-                  height={96}
+                  src="/images/real/athanasios-vourdas-portrait.jpg"
+                  alt="Αθανάσιος Βούρδας — Εμπνευστής & Συντονιστής της Πρωτοβουλίας Βροσίνα 2031"
+                  width={112}
+                  height={112}
                   loading="lazy"
-                  className="w-20 h-20 rounded-full object-cover border-2 border-[#9e4727] shrink-0"
+                  className="w-24 h-24 rounded-full object-cover object-top border-2 border-[#A34A2B] shrink-0 shadow-sm"
                 />
                 <div>
-                  <div className="text-sm font-bold text-[#9e4727]">
-                    ΣΥΝΤΟΝΙΣΜΟΣ ΠΡΩΤΟΒΟΥΛΙΑΣ
+                  <div className="text-sm font-bold text-[#A34A2B]">
+                    Ποιοι είμαστε
                   </div>
-                  <h3 className="font-serif text-xl font-bold text-[#14191f]">
-                    {ABOUT_US_AND_STATUS.coordinatorCard.name}
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
+                    Αθανάσιος (Θανάσης) Βούρδας
                   </h3>
-                  <div className="text-sm font-semibold text-[#174935]">
-                    {ABOUT_US_AND_STATUS.coordinatorCard.role}
+                  <div className="text-sm font-semibold text-[#1F5C43]">
+                    Εμπνευστής & Συντονιστής Πρωτοβουλίας «Βροσίνα 2031»
                   </div>
                 </div>
               </div>
-              <p className="text-base text-stone-800 leading-relaxed">
-                {ABOUT_US_AND_STATUS.coordinatorCard.bio}
-              </p>
-              <div className="p-3.5 rounded bg-[#f7f5f0] border border-stone-300 text-sm text-stone-800">
-                <strong>Έδρα:</strong> {ABOUT_US_AND_STATUS.coordinatorCard.seat}{" "}
-                · <strong>Email:</strong> {ABOUT_US_AND_STATUS.coordinatorCard.email}
+
+              <div className="space-y-3 text-base text-[#14191F] leading-relaxed">
+                <p>
+                  Η <strong>Βροσίνα 2031</strong> ξεκίνησε από τον{" "}
+                  <strong>Θανάση Βούρδα</strong>, με καταγωγή από τη Βροσίνα και
+                  εμπειρία στην επικοινωνία, το μάρκετινγκ, τον τουρισμό και την
+                  επιχειρηματική ανάπτυξη.
+                </p>
+                <p>
+                  Συγκροτείται η <strong>«Επιτροπή Βροσίνα 2031»</strong> για την
+                  προώθηση του σχεδίου. Καλούμε την{" "}
+                  <strong>Αδελφότητα Βροσινιωτών</strong> και{" "}
+                  <strong>Βροσινιώτες επαγγελματίες</strong> (νομικούς,
+                  μηχανικούς, αρχιτέκτονες και άλλους) να συμμετάσχουν
+                  εθελοντικά.
+                </p>
+                <p>
+                  Η νομική μορφή (κοινωνική συνεταιριστική επιχείρηση) βρίσκεται
+                  υπό σύσταση. Το κάλεσμα για ιδρυτικά μέλη είναι ανοιχτό
+                  (ελάχιστη μερίδα 100 €, ν. 4430/2016).
+                </p>
+                <p className="font-semibold text-[#1F5C43]">
+                  Επικοινωνία:{" "}
+                  <a href="#contact-form" className="underline">
+                    μέσω της φόρμας του site ↓
+                  </a>
+                </p>
               </div>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {ABOUT_US_AND_STATUS.projectTimelineStatus.map((col, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-lg p-5 border border-stone-300 space-y-2"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-bold text-[#9e4727]">
-                      {col.date}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded bg-[#f7f5f0] border border-stone-300 text-sm font-semibold text-[#14191f]">
-                      {col.stage}
-                    </span>
-                  </div>
-                  <h3 className="font-serif font-bold text-lg text-[#14191f]">
-                    {col.title}
-                  </h3>
-                  <p className="text-sm text-stone-800 leading-relaxed">
-                    {col.desc}
-                  </p>
+            {/* Γ6: Πού βρισκόμαστε τώρα (Κατάσταση έργου, Νοέμβριος 2026) + Α3 (Πώς λειτουργούμε) */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="bg-white rounded-lg p-6 border-2 border-[#1F5C43] space-y-3">
+                <div className="text-sm font-bold text-[#1F5C43]">
+                  Πού βρισκόμαστε τώρα
                 </div>
-              ))}
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
+                  Κατάσταση έργου, Νοέμβριος 2026
+                </h3>
+                <ul className="space-y-2.5 text-base text-[#14191F] leading-relaxed">
+                  <li className="p-3 rounded bg-[#F7F5F0] border border-stone-300">
+                    <strong>✔</strong> Δημοσιεύθηκε το δελτίο τύπου και το site.
+                    Δύο τηλεοπτικές παρουσιάσεις.
+                  </li>
+                  <li className="p-3 rounded bg-[#F7F5F0] border border-stone-300">
+                    <strong>✔</strong> Ετοιμάστηκε το επιχειρησιακό σχέδιο και η
+                    ανάλυση του οφέλους για το Δημόσιο.
+                  </li>
+                  <li className="p-3 rounded bg-[#F7F5F0] border border-stone-300">
+                    <strong>✔</strong> Ετοιμάστηκε πρόταση συνεργασίας με τη
+                    Γαλακτοκομική Σχολή Ιωαννίνων.
+                  </li>
+                  <li className="p-3 rounded bg-amber-50 border border-[#C89D54]">
+                    <strong>● Σε εξέλιξη:</strong> σύσταση κοινωνικής
+                    συνεταιριστικής επιχείρησης, με ανοιχτό κάλεσμα για ιδρυτικά
+                    μέλη.
+                  </li>
+                  <li className="p-3 rounded bg-[#F7F5F0] border border-stone-300">
+                    <strong>○ Επόμενο:</strong> αίτημα παραχώρησης του
+                    στρατοπέδου και προετοιμασία για την πρόσκληση LEADER
+                    (προθεσμία 4/2/2027).
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white rounded-lg p-5 border border-stone-300 space-y-2">
+                <h3 className="font-serif font-bold text-lg text-[#14191F]">
+                  Πώς λειτουργούμε
+                </h3>
+                <p className="text-sm text-[#14191F] leading-relaxed">
+                  Η Βροσίνα 2031 είναι μια μη κομματική πρωτοβουλία για την
+                  αναγέννηση του χωριού. Απευθυνόμαστε σε όλους τους φορείς,
+                  ανεξάρτητα από παράταξη, με το ίδιο αίτημα και το ίδιο υλικό.
+                  Δεν ζητάμε από το Δημόσιο να αναλάβει το κόστος της
+                  λειτουργίας. Ζητάμε θεσμική και αδειοδοτική στήριξη για ένα
+                  έργο που, με βάση τις εκτιμήσεις μας, αποδίδει στο Δημόσιο
+                  έσοδα και θέσεις εργασίας. Οι αποφάσεις της κοινότητας
+                  λαμβάνονται με ένα μέλος, μία ψήφο. Όλα τα έγγραφα βρίσκονται
+                  στο Κέντρο Τεκμηρίωσης.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -976,38 +1045,38 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
-          {/* 3 Real vs 2031 Comparisons */}
+          {/* 3 Real vs 2031 Comparisons (Explicit height so images always render cleanly) */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {REAL_VS_2031_COMPARISONS.map((pair) => (
               <article
                 key={pair.id}
-                className="bg-[#f7f5f0] rounded-lg border border-stone-300 overflow-hidden flex flex-col justify-between"
+                className="bg-[#F7F5F0] rounded-lg border border-stone-300 overflow-hidden flex flex-col justify-between"
               >
                 <div>
                   <div className="grid grid-cols-2 gap-0.5 bg-stone-300">
-                    <div className="relative aspect-4/3 bg-stone-900">
+                    <div className="relative h-48 sm:h-52 bg-stone-900">
                       <img
                         src={pair.realImage}
                         alt={pair.realCaption}
                         width={400}
                         height={300}
                         loading="lazy"
-                        className="w-full h-full object-cover"
+                        className="w-full h-48 sm:h-52 object-cover block"
                       />
                       <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-stone-950/85 text-white text-xs font-semibold">
                         Σήμερα (Πεδίο)
                       </span>
                     </div>
-                    <div className="relative aspect-4/3 bg-stone-900">
+                    <div className="relative h-48 sm:h-52 bg-stone-900">
                       <img
                         src={pair.visionImage}
                         alt={pair.visionCaption}
                         width={400}
                         height={300}
                         loading="lazy"
-                        className="w-full h-full object-cover"
+                        className="w-full h-48 sm:h-52 object-cover block"
                       />
-                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#174935] text-white text-xs font-semibold">
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#1F5C43] text-white text-xs font-semibold">
                         Όραμα 2031
                       </span>
                       <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-stone-950/80 text-white text-xs">
@@ -1016,16 +1085,16 @@ export default function VrosinaClientApp() {
                     </div>
                   </div>
                   <div className="p-5 space-y-2">
-                    <div className="text-sm font-bold text-[#9e4727]">
+                    <div className="text-sm font-bold text-[#A34A2B]">
                       {pair.subtitle} · {pair.capex}
                     </div>
-                    <h3 className="font-serif font-bold text-lg text-[#14191f]">
+                    <h3 className="font-serif font-bold text-lg text-[#14191F]">
                       {pair.title}
                     </h3>
-                    <p className="text-sm text-stone-800 leading-relaxed">
+                    <p className="text-sm text-[#14191F] leading-relaxed">
                       <strong>Σήμερα:</strong> {pair.realCaption}
                     </p>
-                    <p className="text-sm text-stone-800 leading-relaxed">
+                    <p className="text-sm text-[#14191F] leading-relaxed">
                       <strong>Σχέδιο 2031:</strong> {pair.visionCaption}
                     </p>
                   </div>
@@ -1114,22 +1183,43 @@ export default function VrosinaClientApp() {
                 {(() => {
                   const st = CAMP_VIDEO_AUTOPSY.steps[activeAutopsyStep];
                   return (
-                    <div className="p-5 rounded-lg bg-white border border-stone-300 space-y-2.5">
+                    <div className="p-5 rounded-lg bg-white border border-stone-300 space-y-3">
+                      {st.imageType === "direct" ? (
+                        <img
+                          src={st.imageSrc}
+                          alt={st.buildingTitle}
+                          width={640}
+                          height={320}
+                          loading="lazy"
+                          className="w-full h-44 object-cover rounded border border-stone-300"
+                        />
+                      ) : (
+                        <div
+                          role="img"
+                          aria-label={st.buildingTitle}
+                          className="w-full h-44 rounded border border-stone-300 bg-no-repeat"
+                          style={{
+                            backgroundImage: `url(${st.imageSrc})`,
+                            backgroundSize: "300% 300%",
+                            backgroundPosition: st.spritePos || "0% 0%",
+                          }}
+                        />
+                      )}
                       <div className="flex flex-wrap items-center justify-between gap-2 text-sm font-bold">
-                        <span className="text-[#9e4727]">
-                          ΚΤΙΡΙΟ {st.stepNumber} · ΧΡΟΝΟΣ: {st.timeDisplay}
+                        <span className="text-[#A34A2B]">
+                          Κτίριο {st.stepNumber} · Χρόνος: {st.timeDisplay}
                         </span>
-                        <span className="text-[#174935]">
+                        <span className="text-[#1F5C43]">
                           {st.capexAllocation}
                         </span>
                       </div>
-                      <h4 className="font-serif font-bold text-lg text-[#14191f]">
+                      <h4 className="font-serif font-bold text-lg text-[#14191F]">
                         {st.buildingTitle}
                       </h4>
-                      <p className="text-sm text-stone-800 leading-relaxed">
+                      <p className="text-sm text-[#14191F] leading-relaxed">
                         <strong>Εικόνα Πεδίου:</strong> {st.currentAutopsy}
                       </p>
-                      <p className="text-sm text-stone-900 leading-relaxed bg-[#f7f5f0] p-3 rounded border-l-4 border-[#174935]">
+                      <p className="text-sm text-[#14191F] leading-relaxed bg-[#F7F5F0] p-3 rounded border-l-4 border-[#1F5C43]">
                         <strong>Προτεινόμενη Χρήση 2031 ({st.future2031Role}):</strong>{" "}
                         {st.future2031Details}
                       </p>
@@ -1437,6 +1527,11 @@ export default function VrosinaClientApp() {
                   {investorSimulation.paybackLabel}
                 </div>
 
+                {/* Α4: Υποχρεωτική Επιφύλαξη κάτω από τον υπολογιστή με ποσά */}
+                <div className="p-3.5 rounded bg-stone-950 border-l-4 border-[#C89D54] text-sm text-stone-200 leading-relaxed">
+                  Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+                </div>
+
                 <div className="flex flex-wrap gap-3">
                   <button
                     type="button"
@@ -1650,19 +1745,16 @@ export default function VrosinaClientApp() {
             </div>
 
             {inlineSubmitted ? (
-              <div className="p-6 rounded-lg bg-emerald-50 border-2 border-[#174935] space-y-3">
-                <h3 className="font-serif text-xl font-bold text-[#174935]">
-                  Το αίτημά σας καταχωρήθηκε επιτυχώς!
+              <div className="p-6 rounded-lg bg-emerald-50 border-2 border-[#1F5C43] space-y-3">
+                <h3 className="font-serif text-xl font-bold text-[#1F5C43]">
+                  Ευχαριστούμε. Λάβαμε το μήνυμά σας και θα επικοινωνήσουμε μαζί σας σύντομα.
                 </h3>
-                <p className="text-base text-stone-800">
-                  Ευχαριστούμε, <strong>{leadName}</strong>. Ο Συντονιστής της πρωτοβουλίας (Αθανάσιος Βούρδας) θα επικοινωνήσει τηλεφωνικά μαζί σας στο <strong>{leadPhone}</strong> εντός 24 ωρών.
-                </p>
                 <button
                   type="button"
                   onClick={() => setInlineSubmitted(false)}
-                  className="px-4 py-2 rounded bg-[#14191f] text-white text-sm font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded bg-[#14191F] text-white text-sm font-semibold cursor-pointer"
                 >
-                  Νέα Δήλωση
+                  Νέο Μήνυμα
                 </button>
               </div>
             ) : (
@@ -1680,41 +1772,35 @@ export default function VrosinaClientApp() {
                   <div>
                     <label
                       htmlFor="inline-role-select"
-                      className="block text-sm font-semibold text-[#14191f] mb-1.5"
+                      className="block text-sm font-semibold text-[#14191F] mb-1.5"
                     >
-                      1. Επιλέξτε ποιος είστε (Υποχρεωτικό) *
+                      1. Ποιος είστε *
                     </label>
                     <select
                       id="inline-role-select"
                       required
                       value={leadRole}
                       onChange={(e) => setLeadRole(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] text-base font-medium focus:outline-none focus:border-[#14191f]"
+                      className="w-full px-3.5 py-2.5 rounded bg-[#F7F5F0] border border-stone-400 text-[#14191F] text-base font-medium focus:outline-none focus:border-[#14191F]"
                     >
                       <option value="" disabled>
-                        — Επιλέξτε ποιος είστε —
+                        Επιλέξτε ποιος είστε…
                       </option>
                       <option value="herder">
-                        Κτηνοτρόφος / Αμπελουργός της περιοχής (Μέλος Κοιν.Σ.Επ. / Γάλα)
+                        Κτηνοτρόφος / παραγωγός της περιοχής
                       </option>
                       <option value="owner">
-                        Ιδιοκτήτης Κλειστού Σπιτιού, Καταστήματος ή Γης στη Βροσίνα
-                      </option>
-                      <option value="new_producer">
-                        Νέος Κτηνοτρόφος / Τεχνίτης (Εγκατάσταση στη Βροσίνα)
+                        Κάτοικος ή ιδιοκτήτης σπιτιού ή γης
                       </option>
                       <option value="business">
-                        Επιχείρηση / Ξενώνας / Κατάστημα / Εργολάβος / Προμηθευτής
+                        Επιχειρηματίας (μικρός ή μεγάλος)
                       </option>
-                      <option value="investor">
-                        Στρατηγικός Επενδυτής (Μεταποίηση / Αγροτουρισμός)
-                      </option>
-                      <option value="benefactor">
-                        Ευεργέτης / Χορηγός (ΑΜΚΕ Ταμείο Ευεργετών Βροσίνας)
-                      </option>
+                      <option value="investor">Επενδυτής</option>
                       <option value="institution">
-                        Εκπρόσωπος Φορέα / Δήμου / Περιφέρειας / Υπουργείου / ΜΜΕ
+                        Εκπρόσωπος φορέα ή Δήμου
                       </option>
+                      <option value="journalist">Δημοσιογράφος</option>
+                      <option value="other">Άλλο</option>
                     </select>
                   </div>
 
@@ -1789,29 +1875,34 @@ export default function VrosinaClientApp() {
                   />
                 </div>
 
-                <div className="flex items-start gap-2.5 pt-1">
-                  <input
-                    id="inline-gdpr-checkbox"
-                    type="checkbox"
-                    required
-                    checked={gdprAccepted}
-                    onChange={(e) => setGdprAccepted(e.target.checked)}
-                    className="mt-1 w-4 h-4 accent-[#174935] cursor-pointer shrink-0"
-                  />
-                  <label
-                    htmlFor="inline-gdpr-checkbox"
-                    className="text-sm text-stone-800 leading-relaxed cursor-pointer"
-                  >
-                    Συναινώ στην επεξεργασία των στοιχείων επικοινωνίας μου αποκλειστικά από την ομάδα συντονισμού της πρωτοβουλίας «Βροσίνα 2031» για την απάντηση στο αίτημά μου, σύμφωνα με τον ΓΚΠΔ (GDPR 2016/679).{" "}
-                    <button
-                      type="button"
-                      onClick={() => setPrivacyModalOpen(true)}
-                      className="text-[#174935] font-semibold underline cursor-pointer"
+                <div className="space-y-2 pt-1">
+                  <p className="text-sm text-[#14191F] bg-[#F7F5F0] p-3 rounded border border-stone-300">
+                    Τα στοιχεία σας χρησιμοποιούνται μόνο για να απαντήσουμε στο αίτημά σας και δεν δίνονται σε τρίτους.
+                  </p>
+                  <div className="flex items-start gap-2.5">
+                    <input
+                      id="inline-gdpr-checkbox"
+                      type="checkbox"
+                      required
+                      checked={gdprAccepted}
+                      onChange={(e) => setGdprAccepted(e.target.checked)}
+                      className="mt-1 w-4 h-4 accent-[#1F5C43] cursor-pointer shrink-0"
+                    />
+                    <label
+                      htmlFor="inline-gdpr-checkbox"
+                      className="text-sm text-[#14191F] leading-relaxed cursor-pointer"
                     >
-                      Πολιτική Απορρήτου
-                    </button>{" "}
-                    *
-                  </label>
+                      Συμφωνώ με την επεξεργασία των στοιχείων μου αποκλειστικά για την απάντηση στο αίτημά μου.{" "}
+                      <button
+                        type="button"
+                        onClick={() => setPrivacyModalOpen(true)}
+                        className="text-[#1F5C43] font-semibold underline cursor-pointer"
+                      >
+                        Πολιτική Απορρήτου
+                      </button>{" "}
+                      *
+                    </label>
+                  </div>
                 </div>
 
                 <button
@@ -1932,7 +2023,7 @@ export default function VrosinaClientApp() {
         </div>
       </footer>
 
-      {/* Mobile Sticky Bottom Navigation Bar (5 Clean Items, No Emoji) */}
+      {/* Mobile Sticky Bottom Navigation Bar (Κεφ. Β: Σχέδιο · Στρατόπεδο · Σπίτια · Επιχειρήσεις · Επικοινωνία) */}
       <nav
         aria-label="Κινητή Πλοήγηση"
         className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
@@ -1940,31 +2031,31 @@ export default function VrosinaClientApp() {
         <div className="grid grid-cols-5 text-center">
           <a
             href="/to-schedio"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
           >
             Σχέδιο
           </a>
           <a
-            href="/gia-ktinotrofous"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+            href="/stratopedo-vrosinas"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
           >
-            Κτηνοτρόφοι
+            Στρατόπεδο
+          </a>
+          <a
+            href="/gia-ktinotrofous"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+          >
+            Σπίτια
           </a>
           <a
             href="/gia-epicheiriseis"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
           >
             Επιχειρήσεις
           </a>
           <a
-            href="/gia-ependytes"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
-          >
-            Επενδυτές
-          </a>
-          <a
             href="#contact-form"
-            className="py-2.5 px-1 text-sm font-bold bg-[#174935] text-white truncate"
+            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white truncate"
           >
             Επικοινωνία
           </a>
@@ -1998,13 +2089,10 @@ export default function VrosinaClientApp() {
             </div>
 
             {leadSubmitted ? (
-              <div className="p-4 rounded bg-emerald-50 border border-[#174935] space-y-2">
-                <div className="font-bold text-[#174935]">
-                  Το αίτημά σας καταχωρήθηκε επιτυχώς!
+              <div className="p-4 rounded bg-emerald-50 border border-[#1F5C43] space-y-2">
+                <div className="font-bold text-[#1F5C43]">
+                  Ευχαριστούμε. Λάβαμε το μήνυμά σας και θα επικοινωνήσουμε μαζί σας σύντομα.
                 </div>
-                <p className="text-sm text-stone-800">
-                  Θα επικοινωνήσουμε τηλεφωνικά μαζί σας στο <strong>{leadPhone}</strong> εντός 24 ωρών.
-                </p>
               </div>
             ) : (
               <form
@@ -2014,27 +2102,35 @@ export default function VrosinaClientApp() {
                 <div>
                   <label
                     htmlFor="modal-role-select"
-                    className="block text-sm font-semibold text-[#14191f] mb-1"
+                    className="block text-sm font-semibold text-[#14191F] mb-1"
                   >
-                    Ιδιότητα *
+                    Ποιος είστε *
                   </label>
                   <select
                     id="modal-role-select"
                     required
                     value={leadRole}
                     onChange={(e) => setLeadRole(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-[#f7f5f0] border border-stone-400 text-base"
+                    className="w-full px-3 py-2 rounded bg-[#F7F5F0] border border-stone-400 text-base"
                   >
                     <option value="" disabled>
-                      — Επιλέξτε ποιος είστε —
+                      Επιλέξτε ποιος είστε…
                     </option>
-                    <option value="herder">Κτηνοτρόφος / Αμπελουργός</option>
-                    <option value="owner">Ιδιοκτήτης Κατοικίας / Γης</option>
-                    <option value="new_producer">Νέος Κτηνοτρόφος / Τεχνίτης</option>
-                    <option value="business">Επιχείρηση / Ξενώνας / Εργολάβος</option>
-                    <option value="investor">Στρατηγικός Επενδυτής</option>
-                    <option value="benefactor">Ευεργέτης / Χορηγός (ΑΜΚΕ)</option>
-                    <option value="institution">Δημόσιος Φορέας / ΟΤΑ / ΜΜΕ</option>
+                    <option value="herder">
+                      Κτηνοτρόφος / παραγωγός της περιοχής
+                    </option>
+                    <option value="owner">
+                      Κάτοικος ή ιδιοκτήτης σπιτιού ή γης
+                    </option>
+                    <option value="business">
+                      Επιχειρηματίας (μικρός ή μεγάλος)
+                    </option>
+                    <option value="investor">Επενδυτής</option>
+                    <option value="institution">
+                      Εκπρόσωπος φορέα ή Δήμου
+                    </option>
+                    <option value="journalist">Δημοσιογράφος</option>
+                    <option value="other">Άλλο</option>
                   </select>
                 </div>
 

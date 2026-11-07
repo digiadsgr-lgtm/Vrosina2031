@@ -7,9 +7,9 @@ import {
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title: "Ποιοι Είμαστε, Ιστορία & Πού Βρισκόμαστε",
+  title: "Ποιοι Είμαστε, Πού Βρισκόμαστε Τώρα & Ιστορία",
   description:
-    "Η ανθρώπινη ιστορία της Βροσίνας, ο Συντονιστής της πρωτοβουλίας (Αθανάσιος Βούρδας), η νομική κατάσταση των φορέων, οι μαρτυρίες κατοίκων και η πορεία του έργου σήμερα.",
+    "Ποιοι είμαστε (Θανάσης Βούρδας, Επιτροπή Βροσίνα 2031), πού βρισκόμαστε τώρα (κατάσταση έργου Νοέμβριος 2026), πώς λειτουργούμε και η πλήρης ιστορία της Βροσίνας.",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/poioi-eimaste",
   },
@@ -18,165 +18,165 @@ export const metadata: Metadata = {
 export default function PoioiEimastePage() {
   return (
     <SeoSubpageShell
-      sectionCode="ΤΑΥΤΟΤΗΤΑ ΠΡΩΤΟΒΟΥΛΙΑΣ & ΔΙΑΦΑΝΕΙΑ"
-      categoryLabel="ΠΟΙΟΙ ΕΙΜΑΣΤΕ · ΜΑΡΤΥΡΙΕΣ ΚΑΤΟΙΚΩΝ · ΚΑΤΑΣΤΑΣΗ ΕΡΓΟΥ ΣΗΜΕΡΑ"
-      title="Ποιοι Είμαστε, Η Ιστορία της Βροσίνας & Πού Βρισκόμαστε Σήμερα"
-      subtitle="Το ανθρώπινο πρόσωπο της πρωτοβουλίας «Βροσίνα 2031»: ποιος συντονίζει την προσπάθεια, σε ποιο νομικό στάδιο βρίσκονται οι φορείς σήμερα, τι λένε οι κάτοικοι και οι κτηνοτρόφοι, και η πλήρης ιστορία του χωριού."
+      sectionCode="Ταυτότητα Πρωτοβουλίας"
+      categoryLabel="Ποιοι είμαστε · Πού βρισκόμαστε τώρα · Πώς λειτουργούμε · Η ιστορία του χωριού"
+      title="Ποιοι είμαστε & Πού βρισκόμαστε τώρα"
+      subtitle="Η Βροσίνα 2031 ξεκίνησε από τον Θανάση Βούρδα, με καταγωγή από τη Βροσίνα και εμπειρία στην επικοινωνία, το μάρκετινγκ, τον τουρισμό και την επιχειρηματική ανάπτυξη."
       canonicalPath="/poioi-eimaste"
     >
-      {/* 1. Coordinator & 3 Governance Entities Status */}
+      {/* Γ6: Ποιοι είμαστε & Πού βρισκόμαστε τώρα */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div className="lg:col-span-5 bg-white rounded-lg p-6 border-2 border-[#14191f] space-y-4">
-          <div className="flex items-center gap-4 border-b border-stone-200 pb-4">
+        {/* Αριστερή στήλη: Ποιοι είμαστε + Προφίλ Συντονιστή */}
+        <div className="lg:col-span-6 bg-white rounded-lg p-6 sm:p-8 border-2 border-[#14191F] space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-5 border-b border-stone-200 pb-5">
             <img
-              src="/images/real/tv-SOt0DH7kivY-hqdefault.jpg"
-              alt={ABOUT_US_AND_STATUS.coordinatorCard.name}
-              width={96}
-              height={96}
-              loading="lazy"
-              className="w-20 h-20 rounded-full object-cover border-2 border-[#9e4727] shrink-0"
+              src="/images/real/athanasios-vourdas-portrait.jpg"
+              alt="Αθανάσιος Βούρδας — Εμπνευστής & Συντονιστής της Πρωτοβουλίας Βροσίνα 2031"
+              width={120}
+              height={120}
+              className="w-28 h-28 rounded-full object-cover object-top border-2 border-[#A34A2B] shrink-0 shadow-sm"
             />
-            <div>
-              <div className="text-sm font-bold text-[#9e4727]">
-                ΣΥΝΤΟΝΙΣΜΟΣ ΠΡΩΤΟΒΟΥΛΙΑΣ
+            <div className="space-y-1">
+              <div className="text-sm font-bold text-[#A34A2B]">
+                Ποιοι είμαστε
               </div>
-              <h2 className="font-serif text-xl font-bold text-[#14191f]">
-                {ABOUT_US_AND_STATUS.coordinatorCard.name}
+              <h2 className="font-serif text-2xl font-bold text-[#14191F]">
+                Αθανάσιος (Θανάσης) Βούρδας
               </h2>
-              <div className="text-sm font-semibold text-[#174935]">
-                {ABOUT_US_AND_STATUS.coordinatorCard.role}
+              <div className="text-sm font-semibold text-[#1F5C43]">
+                Εμπνευστής & Συντονιστής Πρωτοβουλίας «Βροσίνα 2031»
               </div>
             </div>
           </div>
 
-          <p className="text-base text-stone-800 leading-relaxed">
-            {ABOUT_US_AND_STATUS.coordinatorCard.bio}
-          </p>
-
-          <div className="p-4 rounded bg-[#f7f5f0] border border-stone-300 space-y-1 text-sm text-stone-800">
-            <div>
-              <strong>Έδρα Πρωτοβουλίας:</strong>{" "}
-              {ABOUT_US_AND_STATUS.coordinatorCard.seat}
-            </div>
-            <div>
-              <strong>Email:</strong>{" "}
-              <a
-                href={`mailto:${ABOUT_US_AND_STATUS.coordinatorCard.email}`}
-                className="text-[#174935] font-semibold underline"
-              >
-                {ABOUT_US_AND_STATUS.coordinatorCard.email}
+          <div className="space-y-3 text-base text-[#14191F] leading-relaxed">
+            <p>
+              Η <strong>Βροσίνα 2031</strong> ξεκίνησε από τον{" "}
+              <strong>Θανάση Βούρδα</strong>, με καταγωγή από τη Βροσίνα και
+              εμπειρία στην επικοινωνία, το μάρκετινγκ, τον τουρισμό και την
+              επιχειρηματική ανάπτυξη.
+            </p>
+            <p>
+              Με αφετηρία την πληροφορική και το ηλεκτρονικό εμπόριο στη Μεγάλη
+              Βρετανία (Liverpool) και στην Ελλάδα, και πολυετή ενεργή πορεία στη
+              διοίκηση μονάδων φιλοξενίας, στην οργάνωση επιχειρησιακών
+              διαδικασιών και στη στρατηγική ψηφιακής ανάπτυξης επιχειρήσεων
+              (ιδρυτής της DIGIADS), μετέφερε την τεχνογνωσία οργάνωσης,
+              κοστολόγησης και εμπορικής δικτύωσης σε ένα ολοκληρωμένο,
+              εφαρμόσιμο σχέδιο αναγέννησης για τον τόπο καταγωγής του.
+            </p>
+            <p>
+              Συγκροτείται η <strong>«Επιτροπή Βροσίνα 2031»</strong> για την
+              προώθηση του σχεδίου. Καλούμε την{" "}
+              <strong>Αδελφότητα Βροσινιωτών</strong> και{" "}
+              <strong>Βροσινιώτες επαγγελματίες</strong> (νομικούς, μηχανικούς,
+              αρχιτέκτονες και άλλους) να συμμετάσχουν εθελοντικά.
+            </p>
+            <p>
+              Η νομική μορφή (κοινωνική συνεταιριστική επιχείρηση) βρίσκεται υπό
+              σύσταση.
+            </p>
+            <p className="font-semibold text-[#1F5C43]">
+              Επικοινωνία:{" "}
+              <a href="#epikinonia" className="underline">
+                μέσω της φόρμας του site ↓
               </a>
-            </div>
-            <div>{ABOUT_US_AND_STATUS.coordinatorCard.directCallNote}</div>
+            </p>
           </div>
         </div>
 
-        <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white rounded-lg p-6 border border-stone-300 space-y-4">
-            <div className="text-sm font-bold text-[#174935]">
-              ΝΟΜΙΚΟ ΚΑΘΕΣΤΩΣ ΦΟΡΕΩΝ ΣΗΜΕΡΑ (ΠΛΗΡΗΣ ΔΙΑΦΑΝΕΙΑ)
+        {/* Δεξιά στήλη: Πού βρισκόμαστε τώρα (Κατάσταση έργου, Νοέμβριος 2026) */}
+        <div className="lg:col-span-6 space-y-6">
+          <div className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#1F5C43] space-y-4">
+            <div className="text-sm font-bold text-[#1F5C43]">
+              Πού βρισκόμαστε τώρα
             </div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-              Οι 3 Φορείς του Οικοσυστήματος «Βροσίνα 2031»
+            <h2 className="font-serif text-2xl font-bold text-[#14191F]">
+              Κατάσταση έργου, Νοέμβριος 2026
             </h2>
-            <div className="space-y-3">
-              {ABOUT_US_AND_STATUS.governanceEntitiesStatus.map((ent, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-lg bg-[#f7f5f0] border border-stone-300 space-y-1.5"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="font-serif font-bold text-lg text-[#14191f]">
-                      {ent.name}
-                    </h3>
-                    <span className="px-3 py-1 rounded bg-amber-100 border border-amber-400 text-stone-900 text-sm font-bold">
-                      {ent.status}
-                    </span>
-                  </div>
-                  <p className="text-base text-stone-800 leading-relaxed">
-                    {ent.role}
-                  </p>
-                </div>
-              ))}
-            </div>
+
+            <ul className="space-y-3 text-base text-[#14191F] leading-relaxed">
+              <li className="p-3.5 rounded bg-[#F7F5F0] border border-stone-300">
+                <strong>✔</strong> Δημοσιεύθηκε το δελτίο τύπου και το site. Δύο
+                τηλεοπτικές παρουσιάσεις.
+              </li>
+              <li className="p-3.5 rounded bg-[#F7F5F0] border border-stone-300">
+                <strong>✔</strong> Ετοιμάστηκε το επιχειρησιακό σχέδιο και η
+                ανάλυση του οφέλους για το Δημόσιο.
+              </li>
+              <li className="p-3.5 rounded bg-[#F7F5F0] border border-stone-300">
+                <strong>✔</strong> Ετοιμάστηκε πρόταση συνεργασίας με τη
+                Γαλακτοκομική Σχολή Ιωαννίνων.
+              </li>
+              <li className="p-3.5 rounded bg-amber-50 border border-[#C89D54]">
+                <strong>● Σε εξέλιξη:</strong> σύσταση κοινωνικής συνεταιριστικής
+                επιχείρησης, με ανοιχτό κάλεσμα για ιδρυτικά μέλη (ελάχιστη
+                μερίδα 100 €, ν. 4430/2016).
+              </li>
+              <li className="p-3.5 rounded bg-[#F7F5F0] border border-stone-300">
+                <strong>○ Επόμενο:</strong> αίτημα παραχώρησης του στρατοπέδου
+                και προετοιμασία για την πρόσκληση LEADER (προθεσμία 4/2/2027).
+              </li>
+            </ul>
+          </div>
+
+          {/* Α3: Πώς λειτουργούμε */}
+          <div className="bg-white rounded-lg p-6 border border-stone-300 space-y-2.5">
+            <h3 className="font-serif font-bold text-xl text-[#14191F]">
+              Πώς λειτουργούμε
+            </h3>
+            <p className="text-base text-[#14191F] leading-relaxed">
+              Η Βροσίνα 2031 είναι μια μη κομματική πρωτοβουλία για την
+              αναγέννηση του χωριού. Απευθυνόμαστε σε όλους τους φορείς,
+              ανεξάρτητα από παράταξη, με το ίδιο αίτημα και το ίδιο υλικό. Δεν
+              ζητάμε από το Δημόσιο να αναλάβει το κόστος της λειτουργίας.
+              Ζητάμε θεσμική και αδειοδοτική στήριξη για ένα έργο που, με βάση
+              τις εκτιμήσεις μας, αποδίδει στο Δημόσιο έσοδα και θέσεις
+              εργασίας. Οι αποφάσεις της κοινότητας λαμβάνονται με ένα μέλος,
+              μία ψήφο. Όλα τα έγγραφα βρίσκονται στο Κέντρο Τεκμηρίωσης.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 2. Project Timeline with Dates: Πού Βρισκόμαστε Σήμερα */}
-      <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-5">
-        <div className="space-y-1 border-b border-stone-200 pb-4">
-          <div className="text-sm font-bold text-[#174935]">
-            ΠΟΡΕΙΑ ΕΡΓΟΥ ΜΕ ΗΜΕΡΟΜΗΝΙΕΣ
-          </div>
-          <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-            Πού Βρισκόμαστε Σήμερα: Τι Έχει Ολοκληρωθεί, Τι Τρέχει Τώρα & Τι Έπεται
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {ABOUT_US_AND_STATUS.projectTimelineStatus.map((col, idx) => (
-            <div
-              key={idx}
-              className="p-5 rounded-lg bg-[#f7f5f0] border border-stone-300 space-y-2"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-bold text-[#9e4727]">
-                  {col.date}
-                </span>
-                <span className="px-2.5 py-0.5 rounded bg-white border border-stone-300 text-sm font-semibold text-[#14191f]">
-                  {col.stage}
-                </span>
-              </div>
-              <h3 className="font-serif font-bold text-lg text-[#14191f]">
-                {col.title}
-              </h3>
-              <p className="text-base text-stone-800 leading-relaxed">
-                {col.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. Local Voices / Testimonials */}
+      {/* 2. Φωνές από την Παραγωγή και τους Κατοίκους */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-4">
-        <div className="text-sm font-bold text-[#174935]">
-          ΦΩΝΕΣ ΑΠΟ ΤΗ ΒΡΟΣΙΝΑ & ΤΗ Δ.Ε. ΜΟΛΟΣΣΩΝ
+        <div className="text-sm font-bold text-[#1F5C43]">
+          Φωνές από τη Βροσίνα & τη Δ.Ε. Μολοσσών
         </div>
-        <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+        <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
           Τι Λένε οι Άνθρωποι της Παραγωγής και οι Ιδιοκτήτες Κατοικιών
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {ABOUT_US_AND_STATUS.localVoices.map((v, idx) => (
             <blockquote
               key={idx}
-              className="p-5 rounded-lg bg-[#f7f5f0] border border-stone-300 border-l-4 border-l-[#174935] space-y-3"
+              className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 border-l-4 border-l-[#1F5C43] space-y-3"
             >
-              <p className="font-serif italic text-base text-stone-900 leading-relaxed">
+              <p className="font-serif italic text-base text-[#14191F] leading-relaxed">
                 {v.quote}
               </p>
-              <div className="text-sm font-bold text-[#174935]">{v.role}</div>
+              <div className="text-sm font-bold text-[#1F5C43]">{v.role}</div>
             </blockquote>
           ))}
         </div>
       </section>
 
-      {/* 4. Full Story of Vrosina ("Το χωριό που σωπαίνει" — Μέρος Β #5) */}
+      {/* 3. Full Story of Vrosina ("Το χωριό που σωπαίνει" — Μέρος Β #5) */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-5">
         <div className="border-b border-stone-200 pb-4 space-y-1">
-          <div className="text-sm font-bold text-[#9e4727]">
-            Η ΠΛΗΡΗΣ ΙΣΤΟΡΙΑ & ΤΟ ΟΡΑΜΑ (ΚΕΦΑΛΑΙΟ 1 BUSINESS PLAN)
+          <div className="text-sm font-bold text-[#A34A2B]">
+            Η Πλήρης Ιστορία & Το Όραμα (Κεφάλαιο 1 Business Plan)
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F]">
             Το Χωριό που Σωπαίνει — Και Πώς η Βροσίνα Ξαναπαίρνει Ζωή
           </h2>
         </div>
 
-        <div className="space-y-6 text-base text-stone-800 leading-relaxed">
+        <div className="space-y-6 text-base text-[#14191F] leading-relaxed">
           {VISION_SPEECH_SECTIONS.map((sec) => (
             <div key={sec.roman} className="space-y-3">
-              <h3 className="font-serif font-bold text-xl text-[#14191f]">
+              <h3 className="font-serif font-bold text-xl text-[#14191F]">
                 {sec.roman}. {sec.title}
               </h3>
               {sec.paragraphs.map((p, idx) => (
@@ -186,39 +186,49 @@ export default function PoioiEimastePage() {
           ))}
         </div>
 
-        <div className="pt-4 border-t border-stone-200 font-serif font-bold text-base text-[#174935]">
+        <div className="pt-4 border-t border-stone-200 font-serif font-bold text-base text-[#1F5C43]">
           — Πρωτοβουλία «Βροσίνα 2031» · Δ.Ε. Μολοσσών, Δήμος Ζίτσας Ιωαννίνων
         </div>
       </section>
 
-      {/* 5. TV Appearances */}
+      {/* 4. Τηλεοπτικές Παρουσίες */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-4">
-        <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+        <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
           Τηλεοπτικές Παρουσίες στα ΜΜΕ της Ηπείρου
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {TV_MEDIA_APPEARANCES.map((tv) => (
             <div
               key={tv.id}
-              className="p-5 rounded-lg bg-[#f7f5f0] border border-stone-300 space-y-2.5"
+              className="rounded-lg bg-[#F7F5F0] border border-stone-300 overflow-hidden flex flex-col justify-between"
             >
-              <div className="text-sm font-bold text-[#174935]">
-                {tv.channel} · {tv.speaker}
+              <img
+                src={tv.thumbnail}
+                alt={tv.title}
+                width={640}
+                height={360}
+                loading="lazy"
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-5 space-y-2.5">
+                <div className="text-sm font-bold text-[#1F5C43]">
+                  {tv.channel} · {tv.speaker}
+                </div>
+                <h3 className="font-serif font-bold text-lg text-[#14191F]">
+                  {tv.title}
+                </h3>
+                <p className="text-base text-[#14191F] leading-relaxed">
+                  {tv.summary}
+                </p>
+                <a
+                  href={tv.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block pt-1 text-sm font-bold text-[#A34A2B] underline"
+                >
+                  Παρακολούθηση στο YouTube ({tv.shortUrl}) ↗
+                </a>
               </div>
-              <h3 className="font-serif font-bold text-lg text-[#14191f]">
-                {tv.title}
-              </h3>
-              <p className="text-base text-stone-800 leading-relaxed">
-                {tv.summary}
-              </p>
-              <a
-                href={tv.youtubeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block pt-1 text-sm font-bold text-[#9e4727] underline"
-              >
-                Παρακολούθηση στο YouTube ({tv.shortUrl}) ↗
-              </a>
             </div>
           ))}
         </div>

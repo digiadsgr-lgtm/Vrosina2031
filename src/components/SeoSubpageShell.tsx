@@ -40,26 +40,71 @@ export default function SeoSubpageShell({
     ],
   };
 
+  // Κανόνας Δ4: Ένα χρώμα ανά κοινό ως λεπτή γραμμή και ετικέτα στις 4 σελίδες:
+  // κτηνοτρόφοι = πράσινο (#1F5C43), επιχειρήσεις = τερακότα (#A34A2B), επενδυτές = χρυσό (#C89D54 border / #85611C text), φορείς = σκούρο γκρι (#14191F)
+  const audienceTheme = (() => {
+    if (
+      canonicalPath === "/gia-ktinotrofous" ||
+      canonicalPath === "/katoikia-neoi-paragogoi"
+    ) {
+      return {
+        topBarClass: "border-t-4 border-t-[#1F5C43]",
+        badgeClass: "text-[#1F5C43]",
+      };
+    }
+    if (canonicalPath === "/gia-epicheiriseis") {
+      return {
+        topBarClass: "border-t-4 border-t-[#B85D3B]",
+        badgeClass: "text-[#A34A2B]",
+      };
+    }
+    if (
+      canonicalPath === "/gia-ependytes" ||
+      canonicalPath === "/ependyseis-epidotiseis"
+    ) {
+      return {
+        topBarClass: "border-t-4 border-t-[#C89D54]",
+        badgeClass: "text-[#85611C]",
+      };
+    }
+    return {
+      topBarClass: "border-t-4 border-t-[#14191F]",
+      badgeClass: "text-[#14191F]",
+    };
+  })();
+
   const audienceLinks = [
     {
       href: "/gia-ktinotrofous",
-      badge: "ΚΟΙΝΟ 01 · ΚΤΗΝΟΤΡΟΦΟΙ & ΚΑΤΟΙΚΟΙ",
-      label: "Για κτηνοτρόφους, αμπελουργούς & ιδιοκτήτες κατοικιών (μερίδα 100 €, τιμή γάλακτος, ανακαίνιση 0 €)",
+      badge: "Για κτηνοτρόφους και κατοίκους",
+      label:
+        "Σταθερός αγοραστής γάλακτος, συμμετοχή στην Κοιν.Σ.Επ. (μερίδα 100 €) & Μητρώο Κατοικιών",
+      borderClass: "border-t-4 border-t-[#1F5C43]",
+      badgeColor: "text-[#1F5C43]",
     },
     {
       href: "/gia-epicheiriseis",
-      badge: "ΚΟΙΝΟ 02 · ΕΠΙΧΕΙΡΗΣΕΙΣ & ΕΡΓΟΛΑΒΟΙ",
-      label: "Για μικρές και μεγάλες επιχειρήσεις (10 ξενώνες, 5 καταστήματα, τεχνικά έργα & προμήθειες)",
+      badge: "Για επιχειρήσεις",
+      label:
+        "10 ξενώνες, 5 καταστήματα, έργα αποκατάστασης κτιρίων & στρατηγικές συνεργασίες",
+      borderClass: "border-t-4 border-t-[#B85D3B]",
+      badgeColor: "text-[#A34A2B]",
     },
     {
       href: "/gia-ependytes",
-      badge: "ΚΟΙΝΟ 03 · ΕΠΕΝΔΥΤΕΣ & ΕΥΕΡΓΕΤΕΣ",
-      label: "Για επενδυτές και χορηγούς (θέση, 3 σενάρια, κίνδυνοι, χρήση κεφαλαίων, λήψη μοντέλου)",
+      badge: "Για επενδυτές",
+      label:
+        "3 σενάρια, κίνδυνοι και πώς τους διαχειριζόμαστε, διακυβέρνηση & λήψη μοντέλου",
+      borderClass: "border-t-4 border-t-[#C89D54]",
+      badgeColor: "text-[#85611C]",
     },
     {
       href: "/gia-foreis",
-      badge: "ΚΟΙΝΟ 04 · ΦΟΡΕΙΣ & ΠΟΛΙΤΕΙΑ",
-      label: "Για φορείς και Πολιτεία (όφελος Δημοσίου 463.700 €/έτος, πράξη ανά φορέα, τι δεν ζητάμε)",
+      badge: "Για φορείς και Πολιτεία",
+      label:
+        "Τι ζητάμε και τι δεν ζητάμε, δημοσιονομικό όφελος 463.700 €/έτος & νόμοι/χρηματοδότηση",
+      borderClass: "border-t-4 border-t-[#14191F]",
+      badgeColor: "text-[#14191F]",
     },
   ];
 
@@ -70,20 +115,20 @@ export default function SeoSubpageShell({
     },
     {
       href: "/poioi-eimaste",
-      label: "Ποιοι είμαστε, Μαρτυρίες Κατοίκων & Πού βρισκόμαστε σήμερα",
+      label: "Ποιοι είμαστε & Πού βρισκόμαστε τώρα",
     },
     {
       href: "/stratopedo-vrosinas",
-      label: "Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.) & Αυτοψία 8 Κτιρίων",
+      label: "Πρώην Στρατόπεδο Βροσίνας (13.695 τ.μ.) & Αυτοψία 8 Κτιρίων",
     },
     {
       href: "/gefyri-vrosinas-raidiotissa",
-      label: "Γεφύρι Βροσίνας, Ζαλογγογέφυρο 1605 & Μονή Παναγίας Ραϊδιώτισσας",
+      label: "Γεφύρι Βροσίνας (1605) & Μονή Παναγίας Ραϊδιώτισσας (1628)",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#f7f5f0] text-[#14191f] font-sans pb-16 lg:pb-0">
+    <div className="min-h-screen bg-[#F7F5F0] text-[#14191F] font-sans pb-16 lg:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -95,19 +140,19 @@ export default function SeoSubpageShell({
         />
       )}
 
-      {/* Single Clean Navigation Bar: 5 Menu Items + 1 Contact Button (Μέρος Β #1, #2, #7, #8) */}
+      {/* Single Clean Navigation Bar: Το σχέδιο · Για κτηνοτρόφους · Για επιχειρήσεις · Για επενδυτές · Για φορείς · Επικοινωνία */}
       <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 shrink-0">
             <a
               href="/"
-              className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-[#14191f]"
+              className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-[#14191F]"
             >
-              ΒΡΟΣΙΝΑ<span className="text-[#9e4727]">2031</span>
+              ΒΡΟΣΙΝΑ<span className="text-[#A34A2B]">2031</span>
             </a>
             <a
               href="/poioi-eimaste"
-              className="hidden sm:inline-block px-2.5 py-1 rounded bg-[#f7f5f0] border border-stone-300 text-stone-800 text-sm font-medium hover:bg-stone-200 transition"
+              className="hidden sm:inline-block px-2.5 py-1 rounded bg-[#F7F5F0] border border-stone-300 text-[#14191F] text-sm font-medium hover:bg-stone-200 transition"
             >
               Ποιοι είμαστε
             </a>
@@ -115,13 +160,13 @@ export default function SeoSubpageShell({
 
           <nav
             aria-label="Κύρια Πλοήγηση"
-            className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-[#14191f]"
+            className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-[#14191F]"
           >
             <a
               href="/to-schedio"
               className={`px-3 py-2 rounded transition whitespace-nowrap ${
                 canonicalPath === "/to-schedio"
-                  ? "bg-[#14191f] text-white"
+                  ? "bg-[#14191F] text-white"
                   : "hover:bg-stone-200"
               }`}
             >
@@ -132,7 +177,7 @@ export default function SeoSubpageShell({
               className={`px-3 py-2 rounded transition whitespace-nowrap ${
                 canonicalPath === "/gia-ktinotrofous" ||
                 canonicalPath === "/katoikia-neoi-paragogoi"
-                  ? "bg-[#14191f] text-white"
+                  ? "bg-[#1F5C43] text-white"
                   : "hover:bg-stone-200"
               }`}
             >
@@ -142,7 +187,7 @@ export default function SeoSubpageShell({
               href="/gia-epicheiriseis"
               className={`px-3 py-2 rounded transition whitespace-nowrap ${
                 canonicalPath === "/gia-epicheiriseis"
-                  ? "bg-[#14191f] text-white"
+                  ? "bg-[#A34A2B] text-white"
                   : "hover:bg-stone-200"
               }`}
             >
@@ -153,7 +198,7 @@ export default function SeoSubpageShell({
               className={`px-3 py-2 rounded transition whitespace-nowrap ${
                 canonicalPath === "/gia-ependytes" ||
                 canonicalPath === "/ependyseis-epidotiseis"
-                  ? "bg-[#14191f] text-white"
+                  ? "bg-[#85611C] text-white"
                   : "hover:bg-stone-200"
               }`}
             >
@@ -163,7 +208,7 @@ export default function SeoSubpageShell({
               href="/gia-foreis"
               className={`px-3 py-2 rounded transition whitespace-nowrap ${
                 canonicalPath === "/gia-foreis"
-                  ? "bg-[#14191f] text-white"
+                  ? "bg-[#14191F] text-white"
                   : "hover:bg-stone-200"
               }`}
             >
@@ -174,13 +219,13 @@ export default function SeoSubpageShell({
           <div className="flex items-center gap-2 shrink-0">
             <a
               href="/"
-              className="px-3 py-2 rounded border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 transition whitespace-nowrap"
+              className="px-3 py-2 rounded border border-stone-400 text-[#14191F] text-sm font-semibold hover:bg-stone-200 transition whitespace-nowrap"
             >
               Αρχική
             </a>
             <a
-              href="#subpage-contact"
-              className="px-4 py-2 rounded bg-[#174935] text-white text-sm font-semibold hover:bg-[#123828] transition whitespace-nowrap"
+              href="#epikinonia"
+              className="px-4 py-2 rounded bg-[#1F5C43] text-white text-sm font-semibold hover:bg-[#174935] transition whitespace-nowrap"
             >
               Επικοινωνία
             </a>
@@ -188,27 +233,28 @@ export default function SeoSubpageShell({
         </div>
       </header>
 
-      {/* Light Warm Theme Hero Header (Μέρος Β #9, #10) */}
-      <section className="bg-white py-10 sm:py-12 border-b border-stone-300">
+      {/* Light Warm Theme Hero Header with Audience Accent Bar (Κανόνας Δ4) */}
+      <section
+        className={`bg-white py-10 sm:py-12 border-b border-stone-300 ${audienceTheme.topBarClass}`}
+      >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="text-sm font-semibold text-[#9e4727]">
+            <div className={`text-sm font-bold ${audienceTheme.badgeClass}`}>
               {sectionCode} · {categoryLabel}
             </div>
-            <div className="text-sm text-stone-700">
-              Συντονισμός: <strong>Αθανάσιος Βούρδας</strong> ·{" "}
+            <div className="text-sm text-[#14191F]">
               <a
-                href="#subpage-contact"
-                className="text-[#174935] font-semibold underline"
+                href="#epikinonia"
+                className="text-[#1F5C43] font-semibold underline"
               >
-                Τηλεφωνική Επικοινωνία / Φόρμα ↓
+                Φόρμα Επικοινωνίας ↓
               </a>
             </div>
           </div>
-          <h1 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f] leading-tight">
+          <h1 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191F] leading-tight">
             {title}
           </h1>
-          <p className="text-stone-800 text-base sm:text-lg leading-relaxed max-w-4xl">
+          <p className="text-[#14191F] text-base sm:text-lg leading-relaxed max-w-4xl">
             {subtitle}
           </p>
         </div>
@@ -218,16 +264,16 @@ export default function SeoSubpageShell({
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12 text-base">
         {children}
 
-        {/* Embedded Interactive Contact Form & Phone/Callback Box (Μέρος Β #3) */}
-        <SubpageContactWidget canonicalPath={canonicalPath} pageTitle={title} />
+        {/* Embedded Interactive Contact Form (Α1) */}
+        <SubpageContactWidget contextTitle={title} />
 
         {/* Audience & Common Pages Directory */}
         <aside className="bg-white rounded-lg p-6 border border-stone-300 space-y-5">
           <div className="space-y-1">
-            <div className="text-sm font-bold text-[#174935]">
-              ΠΛΟΗΓΗΣΗ ΑΝΑ ΚΟΙΝΟ & ΘΕΜΑΤΙΚΕΣ ΣΕΛΙΔΕΣ «ΒΡΟΣΙΝΑ 2031»
+            <div className="text-sm font-bold text-[#1F5C43]">
+              Πλοήγηση ανά Κοινό & Θεματικές Σελίδες «Βροσίνα 2031»
             </div>
-            <p className="text-sm text-stone-700">
+            <p className="text-sm text-[#14191F]">
               Επιλέξτε τη σελίδα που αντιστοιχεί στη δική σας ιδιότητα ή δείτε τις κοινές σελίδες τεκμηρίωσης:
             </p>
           </div>
@@ -237,13 +283,13 @@ export default function SeoSubpageShell({
               <a
                 key={link.href}
                 href={link.href}
-                className={`p-4 rounded border transition block space-y-1 ${
+                className={`p-4 rounded border transition block space-y-1 ${link.borderClass} ${
                   link.href === canonicalPath
-                    ? "bg-[#f7f5f0] border-2 border-[#9e4727] text-[#14191f]"
-                    : "bg-[#f7f5f0] border-stone-300 text-[#14191f] hover:border-stone-500"
+                    ? "bg-[#F7F5F0] border-stone-500 text-[#14191F]"
+                    : "bg-[#F7F5F0] border-stone-300 text-[#14191F] hover:border-stone-500"
                 }`}
               >
-                <div className="text-sm font-bold text-[#9e4727]">
+                <div className={`text-sm font-bold ${link.badgeColor}`}>
                   {link.badge}
                 </div>
                 <div className="text-base font-semibold leading-snug">
@@ -256,7 +302,7 @@ export default function SeoSubpageShell({
           <div className="pt-3 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <a
               href="/"
-              className="p-3 rounded bg-[#14191f] text-white font-semibold text-sm hover:bg-[#174935] transition"
+              className="p-3 rounded bg-[#14191F] text-white font-semibold text-sm hover:bg-[#1F5C43] transition"
             >
               Αρχική Σελίδα «Βροσίνα 2031» →
             </a>
@@ -266,8 +312,8 @@ export default function SeoSubpageShell({
                 href={link.href}
                 className={`p-3 rounded border transition text-sm font-semibold ${
                   link.href === canonicalPath
-                    ? "bg-stone-200 border-[#14191f] text-[#14191f]"
-                    : "bg-white border-stone-300 text-[#14191f] hover:bg-stone-100"
+                    ? "bg-stone-200 border-[#14191F] text-[#14191F]"
+                    : "bg-white border-stone-300 text-[#14191F] hover:bg-stone-100"
                 }`}
               >
                 {link.label} →
@@ -277,7 +323,7 @@ export default function SeoSubpageShell({
         </aside>
       </main>
 
-      {/* Mobile Sticky Bottom Navigation Bar (5 Clean Items, No Emoji) */}
+      {/* Mobile Sticky Bottom Navigation Bar (Κεφ. Β: Σχέδιο · Στρατόπεδο · Σπίτια · Επιχειρήσεις · Επικοινωνία) */}
       <nav
         aria-label="Κινητή Πλοήγηση"
         className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
@@ -285,42 +331,42 @@ export default function SeoSubpageShell({
         <div className="grid grid-cols-5 text-center">
           <a
             href="/to-schedio"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
           >
             Σχέδιο
           </a>
           <a
-            href="/gia-ktinotrofous"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+            href="/stratopedo-vrosinas"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
           >
-            Κτηνοτρόφοι
+            Στρατόπεδο
+          </a>
+          <a
+            href="/gia-ktinotrofous"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+          >
+            Σπίτια
           </a>
           <a
             href="/gia-epicheiriseis"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
           >
             Επιχειρήσεις
           </a>
           <a
-            href="/gia-ependytes"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
-          >
-            Επενδυτές
-          </a>
-          <a
-            href="#subpage-contact"
-            className="py-2.5 px-1 text-sm font-bold bg-[#174935] text-white truncate"
+            href="#epikinonia"
+            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white truncate"
           >
             Επικοινωνία
           </a>
         </div>
       </nav>
 
-      <footer className="bg-[#14191f] text-stone-200 py-8 border-t border-stone-800 text-sm">
+      <footer className="bg-[#14191F] text-stone-200 py-8 border-t border-stone-800 text-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
           <div>
             <strong className="text-white font-serif">ΒΡΟΣΙΝΑ2031</strong> ·{" "}
-            {SITE_CONFIG.location} · Συντονισμός: Αθανάσιος Βούρδας
+            {SITE_CONFIG.location}
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <a href="/" className="hover:text-white">
@@ -329,7 +375,10 @@ export default function SeoSubpageShell({
             <a href="/poioi-eimaste" className="hover:text-white">
               Ποιοι είμαστε
             </a>
-            <a href="/documents/Vrosina_2031_Business_Plan_v2.pdf" className="text-[#c89d54] hover:underline">
+            <a
+              href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
+              className="text-[#C89D54] hover:underline"
+            >
               Business Plan PDF
             </a>
             <a href="/sitemap.xml" className="hover:text-white">
@@ -340,7 +389,7 @@ export default function SeoSubpageShell({
               href="https://digiads.gr"
               target="_blank"
               rel="noopener"
-              className="text-stone-200 hover:text-[#c89d54] transition"
+              className="text-stone-200 hover:text-[#C89D54] transition"
             >
               Designed by <strong className="text-white">DIGIADS</strong>
             </a>
