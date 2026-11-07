@@ -520,26 +520,17 @@ export default function VrosinaClientApp() {
         )}
       </header>
 
-      {/* 1. FULL-BLEED HERO (#hero) — Η ΠΡΩΤΗ ΟΘΟΝΗ (§2 — ρυθμισμένο ύψος για κινητό & laptop 695px) */}
+      {/* 1. FULL-BLEED HERO (#hero) — Η ΠΡΩΤΗ ΟΘΟΝΗ (Δρόμος Α: μία πραγματική φωτογραφία, χωρίς διακόπτη) */}
       <section
         id="hero"
-        className="relative min-h-[490px] sm:min-h-[540px] lg:min-h-[580px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
+        className="relative min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
       >
-        {/* Background: real photo OR 2031 render */}
+        {/* Background: real photo of Vrosina today */}
         <img
-          src={
-            heroViewMode === "today"
-              ? "/images/real/real-vrosina-exploringgreece.jpg"
-              : "/images/hero-masterplan.jpg"
-          }
-          alt={
-            heroViewMode === "today"
-              ? "Η Βροσίνα σήμερα, μέσα στην κοιλάδα του Ζαλογγίτικου"
-              : "Ενδεικτική απεικόνιση της Βροσίνας το 2031"
-          }
-          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
-            heroViewMode === "today" ? "vr-slow-zoom" : ""
-          }`}
+          src="/images/real/real-vrosina-exploringgreece.jpg"
+          alt="Η Βροσίνα σήμερα, μέσα στην κοιλάδα του Ζαλογγίτικου"
+          fetchPriority="high"
+          className="vr-slow-zoom absolute inset-0 h-full w-full object-cover object-center"
         />
 
         {/* Dark gradient overlay — left & bottom heavy for text legibility */}
@@ -549,7 +540,7 @@ export default function VrosinaClientApp() {
         />
 
         {/* Content */}
-        <div className="relative z-10 mx-auto flex min-h-[490px] sm:min-h-[540px] lg:min-h-[580px] max-w-7xl flex-col justify-end px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-14 lg:pb-10 lg:pt-16">
+        <div className="relative z-10 mx-auto flex min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] max-w-7xl flex-col justify-end px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-14 lg:pb-10 lg:pt-16">
           <div className="max-w-2xl">
             <p className="mb-2 text-[11px] sm:text-xs font-medium uppercase tracking-[0.16em] text-[#C89D54]">
               ΒΡΟΣΙΝΑ 2031 · ΠΡΩΤΟΒΟΥΛΙΑ ΓΙΑ ΕΝΑ ΖΩΝΤΑΝΟ ΧΩΡΙΟ
@@ -585,42 +576,9 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
-          {/* Bottom-right: Today / 2031 switch */}
-          <div className="mt-5 sm:mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-[#F7F5F0]/15 pt-3 text-xs text-[#F7F5F0]/80">
-            <span className="text-[11px] sm:text-xs">
-              {heroViewMode === "today"
-                ? "Φωτογραφία: Η Βροσίνα σήμερα (ExploringGreece.tv)"
-                : "Ενδεικτική απεικόνιση (concept render) · Πρόταση, όχι εγκεκριμένη μελέτη"}
-            </span>
-
-            <div
-              role="group"
-              aria-label="Προβολή χωριού"
-              className="inline-flex rounded-full border border-[#F7F5F0]/30 bg-[#14191F]/70 p-0.5 sm:p-1 backdrop-blur-sm shrink-0"
-            >
-              <button
-                type="button"
-                onClick={() => setHeroViewMode("today")}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition cursor-pointer ${
-                  heroViewMode === "today"
-                    ? "bg-[#C89D54] text-[#14191F]"
-                    : "text-[#F7F5F0] hover:text-[#C89D54]"
-                }`}
-              >
-                Σήμερα
-              </button>
-              <button
-                type="button"
-                onClick={() => setHeroViewMode("2031")}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition cursor-pointer ${
-                  heroViewMode === "2031"
-                    ? "bg-[#C89D54] text-[#14191F]"
-                    : "text-[#F7F5F0] hover:text-[#C89D54]"
-                }`}
-              >
-                2031
-              </button>
-            </div>
+          {/* Bottom caption */}
+          <div className="mt-5 sm:mt-6 border-t border-[#F7F5F0]/15 pt-3 text-[11px] sm:text-xs text-[#F7F5F0]/80">
+            Φωτογραφία: Η Βροσίνα σήμερα (ExploringGreece.tv)
           </div>
         </div>
       </section>
