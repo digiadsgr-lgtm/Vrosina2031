@@ -19,39 +19,69 @@ export default function SubpageContactWidget({
   const [gdprAccepted, setGdprAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!role || !gdprAccepted) return;
     setSubmitting(true);
+    setError(false);
 
+    const payload = {
+      _subject: `[ΒΡΟΣΙΝΑ 2031] ${contextTitle} — ${name}`,
+      _template: "table",
+      _captcha: "false",
+      name,
+      email,
+      phone,
+      roleLabel: role,
+      origin: contextTitle,
+      pageUrl: typeof window !== "undefined" ? window.location.href : "",
+      message: message || "Αίτημα επικοινωνίας",
+    };
+
+    let sent = false;
     try {
-      const fd = new FormData();
-      fd.append("_subject", `[ΒΡΟΣΙΝΑ 2031] ${contextTitle} — ${name}`);
-      fd.append("Σελίδα", contextTitle);
-      fd.append("Ιδιότητα", role);
-      fd.append("Ονοματεπώνυμο / Φορέας", name);
-      fd.append("Τηλέφωνο", phone);
-      fd.append("Email", email || "Δεν συμπληρώθηκε");
-      fd.append("Μήνυμα", message || "Αίτημα επικοινωνίας");
-      fd.append("_template", "table");
-      fd.append("_captcha", "false");
-
-      const formSubmitEndpoint =
-        process.env.NEXT_PUBLIC_FORMSUBMIT_URL ||
-        `https://formsubmit.co/ajax/${["digiadsgr", "gmail.com"].join("@")}`;
-
-      await fetch(formSubmitEndpoint, {
+      const r = await fetch("/api/lead", {
         method: "POST",
-        headers: { Accept: "application/json" },
-        body: fd,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-      setSubmitted(true);
+      const j = await r.json().catch(() => ({}));
+      sent = r.ok && j?.ok === true;
     } catch {
-      setSubmitted(true);
-    } finally {
-      setSubmitting(false);
+      sent = false;
     }
+
+    if (!sent) {
+      // Εφεδρικό: μόνο αν το /api/lead απέτυχε
+      try {
+        const endpoint =
+          process.env.NEXT_PUBLIC_FORMSUBMIT_URL ||
+          `https://formsubmit.co/ajax/${["digiadsgr", "gmail.com"].join("@")}`;
+        const r2 = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            ...payload,
+            _replyto: email || undefined,
+          }),
+        });
+        sent = r2.ok;
+      } catch {
+        sent = false;
+      }
+    }
+
+    setSubmitting(false);
+    if (!sent) {
+      setError(true);
+      return;
+    }
+    setSubmitted(true);
   };
 
   return (
@@ -231,6 +261,11 @@ export default function SubpageContactWidget({
           >
             {submitting ? "Αποστολή..." : "Αποστολή Μηνύματος →"}
           </button>
+          {error && (
+            <p className="text-sm font-semibold text-red-700 bg-red-50 border border-red-300 rounded px-3 py-2">
+              Δεν στάλθηκε το αίτημα. Δοκιμάστε ξανά σε λίγο.
+            </p>
+          )}
         </form>
       )}
     </section>

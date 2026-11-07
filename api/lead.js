@@ -107,11 +107,15 @@ function buildVrosinaOwnerHtml(data) {
           </tr>
           <tr>
             <td style="padding:0 32px 30px;text-align:center;">
-              <a href="mailto:${escapeHtml(email)}?subject=${encodeURIComponent(
-                "Απάντηση στο αίτημά σας — Πρωτοβουλία «Βροσίνα 2031»"
-              )}" style="display:inline-block;background:#1f5c43;color:#ffffff;font-size:13px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;margin-right:8px;">
+              ${
+                email
+                  ? `<a href="mailto:${escapeHtml(email)}?subject=${encodeURIComponent(
+                      "Απάντηση στο αίτημά σας — Πρωτοβουλία «Βροσίνα 2031»"
+                    )}" style="display:inline-block;background:#1f5c43;color:#ffffff;font-size:13px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;margin-right:8px;">
                 Απάντηση μέσω Email στον/στην ${escapeHtml(name)} →
-              </a>
+              </a>`
+                  : ""
+              }
               ${
                 phone
                   ? `<a href="tel:${escapeHtml(phone)}" style="display:inline-block;background:#b85d3b;color:#ffffff;font-size:13px;font-weight:700;padding:13px 24px;border-radius:8px;text-decoration:none;">
@@ -123,7 +127,7 @@ function buildVrosinaOwnerHtml(data) {
           </tr>
           <tr>
             <td style="background:#0a0d10;padding:16px 32px;text-align:center;border-top:1px solid #222930;color:#64748b;font-size:11px;">
-              Πλατφόρμα «Βροσίνα 2031» · Σύστημα Lead Capture Powered by <a href="https://digiads.gr" style="color:#c89d54;text-decoration:none;">DIGIADS</a>
+              Πλατφόρμα «Βροσίνα 2031» · Δ.Ε. Μολοσσών, Δήμος Ζίτσας, Π.Ε. Ιωαννίνων
             </td>
           </tr>
         </table>
@@ -165,11 +169,11 @@ function buildApplicantConfirmationHtml(data) {
               <div style="background:#f8f6f1;border:1px solid #e5e0d5;border-radius:8px;padding:16px;font-size:13px;line-height:1.6;margin-bottom:20px;">
                 <div><strong>Κατηγορία:</strong> ${escapeHtml(roleLabel)}</div>
                 <div><strong>Ενότητα Προέλευσης:</strong> ${escapeHtml(origin)}</div>
-                ${contextDetails ? `<div><strong>Παράμετροι:</strong> ${escapeHtml(contextDetails)}</div>` : ""}
+                ${contextDetails && contextDetails !== "—" ? `<div><strong>Παράμετροι:</strong> ${escapeHtml(contextDetails)}</div>` : ""}
                 ${message ? `<div style="margin-top:8px;"><strong>Μήνυμα:</strong> ${escapeHtml(message)}</div>` : ""}
               </div>
               <p style="margin:0;font-size:13px;color:#4b5563;">
-                Μπορείτε ανά πάσα στιγμή να κατεβάσετε τον πλήρη φάκελο τεκμηρίωσης (13 μελέτες & Business Plan v2.0) από το <a href="https://vrosina2031.vercel.app/#data-room" style="color:#1f5c43;font-weight:700;">Data Room της πλατφόρμας</a>.
+                Μπορείτε ανά πάσα στιγμή να κατεβάσετε τον πλήρη φάκελο τεκμηρίωσης (13 μελέτες & Business Plan v2.0) από τα <a href="https://vrosina2031.vercel.app/#dataroom" style="color:#1f5c43;font-weight:700;">Αρχεία Μελέτης της πλατφόρμας</a>.
               </p>
             </td>
           </tr>
@@ -206,32 +210,54 @@ export default async function handler(req, res) {
       timeZone: "Europe/Athens",
     });
 
+    const pick = (...keys) => {
+      for (const k of keys) {
+        const v = body[k];
+        if (typeof v === "string" && v.trim()) return v.trim();
+      }
+      return "";
+    };
+
     const name =
-      body.name ||
-      body["06_Ονοματεπώνυμο_ή_Φορέας"] ||
+      pick("name", "Ονοματεπώνυμο_ή_Φορέας", "06_Ονοματεπώνυμο_ή_Φορέας") ||
       "Ενδιαφερόμενος Βροσίνα 2031";
-    const email = (body.email || body["08_Email"] || "").trim();
-    const phone = (body.phone || body["07_Τηλέφωνο_Επικοινωνίας"] || "").trim();
+
+    // Η φόρμα στέλνει «Δεν συμπληρώθηκε» όταν το email είναι κενό: δεχόμαστε μόνο έγκυρη μορφή
+    const rawEmail = pick("email", "Email", "08_Email");
+    const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail) ? rawEmail : "";
+
+    const phone = pick(
+      "phone",
+      "Τηλέφωνο_Επικοινωνίας",
+      "07_Τηλέφωνο_Επικοινωνίας"
+    );
     const roleLabel =
-      body.roleLabel ||
-      body["05_Κατηγορία_Ενδιαφέροντος"] ||
-      "Εκδήλωση Ενδιαφέροντος";
+      pick(
+        "roleLabel",
+        "Κατηγορία_Ενδιαφερομένου",
+        "05_Κατηγορία_Ενδιαφέροντος"
+      ) || "Εκδήλωση Ενδιαφέροντος";
     const origin =
-      body.origin ||
-      body["02_Πηγή_Φόρμας_Ενότητα"] ||
+      pick("origin", "Πηγή_Προέλευσης", "02_Πηγή_Φόρμας_Ενότητα") ||
       "Φόρμα Πλατφόρμας Βροσίνα 2031";
     const pageUrl =
-      body.pageUrl ||
-      body["03_Σελίδα_URL"] ||
+      pick("pageUrl", "Σελίδα_URL", "03_Σελίδα_URL") ||
       "https://vrosina2031.vercel.app";
     const referrer =
-      body.referrer || body["04_Referrer"] || "Απευθείας Επίσκεψη (Direct)";
+      pick("referrer", "Referrer", "04_Referrer") ||
+      "Απευθείας Επίσκεψη (Direct)";
     const contextDetails =
-      body.contextDetails || body["09_Στοιχεία_Υπολογιστή_ή_Ενότητας"] || "—";
+      pick(
+        "contextDetails",
+        "Πλαίσιο_Υπολογιστή",
+        "09_Στοιχεία_Υπολογιστή_ή_Ενότητας"
+      ) || "—";
     const message =
-      body.message ||
-      body["10_Μήνυμα_Ενδιαφερόμενου"] ||
-      "(Χωρίς επιπλέον μήνυμα)";
+      pick(
+        "message",
+        "Μήνυμα_Ενδιαφέροντος",
+        "10_Μήνυμα_Ενδιαφερόμενου"
+      ) || "(Χωρίς επιπλέον μήνυμα)";
 
     console.log("==================================================");
     console.log(`[VROSINA 2031 LEAD CAPTURED] ${submittedAt}`);
@@ -259,105 +285,69 @@ export default async function handler(req, res) {
       process.env.NOTIFICATION_EMAIL || "digiadsgr@gmail.com"
     ).trim();
 
-    let ownerSent = false;
+    if (!(smtpUser && smtpPass)) {
+      console.error("[VROSINA 2031] SMTP_EMAIL / SMTP_PASSWORD δεν έχουν οριστεί");
+      return res.status(200).json({ ok: false, error: "smtp_not_configured" });
+    }
 
-    // 1. Direct SMTP if environment variables are configured on this Vercel project
-    if (smtpUser && smtpPass) {
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass,
-        },
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
 
-      const ownerHtml = buildVrosinaOwnerHtml({
+    const ownerHtml = buildVrosinaOwnerHtml({
+      name,
+      email,
+      phone,
+      roleLabel,
+      origin,
+      pageUrl,
+      referrer,
+      contextDetails,
+      message,
+      submittedAt,
+    });
+
+    const mailTasks = [
+      transporter.sendMail({
+        from: `"ΒΡΟΣΙΝΑ 2031 — Lead Desk" <${smtpUser}>`,
+        to: notificationEmail,
+        replyTo: email || notificationEmail,
+        subject: `🎯 [ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${origin} (${name})`,
+        html: ownerHtml,
+      }),
+    ];
+
+    if (
+      email &&
+      email.includes("@") &&
+      email.toLowerCase() !== notificationEmail.toLowerCase()
+    ) {
+      const applicantHtml = buildApplicantConfirmationHtml({
         name,
-        email,
-        phone,
         roleLabel,
         origin,
-        pageUrl,
-        referrer,
         contextDetails,
         message,
-        submittedAt,
       });
-
-      const mailTasks = [
+      mailTasks.push(
         transporter.sendMail({
-          from: `"ΒΡΟΣΙΝΑ 2031 — Lead Desk" <${smtpUser}>`,
-          to: notificationEmail,
-          replyTo: email || notificationEmail,
-          subject: `🎯 [ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${origin} (${name})`,
-          html: ownerHtml,
-        }),
-      ];
-
-      if (
-        email &&
-        email.includes("@") &&
-        email.toLowerCase() !== notificationEmail.toLowerCase()
-      ) {
-        const applicantHtml = buildApplicantConfirmationHtml({
-          name,
-          roleLabel,
-          origin,
-          contextDetails,
-          message,
-        });
-        mailTasks.push(
-          transporter.sendMail({
-            from: `"Πρωτοβουλία ΒΡΟΣΙΝΑ 2031" <${smtpUser}>`,
-            to: email,
-            replyTo: notificationEmail,
-            subject: `Επιβεβαίωση Αιτήματος — ΒΡΟΣΙΝΑ 2031 (${roleLabel})`,
-            html: applicantHtml,
-          })
-        );
-      }
-
-      const results = await Promise.allSettled(mailTasks);
-      ownerSent = results[0]?.status === "fulfilled";
+          from: `"Πρωτοβουλία ΒΡΟΣΙΝΑ 2031" <${smtpUser}>`,
+          to: email,
+          replyTo: notificationEmail,
+          subject: `Επιβεβαίωση Αιτήματος — ΒΡΟΣΙΝΑ 2031 (${roleLabel})`,
+          html: applicantHtml,
+        })
+      );
     }
 
-    // 2. Zero-Secret Server-to-Server Relay via DIGIADS Central Mailer (which holds SMTP env vars in Vercel)
-    if (!ownerSent) {
-      const summaryLines = [
-        `ΕΡΓΟ: ΒΡΟΣΙΝΑ 2031 (vrosina2031.vercel.app)`,
-        `ΠΗΓΗ / ΚΟΥΜΠΙ ΠΡΟΕΛΕΥΣΗΣ: ${origin}`,
-        `ΚΑΤΗΓΟΡΙΑ / ΙΔΙΟΤΗΤΑ: ${roleLabel}`,
-        `ΟΝΟΜΑΤΕΠΩΝΥΜΟ / ΦΟΡΕΑΣ: ${name}`,
-        `ΤΗΛΕΦΩΝΟ: ${phone || "—"}`,
-        `EMAIL: ${email || "—"}`,
-        `ΣΤΟΙΧΕΙΑ ΥΠΟΛΟΓΙΣΤΗ / ΕΝΟΤΗΤΑΣ: ${contextDetails || "—"}`,
-        `ΣΕΛΙΔΑ URL: ${pageUrl}`,
-        `REFERRER: ${referrer}`,
-        `ΗΜΕΡΟΜΗΝΙΑ & ΩΡΑ: ${submittedAt}`,
-        `--------------------------------------------------`,
-        `ΜΗΝΥΜΑ ΕΝΔΙΑΦΕΡΟΜΕΝΟΥ:`,
-        `${message || "(Χωρίς επιπλέον σχόλιο)"}`,
-      ].join("\n");
-
-      const relayRes = await fetch("https://www.digiads.gr/api/send-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: `${name} [ΒΡΟΣΙΝΑ 2031]`,
-          email: email || notificationEmail,
-          phone: phone || "—",
-          service: `🎯 [ΒΡΟΣΙΝΑ 2031] ${roleLabel} | Πηγή: ${origin}`,
-          chatSummary: summaryLines,
-        }),
-      });
-
-      ownerSent = relayRes.ok;
-    }
+    const results = await Promise.allSettled(mailTasks);
+    const ownerSent = results[0]?.status === "fulfilled";
 
     return res.status(200).json({
       ok: ownerSent,

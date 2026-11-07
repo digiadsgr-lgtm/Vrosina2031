@@ -89,6 +89,7 @@ export default function VrosinaClientApp() {
   const [leadSubmitting, setLeadSubmitting] = useState<boolean>(false);
   const [leadSubmitted, setLeadSubmitted] = useState<boolean>(false);
   const [inlineSubmitted, setInlineSubmitted] = useState<boolean>(false);
+  const [leadError, setLeadError] = useState<boolean>(false);
 
   const ROLE_LABELS: Record<string, string> = {
     herder: "Κτηνοτρόφος / Αμπελουργός της περιοχής (Μέλος Κοιν.Σ.Επ. / Γάλα)",
@@ -122,6 +123,7 @@ export default function VrosinaClientApp() {
         setLeadMessage(prefillContext);
       }
     }
+    setLeadError(false);
     setLeadSubmitted(false);
     setLeadModalOpen(true);
   };
@@ -136,6 +138,7 @@ export default function VrosinaClientApp() {
     const finalOrigin = originOverride || leadOrigin;
     const roleLabel = ROLE_LABELS[leadRole] || leadRole;
     setLeadSubmitting(true);
+    setLeadError(false);
 
     const payload: Record<string, string> = {
       _subject: `[ΒΡΟΣΙΝΑ 2031] ${roleLabel} — ${leadName} (${finalOrigin})`,
@@ -154,33 +157,47 @@ export default function VrosinaClientApp() {
       Μήνυμα_Ενδιαφέροντος: leadMessage || "Αίτημα τηλεφωνικής επικοινωνίας",
     };
 
+    let sent = false;
     try {
-      await fetch("/api/lead", {
+      const r = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      const j = await r.json().catch(() => ({}));
+      sent = r.ok && j?.ok === true;
     } catch {
-      // Fallback below
+      sent = false;
     }
 
-    try {
-      const endpoint =
-        process.env.NEXT_PUBLIC_FORMSUBMIT_URL ||
-        `https://formsubmit.co/ajax/${["digiadsgr", "gmail.com"].join("@")}`;
-      await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-    } catch {
-      // ignore
+    if (!sent) {
+      // Εφεδρικό: μόνο αν το /api/lead απέτυχε
+      try {
+        const endpoint =
+          process.env.NEXT_PUBLIC_FORMSUBMIT_URL ||
+          `https://formsubmit.co/ajax/${["digiadsgr", "gmail.com"].join("@")}`;
+        const r2 = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            ...payload,
+            _replyto: leadEmail || undefined,
+          }),
+        });
+        sent = r2.ok;
+      } catch {
+        sent = false;
+      }
     }
 
     setLeadSubmitting(false);
+    if (!sent) {
+      setLeadError(true);
+      return;
+    }
     if (isInlineForm) {
       setInlineSubmitted(true);
     } else {
@@ -1606,6 +1623,11 @@ export default function VrosinaClientApp() {
                     ? "Αποστολή σε εξέλιξη..."
                     : "Αποστολή Δήλωσης & Αίτημα Τηλεφωνικής Κλήσης →"}
                 </button>
+                {leadError && (
+                  <p className="text-sm font-semibold text-red-700 bg-red-50 border border-red-300 rounded px-3 py-2">
+                    Δεν στάλθηκε το αίτημα. Δοκιμάστε ξανά σε λίγο.
+                  </p>
+                )}
               </form>
             )}
           </div>
@@ -1814,6 +1836,23 @@ export default function VrosinaClientApp() {
 
                 <div>
                   <label
+                    htmlFor="modal-email-input"
+                    className="block text-sm font-semibold text-[#14191f] mb-1"
+                  >
+                    Email (Προαιρετικό)
+                  </label>
+                  <input
+                    id="modal-email-input"
+                    type="email"
+                    value={leadEmail}
+                    onChange={(e) => setLeadEmail(e.target.value)}
+                    placeholder="π.χ. name@email.gr"
+                    className="w-full px-3 py-2 rounded bg-[#f7f5f0] border border-stone-400 text-base"
+                  />
+                </div>
+
+                <div>
+                  <label
                     htmlFor="modal-message-input"
                     className="block text-sm font-semibold text-[#14191f] mb-1"
                   >
@@ -1852,6 +1891,11 @@ export default function VrosinaClientApp() {
                 >
                   {leadSubmitting ? "Αποστολή..." : "Αποστολή Αιτήματος →"}
                 </button>
+                {leadError && (
+                  <p className="text-sm font-semibold text-red-700 bg-red-50 border border-red-300 rounded px-3 py-2">
+                    Δεν στάλθηκε το αίτημα. Δοκιμάστε ξανά σε λίγο.
+                  </p>
+                )}
               </form>
             )}
           </div>
