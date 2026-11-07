@@ -798,6 +798,133 @@ export default function VrosinaClientApp() {
             ))}
           </div>
 
+          {/* Real Vrosina Topography & Architecture vs 2031 Pillar 3 (Agios Georgios 1607 & Village Core) */}
+          <div className="bg-[#F7F5F0] rounded-lg p-6 sm:p-8 border-2 border-[#A34A2B] space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-stone-300 pb-4">
+              <div className="space-y-1 max-w-3xl">
+                <div className="text-sm font-bold text-[#A34A2B]">
+                  ΠΩΣ ΕΙΝΑΙ ΠΡΑΓΜΑΤΙΚΑ Η ΒΡΟΣΙΝΑ & ΠΩΣ ΔΙΑΜΟΡΦΩΝΕΤΑΙ Ο ΠΥΛΩΝΑΣ 03
+                </div>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
+                  Κάτω Αγορά στον Πλάτανο, Πάνω Μαχαλάς & Ι.Ν. Αγίου Γεωργίου (1607)
+                </h3>
+                <p className="text-base text-[#14191F] leading-relaxed">
+                  Η Βροσίνα (υψόμετρο 117 μ.–280 μ.) βρίσκεται σε καταπράσινη κοιλάδα δίπλα στον Ζαλογγίτικο ποταμό — με διώροφα σπίτια με κόκκινες κεραμοσκεπές, ισόγεια καταστήματα κάτω από τον πλάτανο και τον ιστορικό μεταβυζαντινό <strong>Ιερό Ναό Αγίου Γεωργίου (1607, με τοιχογραφίες του 1620)</strong> στον Πάνω Μαχαλά ανάμεσα στα κυπαρίσσια. Δείτε τις πραγματικές λήψεις του χωριού δίπλα στις προτεινόμενες παρεμβάσεις του 2031:
+                </p>
+              </div>
+              <a
+                href="/to-schedio"
+                className="px-4 py-2.5 rounded bg-[#A34A2B] text-white font-bold text-sm hover:bg-[#823920] transition shrink-0"
+              >
+                Πλήρης Ανάλυση Πυλώνα 03 →
+              </a>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
+                <div className="relative h-44 bg-stone-900">
+                  <img
+                    src="/images/real/village-tr6AsCzCH5M-hq1.jpg"
+                    alt="Κέντρο Βροσίνας σήμερα — Πλάτανος, ρέμα και διώροφα κτίρια με κεραμοσκεπές"
+                    width={400}
+                    height={260}
+                    loading="lazy"
+                    className="w-full h-44 object-cover block"
+                  />
+                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-stone-950/85 text-white text-xs font-semibold">
+                    Σήμερα · Κάτω Αγορά
+                  </span>
+                </div>
+                <div className="p-3.5 space-y-1">
+                  <div className="font-serif font-bold text-sm text-[#14191F]">
+                    Ο Πλάτανος & τα Διώροφα Κτίρια της Αγοράς
+                  </div>
+                  <p className="text-xs text-[#14191F] leading-relaxed">
+                    Ο κεντρικός δρόμος, η γέφυρα του ρέματος και τα διώροφα κεραμοσκεπή κτίρια με τα ισόγεια καταστήματα.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
+                <div className="relative h-44 bg-stone-900">
+                  <img
+                    src="/images/real/real-vrosina-exploringgreece.jpg"
+                    alt="Πάνω Μαχαλάς Αγίου Γεωργίου (1607) & Κάτω Οικισμός Βροσίνας"
+                    width={400}
+                    height={260}
+                    loading="lazy"
+                    className="w-full h-44 object-cover block"
+                  />
+                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-stone-950/85 text-white text-xs font-semibold">
+                    Σήμερα · Πάνω Μαχαλάς
+                  </span>
+                </div>
+                <div className="p-3.5 space-y-1">
+                  <div className="font-serif font-bold text-sm text-[#14191F]">
+                    Ι.Ν. Αγίου Γεωργίου (1607) & Κυπαρίσσια
+                  </div>
+                  <p className="text-xs text-[#14191F] leading-relaxed">
+                    Ο Πάνω Μαχαλάς γύρω από τον ιστορικό Άη Γιώργη (1607) στην καταπράσινη πλαγιά πάνω από τον Ζαλογγίτικο.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border-2 border-[#1F5C43] overflow-hidden">
+                <div className="relative h-44 bg-stone-900">
+                  <img
+                    src="/images/vrosina-agios-georgios-2031.jpg"
+                    alt="Όραμα 2031 — Πάνω Μαχαλάς & Ι.Ν. Αγίου Γεωργίου (1607) Βροσίνας"
+                    width={400}
+                    height={260}
+                    loading="lazy"
+                    className="w-full h-44 object-cover block"
+                  />
+                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#1F5C43] text-white text-xs font-semibold">
+                    Όραμα 2031 · Άη Γιώργης
+                  </span>
+                  <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-stone-950/80 text-white text-xs">
+                    Concept Render
+                  </span>
+                </div>
+                <div className="p-3.5 space-y-1">
+                  <div className="font-serif font-bold text-sm text-[#14191F]">
+                    Ανάδειξη Αγίου Γεωργίου (1607) & Κατοικιών
+                  </div>
+                  <p className="text-xs text-[#14191F] leading-relaxed">
+                    Ήπια ανάπλαση περιβόλου/πεζουλών στον Άη Γιώργη και αποκατάσταση των διώροφων κατοικιών με πέτρα & κεραμίδι.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border-2 border-[#1F5C43] overflow-hidden">
+                <div className="relative h-44 bg-stone-900">
+                  <img
+                    src="/images/morphology-before-after.jpg"
+                    alt="Πριν και Μετά — Μορφολογικός Κανονισμός σε διώροφη κατοικία Βροσίνας"
+                    width={400}
+                    height={260}
+                    loading="lazy"
+                    className="w-full h-44 object-cover block"
+                  />
+                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#1F5C43] text-white text-xs font-semibold">
+                    Πριν & Μετά · Κατ. Β
+                  </span>
+                  <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-stone-950/80 text-white text-xs">
+                    Concept Render
+                  </span>
+                </div>
+                <div className="p-3.5 space-y-1">
+                  <div className="font-serif font-bold text-sm text-[#14191F]">
+                    Μεταμόρφωση Διώροφης Κατοικίας (37.500 €)
+                  </div>
+                  <p className="text-xs text-[#14191F] leading-relaxed">
+                    Πώς ένα σημερινό διώροφο κτίριο της Βροσίνας αποκτά τοπική λιθοδομή, κόκκινη κεραμοσκεπή και ενεργό ισόγειο.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Concise Fiscal Proof Summary Card (After the Plan, linking to /gia-foreis — Μέρος Β #6) */}
           <div className="bg-[#f7f5f0] rounded-lg p-6 sm:p-8 border-2 border-[#174935] space-y-5">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-300 pb-4">
