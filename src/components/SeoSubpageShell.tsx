@@ -1,5 +1,6 @@
 import React from "react";
 import { SITE_CONFIG } from "@/data/vrosinaData";
+import SubpageContactWidget from "@/components/SubpageContactWidget";
 
 interface SeoSubpageShellProps {
   sectionCode: string;
@@ -39,31 +40,50 @@ export default function SeoSubpageShell({
     ],
   };
 
-  const clusterLinks = [
+  const audienceLinks = [
+    {
+      href: "/gia-ktinotrofous",
+      badge: "ΚΟΙΝΟ 01 · ΚΤΗΝΟΤΡΟΦΟΙ & ΚΑΤΟΙΚΟΙ",
+      label: "Για κτηνοτρόφους, αμπελουργούς & ιδιοκτήτες κατοικιών (μερίδα 100 €, τιμή γάλακτος, ανακαίνιση 0 €)",
+    },
+    {
+      href: "/gia-epicheiriseis",
+      badge: "ΚΟΙΝΟ 02 · ΕΠΙΧΕΙΡΗΣΕΙΣ & ΕΡΓΟΛΑΒΟΙ",
+      label: "Για μικρές και μεγάλες επιχειρήσεις (10 ξενώνες, 5 καταστήματα, τεχνικά έργα & προμήθειες)",
+    },
+    {
+      href: "/gia-ependytes",
+      badge: "ΚΟΙΝΟ 03 · ΕΠΕΝΔΥΤΕΣ & ΕΥΕΡΓΕΤΕΣ",
+      label: "Για επενδυτές και χορηγούς (θέση, 3 σενάρια, κίνδυνοι, χρήση κεφαλαίων, λήψη μοντέλου)",
+    },
+    {
+      href: "/gia-foreis",
+      badge: "ΚΟΙΝΟ 04 · ΦΟΡΕΙΣ & ΠΟΛΙΤΕΙΑ",
+      label: "Για φορείς και Πολιτεία (όφελος Δημοσίου 463.700 €/έτος, πράξη ανά φορέα, τι δεν ζητάμε)",
+    },
+  ];
+
+  const commonLinks = [
+    {
+      href: "/to-schedio",
+      label: "Το σχέδιο (Οι 4 Πυλώνες & Προϋπολογισμός 10,45 εκ. €)",
+    },
+    {
+      href: "/poioi-eimaste",
+      label: "Ποιοι είμαστε, Μαρτυρίες Κατοίκων & Πού βρισκόμαστε σήμερα",
+    },
     {
       href: "/stratopedo-vrosinas",
       label: "Στρατόπεδο Παπακωνσταντίνου (13.695 τ.μ.) & Αυτοψία 8 Κτιρίων",
     },
     {
-      href: "/ependyseis-epidotiseis",
-      label: "Επενδύσεις, Επιδοτήσεις έως 75%, LEADER & Ταμείο Ευεργετών (ΑΜΚΕ)",
-    },
-    {
       href: "/gefyri-vrosinas-raidiotissa",
       label: "Γεφύρι Βροσίνας, Ζαλογγογέφυρο 1605 & Μονή Παναγίας Ραϊδιώτισσας",
-    },
-    {
-      href: "/katoikia-neoi-paragogoi",
-      label: "Αποκατάσταση Κατοικιών (10–15 έτη), Νέοι Κτηνοτρόφοι & Σχολή Πετράδων",
-    },
-    {
-      href: "/ai-knowledge-base",
-      label: "AI Knowledge Base & Bilingual Fact Sheet (EL / EN)",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#f7f5f0] text-[#1a2129] font-sans">
+    <div className="min-h-screen bg-[#f7f5f0] text-[#14191f] font-sans pb-16 lg:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -75,99 +95,92 @@ export default function SeoSubpageShell({
         />
       )}
 
-      {/* Top Institutional Bar */}
-      <div className="bg-[#14191f] text-stone-300 border-b border-stone-800 px-4 py-1.5 text-xs">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <span className="font-mono text-[#c89d54] font-semibold">
-              ΒΡΟΣΙΝΑ 2031
-            </span>{" "}
-            — Δήμος Ζίτσας · Δ.Ε. Μολοσσών · Π.Ε. Ιωαννίνων · 1η Πρόσκληση LEADER (
-            <strong className="font-mono text-white">545/07-10-2026</strong>,
-            προθεσμία 4 Φεβρουαρίου 2027)
-          </div>
-          <a
-            href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#c89d54] hover:underline font-medium"
-          >
-            Πλήρες Business Plan v2.0 (.pdf)
-          </a>
-        </div>
-      </div>
-
-      {/* Single Clean Responsive Header */}
-      <header className="sticky top-0 z-40 bg-[#f7f5f0]/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2">
-          <a
-            href="/"
-            className="font-serif font-bold text-lg sm:text-2xl tracking-tight text-[#14191f] shrink-0"
-          >
-            ΒΡΟΣΙΝΑ<span className="text-[#b85d3b]">2031</span>
-          </a>
-
-          <nav className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-stone-800">
+      {/* Single Clean Navigation Bar: 5 Menu Items + 1 Contact Button (Μέρος Β #1, #2, #7, #8) */}
+      <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <a
               href="/"
-              className="px-2.5 py-1.5 rounded bg-stone-200 hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+              className="font-serif font-bold text-xl sm:text-2xl tracking-tight text-[#14191f]"
             >
-              ← Αρχική
+              ΒΡΟΣΙΝΑ<span className="text-[#9e4727]">2031</span>
             </a>
             <a
-              href="/#masterplan"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+              href="/poioi-eimaste"
+              className="hidden sm:inline-block px-2.5 py-1 rounded bg-[#f7f5f0] border border-stone-300 text-stone-800 text-sm font-medium hover:bg-stone-200 transition"
+            >
+              Ποιοι είμαστε
+            </a>
+          </div>
+
+          <nav
+            aria-label="Κύρια Πλοήγηση"
+            className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-[#14191f]"
+          >
+            <a
+              href="/to-schedio"
+              className={`px-3 py-2 rounded transition whitespace-nowrap ${
+                canonicalPath === "/to-schedio"
+                  ? "bg-[#14191f] text-white"
+                  : "hover:bg-stone-200"
+              }`}
             >
               Το σχέδιο
             </a>
             <a
-              href="/katoikia-neoi-paragogoi"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+              href="/gia-ktinotrofous"
+              className={`px-3 py-2 rounded transition whitespace-nowrap ${
+                canonicalPath === "/gia-ktinotrofous" ||
+                canonicalPath === "/katoikia-neoi-paragogoi"
+                  ? "bg-[#14191f] text-white"
+                  : "hover:bg-stone-200"
+              }`}
             >
-              Για κτηνοτρόφους & κατοίκους
+              Για κτηνοτρόφους
             </a>
             <a
-              href="/#gia-epicheiriseis"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+              href="/gia-epicheiriseis"
+              className={`px-3 py-2 rounded transition whitespace-nowrap ${
+                canonicalPath === "/gia-epicheiriseis"
+                  ? "bg-[#14191f] text-white"
+                  : "hover:bg-stone-200"
+              }`}
             >
               Για επιχειρήσεις
             </a>
             <a
-              href="/ependyseis-epidotiseis"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+              href="/gia-ependytes"
+              className={`px-3 py-2 rounded transition whitespace-nowrap ${
+                canonicalPath === "/gia-ependytes" ||
+                canonicalPath === "/ependyseis-epidotiseis"
+                  ? "bg-[#14191f] text-white"
+                  : "hover:bg-stone-200"
+              }`}
             >
               Για επενδυτές
             </a>
             <a
-              href="/#praktikes-lyseis"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
+              href="/gia-foreis"
+              className={`px-3 py-2 rounded transition whitespace-nowrap ${
+                canonicalPath === "/gia-foreis"
+                  ? "bg-[#14191f] text-white"
+                  : "hover:bg-stone-200"
+              }`}
             >
               Για φορείς
-            </a>
-            <a
-              href="/stratopedo-vrosinas"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
-            >
-              Στρατόπεδο
-            </a>
-            <a
-              href="/gefyri-vrosinas-raidiotissa"
-              className="px-2.5 py-1.5 rounded hover:bg-[#14191f] hover:text-[#c89d54] transition whitespace-nowrap"
-            >
-              Γεφύρια & Μονή
             </a>
           </nav>
 
           <div className="flex items-center gap-2 shrink-0">
             <a
               href="/"
-              className="lg:hidden px-2.5 py-1.5 rounded border border-stone-400 text-stone-800 text-xs font-semibold hover:bg-stone-200 transition whitespace-nowrap"
+              className="px-3 py-2 rounded border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 transition whitespace-nowrap"
             >
-              ← Αρχική
+              Αρχική
             </a>
             <a
-              href={`/?source=${encodeURIComponent(canonicalPath)}#contact-form`}
-              className="px-3 sm:px-4 py-1.5 sm:py-2 rounded bg-[#1f5c43] text-white text-xs font-semibold hover:bg-[#174632] transition whitespace-nowrap"
+              href="#subpage-contact"
+              className="px-4 py-2 rounded bg-[#174935] text-white text-sm font-semibold hover:bg-[#123828] transition whitespace-nowrap"
             >
               Επικοινωνία
             </a>
@@ -175,107 +188,159 @@ export default function SeoSubpageShell({
         </div>
       </header>
 
-      {/* Hero Header */}
-      <section className="bg-[#14191f] text-white py-10 sm:py-14 border-b border-stone-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
-          <div className="text-xs font-mono text-[#c89d54] uppercase tracking-widest">
-            {sectionCode} / {categoryLabel}
+      {/* Light Warm Theme Hero Header (Μέρος Β #9, #10) */}
+      <section className="bg-white py-10 sm:py-12 border-b border-stone-300">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="text-sm font-semibold text-[#9e4727]">
+              {sectionCode} · {categoryLabel}
+            </div>
+            <div className="text-sm text-stone-700">
+              Συντονισμός: <strong>Αθανάσιος Βούρδας</strong> ·{" "}
+              <a
+                href="#subpage-contact"
+                className="text-[#174935] font-semibold underline"
+              >
+                Τηλεφωνική Επικοινωνία / Φόρμα ↓
+              </a>
+            </div>
           </div>
-          <h1 className="font-serif text-2xl sm:text-4xl font-bold leading-tight">
+          <h1 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f] leading-tight">
             {title}
           </h1>
-          <p className="text-stone-300 text-sm sm:text-base leading-relaxed max-w-3xl">
+          <p className="text-stone-800 text-base sm:text-lg leading-relaxed max-w-4xl">
             {subtitle}
           </p>
         </div>
       </section>
 
-      {/* Main Article Content */}
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
+      {/* Main Content */}
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12 text-base">
         {children}
 
-        {/* Subpage Direct Lead & Contact CTA */}
-        <section className="bg-[#14191f] text-white rounded p-6 sm:p-8 border border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Embedded Interactive Contact Form & Phone/Callback Box (Μέρος Β #3) */}
+        <SubpageContactWidget canonicalPath={canonicalPath} pageTitle={title} />
+
+        {/* Audience & Common Pages Directory */}
+        <aside className="bg-white rounded-lg p-6 border border-stone-300 space-y-5">
           <div className="space-y-1">
-            <div className="text-xs font-mono text-[#c89d54] uppercase font-bold">
-              ΕΚΔΗΛΩΣΗ ΕΝΔΙΑΦΕΡΟΝΤΟΣ ({canonicalPath})
+            <div className="text-sm font-bold text-[#174935]">
+              ΠΛΟΗΓΗΣΗ ΑΝΑ ΚΟΙΝΟ & ΘΕΜΑΤΙΚΕΣ ΣΕΛΙΔΕΣ «ΒΡΟΣΙΝΑ 2031»
             </div>
-            <h2 className="font-serif text-lg sm:text-2xl font-bold">
-              Ζητήστε τον Πλήρη Φάκελο ή Δηλώστε Συμμετοχή
-            </h2>
-            <p className="text-xs text-stone-300">
-              Απευθείας αποστολή στο Συντονιστικό Desk (digiadsgr@gmail.com) με ένδειξη σελίδας προέλευσης.
+            <p className="text-sm text-stone-700">
+              Επιλέξτε τη σελίδα που αντιστοιχεί στη δική σας ιδιότητα ή δείτε τις κοινές σελίδες τεκμηρίωσης:
             </p>
           </div>
-          <div className="flex flex-wrap gap-2.5 shrink-0">
-            <a
-              href={`/?source=${encodeURIComponent(canonicalPath)}#contact-form`}
-              className="px-4 py-2.5 rounded bg-[#c89d54] text-stone-950 font-bold text-xs hover:bg-amber-400 transition"
-            >
-              Φόρμα Συμμετοχής →
-            </a>
-            <a
-              href={`mailto:digiadsgr@gmail.com?subject=${encodeURIComponent(
-                `[ΒΡΟΣΙΝΑ 2031] Αίτημα από σελίδα ${canonicalPath} (${title})`
-              )}`}
-              className="px-4 py-2.5 rounded border border-stone-600 text-stone-200 hover:text-white text-xs font-mono transition"
-            >
-              digiadsgr@gmail.com ↗
-            </a>
-          </div>
-        </section>
 
-        {/* Internal SEO Cluster Navigation Box */}
-        <aside className="bg-white rounded p-6 border border-stone-300 space-y-4">
-          <div className="text-xs font-mono font-bold uppercase text-[#1f5c43]">
-            ΘΕΜΑΤΙΚΟΣ ΚΟΜΒΟΣ ΤΕΚΜΗΡΙΩΣΗΣ «ΒΡΟΣΙΝΑ 2031» (ΕΣΩΤΕΡΙΚΗ ΔΙΑΣΥΝΔΕΣΗ):
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
-            <a
-              href="/"
-              className="p-3 rounded bg-[#14191f] text-white font-semibold hover:bg-[#1f5c43] transition"
-            >
-              00. Κεντρική Πύλη & Διαδραστικοί Υπολογιστές «Βροσίνα 2031» →
-            </a>
-            {clusterLinks.map((link, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {audienceLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`p-3 rounded border transition font-medium ${
+                className={`p-4 rounded border transition block space-y-1 ${
                   link.href === canonicalPath
-                    ? "bg-stone-100 border-[#b85d3b] text-[#14191f] font-bold"
-                    : "bg-[#f7f5f0] border-stone-300 text-stone-800 hover:border-stone-500"
+                    ? "bg-[#f7f5f0] border-2 border-[#9e4727] text-[#14191f]"
+                    : "bg-[#f7f5f0] border-stone-300 text-[#14191f] hover:border-stone-500"
                 }`}
               >
-                0{idx + 1}. {link.label} →
+                <div className="text-sm font-bold text-[#9e4727]">
+                  {link.badge}
+                </div>
+                <div className="text-base font-semibold leading-snug">
+                  {link.label} →
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <div className="pt-3 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <a
+              href="/"
+              className="p-3 rounded bg-[#14191f] text-white font-semibold text-sm hover:bg-[#174935] transition"
+            >
+              Αρχική Σελίδα «Βροσίνα 2031» →
+            </a>
+            {commonLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`p-3 rounded border transition text-sm font-semibold ${
+                  link.href === canonicalPath
+                    ? "bg-stone-200 border-[#14191f] text-[#14191f]"
+                    : "bg-white border-stone-300 text-[#14191f] hover:bg-stone-100"
+                }`}
+              >
+                {link.label} →
               </a>
             ))}
           </div>
         </aside>
       </main>
 
-      <footer className="bg-[#0d1115] text-stone-400 py-8 border-t border-stone-800 text-xs">
+      {/* Mobile Sticky Bottom Navigation Bar (5 Clean Items, No Emoji) */}
+      <nav
+        aria-label="Κινητή Πλοήγηση"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
+      >
+        <div className="grid grid-cols-5 text-center">
+          <a
+            href="/to-schedio"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+          >
+            Σχέδιο
+          </a>
+          <a
+            href="/gia-ktinotrofous"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+          >
+            Κτηνοτρόφοι
+          </a>
+          <a
+            href="/gia-epicheiriseis"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+          >
+            Επιχειρήσεις
+          </a>
+          <a
+            href="/gia-ependytes"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191f] hover:bg-stone-100 truncate"
+          >
+            Επενδυτές
+          </a>
+          <a
+            href="#subpage-contact"
+            className="py-2.5 px-1 text-sm font-bold bg-[#174935] text-white truncate"
+          >
+            Επικοινωνία
+          </a>
+        </div>
+      </nav>
+
+      <footer className="bg-[#14191f] text-stone-200 py-8 border-t border-stone-800 text-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
           <div>
             <strong className="text-white font-serif">ΒΡΟΣΙΝΑ2031</strong> ·{" "}
-            {SITE_CONFIG.location}
+            {SITE_CONFIG.location} · Συντονισμός: Αθανάσιος Βούρδας
           </div>
-          <div className="flex flex-wrap items-center gap-4 font-mono">
+          <div className="flex flex-wrap items-center gap-4">
             <a href="/" className="hover:text-white">
               Αρχική
             </a>
-            <a href="/llms-full.txt" className="text-[#c89d54] hover:underline">
-              llms-full.txt
+            <a href="/poioi-eimaste" className="hover:text-white">
+              Ποιοι είμαστε
+            </a>
+            <a href="/documents/Vrosina_2031_Business_Plan_v2.pdf" className="text-[#c89d54] hover:underline">
+              Business Plan PDF
             </a>
             <a href="/sitemap.xml" className="hover:text-white">
               sitemap.xml
             </a>
-            <span className="text-stone-700">|</span>
+            <span className="text-stone-600">|</span>
             <a
               href="https://digiads.gr"
               target="_blank"
               rel="noopener"
-              className="text-stone-400 hover:text-[#c89d54] transition text-[11px]"
+              className="text-stone-200 hover:text-[#c89d54] transition"
             >
               Designed by <strong className="text-white">DIGIADS</strong>
             </a>

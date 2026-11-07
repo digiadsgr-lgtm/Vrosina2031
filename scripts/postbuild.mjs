@@ -4,35 +4,27 @@ import path from "path";
 const outDir = path.resolve("out");
 const pubDir = path.resolve("public");
 
+const subRoutes = [
+  "to-schedio",
+  "gia-ktinotrofous",
+  "gia-epicheiriseis",
+  "gia-ependytes",
+  "gia-foreis",
+  "poioi-eimaste",
+  "stratopedo-vrosinas",
+  "ependyseis-epidotiseis",
+  "gefyri-vrosinas-raidiotissa",
+  "katoikia-neoi-paragogoi",
+  "ai-knowledge-base",
+];
+
 const syncItems = [
   "index.html",
   "404.html",
   "index.txt",
   "sitemap.xml",
   "_next",
-  "stratopedo-vrosinas",
-  "stratopedo-vrosinas.html",
-  "stratopedo-vrosinas.txt",
-  "ependyseis-epidotiseis",
-  "ependyseis-epidotiseis.html",
-  "ependyseis-epidotiseis.txt",
-  "gefyri-vrosinas-raidiotissa",
-  "gefyri-vrosinas-raidiotissa.html",
-  "gefyri-vrosinas-raidiotissa.txt",
-  "katoikia-neoi-paragogoi",
-  "katoikia-neoi-paragogoi.html",
-  "katoikia-neoi-paragogoi.txt",
-  "ai-knowledge-base",
-  "ai-knowledge-base.html",
-  "ai-knowledge-base.txt",
-];
-
-const subRoutes = [
-  "stratopedo-vrosinas",
-  "ependyseis-epidotiseis",
-  "gefyri-vrosinas-raidiotissa",
-  "katoikia-neoi-paragogoi",
-  "ai-knowledge-base",
+  ...subRoutes.flatMap((r) => [r, `${r}.html`, `${r}.txt`]),
 ];
 
 if (fs.existsSync(outDir)) {
