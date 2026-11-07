@@ -3,6 +3,8 @@ import SeoSubpageShell from "@/components/SeoSubpageShell";
 import {
   ZERO_CAPITAL_HERDER_GUIDE,
   HOUSING_CATEGORIES,
+  ABOUT_US_AND_STATUS,
+  UNIFIED_GRANT_RATE_TEXT,
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
@@ -23,28 +25,64 @@ export default function GiaKtinotrofousPage() {
       subtitle="Η Κοινωνική Συνεταιριστική Επιχείρηση βρίσκεται υπό σύσταση. Το κάλεσμα για ιδρυτικά μέλη είναι ανοιχτό. Η ελάχιστη μερίδα είναι 100 € (ν. 4430/2016)."
       canonicalPath="/gia-ktinotrofous"
     >
-      {/* Γ2: Βασικό πλαίσιο σε απλά λόγια (16 px) */}
+      {/* Σ4: Πλαίσιο στην κορυφή «Ήδη κτηνοτρόφος; Ξεκίνα από εδώ» + Μ4: Χωρίς διπλό τίτλο */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#1F5C43] space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 pb-4">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F]">
-            Για κτηνοτρόφους και κατοίκους της Βροσίνας και της περιοχής
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            <a
-              href="/documents/Vrosina_2031_KOINSEP_QA_Guide.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded bg-[#1F5C43] text-white font-semibold text-sm hover:bg-[#174935] transition"
-            >
-              Οδηγός Κοιν.Σ.Επ. (PDF) ↓
-            </a>
-            <a
-              href="#epikinonia"
-              className="px-4 py-2 rounded bg-[#F7F5F0] border border-stone-400 text-[#14191F] font-semibold text-sm hover:bg-stone-200 transition"
-            >
-              Συμπληρώστε τη φόρμα ↓
-            </a>
+        <div className="p-5 rounded-lg bg-emerald-50/80 border-2 border-[#1F5C43] space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="text-sm font-bold text-[#1F5C43]">
+                ΑΜΕΣΟΣ ΟΔΗΓΟΣ ΓΙΑ ΕΝΕΡΓΟΥΣ ΠΑΡΑΓΩΓΟΥΣ ΤΗΣ ΠΕΡΙΟΧΗΣ
+              </div>
+              <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
+                Ήδη κτηνοτρόφος; Ξεκίνα από εδώ
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="/documents/Vrosina_2031_KOINSEP_QA_Guide.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded bg-[#1F5C43] text-white font-semibold text-sm hover:bg-[#174935] transition"
+              >
+                Οδηγός Κοιν.Σ.Επ. (PDF) ↓
+              </a>
+              <a
+                href="#epikinonia"
+                className="px-4 py-2 rounded bg-white border border-stone-400 text-[#14191F] font-semibold text-sm hover:bg-stone-200 transition"
+              >
+                Συμπληρώστε τη φόρμα ↓
+              </a>
+            </div>
           </div>
+          <ul className="space-y-2 text-base text-[#14191F] leading-relaxed pt-2 border-t border-emerald-200">
+            <li>
+              <strong>1. Σταθερός αγοραστής για το γάλα σου:</strong> Στόχος μας είναι σταθερός αγοραστής με γραπτό συμβόλαιο απορρόφησης. Την τιμή και τους όρους θα τους μάθεις πρώτος, πριν από οποιαδήποτε δέσμευση.
+            </li>
+            <li>
+              <strong>2. Ισότιμο μέλος στην Κοιν.Σ.Επ.:</strong> Ένα μέλος, μία ψήφος — αποφασίζεις κι εσύ. Η ελάχιστη συνεταιριστική μερίδα είναι 100 € (ν. 4430/2016).
+            </li>
+            <li>
+              <strong>3. Προστιθέμενη αξία στον τόπο σου:</strong> Μεταποίηση του γάλακτος σε τυροκομικά ΠΟΠ (Φέτα, Γαλοτύρι) στη Βροσίνα αντί πώλησης χύμα πρώτης ύλης.
+            </li>
+            <li>
+              <strong>4. Δουλειά και ζωή στο χωριό:</strong> Νέοι άνθρωποι, ανακαινισμένα σπίτια και κίνηση στα μαγαζιά της Βροσίνας.
+            </li>
+          </ul>
+        </div>
+
+        {/* Κ2: Οι δύο κεντρικές ερωτήσεις κτηνοτρόφων & ιδιοκτητών κλειστών σπιτιών */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {ABOUT_US_AND_STATUS.localVoices.map((v, idx) => (
+            <div
+              key={idx}
+              className="p-4 rounded-lg bg-[#F7F5F0] border border-stone-300 border-l-4 border-l-[#1F5C43] space-y-1.5"
+            >
+              <div className="text-sm font-bold text-[#1F5C43]">{v.role}</div>
+              <p className="font-serif text-base text-[#14191F] leading-relaxed">
+                {v.quote}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-base">
@@ -148,9 +186,12 @@ export default function GiaKtinotrofousPage() {
           ))}
         </div>
 
-        {/* Α4: Υποχρεωτική Επιφύλαξη κάτω από τον οδηγό με ποσά */}
-        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed">
-          Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+        {/* Α4 & Κ3: Υποχρεωτική Επιφύλαξη κάτω από τον οδηγό με ενδεικτικά ποσά */}
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed space-y-1.5">
+          <p>{UNIFIED_GRANT_RATE_TEXT}</p>
+          <p>
+            Τα ποσά του οδηγού (π.χ. ενδεικτικό πριμ πρώτης εγκατάστασης έως 40.000 € και ενδεικτικές εκτιμήσεις σχεδίων βελτίωσης) είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την εκάστοτε πρόσκληση (ΣΣ ΚΑΠ / LEADER 545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή γεωτεχνικού συμβούλου.
+          </p>
         </div>
       </section>
 

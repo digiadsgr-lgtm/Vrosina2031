@@ -4,6 +4,8 @@ import {
   INVESTOR_RISK_AND_USE_OF_FUNDS,
   THREE_SCENARIOS,
   GOVERNANCE_SHIELD,
+  UNIFIED_GRANT_RATE_TEXT,
+  UNIFIED_STRATEGIC_PARTNER_TEXT,
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
@@ -62,13 +64,16 @@ export default function GiaEpendytesPage() {
             • <strong>Ζήτηση και πληρότητα:</strong> οι εκτιμήσεις βασίζονται σε υποθέσεις που δηλώνονται ανοιχτά στο σχέδιο.
           </li>
           <li className="p-4 rounded bg-[#F7F5F0] border border-stone-300">
-            • <strong>Διακυβέρνηση:</strong> πλαφόν 40% σε έναν επενδυτή και υπερπλειοψηφία 75% για τις βασικές αποφάσεις, ώστε κανείς να μην ελέγχει μόνος του την κοινότητα.
+            • <strong>Διακυβέρνηση & Ιδιότητα ΜΜΕ:</strong> πλαφόν 40% σε έναν επενδυτή και υπερπλειοψηφία 75% για τις βασικές αποφάσεις, ώστε κανείς να μην ελέγχει μόνος του την κοινότητα. {UNIFIED_STRATEGIC_PARTNER_TEXT}
           </li>
         </ul>
 
-        {/* Α4: Υποχρεωτική Επιφύλαξη */}
-        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed">
-          Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+        {/* Α4 & Κ3: Υποχρεωτική Επιφύλαξη & Ενιαίο Κείμενο Ποσοστών Ενίσχυσης */}
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed space-y-1.5">
+          <p>{UNIFIED_GRANT_RATE_TEXT}</p>
+          <p>
+            Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+          </p>
         </div>
       </section>
 

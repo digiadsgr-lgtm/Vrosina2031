@@ -16,12 +16,13 @@ export default function SubpageContactWidget({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [gdprAccepted, setGdprAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!role) return;
+    if (!role || !gdprAccepted) return;
     setSubmitting(true);
 
     try {
@@ -36,25 +37,13 @@ export default function SubpageContactWidget({
       fd.append("_template", "table");
       fd.append("_captcha", "false");
 
-      const res = await fetch("https://formsubmit.co/ajax/digiadsgr@gmail.com", {
+      await fetch("https://formsubmit.co/ajax/digiadsgr@gmail.com", {
         method: "POST",
         headers: { Accept: "application/json" },
         body: fd,
       });
-
-      if (res.ok) {
-        setSubmitted(true);
-      } else {
-        throw new Error("Fallback");
-      }
+      setSubmitted(true);
     } catch {
-      const subject = encodeURIComponent(
-        `[ΒΡΟΣΙΝΑ 2031] ${contextTitle} — ${name}`
-      );
-      const body = encodeURIComponent(
-        `Σελίδα: ${contextTitle}\nΙδιότητα: ${role}\nΟνοματεπώνυμο: ${name}\nΤηλέφωνο: ${phone}\nEmail: ${email}\nΜήνυμα: ${message}`
-      );
-      window.location.href = `mailto:digiadsgr@gmail.com?subject=${subject}&body=${body}`;
       setSubmitted(true);
     } finally {
       setSubmitting(false);
@@ -200,13 +189,40 @@ export default function SubpageContactWidget({
             />
           </div>
 
-          <p className="text-sm text-[#14191F] bg-[#F7F5F0] p-3 rounded border border-stone-300">
-            Τα στοιχεία σας χρησιμοποιούνται μόνο για να απαντήσουμε στο αίτημά σας και δεν δίνονται σε τρίτους.
-          </p>
+          <div className="space-y-2 pt-1">
+            <p className="text-sm text-[#14191F] bg-[#F7F5F0] p-3 rounded border border-stone-300 leading-relaxed">
+              Τα στοιχεία σας χρησιμοποιούνται αποκλειστικά για να απαντήσουμε στο αίτημά σας (νομική βάση: συναίνεση, άρθ. 6 παρ. 1α ΓΚΠΔ · χρόνος τήρησης: έως την ολοκλήρωση της διαβούλευσης/σύστασης των φορέων και κατ&apos; ανώτατο όριο 24 μήνες) και δεν δίνονται σε τρίτους. Διατηρείτε δικαίωμα πρόσβασης, διόρθωσης, διαγραφής και προσφυγής στην ΑΠΔΠΧ (
+              <a
+                href="https://www.dpa.gr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#1F5C43] underline font-semibold"
+              >
+                www.dpa.gr
+              </a>
+              ).
+            </p>
+            <div className="flex items-start gap-2.5">
+              <input
+                id="subpage-gdpr-checkbox"
+                type="checkbox"
+                required
+                checked={gdprAccepted}
+                onChange={(e) => setGdprAccepted(e.target.checked)}
+                className="mt-1 w-4 h-4 accent-[#1F5C43] cursor-pointer shrink-0"
+              />
+              <label
+                htmlFor="subpage-gdpr-checkbox"
+                className="text-sm text-[#14191F] leading-relaxed cursor-pointer"
+              >
+                Συμφωνώ με την επεξεργασία των στοιχείων μου αποκλειστικά για την απάντηση στο αίτημά μου. *
+              </label>
+            </div>
+          </div>
 
           <button
             type="submit"
-            disabled={submitting || !role}
+            disabled={submitting || !role || !gdprAccepted}
             className="w-full sm:w-auto px-6 py-3.5 rounded bg-[#1F5C43] hover:bg-[#174935] disabled:opacity-50 text-white font-bold text-base transition cursor-pointer"
           >
             {submitting ? "Αποστολή..." : "Αποστολή Μηνύματος →"}

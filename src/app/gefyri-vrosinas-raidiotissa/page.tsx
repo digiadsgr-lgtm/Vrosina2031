@@ -33,7 +33,7 @@ export default function GefyriVrosinasRaidiotissaPage() {
           />
           <div className="p-4 space-y-2 text-xs">
             <div className="font-mono font-bold text-[#b85d3b]">
-              ΜΝΗΜΕΙΟ 01 · ΕΝΤΟΣ ΟΙΚΙΣΜΟΥ
+              ΜΝΗΜΕΙΟ 01 · ΕΝΤΟΣ ΟΙΚΙΣΜΟΥ (ΦΩΤ. ΔΗΜΟΣ ΖΙΤΣΑΣ)
             </div>
             <h2 className="font-serif font-bold text-base text-[#14191f]">
               Το Πέτρινο Γεφύρι της Βροσίνας
@@ -58,7 +58,7 @@ export default function GefyriVrosinasRaidiotissaPage() {
           />
           <div className="p-4 space-y-2 text-xs">
             <div className="font-mono font-bold text-[#1f5c43]">
-              ΜΝΗΜΕΙΟ 02 · ΕΤΟΣ 1605
+              ΜΝΗΜΕΙΟ 02 · ΕΤΟΣ 1605 (ΦΩΤ. ΔΗΜΟΣ ΖΙΤΣΑΣ)
             </div>
             <h2 className="font-serif font-bold text-base text-[#14191f]">
               Το Ιστορικό Ζαλογγογέφυρο (1605)
@@ -83,7 +83,7 @@ export default function GefyriVrosinasRaidiotissaPage() {
           />
           <div className="p-4 space-y-2 text-xs">
             <div className="font-mono font-bold text-[#14191f]">
-              ΜΝΗΜΕΙΟ 03 · ΕΤΟΣ 1628
+              ΜΝΗΜΕΙΟ 03 · ΕΤΟΣ 1628 (ΦΩΤ. EPIRUSGATE)
             </div>
             <h2 className="font-serif font-bold text-base text-[#14191f]">
               Ιερά Μονή Παναγίας Ραϊδιώτισσας (1628)

@@ -53,7 +53,7 @@ export default function StratopedoVrosinasPage() {
           />
           <div className="p-4 text-xs space-y-1">
             <div className="font-mono font-bold text-[#b85d3b]">
-              ΣΗΜΕΡΑ (ΕΙΚΟΝΑ ΠΕΔΙΟΥ):
+              ΣΗΜΕΡΑ (ΕΙΚΟΝΑ ΠΕΔΙΟΥ · ΦΩΤ. VRETTOS RIDER / YOUTUBE):
             </div>
             <p className="text-stone-700">
               Το επίπεδο πλάτωμα 13.695 τ.μ. με τους δύο ισόγειους θαλάμους
@@ -94,7 +94,7 @@ export default function StratopedoVrosinasPage() {
       <section className="bg-[#14191f] text-white rounded p-6 border border-stone-800 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="font-serif text-xl sm:text-2xl font-bold">
-            Βίντεο Αυτοψίας (12:31): Περιήγηση σε Όλα τα Κτίρια του Στρατοπέδου Βροσίνας
+            {CAMP_VIDEO_AUTOPSY.title}
           </h2>
           <a
             href={CAMP_VIDEO_AUTOPSY.videoUrl}
@@ -102,7 +102,7 @@ export default function StratopedoVrosinasPage() {
             rel="noopener noreferrer"
             className="text-xs font-mono text-[#c89d54] hover:underline"
           >
-            Πηγή: {CAMP_VIDEO_AUTOPSY.creator} ↗
+            {CAMP_VIDEO_AUTOPSY.creator} ↗
           </a>
         </div>
         <div className="aspect-video w-full rounded overflow-hidden bg-black">

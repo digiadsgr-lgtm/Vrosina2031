@@ -60,10 +60,10 @@ export default function PoioiEimastePage() {
               Με αφετηρία την πληροφορική και το ηλεκτρονικό εμπόριο στη Μεγάλη
               Βρετανία (Liverpool) και στην Ελλάδα, και πολυετή ενεργή πορεία στη
               διοίκηση μονάδων φιλοξενίας, στην οργάνωση επιχειρησιακών
-              διαδικασιών και στη στρατηγική ψηφιακής ανάπτυξης επιχειρήσεων
-              (ιδρυτής της DIGIADS), μετέφερε την τεχνογνωσία οργάνωσης,
-              κοστολόγησης και εμπορικής δικτύωσης σε ένα ολοκληρωμένο,
-              εφαρμόσιμο σχέδιο αναγέννησης για τον τόπο καταγωγής του.
+              διαδικασιών και στη στρατηγική ψηφιακής ανάπτυξης επιχειρήσεων,
+              μετέφερε την τεχνογνωσία οργάνωσης, κοστολόγησης και εμπορικής
+              δικτύωσης σε ένα ολοκληρωμένο, εφαρμόσιμο σχέδιο αναγέννησης για
+              τον τόπο καταγωγής του.
             </p>
             <p>
               Συγκροτείται η <strong>«Επιτροπή Βροσίνα 2031»</strong> για την
@@ -139,25 +139,25 @@ export default function PoioiEimastePage() {
         </div>
       </section>
 
-      {/* 2. Φωνές από την Παραγωγή και τους Κατοίκους */}
+      {/* 2. Κεντρικά Ερωτήματα Παραγωγών & Ιδιοκτητών Κατοικιών (Κ2) */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-4">
         <div className="text-sm font-bold text-[#1F5C43]">
-          Φωνές από τη Βροσίνα & τη Δ.Ε. Μολοσσών
+          Ερωτήματα από τη Βροσίνα & τη Δ.Ε. Μολοσσών
         </div>
         <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
-          Τι Λένε οι Άνθρωποι της Παραγωγής και οι Ιδιοκτήτες Κατοικιών
+          Τι Ρωτούν οι Κτηνοτρόφοι και οι Ιδιοκτήτες Κλειστών Σπιτιών
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {ABOUT_US_AND_STATUS.localVoices.map((v, idx) => (
-            <blockquote
+            <div
               key={idx}
-              className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 border-l-4 border-l-[#1F5C43] space-y-3"
+              className="p-5 rounded-lg bg-[#F7F5F0] border border-stone-300 border-l-4 border-l-[#1F5C43] space-y-2"
             >
-              <p className="font-serif italic text-base text-[#14191F] leading-relaxed">
+              <div className="text-sm font-bold text-[#1F5C43]">{v.role}</div>
+              <p className="font-serif text-base text-[#14191F] leading-relaxed">
                 {v.quote}
               </p>
-              <div className="text-sm font-bold text-[#1F5C43]">{v.role}</div>
-            </blockquote>
+            </div>
           ))}
         </div>
       </section>

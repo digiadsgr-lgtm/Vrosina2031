@@ -7,12 +7,14 @@ import {
   FOURTEEN_FUNDING_TOOLS_DOC,
   INSTITUTIONAL_ROLES_MATRIX,
   PUBLIC_FISCAL_BENEFIT_STUDY,
+  UNIFIED_GRANT_RATE_TEXT,
+  UNIFIED_STRATEGIC_PARTNER_TEXT,
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
-  title: "Επενδύσεις, Επιδοτήσεις έως 75% & Δημόσιο",
+  title: "Επενδύσεις, Χρηματοδοτικά Εργαλεία & Δημόσιο",
   description:
-    "Επενδύσεις στη Βροσίνα Ιωαννίνων (Αναπτυξιακός Νόμος έως 75%, LEADER), μελέτη «Τι Κερδίζει το Δημόσιο (463.700 €/έτος)» & Ταμείο Ευεργετών ΑΜΚΕ.",
+    "Επενδύσεις στη Βροσίνα Ιωαννίνων (LEADER, ΣΣ ΚΑΠ, Αναπτυξιακός Νόμος), μελέτη «Τι Κερδίζει το Δημόσιο (463.700 €/έτος)» & Ταμείο Ευεργετών ΑΜΚΕ.",
   alternates: {
     canonical: "https://vrosina2031.vercel.app/ependyseis-epidotiseis",
   },
@@ -22,9 +24,9 @@ export default function EpendyseisEpidotiseisPage() {
   return (
     <SeoSubpageShell
       sectionCode="ΕΠΕΝΔΥΤΙΚΟΣ, ΔΗΜΟΣΙΟΝΟΜΙΚΟΣ & ΧΟΡΗΓΙΚΟΣ ΦΑΚΕΛΟΣ"
-      categoryLabel="CAPEX 10,45 ΕΚ. € · ΕΠΙΔΟΤΗΣΕΙΣ ΕΩΣ 75% · 463.700 €/ΕΤΟΣ ΕΣΟΔΑ ΔΗΜΟΣΙΟΥ"
-      title="Επενδύσεις (Επιδότηση έως 75%), Τι Κερδίζει το Δημόσιο (463.700 €/έτος) & ΑΜΚΕ Ευεργετών στη Βροσίνα"
-      subtitle="Πλήρης οδηγός για Στρατηγικούς Επενδυτές Αγροδιατροφής (35%–40% Εμπορικής Θυγατρικής), Επενδυτές Αγροτουρισμού (LEADER), Θεσμικούς Αξιολογητές (463.700 €/έτος έσοδα Δημοσίου) και Μεγάλους Ευεργέτες / Χορηγούς ESG μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας»."
+      categoryLabel="CAPEX 10,45 ΕΚ. € · ΠΟΣΟΣΤΑ ΑΝΑΛΟΓΑ ΜΕ ΤΗΝ ΠΡΟΣΚΛΗΣΗ · 463.700 €/ΕΤΟΣ ΕΣΟΔΑ ΔΗΜΟΣΙΟΥ"
+      title="Επενδύσεις, Χρηματοδοτικά Εργαλεία, Τι Κερδίζει το Δημόσιο (463.700 €/έτος) & ΑΜΚΕ Ευεργετών στη Βροσίνα"
+      subtitle={`Πλήρης οδηγός για Στρατηγικούς Επενδυτές Αγροδιατροφής (${UNIFIED_STRATEGIC_PARTNER_TEXT}), Επενδυτές Αγροτουρισμού (LEADER), Θεσμικούς Αξιολογητές (463.700 €/έτος έσοδα Δημοσίου) και Μεγάλους Ευεργέτες / Χορηγούς ESG μέσω της ΑΜΚΕ «Ταμείο Ευεργετών Βροσίνας».`}
       canonicalPath="/ependyseis-epidotiseis"
     >
       {/* What the State Gains Summary Section */}
@@ -63,24 +65,30 @@ export default function EpendyseisEpidotiseisPage() {
             </div>
           ))}
         </div>
+        <div className="p-3.5 rounded bg-stone-900 border-l-4 border-[#c89d54] text-xs sm:text-sm text-stone-200 leading-relaxed">
+          Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
+        </div>
       </section>
       {/* 4 Investment & Sponsorship Channels */}
       <section className="space-y-4">
         <h2 className="font-serif text-2xl font-bold text-[#14191f]">
           Τα 4 Θεσμικά Κανάλια Τοποθέτησης Κεφαλαίου & Χορηγίας
         </h2>
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed">
+          {UNIFIED_GRANT_RATE_TEXT}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="bg-white p-5 rounded border border-stone-300 space-y-2">
             <div className="text-xs font-mono font-bold text-[#b85d3b]">
               ΚΑΝΑΛΙ 01 · ΜΕΤΑΠΟΙΗΣΗ ΠΟΠ/ΠΓΕ
             </div>
             <h3 className="font-serif font-bold text-lg">
-              Στρατηγικός Εταίρος Αγροδιατροφής (έως 35%–40%)
+              Στρατηγικός Εταίρος Αγροδιατροφής
             </h3>
             <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
-              Συμμετοχή στην Εμπορική Θυγατρική του Τυροκομείου ΠΟΠ (1,65 εκ. €)
-              και του Οινοποιείου Ντεμπίνας (1,00 εκ. €) με επιδότηση έως 75%
-              μέσω του Αναπτυξιακού Νόμου 4887/2022, εγγυοδοσία 80% από την
+              {UNIFIED_STRATEGIC_PARTNER_TEXT} Συμμετοχή στην Εμπορική Θυγατρική του Τυροκομείου ΠΟΠ (1,65 εκ. €)
+              και του Οινοποιείου Ντεμπίνας (1,00 εκ. €) με ενίσχυση ανάλογα με την πρόσκληση
+              (LEADER 545/07-10-2026 δράση 1.1 ανώτατο 65% & 400.000 € / ΣΣ ΚΑΠ / Αναπτυξιακός Ν. 4887/2022), εγγυοδοσία από την
               Ελληνική Αναπτυξιακή Τράπεζα (HDB) και συμβόλαιο αποκλειστικής
               απορρόφησης (Off-Take Agreement).
             </p>
@@ -95,7 +103,7 @@ export default function EpendyseisEpidotiseisPage() {
             </h3>
             <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
               Ανάπτυξη ξενώνων 3–5 δωματίων (συνολικό CAPEX 1,00 εκ. €) με
-              επιδότηση 65%–80% μέσω LEADER ΗΠΕΙΡΟΣ Α.Ε. (1η Πρόσκληση
+              ποσοστό ενίσχυσης ανάλογα με την πρόσκληση μέσω LEADER ΗΠΕΙΡΟΣ Α.Ε. (1η Πρόσκληση
               545/07-10-2026, προθεσμία 4 Φεβρουαρίου 2027) και μηδενικό κόστος
               αγοράς ακινήτου μέσω Μακροχρόνιας Μίσθωσης (Master Lease) 10–15 ετών.
             </p>

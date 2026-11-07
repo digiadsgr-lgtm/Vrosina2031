@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import SeoSubpageShell from "@/components/SeoSubpageShell";
-import { BUSINESS_THREE_PATHS } from "@/data/vrosinaData";
+import {
+  BUSINESS_THREE_PATHS,
+  UNIFIED_GRANT_RATE_TEXT,
+  UNIFIED_STRATEGIC_PARTNER_TEXT,
+} from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
   title: "Ευκαιρίες για Επιχειρήσεις στη Βροσίνα 2031",
@@ -23,7 +27,7 @@ export default function GiaEpicheiriseisPage() {
       {/* Γ3: Το επίσημο κείμενο της σελίδας «Για επιχειρήσεις» */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#B85D3B] space-y-6">
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F] border-b border-stone-200 pb-4">
-          Ευκαιρίες για επιχειρήσεις στη Βροσίνα 2031
+          Τρεις Διαδρομές Συμμετοχής για Επιχειρήσεις & Επαγγελματίες
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-base">
@@ -64,9 +68,10 @@ export default function GiaEpicheiriseisPage() {
               <li>
                 • Συνεργασίες με επιχειρήσεις μεταποίησης (τυροκομείο, οινοποιείο), με συμμετοχή του εταίρου στην εταιρεία λειτουργίας.
               </li>
+              <li>• {UNIFIED_STRATEGIC_PARTNER_TEXT}</li>
             </ul>
             <p className="text-sm text-[#14191F] pt-2 border-t border-stone-300">
-              Το ποσοστό ενίσχυσης ορίζεται ανά δράση στην πρόσκληση LEADER (545/07-10-2026) και δεν είναι εγγυημένο. Για την αγροδιατροφική μεταποίηση (δράση 1.1), το ανώτατο της πρόσκλησης είναι 65% και 400.000 €.
+              {UNIFIED_GRANT_RATE_TEXT}
             </p>
           </div>
         </div>

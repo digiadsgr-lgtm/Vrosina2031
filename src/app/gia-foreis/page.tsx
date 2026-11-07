@@ -4,6 +4,8 @@ import {
   PUBLIC_FISCAL_BENEFIT_STUDY,
   FOURTEEN_FUNDING_TOOLS_DOC,
   INSTITUTIONAL_ROLES_MATRIX,
+  UNIFIED_CONCESSION_TEXT,
+  UNIFIED_GRANT_RATE_TEXT,
 } from "@/data/vrosinaData";
 
 export const metadata: Metadata = {
@@ -21,7 +23,7 @@ export default function GiaForeisPage() {
       sectionCode="Για φορείς και Πολιτεία"
       categoryLabel="Τι ζητάμε και τι δεν ζητάμε · Όφελος Δημοσίου · Οι φορείς και οι ρόλοι · Νόμοι και χρηματοδότηση"
       title="Για Φορείς, τον Δήμο Ζίτσας & την Πολιτεία"
-      subtitle="Ζητούμε τη μακροχρόνια παραχώρηση ή μίσθωση του πρώην στρατοπέδου από το Δημόσιο, για τουλάχιστον 10 έτη. Δεν έχει ληφθεί ακόμη απόφαση."
+      subtitle={UNIFIED_CONCESSION_TEXT}
       canonicalPath="/gia-foreis"
     >
       {/* Γ5: Τι ζητάμε και τι δεν ζητάμε */}
@@ -53,7 +55,7 @@ export default function GiaForeisPage() {
               • <strong>Από το Δήμο Ζίτσας:</strong> θεσμική στήριξη της πρωτοβουλίας.
             </li>
             <li className="p-4 rounded bg-[#F7F5F0] border border-stone-300">
-              • <strong>Από το φορέα που διαχειρίζεται το στρατόπεδο (Τ.Α.ΕΘ.Α. / ΥΠΕΘΑ / Δήμος Ζίτσας):</strong> μακροχρόνια παραχώρηση ή μίσθωση, για τουλάχιστον 10 έτη. Δεν έχει ληφθεί ακόμη απόφαση.
+              • <strong>Από το φορέα που διαχειρίζεται το στρατόπεδο (Τ.Α.ΕΘ.Α. / ΥΠΕΘΑ / Δήμος Ζίτσας):</strong> {UNIFIED_CONCESSION_TEXT} Δεν έχει ληφθεί ακόμη απόφαση.
             </li>
             <li className="p-4 rounded bg-[#F7F5F0] border border-stone-300">
               • <strong>Από κάθε αρμόδιο φορέα:</strong> συμμετοχή στη διαβούλευση και ενημέρωση για τα αδειοδοτικά βήματα. Προτείνουμε επίσης συνεργασία με τη Γαλακτοκομική Σχολή Ιωαννίνων για εκπαίδευση και μεταφορά τεχνογνωσίας.
@@ -106,6 +108,11 @@ export default function GiaForeisPage() {
               <p className="text-sm text-[#14191F]">{m.sub}</p>
             </div>
           ))}
+        </div>
+
+        {/* Σ5: Διευκρίνιση ονομαστικών ποσών χωρίς προεξόφληση & χρόνου απόσβεσης */}
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#C89D54] text-sm text-[#14191F] leading-relaxed">
+          Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
         </div>
 
         <div className="space-y-3">
@@ -187,9 +194,12 @@ export default function GiaForeisPage() {
           ))}
         </div>
 
-        {/* Α4: Υποχρεωτική Επιφύλαξη */}
-        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed">
-          Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+        {/* Α4 & Κ3: Υποχρεωτική Επιφύλαξη & Ενιαίο Κείμενο Ποσοστών Ενίσχυσης */}
+        <div className="p-4 rounded bg-amber-50 border-l-4 border-[#A34A2B] text-sm text-[#14191F] leading-relaxed space-y-1.5">
+          <p>{UNIFIED_GRANT_RATE_TEXT}</p>
+          <p>
+            Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+          </p>
         </div>
       </section>
     </SeoSubpageShell>

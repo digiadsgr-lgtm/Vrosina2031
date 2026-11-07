@@ -128,7 +128,7 @@ export default function SeoSubpageShell({
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F5F0] text-[#14191F] font-sans pb-16 lg:pb-0">
+    <div id="top" className="min-h-screen bg-[#F7F5F0] text-[#14191F] font-sans pb-16 lg:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -140,7 +140,7 @@ export default function SeoSubpageShell({
         />
       )}
 
-      {/* Single Clean Navigation Bar: Το σχέδιο · Για κτηνοτρόφους · Για επιχειρήσεις · Για επενδυτές · Για φορείς · Επικοινωνία */}
+      {/* Single Clean Navigation Bar: Το σχέδιο · Για κτηνοτρόφους · Για επιχειρήσεις · Για επενδυτές · Για φορείς · Επικοινωνία + Mobile Menu (Σ1) */}
       <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 shrink-0">
@@ -219,16 +219,68 @@ export default function SeoSubpageShell({
           <div className="flex items-center gap-2 shrink-0">
             <a
               href="/"
-              className="px-3 py-2 rounded border border-stone-400 text-[#14191F] text-sm font-semibold hover:bg-stone-200 transition whitespace-nowrap"
+              className="hidden sm:inline-block px-3 py-2 rounded border border-stone-400 text-[#14191F] text-sm font-semibold hover:bg-stone-200 transition whitespace-nowrap"
             >
               Αρχική
             </a>
             <a
               href="#epikinonia"
-              className="px-4 py-2 rounded bg-[#1F5C43] text-white text-sm font-semibold hover:bg-[#174935] transition whitespace-nowrap"
+              className="px-3.5 py-2 rounded bg-[#1F5C43] text-white text-sm font-semibold hover:bg-[#174935] transition whitespace-nowrap"
             >
               Επικοινωνία
             </a>
+            <details className="lg:hidden relative group">
+              <summary className="list-none px-3 py-2 rounded border border-stone-400 bg-[#F7F5F0] text-[#14191F] text-sm font-bold hover:bg-stone-200 transition cursor-pointer select-none">
+                ☰ Μενού
+              </summary>
+              <nav
+                aria-label="Πλήρες Μενού Κινητού"
+                className="absolute right-0 mt-2 w-72 bg-white border-2 border-[#14191F] rounded-lg shadow-xl p-3 space-y-1.5 z-50 text-sm font-semibold"
+              >
+                <a
+                  href="/to-schedio"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#14191F] hover:bg-stone-200"
+                >
+                  Το σχέδιο
+                </a>
+                <a
+                  href="/gia-ktinotrofous"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#1F5C43] hover:bg-stone-200"
+                >
+                  Για κτηνοτρόφους
+                </a>
+                <a
+                  href="/gia-epicheiriseis"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#A34A2B] hover:bg-stone-200"
+                >
+                  Για επιχειρήσεις
+                </a>
+                <a
+                  href="/gia-ependytes"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#85611C] hover:bg-stone-200"
+                >
+                  Για επενδυτές
+                </a>
+                <a
+                  href="/gia-foreis"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#14191F] hover:bg-stone-200"
+                >
+                  Για φορείς
+                </a>
+                <a
+                  href="/poioi-eimaste"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#14191F] hover:bg-stone-200"
+                >
+                  Ποιοι είμαστε
+                </a>
+                <a
+                  href="/#dataroom"
+                  className="block px-3 py-2 rounded bg-[#F7F5F0] border border-stone-300 text-[#14191F] hover:bg-stone-200"
+                >
+                  Έγγραφα
+                </a>
+              </nav>
+            </details>
           </div>
         </div>
       </header>
@@ -323,44 +375,47 @@ export default function SeoSubpageShell({
         </aside>
       </main>
 
-      {/* Mobile Sticky Bottom Navigation Bar (Κεφ. Β: Σχέδιο · Στρατόπεδο · Σπίτια · Επιχειρήσεις · Επικοινωνία) */}
+      {/* Mobile Sticky Bottom Navigation Bar (Σ1: 4 αντικείμενα χωρίς κόψιμο λέξεων + πλήρες μενού ☰ στην κεφαλίδα) */}
       <nav
         aria-label="Κινητή Πλοήγηση"
         className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
       >
-        <div className="grid grid-cols-5 text-center">
+        <div className="grid grid-cols-4 text-center">
           <a
             href="/to-schedio"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
           >
             Σχέδιο
           </a>
           <a
-            href="/stratopedo-vrosinas"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
-          >
-            Στρατόπεδο
-          </a>
-          <a
             href="/gia-ktinotrofous"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
           >
-            Σπίτια
+            Κτηνοτρόφοι
           </a>
           <a
             href="/gia-epicheiriseis"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
           >
             Επιχειρήσεις
           </a>
           <a
             href="#epikinonia"
-            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white truncate"
+            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white"
           >
             Επικοινωνία
           </a>
         </div>
       </nav>
+
+      {/* Floating Back-to-Top Button (Μ6: Μικρό και διακριτικό) */}
+      <a
+        href="#top"
+        aria-label="Επιστροφή στην κορυφή της σελίδας"
+        className="fixed bottom-14 lg:bottom-5 right-3 z-30 px-2.5 py-1.5 rounded-full bg-[#14191F]/90 text-white text-xs font-semibold shadow border border-stone-600 hover:bg-[#1F5C43] transition"
+      >
+        ↑ Πάνω
+      </a>
 
       <footer className="bg-[#14191F] text-stone-200 py-8 border-t border-stone-800 text-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
@@ -379,19 +434,10 @@ export default function SeoSubpageShell({
               href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
               className="text-[#C89D54] hover:underline"
             >
-              Business Plan PDF
+              Σχέδιο (έκδοση 2.0, σε αναθεώρηση)
             </a>
             <a href="/sitemap.xml" className="hover:text-white">
               sitemap.xml
-            </a>
-            <span className="text-stone-600">|</span>
-            <a
-              href="https://digiads.gr"
-              target="_blank"
-              rel="noopener"
-              className="text-stone-200 hover:text-[#C89D54] transition"
-            >
-              Designed by <strong className="text-white">DIGIADS</strong>
             </a>
           </div>
         </div>

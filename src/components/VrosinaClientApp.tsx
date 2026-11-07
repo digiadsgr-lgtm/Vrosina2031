@@ -18,10 +18,14 @@ import {
   ABOUT_US_AND_STATUS,
   WHAT_WE_DO_NOT_ASK_STATE,
   INVESTOR_RISK_AND_USE_OF_FUNDS,
+  UNIFIED_GRANT_RATE_TEXT,
+  UNIFIED_CONCESSION_TEXT,
+  UNIFIED_STRATEGIC_PARTNER_TEXT,
   type HotspotPoint,
 } from "@/data/vrosinaData";
 
 export default function VrosinaClientApp() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [heroViewMode, setHeroViewMode] = useState<"2031" | "today" | "video">(
     "2031"
   );
@@ -184,18 +188,14 @@ export default function VrosinaClientApp() {
       const grantRate = 0.65;
       const mobilizedCapex = Math.round(investmentAmount / (1 - grantRate));
       const publicGrant = mobilizedCapex - investmentAmount;
-      const equityShareInSubsidiary = Math.min(
-        40,
-        Math.round((investmentAmount / 927500) * 35 * 10) / 10
-      );
       const estimatedAnnualDividend = Math.round(
         investmentAmount * 0.135 * scenarioFactor
       );
       return {
         title: "Στρατηγικός Εταίρος Αγροδιατροφής (Τυροκομείο & Οινοποιείο)",
-        subtitle:
-          "Συμμετοχή στην Εμπορική Θυγατρική (έως 35%–40% καταστατικό όριο) με προτεραιότητα απορρόφησης παραγωγής.",
-        grantRateLabel: "50% – 75% (Π3-73-4.2 ΣΣ ΚΑΠ & Αναπτυξιακός Ν. 4887/2022)",
+        subtitle: UNIFIED_STRATEGIC_PARTNER_TEXT,
+        grantRateLabel:
+          "Ανάλογα με την πρόσκληση (LEADER 1.1: ανώτατο 65% & 400.000 € · ΣΣ ΚΑΠ & Αναπτυξιακός: βάσει πρόσκλησης)",
         mobilizedCapex,
         publicGrant,
         annualBenefitLabel: "Εκτιμώμενο Ετήσιο Μέρισμα στην Ωριμότητα (Έτος 5)",
@@ -203,7 +203,7 @@ export default function VrosinaClientApp() {
         paybackLabel:
           "Ρεαλιστικός χρόνος απόσβεσης ιδίων κεφαλαίων: ~6,5 έως 8,5 έτη από την επενδυτική εκκίνηση (συμπεριλαμβανομένων 2 ετών κατασκευής/αδειοδότησης και σταδιακής κλιμάκωσης)",
         perks: [
-          `Εκτιμώμενο ποσοστό στην Εμπορική Θυγατρική: ~${equityShareInSubsidiary}% (Ανώτατο καταστατικό όριο: 40%)`,
+          UNIFIED_STRATEGIC_PARTNER_TEXT,
           "Σύμβαση προτεραιότητας απορρόφησης (Off-take) σε Φέτα ΠΟΠ, Γαλοτύρι ΠΟΠ & Ντεμπίνα",
           "Μειωμένο ενεργειακό κόστος λειτουργίας μέσω της Ενεργειακής Κοινότητας 150 kWp",
           "Συμβατικά ρυθμισμένος μηχανισμός εξόδου (Exit Strategy) μετά την 5ετία",
@@ -220,10 +220,10 @@ export default function VrosinaClientApp() {
         guesthouseUnits * 12500 * scenarioFactor
       );
       return {
-        title: "Επενδυτής Ξενώνων Αγροτουρισμού (LEADER)",
+        title: "Επενδυτής Ξενώνων Αγροτουρισμού (LEADER / Αναπτυξιακός)",
         subtitle:
           "Ανάπτυξη παραδοσιακών ξενώνων μέσω μακροχρόνιας μίσθωσης 10–15 ετών (Master Lease).",
-        grantRateLabel: "Έως 65% – 80% (LEADER ΗΠΕΙΡΟΣ Α.Ε.)",
+        grantRateLabel: "Ανάλογα με την πρόσκληση (LEADER ΗΠΕΙΡΟΣ Α.Ε. / Αναπτυξιακός)",
         mobilizedCapex,
         publicGrant,
         annualBenefitLabel: `Εκτιμώμενο Καθαρό Ετήσιο Αποτέλεσμα (${guesthouseUnits} ξενώνας/ες)`,
@@ -335,7 +335,7 @@ export default function VrosinaClientApp() {
       highlights: [
         "Εκτίμηση επένδυσης: 10,45 εκ. € (63% δημόσια και 37% ιδιωτική συμμετοχή)",
         "Έγγραφη δέσμευση παραχώρησης στρατοπέδου πριν από κάθε κατάθεση κεφαλαίου",
-        "Διακυβέρνηση: πλαφόν 40% σε έναν επενδυτή και υπερπλειοψηφία 75% για τις βασικές αποφάσεις",
+        UNIFIED_STRATEGIC_PARTNER_TEXT,
       ],
     },
     {
@@ -346,11 +346,10 @@ export default function VrosinaClientApp() {
       buttonColorClass: "bg-[#14191F] hover:bg-[#1F5C43]",
       buttonLabel: "Για φορείς και Πολιτεία →",
       title: "Για Φορείς, τον Δήμο Ζίτσας & την Πολιτεία",
-      summary:
-        "Δεν ζητάμε από το Δημόσιο να χρηματοδοτήσει τη λειτουργία του έργου. Ζητάμε θεσμική στήριξη και μακροχρόνια παραχώρηση ή μίσθωση του πρώην στρατοπέδου για τουλάχιστον 10 έτη.",
+      summary: UNIFIED_CONCESSION_TEXT,
       highlights: [
-        "Εκτίμηση άμεσων εσόδων Δημοσίου στην ωριμότητα: ~463.700 €/έτος (χωρίς ΦΠΑ)",
-        "Μακροχρόνια παραχώρηση ή μίσθωση του πρώην στρατοπέδου (τουλάχιστον 10 έτη)",
+        "Εκτίμηση άμεσων εσόδων Δημοσίου στην ωριμότητα: ~463.700 €/έτος (χωρίς ΦΠΑ, ονομαστικά ποσά χωρίς προεξόφληση)",
+        "Παραχώρηση κατά χρήση για 25 έτη (ελάχιστο 10 έτη για LEADER) με αντάλλαγμα 2% επί τζίρου (51.000 €/έτος)",
         "Ο χρονικός ορίζοντας της πρόσκλησης LEADER (προθεσμία 4/2/2027) καθορίζει τη σειρά των ενεργειών",
       ],
     },
@@ -361,7 +360,7 @@ export default function VrosinaClientApp() {
       id="top"
       className="min-h-screen bg-[#f7f5f0] text-[#14191f] font-sans pb-16 lg:pb-0"
     >
-      {/* SINGLE CLEAN NAVIGATION BAR: 5 Menu Items + 1 Contact Button (Μέρος Β #1, #2, #7, #8) */}
+      {/* SINGLE CLEAN NAVIGATION BAR: 5 Menu Items + 1 Contact Button + Mobile Hamburger Menu (Σ1) */}
       <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-stone-300 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 shrink-0">
@@ -424,12 +423,80 @@ export default function VrosinaClientApp() {
             </a>
             <a
               href="#contact-form"
-              className="px-4 py-2 rounded bg-[#174935] text-white text-sm font-semibold hover:bg-[#123828] transition whitespace-nowrap"
+              className="px-3.5 py-2 rounded bg-[#174935] text-white text-sm font-semibold hover:bg-[#123828] transition whitespace-nowrap"
             >
               Επικοινωνία
             </a>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-expanded={mobileMenuOpen}
+              aria-label="Άνοιγμα πλήρους μενού πλοήγησης"
+              className="lg:hidden px-3 py-2 rounded border border-stone-400 bg-[#f7f5f0] text-[#14191f] text-sm font-bold hover:bg-stone-200 transition cursor-pointer whitespace-nowrap"
+            >
+              {mobileMenuOpen ? "✕ Κλείσιμο" : "☰ Μενού"}
+            </button>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+          <nav
+            aria-label="Πλήρες Μενού Κινητού"
+            className="lg:hidden bg-white border-t border-stone-300 px-4 py-3 shadow-md"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-sm font-semibold text-[#14191f]">
+              <a
+                href="/to-schedio"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200"
+              >
+                1. Το σχέδιο
+              </a>
+              <a
+                href="/gia-ktinotrofous"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200"
+              >
+                2. Για κτηνοτρόφους
+              </a>
+              <a
+                href="/gia-epicheiriseis"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200"
+              >
+                3. Για επιχειρήσεις
+              </a>
+              <a
+                href="/gia-ependytes"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200"
+              >
+                4. Για επενδυτές
+              </a>
+              <a
+                href="/gia-foreis"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200"
+              >
+                5. Για φορείς
+              </a>
+              <a
+                href="/poioi-eimaste"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200"
+              >
+                6. Ποιοι είμαστε
+              </a>
+              <a
+                href="#dataroom"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded hover:bg-stone-100 border border-stone-200 sm:col-span-2"
+              >
+                7. Έγγραφα (Κέντρο Τεκμηρίωσης)
+              </a>
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* SCREEN 1: LIGHT WARM HERO — WHAT IT IS, 5-LINE HUMAN STORY, BEFORE/AFTER & 6 KPIs (Μέρος Β #5, #9, #10, Σελ. 4) */}
@@ -460,7 +527,7 @@ export default function VrosinaClientApp() {
                     href="/poioi-eimaste"
                     className="text-sm font-bold text-[#1F5C43] underline hover:text-[#174935]"
                   >
-                    Διαβάστε την πλήρη ιστορία («Το χωριό που σωπαίνει») & γνωρίστε την ομάδα →
+                    Διαβάστε την πλήρη ιστορία («Το χωριό που σωπαίνει») και γνωρίστε τον συντονιστή →
                   </a>
                 </div>
               </div>
@@ -484,7 +551,7 @@ export default function VrosinaClientApp() {
                   rel="noopener noreferrer"
                   className="px-4 py-3 rounded bg-[#f7f5f0] border border-stone-300 text-[#14191f] font-semibold text-sm hover:bg-stone-200 transition"
                 >
-                  Πλήρες Σχέδιο PDF (20 σελ.) ↗
+                  Σχέδιο (έκδοση 2.0, σε αναθεώρηση) ↗
                 </a>
               </div>
             </div>
@@ -572,7 +639,7 @@ export default function VrosinaClientApp() {
                       className="w-full h-64 sm:h-80 object-cover block"
                     />
                     <span className="absolute bottom-2 left-2 px-3 py-1 rounded bg-stone-950/85 text-white text-sm font-medium">
-                      Πραγματική Φωτογραφία: Η Βροσίνα σήμερα (58 κάτοικοι, Απογραφή 2021)
+                      Πραγματική Φωτογραφία: Η Βροσίνα σήμερα (58 κάτοικοι, Απογραφή 2021 · φωτ. ExploringGreece.tv)
                     </span>
                   </div>
                 ) : (
@@ -840,7 +907,7 @@ export default function VrosinaClientApp() {
                     Ο Πλάτανος & τα Διώροφα Κτίρια της Αγοράς
                   </div>
                   <p className="text-xs text-[#14191F] leading-relaxed">
-                    Ο κεντρικός δρόμος, η γέφυρα του ρέματος και τα διώροφα κεραμοσκεπή κτίρια με τα ισόγεια καταστήματα.
+                    Ο κεντρικός δρόμος, η γέφυρα του ρέματος και τα διώροφα κεραμοσκεπή κτίρια με τα ισόγεια καταστήματα (φωτ. Κ. Τζουρλάκος / YouTube).
                   </p>
                 </div>
               </div>
@@ -864,7 +931,7 @@ export default function VrosinaClientApp() {
                     Ι.Ν. Αγίου Γεωργίου (1607) & Κυπαρίσσια
                   </div>
                   <p className="text-xs text-[#14191F] leading-relaxed">
-                    Ο Πάνω Μαχαλάς γύρω από τον ιστορικό Άη Γιώργη (1607) στην καταπράσινη πλαγιά πάνω από τον Ζαλογγίτικο.
+                    Ο Πάνω Μαχαλάς γύρω από τον ιστορικό Άη Γιώργη (1607) στην καταπράσινη πλαγιά πάνω από τον Ζαλογγίτικο (φωτ. ExploringGreece.tv).
                   </p>
                 </div>
               </div>
@@ -936,7 +1003,7 @@ export default function VrosinaClientApp() {
                   Τι Κερδίζει το Ελληνικό Δημόσιο: ~463.700 € / έτος σε Άμεσα Έσοδα (Απόσβεση σε 17 Έτη)
                 </h3>
                 <p className="text-base text-stone-800">
-                  Η δημόσια συμμετοχή των 6,58 εκ. € (63% του προγράμματος) δεν είναι δαπάνη χωρίς επιστροφή: αποσβένεται από ασφαλιστικές εισφορές (327.600 €/έτος), φόρους εισοδήματος και το αντάλλαγμα 2–3% υπέρ Τ.Α.ΕΘ.Α., χωρίς καν να συνυπολογίζεται ο ΦΠΑ.
+                  Η δημόσια συμμετοχή των 6,58 εκ. € (63% του προγράμματος) δεν είναι δαπάνη χωρίς επιστροφή: αποσβένεται από ασφαλιστικές εισφορές (327.600 €/έτος), φόρους εισοδήματος και το αντάλλαγμα 2% επί του τζίρου υπέρ του Τ.Α.ΕΘ.Α. (51.000 € ετησίως στο βασικό σενάριο), χωρίς καν να συνυπολογίζεται ο ΦΠΑ.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2.5 shrink-0">
@@ -974,6 +1041,10 @@ export default function VrosinaClientApp() {
               ))}
             </div>
 
+            <div className="p-3.5 rounded bg-white border-l-4 border-[#C89D54] text-sm text-[#14191F] leading-relaxed">
+              Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
+            </div>
+
             <div className="p-4 rounded bg-white border border-stone-300 space-y-1.5">
               <div className="text-sm font-bold text-[#9e4727]">
                 ΤΙ ΔΕΝ ΖΗΤΑΜΕ ΑΠΟ ΤΟ ΚΡΑΤΟΣ:
@@ -1003,14 +1074,14 @@ export default function VrosinaClientApp() {
                 Το Ανθρώπινο Πρόσωπο της Πρωτοβουλίας & Η Κατάσταση Ωρίμανσης
               </h2>
               <p className="text-base text-stone-800">
-                Ποιος συντονίζει το εγχείρημα, σε ποιο νομικό στάδιο βρίσκονται οι φορείς σήμερα και ποια είναι τα επόμενα βήματα με ημερομηνίες.
+                Ποιος συντονίζει το εγχείρημα, σε ποιο νομικό στάδιο βρίσκονται οι φορείς σήμερα και ποια είναι τα επόμενα βήματα.
               </p>
             </div>
             <a
               href="/poioi-eimaste"
               className="px-5 py-3 rounded bg-[#14191f] text-white font-bold text-base hover:bg-[#174935] transition shrink-0"
             >
-              Σελίδα «Ποιοι είμαστε & Ιστορία» →
+              Διαβάστε την πλήρη ιστορία («Το χωριό που σωπαίνει») και γνωρίστε τον συντονιστή →
             </a>
           </div>
 
@@ -1124,15 +1195,15 @@ export default function VrosinaClientApp() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {ABOUT_US_AND_STATUS.localVoices.map((v, idx) => (
-              <blockquote
+              <div
                 key={idx}
                 className="bg-white rounded-lg p-5 border border-stone-300 border-l-4 border-l-[#174935] space-y-2"
               >
-                <p className="font-serif italic text-base text-stone-900 leading-relaxed">
+                <div className="text-sm font-bold text-[#174935]">{v.role}</div>
+                <p className="font-serif text-base text-stone-900 leading-relaxed">
                   {v.quote}
                 </p>
-                <div className="text-sm font-bold text-[#174935]">{v.role}</div>
-              </blockquote>
+              </div>
             ))}
           </div>
         </div>
@@ -1247,7 +1318,7 @@ export default function VrosinaClientApp() {
                 rel="noopener noreferrer"
                 className="text-sm font-semibold text-[#9e4727] underline"
               >
-                Πηγή Βίντεο: {CAMP_VIDEO_AUTOPSY.creator} ↗
+                {CAMP_VIDEO_AUTOPSY.creator} ↗
               </a>
             </div>
 
@@ -1524,13 +1595,13 @@ export default function VrosinaClientApp() {
               {[
                 {
                   id: "strategic",
-                  label: "Στρατηγικός Εταίρος (35%–40%)",
-                  sub: "Τυροκομείο & Οινοποιείο · Έως 75% Επιδότηση",
+                  label: "Στρατηγικός Εταίρος Μεταποίησης",
+                  sub: "Τυροκομείο & Οινοποιείο · Ανάλογα με την πρόσκληση",
                 },
                 {
                   id: "agrotourism",
                   label: "Ξενώνες Φιλοξενίας (LEADER)",
-                  sub: "10 Παραδοσιακοί Ξενώνες · Έως 80% Επιδότηση",
+                  sub: "10 Παραδοσιακοί Ξενώνες · Ανάλογα με την πρόσκληση",
                 },
                 {
                   id: "benefactor",
@@ -1605,16 +1676,16 @@ export default function VrosinaClientApp() {
                   <h3 className="font-serif text-xl font-bold text-white">
                     {investorSimulation.title}
                   </h3>
-                  <div className="inline-flex rounded bg-stone-950 p-1 border border-stone-700 text-sm">
+                  <div className="inline-flex flex-wrap rounded bg-stone-950 p-1 border border-stone-700 text-sm gap-1">
                     {THREE_SCENARIOS.map((sc) => (
                       <button
                         key={sc.id}
                         type="button"
                         onClick={() => setSelectedScenarioId(sc.id)}
-                        className={`px-2.5 py-1 rounded font-semibold cursor-pointer ${
+                        className={`px-3.5 py-1.5 rounded font-semibold cursor-pointer whitespace-nowrap ${
                           selectedScenarioId === sc.id
                             ? "bg-[#c89d54] text-stone-950"
-                            : "text-stone-200"
+                            : "text-stone-200 hover:bg-stone-900"
                         }`}
                       >
                         {sc.name.split(" ")[0]}
@@ -1654,9 +1725,12 @@ export default function VrosinaClientApp() {
                   {investorSimulation.paybackLabel}
                 </div>
 
-                {/* Α4: Υποχρεωτική Επιφύλαξη κάτω από τον υπολογιστή με ποσά */}
-                <div className="p-3.5 rounded bg-stone-950 border-l-4 border-[#C89D54] text-sm text-stone-200 leading-relaxed">
-                  Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+                {/* Α4 & Κ3: Υποχρεωτική Επιφύλαξη & Ενιαίο Κείμενο Ποσοστών Ενίσχυσης */}
+                <div className="p-3.5 rounded bg-stone-950 border-l-4 border-[#C89D54] text-sm text-stone-200 leading-relaxed space-y-1.5">
+                  <p>{UNIFIED_GRANT_RATE_TEXT}</p>
+                  <p>
+                    Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
+                  </p>
                 </div>
 
                 <div className="flex flex-wrap gap-3">
@@ -1690,7 +1764,7 @@ export default function VrosinaClientApp() {
                 {INVESTOR_RISK_AND_USE_OF_FUNDS.counterpartyNote}
               </p>
               <p className="text-sm text-stone-300 leading-relaxed">
-                • Σύνθεση Εμπορικής Θυγατρικής: 30% Συνεταιρισμός Παραγωγών, έως 35%–40% Στρατηγικός Εταίρος, έως 20% Δήμος Ζίτσας (εντός ορίου 25% ΜΜΕ), 15% Ταμείο Ευεργετών & Διασπορά ({GOVERNANCE_SHIELD.clauses.length} καταστατικές ρήτρες προστασίας).
+                • {UNIFIED_STRATEGIC_PARTNER_TEXT} Συμμετοχή Συνεταιρισμού Παραγωγών, Δήμου Ζίτσας (εντός ορίου 25% για διατήρηση ιδιότητας ΜΜΕ) και Ταμείου Ευεργετών & Διασποράς ({GOVERNANCE_SHIELD.clauses.length} καταστατικές ρήτρες προστασίας).
               </p>
             </div>
 
@@ -1860,13 +1934,7 @@ export default function VrosinaClientApp() {
                   Δηλώστε Συμμετοχή ή Ζητήστε να σας Καλέσουμε Τηλεφωνικά
                 </h2>
                 <p className="text-base text-stone-800">
-                  Συντονιστής Πρωτοβουλίας: <strong>Αθανάσιος Βούρδας</strong> · Έδρα: Βροσίνα, Δήμος Ζίτσας Ιωαννίνων · Email:{" "}
-                  <a
-                    href="mailto:digiadsgr@gmail.com"
-                    className="text-[#174935] font-semibold underline"
-                  >
-                    digiadsgr@gmail.com
-                  </a>
+                  Συντονιστής Πρωτοβουλίας: <strong>Αθανάσιος Βούρδας</strong> · Έδρα: Βροσίνα, Δήμος Ζίτσας Ιωαννίνων · Συμπληρώστε τη φόρμα επικοινωνίας παρακάτω και θα σας καλέσουμε άμεσα.
                 </p>
               </div>
             </div>
@@ -2136,64 +2204,49 @@ export default function VrosinaClientApp() {
               <a href="/llms.txt" className="hover:text-white">
                 llms.txt
               </a>
-              <span>|</span>
-              <a
-                href="https://digiads.gr"
-                target="_blank"
-                rel="noopener"
-                className="hover:text-[#c89d54]"
-              >
-                Designed by <strong className="text-white">DIGIADS</strong>
-              </a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Mobile Sticky Bottom Navigation Bar (Κεφ. Β: Σχέδιο · Στρατόπεδο · Σπίτια · Επιχειρήσεις · Επικοινωνία) */}
+      {/* Mobile Sticky Bottom Navigation Bar (Σ1: 4 αντικείμενα χωρίς κόψιμο λέξεων + πλήρες μενού ☰ στην κεφαλίδα) */}
       <nav
         aria-label="Κινητή Πλοήγηση"
         className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
       >
-        <div className="grid grid-cols-5 text-center">
+        <div className="grid grid-cols-4 text-center">
           <a
             href="/to-schedio"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
           >
             Σχέδιο
           </a>
           <a
-            href="/stratopedo-vrosinas"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
-          >
-            Στρατόπεδο
-          </a>
-          <a
             href="/gia-ktinotrofous"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
           >
-            Σπίτια
+            Κτηνοτρόφοι
           </a>
           <a
             href="/gia-epicheiriseis"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100 truncate"
+            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
           >
             Επιχειρήσεις
           </a>
           <a
             href="#contact-form"
-            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white truncate"
+            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white"
           >
             Επικοινωνία
           </a>
         </div>
       </nav>
 
-      {/* Floating Back-to-Top Button (Μέρος Α #24) */}
+      {/* Floating Back-to-Top Button (Μ6: Μικρό και διακριτικό πάνω από την κάτω μπάρα) */}
       <a
         href="#top"
         aria-label="Επιστροφή στην κορυφή της σελίδας"
-        className="fixed bottom-16 lg:bottom-6 right-4 z-30 px-3.5 py-2 rounded-full bg-[#14191f] text-white text-sm font-bold shadow-lg border border-stone-600 hover:bg-[#174935] transition"
+        className="fixed bottom-14 lg:bottom-5 right-3 z-30 px-2.5 py-1.5 rounded-full bg-[#14191f]/90 text-white text-xs font-semibold shadow border border-stone-600 hover:bg-[#174935] transition"
       >
         ↑ Πάνω
       </a>
@@ -2359,13 +2412,16 @@ export default function VrosinaClientApp() {
             </div>
             <div className="space-y-3 text-sm text-stone-800 leading-relaxed">
               <p>
-                <strong>1. Υπεύθυνος Επεξεργασίας:</strong> Πρωτοβουλία «Βροσίνα 2031» (Συντονιστής: Αθανάσιος Βούρδας, Βροσίνα Δήμου Ζίτσας Ιωαννίνων, Email: digiadsgr@gmail.com).
+                <strong>1. Υπεύθυνος Επεξεργασίας:</strong> Πρωτοβουλία «Βροσίνα 2031» (Συντονιστής: Αθανάσιος Βούρδας, έδρα: Βροσίνα Δήμου Ζίτσας Ιωαννίνων · επικοινωνία μέσω της επίσημης φόρμας της ιστοσελίδας).
               </p>
               <p>
-                <strong>2. Σκοπός Επεξεργασίας:</strong> Τα στοιχεία που συμπληρώνετε στις φόρμες επικοινωνίας (ονοματεπώνυμο, τηλέφωνο, email, ιδιότητα και μήνυμα) χρησιμοποιούνται αποκλειστικά για την επικοινωνία της ομάδας συντονισμού μαζί σας σχετικά με το σχέδιο «Βροσίνα 2031», τη σύσταση της Κοιν.Σ.Επ. και το Μητρώο Κλειστών Κατοικιών.
+                <strong>2. Σκοπός & Νομική Βάση Επεξεργασίας:</strong> Τα στοιχεία που συμπληρώνετε στις φόρμες επικοινωνίας (ονοματεπώνυμο, τηλέφωνο, προαιρετικό email, ιδιότητα και μήνυμα) συλλέγονται αποκλειστικά για την απάντηση στο αίτημά σας και την ενημέρωσή σας σχετικά με το σχέδιο «Βροσίνα 2031», τη σύσταση της Κοιν.Σ.Επ. και το Μητρώο Κλειστών Κατοικιών. Νομική βάση της επεξεργασίας είναι η ρητή <strong>συναίνεσή σας</strong> (άρθρο 6 παρ. 1 στοιχ. α΄ του Κανονισμού (ΕΕ) 2016/679 — ΓΚΠΔ).
               </p>
               <p>
-                <strong>3. Χρόνος Τήρησης & Δικαιώματα:</strong> Τα δεδομένα δεν διαβιβάζονται σε εμπορικούς τρίτους. Διατηρείτε δικαίωμα πρόσβασης, διόρθωσης ή οριστικής διαγραφής ανά πάσα στιγμή με απλό μήνυμα στο digiadsgr@gmail.com.
+                <strong>3. Χρόνος Τήρησης:</strong> Τα δεδομένα τηρούνται μόνο για το διάστημα που απαιτείται για την εξυπηρέτηση του αιτήματός σας και την ολοκλήρωση της διαβούλευσης/σύστασης των φορέων του έργου (και σε κάθε περίπτωση όχι πέραν των 24 μηνών από την υποβολή, εκτός αν ανακληθεί νωρίτερα η συναίνεση). Δεν διαβιβάζονται και δεν πωλούνται σε τρίτους.
+              </p>
+              <p>
+                <strong>4. Δικαιώματα Υποκειμένων & Προσφυγή στην ΑΠΔΠΧ:</strong> Έχετε ανά πάσα στιγμή δικαίωμα πρόσβασης, διόρθωσης, διαγραφής («δικαίωμα στη λήθη»), περιορισμού της επεξεργασίας και ανάκλησης της συναίνεσής σας μέσω της φόρμας επικοινωνίας του site. Επίσης έχετε δικαίωμα υποβολής καταγγελίας στην <strong>Αρχή Προστασίας Δεδομένων Προσωπικού Χαρακτήρα (ΑΠΔΠΧ)</strong> (Κηφισίας 1–3, Τ.Κ. 115 23, Αθήνα, τηλ. 210 6475600, <a href="https://www.dpa.gr" target="_blank" rel="noopener noreferrer" className="text-[#174935] underline font-semibold">www.dpa.gr</a>).
               </p>
             </div>
           </div>

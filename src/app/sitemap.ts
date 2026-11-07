@@ -74,12 +74,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/ai-knowledge-base`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
-    {
       url: `${baseUrl}/llms.txt`,
       lastModified,
       changeFrequency: "monthly",
@@ -116,12 +110,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/documents/Vrosina_2031_OnePager_Mountain_Secretariat.pdf`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/documents/Vrosina_2031_Plan_In_5_Steps.pdf`,
       lastModified,
       changeFrequency: "monthly",
@@ -129,12 +117,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/documents/Vrosina_2031_Vision_Speech.pdf`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.75,
-    },
-    {
-      url: `${baseUrl}/documents/Vrosina_2031_Pitch_Guide.pdf`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.75,
