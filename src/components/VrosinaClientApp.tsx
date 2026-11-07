@@ -69,7 +69,7 @@ export default function VrosinaClientApp() {
     useState<string>("baseline");
 
   // FAQ & Docs State
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [showAllFaqs, setShowAllFaqs] = useState<boolean>(false);
   const [showAllDocs, setShowAllDocs] = useState<boolean>(false);
 
@@ -520,10 +520,10 @@ export default function VrosinaClientApp() {
         )}
       </header>
 
-      {/* 1. FULL-BLEED HERO (#hero) — Η ΠΡΩΤΗ ΟΘΟΝΗ (§2) */}
+      {/* 1. FULL-BLEED HERO (#hero) — Η ΠΡΩΤΗ ΟΘΟΝΗ (§2 — ρυθμισμένο ύψος για κινητό & laptop 695px) */}
       <section
         id="hero"
-        className="relative min-h-[86vh] lg:min-h-[660px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
+        className="relative min-h-[490px] sm:min-h-[540px] lg:min-h-[580px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
       >
         {/* Background: real photo OR 2031 render */}
         <img
@@ -549,36 +549,36 @@ export default function VrosinaClientApp() {
         />
 
         {/* Content */}
-        <div className="relative z-10 mx-auto flex min-h-[86vh] lg:min-h-[660px] max-w-7xl flex-col justify-end px-6 pb-12 pt-28 lg:pb-16">
+        <div className="relative z-10 mx-auto flex min-h-[490px] sm:min-h-[540px] lg:min-h-[580px] max-w-7xl flex-col justify-end px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-14 lg:pb-10 lg:pt-16">
           <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[#C89D54]">
+            <p className="mb-2 text-[11px] sm:text-xs font-medium uppercase tracking-[0.16em] text-[#C89D54]">
               ΒΡΟΣΙΝΑ 2031 · ΠΡΩΤΟΒΟΥΛΙΑ ΓΙΑ ΕΝΑ ΖΩΝΤΑΝΟ ΧΩΡΙΟ
             </p>
 
-            <h1 className="font-serif text-3xl leading-[1.12] font-semibold text-[#F7F5F0] sm:text-5xl lg:text-[52px]">
+            <h1 className="font-serif text-2xl leading-[1.14] font-semibold text-[#F7F5F0] sm:text-4xl lg:text-[46px]">
               Η Βροσίνα δεν χρειάζεται να ξαναγίνει αυτό που ήταν.{" "}
               <span className="text-[#C89D54]">
                 Μπορεί να γίνει κάτι καλύτερο.
               </span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[#F7F5F0]/90 sm:text-lg">
+            <p className="mt-3 sm:mt-4 max-w-xl text-sm leading-relaxed text-[#F7F5F0]/90 sm:text-lg">
               Ένα εγκαταλελειμμένο στρατόπεδο γίνεται τυροκομείο και οινοποιείο.
               Γύρω του έρχονται βοσκοί, αμπελουργοί, τεχνίτες και οικογένειες.
               Το χωριό ξαναγεμίζει με δουλειά.
             </p>
 
-            {/* Two buttons only */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            {/* Two buttons only — compact on mobile so both fit on one line above the bar */}
+            <div className="mt-5 sm:mt-6 flex flex-wrap items-center gap-2.5 sm:gap-4">
               <a
                 href="#vima"
-                className="inline-flex items-center rounded-md bg-[#C89D54] px-6 py-3.5 text-base font-semibold text-[#14191F] shadow-sm transition hover:bg-[#d8ae64] focus:outline-none focus:ring-2 focus:ring-[#C89D54]"
+                className="inline-flex items-center rounded-md bg-[#C89D54] px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold text-[#14191F] shadow-sm transition hover:bg-[#d8ae64] focus:outline-none focus:ring-2 focus:ring-[#C89D54]"
               >
                 Δες πώς γίνεται
               </a>
               <a
                 href="#contact-form"
-                className="inline-flex items-center rounded-md border border-[#F7F5F0]/70 bg-[#14191F]/40 px-6 py-3.5 text-base font-medium text-[#F7F5F0] backdrop-blur-sm transition hover:bg-[#F7F5F0]/15"
+                className="inline-flex items-center rounded-md border border-[#F7F5F0]/70 bg-[#14191F]/40 px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-medium text-[#F7F5F0] backdrop-blur-sm transition hover:bg-[#F7F5F0]/15"
               >
                 Θέλω να συμμετάσχω
               </a>
@@ -586,8 +586,8 @@ export default function VrosinaClientApp() {
           </div>
 
           {/* Bottom-right: Today / 2031 switch */}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#F7F5F0]/15 pt-4 text-xs text-[#F7F5F0]/80">
-            <span>
+          <div className="mt-5 sm:mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-[#F7F5F0]/15 pt-3 text-xs text-[#F7F5F0]/80">
+            <span className="text-[11px] sm:text-xs">
               {heroViewMode === "today"
                 ? "Φωτογραφία: Η Βροσίνα σήμερα (ExploringGreece.tv)"
                 : "Ενδεικτική απεικόνιση (concept render) · Πρόταση, όχι εγκεκριμένη μελέτη"}
@@ -596,12 +596,12 @@ export default function VrosinaClientApp() {
             <div
               role="group"
               aria-label="Προβολή χωριού"
-              className="inline-flex rounded-full border border-[#F7F5F0]/30 bg-[#14191F]/70 p-1 backdrop-blur-sm"
+              className="inline-flex rounded-full border border-[#F7F5F0]/30 bg-[#14191F]/70 p-0.5 sm:p-1 backdrop-blur-sm shrink-0"
             >
               <button
                 type="button"
                 onClick={() => setHeroViewMode("today")}
-                className={`rounded-full px-3.5 py-1 text-xs font-medium transition cursor-pointer ${
+                className={`rounded-full px-3 py-1 text-xs font-medium transition cursor-pointer ${
                   heroViewMode === "today"
                     ? "bg-[#C89D54] text-[#14191F]"
                     : "text-[#F7F5F0] hover:text-[#C89D54]"
@@ -612,7 +612,7 @@ export default function VrosinaClientApp() {
               <button
                 type="button"
                 onClick={() => setHeroViewMode("2031")}
-                className={`rounded-full px-3.5 py-1 text-xs font-medium transition cursor-pointer ${
+                className={`rounded-full px-3 py-1 text-xs font-medium transition cursor-pointer ${
                   heroViewMode === "2031"
                     ? "bg-[#C89D54] text-[#14191F]"
                     : "text-[#F7F5F0] hover:text-[#C89D54]"
@@ -696,7 +696,8 @@ export default function VrosinaClientApp() {
               </p>
               <p>
                 Δεν θέλω η Βροσίνα να ξαναγίνει αυτό που ήταν. Θέλω να γίνει κάτι
-                καλύτερο: ζωντανό, με δουλειά, με παιδιά στο σχολείο.
+                καλύτερο: με δουλειά, με νέες οικογένειες, με μέλλον για όσους
+                γεννιούνται εκεί.
               </p>
               <p>
                 Δεν γίνεται από έναν άνθρωπο. Αρκεί να το δούμε όλοι μαζί, να
@@ -1207,346 +1208,242 @@ export default function VrosinaClientApp() {
         </div>
       </section>
 
-      {/* 8. ΓΙΑ ΕΠΕΝΔΥΤΕΣ ΚΑΙ ΦΟΡΕΙΣ (#investors & #dataroom σε μία ενιαία ενότητα — §6) */}
+      {/* 8. ΓΙΑ ΕΠΕΝΔΥΤΕΣ ΚΑΙ ΦΟΡΕΙΣ (#investors & #dataroom — Συμπυκνωμένη Ενότητα, με παραπομπή στις υποσελίδες) */}
       <section
         id="investors"
-        className="py-12 sm:py-16 bg-[#14191f] text-white border-b border-stone-800"
+        className="py-10 sm:py-12 bg-[#14191f] text-white border-b border-stone-800"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="max-w-3xl space-y-2">
-              <div className="text-sm font-bold text-[#c89d54]">
-                ΓΙΑ ΕΠΕΝΔΥΤΕΣ ΚΑΙ ΦΟΡΕΙΣ · ΥΠΟΛΟΓΙΣΤΗΣ, ΔΗΜΟΣΙΟΝΟΜΙΚΟ ΙΣΟΖΥΓΙΟ & DATA ROOM
+            <div className="max-w-3xl space-y-1.5">
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#c89d54]">
+                ΓΙΑ ΕΠΕΝΔΥΤΕΣ, ΦΟΡΕΙΣ & DATA ROOM
               </div>
-              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white">
-                Για επενδυτές και φορείς: Οικονομικά στοιχεία, όφελος Δημοσίου και έγγραφα
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                Οικονομικά στοιχεία, όφελος Δημοσίου και έγγραφα τεκμηρίωσης
               </h2>
-              <p className="font-serif italic text-base text-[#C89D54]">
+              <p className="font-serif italic text-sm sm:text-base text-[#C89D54]">
                 «Αν δεν κάνουμε κάτι δραστικό, θα χαθεί η Βροσίνα. Βροσίνες υπάρχουν πολλές σε όλη την Ελλάδα. Θέλουμε η Βροσίνα να γίνει case study.»
               </p>
             </div>
-            <div className="flex flex-wrap gap-2.5 shrink-0">
+            <div className="flex flex-wrap gap-2 shrink-0">
               <a
                 href="/gia-ependytes"
-                className="px-4 py-2.5 rounded bg-[#c89d54] text-stone-950 font-bold text-sm hover:bg-amber-400 transition"
+                className="px-4 py-2 rounded bg-[#c89d54] text-stone-950 font-bold text-sm hover:bg-amber-400 transition"
               >
-                Σελίδα «Για Επενδυτές» →
+                Υπολογιστής & Σελίδα «Για Επενδυτές» →
               </a>
               <a
                 href="/gia-foreis"
-                className="px-4 py-2.5 rounded bg-stone-800 border border-stone-600 text-white font-semibold text-sm hover:bg-stone-700 transition"
+                className="px-4 py-2 rounded bg-stone-800 border border-stone-600 text-white font-semibold text-sm hover:bg-stone-700 transition"
               >
                 Σελίδα «Για Φορείς» →
               </a>
             </div>
           </div>
 
-          {/* Investor Simulator */}
-          <div className="bg-stone-900 border border-stone-700 rounded-lg p-6 space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {[
-                {
-                  id: "strategic",
-                  label: "Στρατηγικός Εταίρος Μεταποίησης",
-                  sub: "Τυροκομείο & Οινοποιείο · Ανάλογα με την πρόσκληση",
-                },
-                {
-                  id: "agrotourism",
-                  label: "Ξενώνες Φιλοξενίας (LEADER)",
-                  sub: "10 Παραδοσιακοί Ξενώνες · Ανάλογα με την πρόσκληση",
-                },
-                {
-                  id: "benefactor",
-                  label: "Ταμείο Ευεργετών (ΑΜΚΕ)",
-                  sub: "Δωρεά ανά Έργο, Ονοματοδοσία & ESG",
-                },
-                {
-                  id: "diaspora",
-                  label: "Επενδυτές Διασποράς (15%)",
-                  sub: "Συμμετοχή στην Εμπορική Θυγατρική",
-                },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() =>
-                    setInvestorTrack(tab.id as typeof investorTrack)
-                  }
-                  className={`p-4 rounded border text-left transition cursor-pointer ${
-                    investorTrack === tab.id
-                      ? "bg-[#c89d54] text-stone-950 border-white font-bold"
-                      : "bg-stone-950 hover:bg-stone-800 text-white border-stone-700"
-                  }`}
-                >
-                  <div className="text-base font-bold">{tab.label}</div>
-                  <div
-                    className={`text-sm mt-1 ${
-                      investorTrack === tab.id
-                        ? "text-stone-900"
-                        : "text-stone-300"
-                    }`}
-                  >
-                    {tab.sub}
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pt-4 border-t border-stone-800">
-              <div className="lg:col-span-5 space-y-4 bg-stone-950 p-5 rounded border border-stone-700">
-                <label
-                  htmlFor="investor-capital-slider"
-                  className="text-sm font-semibold text-stone-200 block"
-                >
-                  Ίδια Συμμετοχή / Κεφάλαιο που Διαθέτετε:
-                </label>
-                <div className="text-3xl font-bold text-[#c89d54]">
-                  {investmentAmount.toLocaleString("el-GR")} €
+          {/* 2 Συμπυκνωμένες Κάρτες: Αριστερά Επενδυτές/Σενάρια, Δεξιά Όφελος Δημοσίου */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            {/* Κάρτα Α: Για Επενδυτές & Χορηγούς */}
+            <div className="bg-stone-900 border border-stone-700 rounded-lg p-5 sm:p-6 flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#C89D54]">
+                  4 ΚΑΝΑΛΙΑ ΣΥΜΜΕΤΟΧΗΣ & 3 ΣΕΝΑΡΙΑ ΕΤΟΥΣ 5
                 </div>
-                <input
-                  id="investor-capital-slider"
-                  type="range"
-                  min={25000}
-                  max={1000000}
-                  step={25000}
-                  value={investmentAmount}
-                  onChange={(e) => setInvestmentAmount(Number(e.target.value))}
-                  className="w-full accent-[#c89d54] cursor-pointer"
-                />
-                <div className="flex justify-between text-sm text-stone-300">
-                  <span>25.000 €</span>
-                  <span>500.000 €</span>
-                  <span>1.000.000 €</span>
-                </div>
-                <div className="pt-2 border-t border-stone-800 text-sm text-emerald-300">
-                  {investorSimulation.grantRateLabel}
-                </div>
-              </div>
-
-              <div className="lg:col-span-7 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="font-serif text-xl font-bold text-white">
-                    {investorSimulation.title}
-                  </h3>
-                  <div className="inline-flex flex-wrap rounded bg-stone-950 p-1 border border-stone-700 text-sm gap-1">
-                    {THREE_SCENARIOS.map((sc) => (
-                      <button
-                        key={sc.id}
-                        type="button"
-                        onClick={() => setSelectedScenarioId(sc.id)}
-                        className={`px-3.5 py-1.5 rounded font-semibold cursor-pointer whitespace-nowrap ${
-                          selectedScenarioId === sc.id
-                            ? "bg-[#c89d54] text-stone-950"
-                            : "text-stone-200 hover:bg-stone-900"
-                        }`}
-                      >
+                <h3 className="font-serif text-xl font-bold text-white">
+                  Πρόγραμμα 10,45 εκ. € (63% Δημόσιοι/ΕΕ πόροι · 37% Ιδιωτικά)
+                </h3>
+                <ul className="space-y-1.5 text-sm text-stone-200 leading-relaxed">
+                  <li>
+                    • <strong>Στρατηγικός Εταίρος Μεταποίησης:</strong> Τυροκομείο & Οινοποιείο στο πρώην στρατόπεδο ({UNIFIED_STRATEGIC_PARTNER_TEXT}).
+                  </li>
+                  <li>
+                    • <strong>Ξενώνες & Καταστήματα (LEADER):</strong> 10 ξενώνες και 5 καταστήματα.
+                  </li>
+                  <li>
+                    • <strong>Ταμείο Ευεργετών (ΑΜΚΕ) & Διασπορά (15%):</strong> Δωρεές ανά έργο ή μετοχική συμμετοχή.
+                  </li>
+                </ul>
+                <div className="grid grid-cols-3 gap-2 pt-2 text-xs">
+                  {THREE_SCENARIOS.map((sc) => (
+                    <div
+                      key={sc.id}
+                      className="p-2.5 rounded bg-stone-950 border border-stone-800"
+                    >
+                      <div className="font-bold text-white">
                         {sc.name.split(" ")[0]}
-                      </button>
-                    ))}
-                  </div>
+                      </div>
+                      <div className="text-[#c89d54] font-bold">
+                        {sc.revenueFormatted}
+                      </div>
+                      <div className="text-stone-300">
+                        {sc.jobsYear5} θέσεις
+                      </div>
+                    </div>
+                  ))}
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="bg-stone-950 border border-stone-700 rounded p-4">
-                    <div className="text-sm text-stone-300">
-                      Συνολική Αξία Έργου
-                    </div>
-                    <div className="text-xl font-bold text-white mt-1">
-                      {investorSimulation.mobilizedCapex.toLocaleString("el-GR")} €
-                    </div>
-                  </div>
-                  <div className="bg-stone-950 border border-emerald-700 rounded p-4">
-                    <div className="text-sm text-emerald-300">
-                      Δημόσια Επιδότηση
-                    </div>
-                    <div className="text-xl font-bold text-emerald-400 mt-1">
-                      +{investorSimulation.publicGrant.toLocaleString("el-GR")} €
-                    </div>
-                  </div>
-                  <div className="bg-stone-950 border border-[#c89d54] rounded p-4">
-                    <div className="text-sm text-[#c89d54]">
-                      {investorSimulation.annualBenefitLabel}
-                    </div>
-                    <div className="text-xl font-bold text-[#c89d54] mt-1">
-                      {investorSimulation.annualBenefitValue}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3.5 rounded bg-stone-950 border border-stone-700 text-sm text-amber-200">
-                  {investorSimulation.paybackLabel}
-                </div>
-
-                <div className="p-3.5 rounded bg-stone-950 border-l-4 border-[#C89D54] text-sm text-stone-200 leading-relaxed space-y-1.5">
-                  <p>{UNIFIED_GRANT_RATE_TEXT}</p>
-                  <p>
-                    Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις. Δεν αποτελούν υπόσχεση ή εγγύηση χρηματοδότησης. Η ενίσχυση εξαρτάται από την πρόσκληση LEADER (545/07-10-2026, προθεσμία 4/2/2027), τα κριτήρια επιλογής και την έγκριση του φορέα. Πριν από κάθε απόφαση ζητήστε τη γνώμη λογιστή ή συμβούλου.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      openLeadModal(
-                        investorTrack === "benefactor"
-                          ? "benefactor"
-                          : "investor",
-                        `Υπολογιστής Επενδύσεων — ${investorSimulation.title}`,
-                        `Κανάλι: ${investorSimulation.title} | Ίδια Συμμετοχή: ${investmentAmount.toLocaleString("el-GR")} € | Σενάριο: ${activeScenario.name}`
-                      )
-                    }
-                    className="px-5 py-3 rounded bg-[#c89d54] hover:bg-amber-400 text-stone-950 font-bold text-base transition cursor-pointer"
+              </div>
+              <div className="space-y-3 pt-2 border-t border-stone-800">
+                <p className="text-xs text-stone-300 leading-relaxed">
+                  {UNIFIED_GRANT_RATE_TEXT} Τα ποσά είναι ενδεικτικά και βασίζονται σε υποθέσεις (πρόσκληση LEADER 545/07-10-2026, προθεσμία 4/2/2027).
+                </p>
+                <div className="flex flex-wrap gap-2.5">
+                  <a
+                    href="/gia-ependytes"
+                    className="px-4 py-2 rounded bg-[#c89d54] text-stone-950 font-bold text-xs sm:text-sm hover:bg-amber-400 transition"
                   >
-                    Εκδήλωση Επενδυτικού / Χορηγικού Ενδιαφέροντος →
-                  </button>
+                    Άνοιγμα Επενδυτικού Υπολογιστή →
+                  </a>
+                  <a
+                    href="/documents/Vrosina_2031_Financial_Model.csv"
+                    download
+                    className="px-3.5 py-2 rounded bg-stone-950 border border-stone-700 text-stone-200 font-semibold text-xs sm:text-sm hover:bg-stone-800 transition"
+                  >
+                    Οικονομικό Μοντέλο (.csv) ↓
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Συνοπτικό Δημοσιονομικό Ισοζύγιο (Τι κερδίζει το Δημόσιο) */}
-          <div className="bg-stone-900 border border-stone-700 rounded-lg p-6 space-y-4">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-800 pb-4">
-              <div className="space-y-1">
+            {/* Κάρτα Β: Τι κερδίζει το Δημόσιο */}
+            <div className="bg-stone-900 border border-stone-700 rounded-lg p-5 sm:p-6 flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
                 <div className="text-xs font-bold uppercase tracking-wider text-[#C89D54]">
                   ΔΗΜΟΣΙΟΝΟΜΙΚΟ ΙΣΟΖΥΓΙΟ ΓΙΑ ΤΟ ΚΡΑΤΟΣ
                 </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-                  Τι κερδίζει το Ελληνικό Δημόσιο: ~463.700 € / έτος σε άμεσα έσοδα (απόσβεση σε 17 έτη)
+                <h3 className="font-serif text-xl font-bold text-white">
+                  Τι κερδίζει το Δημόσιο: ~463.700 € / έτος σε άμεσα έσοδα
                 </h3>
-              </div>
-              <a
-                href="/documents/Vrosina_2031_What_The_State_Gains.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded bg-stone-800 border border-stone-600 text-white font-semibold text-sm hover:bg-stone-700 transition shrink-0"
-              >
-                Μελέτη PDF (3 Σελίδες) ↓
-              </a>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {PUBLIC_FISCAL_BENEFIT_STUDY.headlineMetrics.map((m, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded bg-stone-950 border border-stone-800 space-y-1"
-                >
-                  <div className="text-xl font-bold text-[#C89D54]">
-                    {m.value}
-                  </div>
-                  <div className="font-serif font-bold text-sm text-white">
-                    {m.label}
-                  </div>
-                  <p className="text-xs text-stone-300">{m.sub}</p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {PUBLIC_FISCAL_BENEFIT_STUDY.headlineMetrics.map((m, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded bg-stone-950 border border-stone-800"
+                    >
+                      <div className="text-lg font-bold text-[#C89D54]">
+                        {m.value}
+                      </div>
+                      <div className="font-serif font-bold text-xs text-white">
+                        {m.label}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="space-y-3 pt-2 border-t border-stone-800">
+                <p className="text-xs text-stone-300 leading-relaxed">
+                  Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
+                </p>
+                <div className="flex flex-wrap gap-2.5">
+                  <a
+                    href="/gia-foreis"
+                    className="px-4 py-2 rounded bg-[#1F5C43] text-white font-bold text-xs sm:text-sm hover:bg-[#174935] transition"
+                  >
+                    Αναλυτική Σελίδα «Για Φορείς» →
+                  </a>
+                  <a
+                    href="/documents/Vrosina_2031_What_The_State_Gains.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-2 rounded bg-stone-950 border border-stone-700 text-stone-200 font-semibold text-xs sm:text-sm hover:bg-stone-800 transition"
+                  >
+                    Μελέτη Δημοσίου (PDF) ↓
+                  </a>
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-stone-300">
-              Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
-            </p>
           </div>
 
-          {/* Data Room & FAQ inside the unified Investors & Authorities section */}
-          <div id="dataroom" className="bg-[#F7F5F0] text-[#14191F] rounded-lg p-6 sm:p-8 space-y-10">
-            <div className="space-y-4">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div className="max-w-3xl space-y-1">
-                  <div className="text-sm font-bold text-[#174935]">
-                    ΚΕΝΤΡΟ ΤΕΚΜΗΡΙΩΣΗΣ (DATA ROOM — {DATA_ROOM_DOCUMENTS.length} ΑΡΧΕΙΑ)
+          {/* Συμπυκνωμένο Data Room & 3 Βασικές Ερωτήσεις FAQ */}
+          <div id="dataroom" className="bg-[#F7F5F0] text-[#14191F] rounded-lg p-5 sm:p-6 space-y-6">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#174935]">
+                    ΚΕΝΤΡΟ ΤΕΚΜΗΡΙΩΣΗΣ (DATA ROOM)
                   </div>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
-                    Μελέτες, Οικονομικό Μοντέλο & Σχέδιο (έκδοση 2.0, σε αναθεώρηση)
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
+                    Βασικά Έγγραφα & Σχέδιο (έκδοση 2.0, σε αναθεώρηση)
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowAllDocs(!showAllDocs)}
-                  className="px-4 py-2.5 rounded bg-white border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 cursor-pointer shrink-0"
+                  className="px-3.5 py-1.5 rounded bg-white border border-stone-400 text-[#14191f] font-semibold text-xs sm:text-sm hover:bg-stone-200 cursor-pointer"
                 >
                   {showAllDocs
-                    ? "Εμφάνιση 6 Βασικών Αρχείων"
-                    : `Προβολή Όλων των ${DATA_ROOM_DOCUMENTS.length} Αρχείων ↓`}
+                    ? "Εμφάνιση 4 Βασικών Αρχείων"
+                    : `Όλα τα ${DATA_ROOM_DOCUMENTS.length} Αρχεία ↓`}
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {(showAllDocs
                   ? DATA_ROOM_DOCUMENTS
-                  : DATA_ROOM_DOCUMENTS.slice(0, 6)
+                  : DATA_ROOM_DOCUMENTS.slice(0, 4)
                 ).map((doc, idx) => (
-                  <article
+                  <a
                     key={idx}
-                    className="bg-white rounded-lg p-5 border border-stone-300 flex flex-col justify-between space-y-4"
+                    href={doc.href}
+                    download
+                    className="bg-white rounded-lg p-3.5 border border-stone-300 hover:border-[#1F5C43] transition flex flex-col justify-between space-y-2"
                   >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between gap-2 text-sm font-semibold">
-                        <span className="text-[#9e4727]">{doc.category}</span>
-                        <span className="px-2.5 py-0.5 rounded bg-[#f7f5f0] border border-stone-300 text-[#14191f]">
-                          {doc.format} · {doc.size}
-                        </span>
+                    <div>
+                      <div className="text-xs font-semibold text-[#9e4727]">
+                        {doc.format} · {doc.size}
                       </div>
-                      <h4 className="font-serif font-bold text-lg text-[#14191f] leading-snug">
+                      <h4 className="font-serif font-bold text-sm text-[#14191f] leading-snug mt-0.5">
                         {doc.title}
                       </h4>
-                      <p className="text-sm text-stone-800 leading-relaxed">
-                        {doc.description}
-                      </p>
                     </div>
-                    <div className="pt-2 border-t border-stone-200 flex items-center justify-between text-sm">
-                      <span className="text-stone-700">{doc.pages}</span>
-                      <a
-                        href={doc.href}
-                        download
-                        className="font-bold text-[#174935] hover:underline"
-                      >
-                        Λήψη Αρχείου ↓
-                      </a>
+                    <div className="text-xs font-bold text-[#174935]">
+                      Λήψη αρχείου ↓
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
             </div>
 
-            {/* Concise FAQ Accordion */}
-            <div className="space-y-4 pt-6 border-t border-stone-300">
+            {/* Συμπυκνωμένο FAQ (3 βασικές ερωτήσεις, κλειστές εξ ορισμού) */}
+            <div className="space-y-3 pt-4 border-t border-stone-300">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="font-serif text-2xl font-bold text-[#14191f]">
-                  Συχνές Ερωτήσεις & Ειλικρινείς Απαντήσεις
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-[#14191f]">
+                  Συχνές Ερωτήσεις
                 </h3>
                 <button
                   type="button"
                   onClick={() => setShowAllFaqs(!showAllFaqs)}
-                  className="px-4 py-2 rounded bg-white border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded bg-white border border-stone-400 text-[#14191f] text-xs sm:text-sm font-semibold hover:bg-stone-200 cursor-pointer"
                 >
                   {showAllFaqs
-                    ? "Εμφάνιση 5 Βασικών Ερωτήσεων"
-                    : `Προβολή Όλων των ${FAQ_ITEMS.length} Ερωτήσεων ↓`}
+                    ? "3 Βασικές Ερωτήσεις"
+                    : `Όλες οι ${FAQ_ITEMS.length} Ερωτήσεις ↓`}
                 </button>
               </div>
 
-              <div className="space-y-3">
-                {(showAllFaqs ? FAQ_ITEMS : FAQ_ITEMS.slice(0, 5)).map(
+              <div className="space-y-2">
+                {(showAllFaqs ? FAQ_ITEMS : FAQ_ITEMS.slice(0, 3)).map(
                   (faq, idx) => {
                     const isOpen = openFaqIndex === idx;
                     return (
                       <div
                         key={idx}
-                        className="bg-white rounded-lg border border-stone-300 overflow-hidden"
+                        className="bg-white rounded border border-stone-300 overflow-hidden"
                       >
                         <button
                           type="button"
                           onClick={() =>
                             setOpenFaqIndex(isOpen ? null : idx)
                           }
-                          className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-[#14191f] cursor-pointer"
+                          className="w-full px-4 py-3 text-left flex items-center justify-between gap-3 font-serif font-bold text-sm sm:text-base text-[#14191f] cursor-pointer"
                         >
                           <span>{faq.question}</span>
-                          <span className="text-[#9e4727] font-sans text-xl shrink-0">
+                          <span className="text-[#9e4727] font-sans text-lg shrink-0">
                             {isOpen ? "−" : "+"}
                           </span>
                         </button>
                         {isOpen && (
-                          <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-stone-200 text-base text-stone-800 leading-relaxed">
+                          <div className="px-4 pb-4 pt-2 border-t border-stone-200 text-sm text-stone-800 leading-relaxed">
                             {faq.answer}
                           </div>
                         )}
@@ -1851,33 +1748,33 @@ export default function VrosinaClientApp() {
         </div>
       </footer>
 
-      {/* Mobile Sticky Bottom Navigation Bar (Σ1: 4 αντικείμενα χωρίς κόψιμο λέξεων + πλήρες μενού ☰ στην κεφαλίδα) */}
+      {/* Mobile Sticky Bottom Navigation Bar (4 διακριτά κουμπιά με κενό ανάμεσά τους ώστε να μην κολλάνε ποτέ) */}
       <nav
         aria-label="Κινητή Πλοήγηση"
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-300 shadow-lg"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-sm border-t border-stone-300 shadow-lg px-1.5 py-1.5"
       >
-        <div className="grid grid-cols-4 text-center">
+        <div className="grid grid-cols-4 gap-1.5 text-center">
           <a
             href="/to-schedio"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
+            className="py-2 px-1 rounded bg-[#F7F5F0] border border-stone-300 text-xs font-semibold text-[#14191F] truncate"
           >
             Σχέδιο
           </a>
           <a
             href="/gia-ktinotrofous"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
+            className="py-2 px-1 rounded bg-[#F7F5F0] border border-stone-300 text-xs font-semibold text-[#14191F] truncate"
           >
             Κτηνοτρόφοι
           </a>
           <a
             href="/gia-epicheiriseis"
-            className="py-2.5 px-1 text-sm font-semibold text-[#14191F] hover:bg-stone-100"
+            className="py-2 px-1 rounded bg-[#F7F5F0] border border-stone-300 text-xs font-semibold text-[#14191F] truncate"
           >
             Επιχειρήσεις
           </a>
           <a
             href="#contact-form"
-            className="py-2.5 px-1 text-sm font-bold bg-[#1F5C43] text-white"
+            className="py-2 px-1 rounded bg-[#1F5C43] text-xs font-bold text-white truncate"
           >
             Επικοινωνία
           </a>
