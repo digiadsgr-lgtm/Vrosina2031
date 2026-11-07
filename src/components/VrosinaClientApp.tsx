@@ -24,24 +24,41 @@ import {
   type HotspotPoint,
 } from "@/data/vrosinaData";
 
+const STEPS = [
+  {
+    kicker: "Βήμα 1 · Η μηχανή",
+    body: "Το πρώην στρατόπεδο γίνεται τυροκομείο και οινοποιείο. Εκεί γεννιέται το μόνιμο εισόδημα.",
+    quote: "«Ένα στρατόπεδο γκρεμισμένο, στάχτη, μπορεί να γίνει ο κινητήρας.»",
+  },
+  {
+    kicker: "Βήμα 2 · Οι άνθρωποι",
+    body: "Βοσκοί και αμπελουργοί που ξέρουν από την αρχή πού θα πουλήσουν. Δίπλα τους, τεχνίτες από τη σχολή πετράδων.",
+    quote: "«Ο βοσκός έχει έτοιμο πελάτη όταν έχεις δίπλα τη μονάδα.»",
+  },
+  {
+    kicker: "Βήμα 3 · Το χωριό",
+    body: "Ανοίγουν σπίτια, ξενώνες και μαγαζιά. Για να έρθει κάποιος δεν φτάνει η μονή και το γεφύρι: πρέπει να έχει να φάει, να ψωνίσει και να μείνει.",
+    quote: "«Αν το χωριό δεν έχει καφενείο, δεν είναι χωριό.»",
+  },
+];
+
+const FOUR_NUMBERS = [
+  { n: "50", label: "νέες θέσεις εργασίας" },
+  { n: "25", label: "σπίτια σε νέα χρήση" },
+  { n: "10", label: "ξενώνες" },
+  { n: "80–100", label: "νέοι μόνιμοι κάτοικοι" },
+];
+
 export default function VrosinaClientApp() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [heroViewMode, setHeroViewMode] = useState<"2031" | "today" | "video">(
-    "2031"
+    "today"
   );
-  const [heroVideoLoaded, setHeroVideoLoaded] = useState<boolean>(false);
-  const [autopsyVideoLoaded, setAutopsyVideoLoaded] = useState<boolean>(false);
-  const [loadedTvVideoIds, setLoadedTvVideoIds] = useState<
-    Record<string, boolean>
-  >({});
+  const [letterVideoLoaded, setLetterVideoLoaded] = useState<boolean>(false);
+  const [letterVideoStart, setLetterVideoStart] = useState<number>(810);
   const [activeHotspot, setActiveHotspot] = useState<HotspotPoint>(
     MASTERPLAN_HOTSPOTS[0]
   );
-
-  // Camp Autopsy Step
-  const [activeAutopsyStep, setActiveAutopsyStep] = useState<number>(0);
-  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
-  const [showAllVideos, setShowAllVideos] = useState<boolean>(false);
 
   // Investor Simulator State
   const [investorTrack, setInvestorTrack] = useState<
@@ -51,7 +68,7 @@ export default function VrosinaClientApp() {
   const [selectedScenarioId, setSelectedScenarioId] =
     useState<string>("baseline");
 
-  // FAQ State
+  // FAQ & Docs State
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [showAllFaqs, setShowAllFaqs] = useState<boolean>(false);
   const [showAllDocs, setShowAllDocs] = useState<boolean>(false);
@@ -148,7 +165,10 @@ export default function VrosinaClientApp() {
     }
 
     try {
-      await fetch("https://formsubmit.co/ajax/digiadsgr@gmail.com", {
+      const endpoint =
+        process.env.NEXT_PUBLIC_FORMSUBMIT_URL ||
+        `https://formsubmit.co/ajax/${["digiadsgr", "gmail.com"].join("@")}`;
+      await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -292,18 +312,18 @@ export default function VrosinaClientApp() {
   const audiencePathCards = [
     {
       href: "/gia-ktinotrofous",
-      badge: "Για κτηνοτρόφους και κατοίκους",
+      badge: "Για κτηνοτρόφους, ιδιοκτήτες & αποδήμους",
       topBorderClass: "border-t-4 border-t-[#1F5C43]",
       badgeColorClass: "text-[#1F5C43]",
       buttonColorClass: "bg-[#1F5C43] hover:bg-[#174935]",
       buttonLabel: "Για κτηνοτρόφους και κατοίκους →",
-      title: "Για κτηνοτρόφους και κατοίκους της Βροσίνας και της περιοχής",
+      title: "Για κτηνοτρόφους, ιδιοκτήτες σπιτιών & αποδήμους",
       summary:
-        "Στόχος μας είναι σταθερός αγοραστής για το γάλα σου, με γραπτό συμβόλαιο. Την τιμή και τους όρους θα τους μάθεις πρώτος, πριν από οποιαδήποτε δέσμευση. Ένα μέλος, μία ψήφος (ελάχιστη μερίδα 100 €, ν. 4430/2016).",
+        "«Ο βοσκός έχει έτοιμο πελάτη όταν έχεις δίπλα τη μονάδα.» Και για τα κλειστά σπίτια: «Σε λίγα χρόνια το σπίτι του θα πέσει. Πρέπει να το καταλάβουμε.» Ένα μέλος, μία ψήφος (ελάχιστη μερίδα 100 €, ν. 4430/2016).",
       highlights: [
-        "Σταθερή ελάχιστη τιμή με γραπτό συμβόλαιο (καθορίζεται πριν από κάθε δέσμευση)",
-        "Μέλος στην κοινότητα: ένα μέλος, μία ψήφος · Ελάχιστη μερίδα 100 €",
-        "Οδηγός για νέους παραγωγούς & Μητρώο 25 κατοικιών προς αναζωογόνηση",
+        "Στόχος σταθερού αγοραστή γάλακτος με γραπτό συμβόλαιο πριν από κάθε δέσμευση",
+        "Μακροχρόνια μίσθωση 10–15 ετών για 25 κλειστά σπίτια/ακίνητα (η κυριότητα μένει στον ιδιοκτήτη)",
+        "Οδηγός 5 βημάτων για νέους παραγωγούς & συμμετοχή στην Κοιν.Σ.Επ. (100 €)",
       ],
     },
     {
@@ -315,7 +335,7 @@ export default function VrosinaClientApp() {
       buttonLabel: "Ευκαιρίες για επιχειρήσεις →",
       title: "Ευκαιρίες για επιχειρήσεις στη Βροσίνα 2031",
       summary:
-        "Θέλω να ανοίξω δική μου επιχείρηση (10 ξενώνες & 5 καταστήματα), θέλω να κατασκευάσω ή να προμηθεύσω (έργα αποκατάστασης κτιρίων & φωτοβολταϊκό) ή θέλω στρατηγική συνεργασία μεταποίησης.",
+        "«Για να έρθει κάποιος δεν αρκεί ούτε η μονή ούτε το γεφύρι. Πρέπει να έχει να φάει, να ψωνίσει, να μείνει.» 10 ξενώνες, 5 καταστήματα, τεχνικά έργα αποκατάστασης και συνεργασίες μεταποίησης.",
       highlights: [
         "10 ξενώνες (εκτίμηση του σχεδίου: περίπου 100.000 € ο καθένας) & 5 καταστήματα",
         "Αποκατάσταση κτιρίων: τρία έργα με εκτιμήσεις του σχεδίου 750.000 €, 350.000 € και 180.000 €",
@@ -340,15 +360,16 @@ export default function VrosinaClientApp() {
     },
     {
       href: "/gia-foreis",
-      badge: "Για φορείς",
+      badge: "Για φορείς & Πολιτεία",
       topBorderClass: "border-t-4 border-t-[#14191F]",
       badgeColorClass: "text-[#14191F]",
       buttonColorClass: "bg-[#14191F] hover:bg-[#1F5C43]",
       buttonLabel: "Για φορείς και Πολιτεία →",
-      title: "Για Φορείς, τον Δήμο Ζίτσας & την Πολιτεία",
-      summary: UNIFIED_CONCESSION_TEXT,
+      title: "Για Φορείς, τον Δήμο Ζίτσας & την Πολιτεία (Το Case Study)",
+      summary:
+        "«Αν δεν κάνουμε κάτι δραστικό, θα χαθεί η Βροσίνα. Βροσίνες υπάρχουν πολλές σε όλη την Ελλάδα. Θέλουμε η Βροσίνα να γίνει case study.»",
       highlights: [
-        "Εκτίμηση άμεσων εσόδων Δημοσίου στην ωριμότητα: ~463.700 €/έτος (χωρίς ΦΠΑ, ονομαστικά ποσά χωρίς προεξόφληση)",
+        "Εκτίμηση άμεσων εσόδων Δημοσίου στην ωριμότητα: ~463.700 €/έτος (ονομαστικά ποσά, χωρίς προεξόφληση)",
         "Παραχώρηση κατά χρήση για 25 έτη (ελάχιστο 10 έτη για LEADER) με αντάλλαγμα 2% επί τζίρου (51.000 €/έτος)",
         "Ο χρονικός ορίζοντας της πρόσκλησης LEADER (προθεσμία 4/2/2027) καθορίζει τη σειρά των ενεργειών",
       ],
@@ -499,258 +520,267 @@ export default function VrosinaClientApp() {
         )}
       </header>
 
-      {/* SCREEN 1: LIGHT WARM HERO — WHAT IT IS, 5-LINE HUMAN STORY, BEFORE/AFTER & 6 KPIs (Μέρος Β #5, #9, #10, Σελ. 4) */}
-      <section className="bg-white border-b border-stone-300 py-8 sm:py-12 lg:py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left 6 cols: Clear Identity + 5-Line Human Story + Direct Actions */}
-            <div className="lg:col-span-6 space-y-5">
-              <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded bg-[#f7f5f0] border border-stone-300 text-sm font-semibold text-[#9e4727]">
-                <span>Δήμος Ζίτσας · Δ.Ε. Μολοσσών · Π.Ε. Ιωαννίνων</span>
-                <span>·</span>
-                <span className="text-[#174935]">
-                  1η Πρόσκληση LEADER έως 4 Φεβρουαρίου 2027
-                </span>
-              </div>
+      {/* 1. FULL-BLEED HERO (#hero) — Η ΠΡΩΤΗ ΟΘΟΝΗ (§2) */}
+      <section
+        id="hero"
+        className="relative min-h-[86vh] lg:min-h-[660px] w-full overflow-hidden bg-[#14191F] text-[#F7F5F0]"
+      >
+        {/* Background: real photo OR 2031 render */}
+        <img
+          src={
+            heroViewMode === "today"
+              ? "/images/real/real-vrosina-exploringgreece.jpg"
+              : "/images/hero-masterplan.jpg"
+          }
+          alt={
+            heroViewMode === "today"
+              ? "Η Βροσίνα σήμερα, μέσα στην κοιλάδα του Ζαλογγίτικου"
+              : "Ενδεικτική απεικόνιση της Βροσίνας το 2031"
+          }
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
+            heroViewMode === "today" ? "vr-slow-zoom" : ""
+          }`}
+        />
 
-              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#14191f] leading-tight">
-                Βροσίνα 2031: Από τη Γη, στο Ράφι, στο Χωριό
-              </h1>
+        {/* Dark gradient overlay — left & bottom heavy for text legibility */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-[#14191F]/95 via-[#14191F]/65 to-[#14191F]/15 lg:bg-gradient-to-r lg:from-[#14191F]/95 lg:via-[#14191F]/65 lg:to-[#14191F]/10"
+        />
 
-              {/* Γ1: Αρχική — σύντομη ιστορία (5 γραμμές, πριν τους πίνακες) */}
-              <div className="p-5 rounded-lg bg-[#F7F5F0] border-l-4 border-[#A34A2B] space-y-2">
-                <p className="text-base sm:text-lg text-[#14191F] leading-relaxed font-medium">
-                  Η Βροσίνα, στο Δήμο Ζίτσας των Ιωαννίνων, αδειάζει. Εμείς προτείνουμε να γίνει ξανά ζωντανή. Το σχέδιο προβλέπει αξιοποίηση του πρώην στρατοπέδου, 25 κατοικίες και περίπου 50 νέες θέσεις εργασίας, με βάση την τοπική παραγωγή. Η επένδυση εκτιμάται σε 10,45 εκ. €, με 63% δημόσια και 37% ιδιωτική συμμετοχή. Καλούμε κατοίκους, παραγωγούς, επιχειρήσεις και φορείς να ενώσουμε δυνάμεις. Ποιος είστε;
-                </p>
-                <div className="pt-1">
-                  <a
-                    href="/poioi-eimaste"
-                    className="text-sm font-bold text-[#1F5C43] underline hover:text-[#174935]"
-                  >
-                    Διαβάστε την πλήρη ιστορία («Το χωριό που σωπαίνει») και γνωρίστε τον συντονιστή →
-                  </a>
-                </div>
-              </div>
+        {/* Content */}
+        <div className="relative z-10 mx-auto flex min-h-[86vh] lg:min-h-[660px] max-w-7xl flex-col justify-end px-6 pb-12 pt-28 lg:pb-16">
+          <div className="max-w-2xl">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[#C89D54]">
+              ΒΡΟΣΙΝΑ 2031 · ΠΡΩΤΟΒΟΥΛΙΑ ΓΙΑ ΕΝΑ ΖΩΝΤΑΝΟ ΧΩΡΙΟ
+            </p>
 
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                <a
-                  href="#poios-eiste"
-                  className="px-5 py-3 rounded bg-[#174935] text-white font-bold text-base hover:bg-[#123828] transition"
-                >
-                  Επιλέξτε Ποιος Είστε (4 Διαδρομές) ↓
-                </a>
-                <a
-                  href="#contact-form"
-                  className="px-5 py-3 rounded bg-white border-2 border-[#14191f] text-[#14191f] font-bold text-base hover:bg-stone-100 transition"
-                >
-                  Τηλεφωνική Επικοινωνία / Φόρμα
-                </a>
-                <a
-                  href="/documents/Vrosina_2031_Business_Plan_v2.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-3 rounded bg-[#f7f5f0] border border-stone-300 text-[#14191f] font-semibold text-sm hover:bg-stone-200 transition"
-                >
-                  Σχέδιο (έκδοση 2.0, σε αναθεώρηση) ↗
-                </a>
-              </div>
+            <h1 className="font-serif text-3xl leading-[1.12] font-semibold text-[#F7F5F0] sm:text-5xl lg:text-[52px]">
+              Η Βροσίνα δεν χρειάζεται να ξαναγίνει αυτό που ήταν.{" "}
+              <span className="text-[#C89D54]">
+                Μπορεί να γίνει κάτι καλύτερο.
+              </span>
+            </h1>
+
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-[#F7F5F0]/90 sm:text-lg">
+              Ένα εγκαταλελειμμένο στρατόπεδο γίνεται τυροκομείο και οινοποιείο.
+              Γύρω του έρχονται βοσκοί, αμπελουργοί, τεχνίτες και οικογένειες.
+              Το χωριό ξαναγεμίζει με δουλειά.
+            </p>
+
+            {/* Two buttons only */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#vima"
+                className="inline-flex items-center rounded-md bg-[#C89D54] px-6 py-3.5 text-base font-semibold text-[#14191F] shadow-sm transition hover:bg-[#d8ae64] focus:outline-none focus:ring-2 focus:ring-[#C89D54]"
+              >
+                Δες πώς γίνεται
+              </a>
+              <a
+                href="#contact-form"
+                className="inline-flex items-center rounded-md border border-[#F7F5F0]/70 bg-[#14191F]/40 px-6 py-3.5 text-base font-medium text-[#F7F5F0] backdrop-blur-sm transition hover:bg-[#F7F5F0]/15"
+              >
+                Θέλω να συμμετάσχω
+              </a>
             </div>
+          </div>
 
-            {/* Right 6 cols: Interactive Comparison "Σήμερα <-> 2031" with Hotspots */}
-            <div className="lg:col-span-6 space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2 bg-[#f7f5f0] p-2.5 rounded-lg border border-stone-300">
-                <span className="text-sm font-bold text-[#14191f] pl-1">
-                  Οπτική Σύγκριση Βροσίνας:
-                </span>
-                <div className="inline-flex rounded bg-white p-1 border border-stone-300 text-sm">
-                  <button
-                    type="button"
-                    onClick={() => setHeroViewMode("2031")}
-                    className={`px-3 py-1 rounded font-semibold transition cursor-pointer ${
-                      heroViewMode === "2031"
-                        ? "bg-[#174935] text-white"
-                        : "text-[#14191f] hover:bg-stone-100"
-                    }`}
-                  >
-                    Όραμα 2031 (Χάρτης)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setHeroViewMode("today")}
-                    className={`px-3 py-1 rounded font-semibold transition cursor-pointer ${
-                      heroViewMode === "today"
-                        ? "bg-[#9e4727] text-white"
-                        : "text-[#14191f] hover:bg-stone-100"
-                    }`}
-                  >
-                    Σήμερα (Πραγματική)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setHeroViewMode("video")}
-                    className={`px-3 py-1 rounded font-semibold transition cursor-pointer ${
-                      heroViewMode === "video"
-                        ? "bg-[#14191f] text-white"
-                        : "text-[#14191f] hover:bg-stone-100"
-                    }`}
-                  >
-                    Βίντεο Drone
-                  </button>
-                </div>
-              </div>
+          {/* Bottom-right: Today / 2031 switch */}
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#F7F5F0]/15 pt-4 text-xs text-[#F7F5F0]/80">
+            <span>
+              {heroViewMode === "today"
+                ? "Φωτογραφία: Η Βροσίνα σήμερα (ExploringGreece.tv)"
+                : "Ενδεικτική απεικόνιση (concept render) · Πρόταση, όχι εγκεκριμένη μελέτη"}
+            </span>
 
-              <div className="relative rounded-lg overflow-hidden border-2 border-stone-300 bg-stone-900 h-64 sm:h-80">
-                {heroViewMode === "video" ? (
-                  heroVideoLoaded ? (
-                    <iframe
-                      src="https://www.youtube-nocookie.com/embed/tr6AsCzCH5M?autoplay=1&rel=0"
-                      title="Βροσίνα Ιωαννίνων Drone"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setHeroVideoLoaded(true)}
-                      className="relative w-full h-full group cursor-pointer text-left block"
-                    >
-                      <img
-                        src="/images/real/yt-thumb-tr6AsCzCH5M.jpg"
-                        alt="Εναέρια λήψη Βροσίνας Ιωαννίνων"
-                        width={800}
-                        height={500}
-                        className="w-full h-64 sm:h-80 object-cover block"
-                      />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <span className="px-5 py-2.5 rounded bg-white text-[#14191F] font-bold text-base shadow-lg">
-                          Αναπαραγωγή Βίντεο Drone (YouTube)
-                        </span>
-                      </div>
-                    </button>
-                  )
-                ) : heroViewMode === "today" ? (
-                  <div className="relative w-full h-64 sm:h-80">
-                    <img
-                      src="/images/real/real-vrosina-exploringgreece.jpg"
-                      alt="Η Βροσίνα Ιωαννίνων σήμερα — Πραγματική φωτογραφία"
-                      width={800}
-                      height={500}
-                      className="w-full h-64 sm:h-80 object-cover block"
-                    />
-                    <span className="absolute bottom-2 left-2 px-3 py-1 rounded bg-stone-950/85 text-white text-sm font-medium">
-                      Πραγματική Φωτογραφία: Η Βροσίνα σήμερα (58 κάτοικοι, Απογραφή 2021 · φωτ. ExploringGreece.tv)
-                    </span>
-                  </div>
-                ) : (
-                  <div className="relative w-full h-64 sm:h-80">
-                    <img
-                      src="/images/hero-masterplan.jpg"
-                      alt="Ενδεικτική Αρχιτεκτονική Απεικόνιση (Concept Render) Βροσίνα 2031"
-                      width={800}
-                      height={500}
-                      className="w-full h-64 sm:h-80 object-cover block"
-                    />
-                    {MASTERPLAN_HOTSPOTS.map((spot, idx) => {
-                      const isSelected = activeHotspot.id === spot.id;
-                      return (
-                        <button
-                          key={spot.id}
-                          type="button"
-                          onClick={() => setActiveHotspot(spot)}
-                          style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-                          aria-label={`Σημείο ${idx + 1}: ${spot.title}`}
-                          className={`-translate-x-1/2 -translate-y-1/2 absolute w-8 h-8 rounded-full font-bold text-sm flex items-center justify-center transition cursor-pointer shadow-md ${
-                            isSelected
-                              ? "bg-[#A34A2B] text-white ring-4 ring-white scale-110 z-20"
-                              : "bg-white text-[#14191F] hover:bg-[#1F5C43] hover:text-white z-10"
-                          }`}
-                        >
-                          0{idx + 1}
-                        </button>
-                      );
-                    })}
-                    <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-stone-950/85 text-white text-sm font-medium border border-stone-600">
-                      Ενδεικτική Αρχιτεκτονική Απεικόνιση (Concept Render)
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Active Hotspot Detail Bar with Thumbnail */}
-              <div className="p-4 rounded-lg bg-[#F7F5F0] border border-stone-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <img
-                    src={activeHotspot.image}
-                    alt={activeHotspot.title}
-                    width={96}
-                    height={64}
-                    className="w-24 h-16 rounded object-cover border border-stone-300 shrink-0"
-                  />
-                  <div className="space-y-0.5">
-                    <div className="text-sm font-bold text-[#A34A2B]">
-                      {activeHotspot.category} · {activeHotspot.capex}
-                    </div>
-                    <div className="font-serif font-bold text-base text-[#14191F]">
-                      {activeHotspot.title}
-                    </div>
-                    <p className="text-sm text-[#14191F]">
-                      {activeHotspot.description}
-                    </p>
-                  </div>
-                </div>
-                <a
-                  href="/to-schedio"
-                  className="px-3.5 py-2 rounded bg-white border border-stone-400 text-[#14191F] text-sm font-semibold hover:bg-stone-200 transition shrink-0"
-                >
-                  Όλοι οι 4 Πυλώνες →
-                </a>
-              </div>
+            <div
+              role="group"
+              aria-label="Προβολή χωριού"
+              className="inline-flex rounded-full border border-[#F7F5F0]/30 bg-[#14191F]/70 p-1 backdrop-blur-sm"
+            >
+              <button
+                type="button"
+                onClick={() => setHeroViewMode("today")}
+                className={`rounded-full px-3.5 py-1 text-xs font-medium transition cursor-pointer ${
+                  heroViewMode === "today"
+                    ? "bg-[#C89D54] text-[#14191F]"
+                    : "text-[#F7F5F0] hover:text-[#C89D54]"
+                }`}
+              >
+                Σήμερα
+              </button>
+              <button
+                type="button"
+                onClick={() => setHeroViewMode("2031")}
+                className={`rounded-full px-3.5 py-1 text-xs font-medium transition cursor-pointer ${
+                  heroViewMode === "2031"
+                    ? "bg-[#C89D54] text-[#14191F]"
+                    : "text-[#F7F5F0] hover:text-[#C89D54]"
+                }`}
+              >
+                2031
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* DARK ACCENT STRIP 1: THE 6 CORE KPIs (Μέρος Β #10: Το σκούρο μόνο για τονισμό KPI) */}
-      <section className="bg-[#14191f] text-white py-8 border-b border-stone-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {HERO_KPIS.map((kpi, idx) => (
+      {/* 2. Η ΖΩΝΗ ΤΩΝ ΤΡΙΩΝ ΒΗΜΑΤΩΝ ΚΑΙ ΤΩΝ 4 ΑΡΙΘΜΩΝ (#vima — §3) */}
+      <section
+        id="vima"
+        className="border-b border-[#14191F]/10 bg-[#F7F5F0] py-16 text-[#14191F]"
+      >
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-10 max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#85611C]">
+              ΠΩΣ ΔΟΥΛΕΥΕΙ Η ΙΔΕΑ
+            </p>
+            <h2 className="mt-2 font-serif text-2xl font-semibold sm:text-3xl">
+              Τρία πράγματα, με τη σειρά.
+            </h2>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {STEPS.map((s) => (
               <div
-                key={idx}
-                className="p-4 rounded-lg bg-stone-900 border border-stone-700 space-y-1"
+                key={s.kicker}
+                className="flex flex-col justify-between rounded-lg border border-[#14191F]/12 bg-white p-6 shadow-xs"
               >
-                <div className="text-2xl sm:text-3xl font-bold text-[#c89d54]">
-                  {kpi.value}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#1F5C43]">
+                    {s.kicker}
+                  </p>
+                  <p className="mt-3 text-base leading-relaxed text-[#14191F]">
+                    {s.body}
+                  </p>
                 </div>
-                <div className="font-serif font-bold text-base text-white">
-                  {kpi.label}
-                </div>
-                <div className="text-sm text-stone-300 leading-snug">
-                  {kpi.sub}
-                </div>
+                <p className="mt-5 border-t border-[#14191F]/10 pt-3 font-serif text-sm italic text-[#4A525A]">
+                  {s.quote}
+                </p>
               </div>
             ))}
           </div>
+
+          {/* 4 ανθρώπινα νούμερα — όχι ευρώ */}
+          <div className="mt-12 rounded-lg bg-[#EBE6DC] p-6 sm:p-8">
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+              {FOUR_NUMBERS.map((item) => (
+                <div key={item.label}>
+                  <p className="font-serif text-3xl font-semibold text-[#1F5C43] sm:text-4xl">
+                    {item.n}
+                  </p>
+                  <p className="mt-1 text-sm text-[#14191F]">{item.label}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-[#4A525A]">
+              Ενδεικτικοί στόχοι 5ετίας. Πρόταση, όχι απόφαση.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* SCREEN 2 (#poios-eiste): "ΠΟΙΟΣ ΕΙΣΤΕ;" — 4 LARGE AUDIENCE CARDS OPENING THE 4 DEDICATED PAGES (Μέρος Β #1, #12, #13, Σελ. 4) */}
+      {/* 3. ΜΙΑ ΑΝΘΡΩΠΙΝΗ ΦΩΝΗ: ΤΟ ΓΡΑΜΜΑ ΚΑΙ Η ΣΥΝΕΝΤΕΥΞΗ (#akouste — §4) */}
+      <section id="akouste" className="bg-[#EBE6DC] py-14 text-[#14191F]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-12 lg:items-center">
+          {/* Αριστερά: το γράμμα */}
+          <div className="lg:col-span-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#85611C]">
+              ΓΙΑΤΙ ΤΟ ΞΕΚΙΝΗΣΑΜΕ
+            </p>
+            <blockquote className="mt-3 space-y-4 font-serif text-lg leading-relaxed text-[#14191F] sm:text-xl">
+              <p>
+                Κατάγομαι από τη Βροσίνα. Θυμάμαι το χωριό με φούρνο, με
+                καφενείο, με δύο βενζινάδικα στον δρόμο Ιωαννίνων–Ηγουμενίτσας.
+                Σήμερα το στρατόπεδο είναι ερείπιο και τα σπίτια σιγά σιγά
+                ρημάζουν.
+              </p>
+              <p>
+                Δεν θέλω η Βροσίνα να ξαναγίνει αυτό που ήταν. Θέλω να γίνει κάτι
+                καλύτερο: ζωντανό, με δουλειά, με παιδιά στο σχολείο.
+              </p>
+              <p>
+                Δεν γίνεται από έναν άνθρωπο. Αρκεί να το δούμε όλοι μαζί, να
+                δούμε μέχρι πού μπορούμε να το φτάσουμε.
+              </p>
+            </blockquote>
+            <p className="mt-4 text-sm font-medium text-[#4A525A]">
+              — Αθανάσιος Βούρδας, Επιτροπή Βροσίνα 2031
+            </p>
+          </div>
+
+          {/* Δεξιά: click-to-load βίντεο συνέντευξης (χωρίς εξωτερικό thumbnail) */}
+          <div className="lg:col-span-5 space-y-3">
+            {!letterVideoLoaded ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setLetterVideoStart(810);
+                  setLetterVideoLoaded(true);
+                }}
+                className="group relative flex aspect-video w-full flex-col items-center justify-center rounded-lg bg-[#14191F] p-6 text-center text-[#F7F5F0] shadow-md transition hover:bg-[#1d242c] cursor-pointer"
+              >
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#C89D54] text-xl font-bold text-[#14191F] transition group-hover:scale-105">
+                  ▶
+                </span>
+                <span className="mt-4 font-serif text-lg font-medium">
+                  Άκουσέ το από τον ίδιο (2 λεπτά)
+                </span>
+                <span className="mt-1 text-xs text-[#F7F5F0]/70">
+                  Απόσπασμα από την τηλεοπτική παρουσίαση · ξεκινά στο 13:30
+                </span>
+              </button>
+            ) : (
+              <div className="aspect-video w-full overflow-hidden rounded-lg bg-black shadow-md">
+                <iframe
+                  className="h-full w-full border-0"
+                  src={`https://www.youtube-nocookie.com/embed/addMUPWc8vg?start=${letterVideoStart}&autoplay=1&rel=0`}
+                  title="Συνέντευξη για τη Βροσίνα 2031"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#4A525A]">
+              <button
+                type="button"
+                onClick={() => {
+                  setLetterVideoStart(810);
+                  setLetterVideoLoaded(true);
+                }}
+                className="underline hover:text-[#14191F] cursor-pointer"
+              >
+                ▶ Απόσπασμα 13:30 («κάτι καλύτερο»)
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setLetterVideoStart(62);
+                  setLetterVideoLoaded(true);
+                }}
+                className="underline hover:text-[#14191F] cursor-pointer"
+              >
+                ▶ Απόσπασμα 01:02 («το σπίτι που σε λίγα χρόνια θα πέσει»)
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ΠΟΙΟΣ ΕΙΣΤΕ; (#poios-eiste — §6: 4 κάρτες, χωρίς εισαγωγική παράγραφο) */}
       <section
         id="poios-eiste"
         className="py-12 sm:py-16 bg-[#f7f5f0] border-b border-stone-300"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="max-w-3xl space-y-2">
-            <div className="text-sm font-bold text-[#9e4727]">
-              ΕΠΙΛΕΞΤΕ ΤΗ ΔΙΚΗ ΣΑΣ ΔΙΑΔΡΟΜΗ (4 ΕΞΕΙΔΙΚΕΥΜΕΝΕΣ ΣΕΛΙΔΕΣ ΑΝΑ ΚΟΙΝΟ)
+          <div className="max-w-3xl space-y-1">
+            <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#85611C]">
+              4 ΔΙΑΔΡΟΜΕΣ ΑΝΑ ΚΟΙΝΟ
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-              Ποιος Είστε; Βρείτε Αμέσως Όσα Αφορούν Εσάς
+              Ποιος είστε; Διαλέξτε τη δική σας διαδρομή.
             </h2>
-            <p className="text-base text-stone-800 leading-relaxed">
-              Κάθε ομάδα έχει διαφορετικά ερωτήματα. Πατήστε στην ιδιότητά σας για να ανοίξετε την αντίστοιχη αναλυτική σελίδα με τους όρους, τα ποσά και τα εκτυπώσιμα έντυπα:
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
@@ -792,7 +822,7 @@ export default function VrosinaClientApp() {
         </div>
       </section>
 
-      {/* SCREEN 3 (#masterplan): FIRST THE PLAN (4 PILLARS), THEN THE PUBLIC BENEFIT (Μέρος Β #6) */}
+      {/* 5. ΤΟ ΣΧΕΔΙΟ ΣΕ 4 ΠΥΛΩΝΕΣ (#masterplan — §6: εδώ ο διαδραστικός χάρτης + 4 κάρτες + κουμπί «Δες το αναλυτικό σχέδιο →») */}
       <section
         id="masterplan"
         className="py-12 sm:py-16 bg-white border-b border-stone-300"
@@ -801,21 +831,97 @@ export default function VrosinaClientApp() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="max-w-3xl space-y-2">
               <div className="text-sm font-bold text-[#174935]">
-                ΤΟ ΣΧΕΔΙΟ ΣΕ 4 ΠΥΛΩΝΕΣ (ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ 10,45 ΕΚ. €)
+                ΤΟ ΣΧΕΔΙΟ ΣΕ 4 ΠΥΛΩΝΕΣ
               </div>
               <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-                Τι Χτίζεται στη Βροσίνα και Πώς Λειτουργεί το Οικοσύστημα
+                Τι χτίζεται στη Βροσίνα και πώς συνδέονται τα 4 έργα
               </h2>
               <p className="text-base text-stone-800 leading-relaxed">
-                Οι 4 πυλώνες λειτουργούν ως ενιαία αλυσίδα αξίας: οι κτηνοτρόφοι και οι αμπελουργοί προμηθεύουν το Τυροκομείο και το Οινοποιείο στο πρώην Στρατόπεδο, οι εργαζόμενοι κατοικούν στα 20 ανακαινισμένα σπίτια και οι επισκέπτες του Γεφυριού 1605 και της Μονής Ραϊδιώτισσας διαμένουν στους 10 ξενώνες.
+                Πατήστε πάνω στα σημεία 01–04 του χάρτη ή δείτε συνοπτικά τους τέσσερις πυλώνες του σχεδίου.
               </p>
             </div>
             <a
               href="/to-schedio"
               className="px-5 py-3 rounded bg-[#14191f] text-white font-bold text-base hover:bg-[#174935] transition shrink-0"
             >
-              Αναλυτική Σελίδα «Το Σχέδιο» →
+              Δες το αναλυτικό σχέδιο →
             </a>
+          </div>
+
+          {/* Interactive Masterplan Map with Hotspots (moved from Hero per §6) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-[#F7F5F0] p-5 sm:p-6 rounded-lg border border-stone-300">
+            <div className="lg:col-span-7 relative rounded-lg overflow-hidden border border-stone-300 bg-stone-900 h-64 sm:h-80">
+              <img
+                src="/images/hero-masterplan.jpg"
+                alt="Ενδεικτική Αρχιτεκτονική Απεικόνιση (Concept Render) Βροσίνα 2031"
+                width={800}
+                height={500}
+                loading="lazy"
+                className="w-full h-64 sm:h-80 object-cover block"
+              />
+              {MASTERPLAN_HOTSPOTS.map((spot, idx) => {
+                const isSelected = activeHotspot.id === spot.id;
+                return (
+                  <button
+                    key={spot.id}
+                    type="button"
+                    onClick={() => setActiveHotspot(spot)}
+                    style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+                    aria-label={`Σημείο ${idx + 1}: ${spot.title}`}
+                    className={`-translate-x-1/2 -translate-y-1/2 absolute w-9 h-9 rounded-full font-bold text-sm flex items-center justify-center transition cursor-pointer shadow-md ${
+                      isSelected
+                        ? "bg-[#A34A2B] text-white ring-4 ring-white scale-110 z-20"
+                        : "bg-white text-[#14191F] hover:bg-[#1F5C43] hover:text-white z-10"
+                    }`}
+                  >
+                    0{idx + 1}
+                  </button>
+                );
+              })}
+              <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-stone-950/85 text-white text-xs font-medium border border-stone-600">
+                Ενδεικτική απεικόνιση (concept render) · Πατήστε 01–04
+              </span>
+            </div>
+
+            <div className="lg:col-span-5 bg-white p-5 rounded-lg border border-stone-300 space-y-4">
+              <div className="flex items-start gap-3">
+                <img
+                  src={activeHotspot.image}
+                  alt={activeHotspot.title}
+                  width={96}
+                  height={64}
+                  loading="lazy"
+                  className="w-24 h-16 rounded object-cover border border-stone-300 shrink-0"
+                />
+                <div className="space-y-0.5">
+                  <div className="text-sm font-bold text-[#A34A2B]">
+                    {activeHotspot.category} · {activeHotspot.capex}
+                  </div>
+                  <h3 className="font-serif font-bold text-lg text-[#14191F]">
+                    {activeHotspot.title}
+                  </h3>
+                </div>
+              </div>
+              <p className="text-sm text-[#14191F] leading-relaxed">
+                {activeHotspot.description}
+              </p>
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-stone-200">
+                {MASTERPLAN_HOTSPOTS.map((spot, idx) => (
+                  <button
+                    key={spot.id}
+                    type="button"
+                    onClick={() => setActiveHotspot(spot)}
+                    className={`px-3 py-1.5 rounded text-xs font-semibold transition cursor-pointer ${
+                      activeHotspot.id === spot.id
+                        ? "bg-[#14191F] text-white"
+                        : "bg-[#F7F5F0] text-[#14191F] border border-stone-300 hover:bg-stone-200"
+                    }`}
+                  >
+                    0{idx + 1}. {spot.title.split(" ")[0]}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -825,14 +931,14 @@ export default function VrosinaClientApp() {
                 className="bg-[#f7f5f0] rounded-lg border border-stone-300 overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative h-48 bg-stone-900">
+                  <div className="relative h-44 bg-stone-900">
                     <img
                       src={pillar.heroImage}
                       alt={pillar.title}
                       width={500}
                       height={312}
                       loading="lazy"
-                      className="w-full h-48 object-cover block"
+                      className="w-full h-44 object-cover block"
                     />
                     <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded bg-stone-950/85 text-[#C89D54] font-bold text-sm">
                       Πυλώνας {pillar.number}
@@ -841,7 +947,7 @@ export default function VrosinaClientApp() {
                       Concept Render
                     </span>
                   </div>
-                  <div className="p-5 space-y-2.5">
+                  <div className="p-5 space-y-2">
                     <div className="text-sm font-bold text-[#174935]">
                       {pillar.shortBudget}
                     </div>
@@ -865,201 +971,21 @@ export default function VrosinaClientApp() {
             ))}
           </div>
 
-          {/* Real Vrosina Topography & Architecture vs 2031 Pillar 3 (Agios Georgios 1607 & Village Core) */}
-          <div className="bg-[#F7F5F0] rounded-lg p-6 sm:p-8 border-2 border-[#A34A2B] space-y-6">
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-stone-300 pb-4">
-              <div className="space-y-1 max-w-3xl">
-                <div className="text-sm font-bold text-[#A34A2B]">
-                  ΠΩΣ ΕΙΝΑΙ ΠΡΑΓΜΑΤΙΚΑ Η ΒΡΟΣΙΝΑ & ΠΩΣ ΔΙΑΜΟΡΦΩΝΕΤΑΙ Ο ΠΥΛΩΝΑΣ 03
-                </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
-                  Κάτω Αγορά στον Πλάτανο, Πάνω Μαχαλάς & Ι.Ν. Αγίου Γεωργίου (1607)
-                </h3>
-                <p className="text-base text-[#14191F] leading-relaxed">
-                  Η Βροσίνα (υψόμετρο 117 μ.–280 μ.) βρίσκεται σε καταπράσινη κοιλάδα δίπλα στον Ζαλογγίτικο ποταμό — με διώροφα σπίτια με κόκκινες κεραμοσκεπές, ισόγεια καταστήματα κάτω από τον πλάτανο και τον ιστορικό μεταβυζαντινό <strong>Ιερό Ναό Αγίου Γεωργίου (1607, με τοιχογραφίες του 1620)</strong> στον Πάνω Μαχαλά ανάμεσα στα κυπαρίσσια. Δείτε τις πραγματικές λήψεις του χωριού δίπλα στις προτεινόμενες παρεμβάσεις του 2031:
-                </p>
-              </div>
-              <a
-                href="/to-schedio"
-                className="px-4 py-2.5 rounded bg-[#A34A2B] text-white font-bold text-sm hover:bg-[#823920] transition shrink-0"
-              >
-                Πλήρης Ανάλυση Πυλώνα 03 →
-              </a>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
-                <div className="relative h-44 bg-stone-900">
-                  <img
-                    src="/images/real/village-tr6AsCzCH5M-hq1.jpg"
-                    alt="Κέντρο Βροσίνας σήμερα — Πλάτανος, ρέμα και διώροφα κτίρια με κεραμοσκεπές"
-                    width={400}
-                    height={260}
-                    loading="lazy"
-                    className="w-full h-44 object-cover block"
-                  />
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-stone-950/85 text-white text-xs font-semibold">
-                    Σήμερα · Κάτω Αγορά
-                  </span>
-                </div>
-                <div className="p-3.5 space-y-1">
-                  <div className="font-serif font-bold text-sm text-[#14191F]">
-                    Ο Πλάτανος & τα Διώροφα Κτίρια της Αγοράς
-                  </div>
-                  <p className="text-xs text-[#14191F] leading-relaxed">
-                    Ο κεντρικός δρόμος, η γέφυρα του ρέματος και τα διώροφα κεραμοσκεπή κτίρια με τα ισόγεια καταστήματα (φωτ. Κ. Τζουρλάκος / YouTube).
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
-                <div className="relative h-44 bg-stone-900">
-                  <img
-                    src="/images/real/real-vrosina-exploringgreece.jpg"
-                    alt="Πάνω Μαχαλάς Αγίου Γεωργίου (1607) & Κάτω Οικισμός Βροσίνας"
-                    width={400}
-                    height={260}
-                    loading="lazy"
-                    className="w-full h-44 object-cover block"
-                  />
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-stone-950/85 text-white text-xs font-semibold">
-                    Σήμερα · Πάνω Μαχαλάς
-                  </span>
-                </div>
-                <div className="p-3.5 space-y-1">
-                  <div className="font-serif font-bold text-sm text-[#14191F]">
-                    Ι.Ν. Αγίου Γεωργίου (1607) & Κυπαρίσσια
-                  </div>
-                  <p className="text-xs text-[#14191F] leading-relaxed">
-                    Ο Πάνω Μαχαλάς γύρω από τον ιστορικό Άη Γιώργη (1607) στην καταπράσινη πλαγιά πάνω από τον Ζαλογγίτικο (φωτ. ExploringGreece.tv).
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg border-2 border-[#1F5C43] overflow-hidden">
-                <div className="relative h-44 bg-stone-900">
-                  <img
-                    src="/images/vrosina-agios-georgios-2031.jpg"
-                    alt="Όραμα 2031 — Πάνω Μαχαλάς & Ι.Ν. Αγίου Γεωργίου (1607) Βροσίνας"
-                    width={400}
-                    height={260}
-                    loading="lazy"
-                    className="w-full h-44 object-cover block"
-                  />
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#1F5C43] text-white text-xs font-semibold">
-                    Όραμα 2031 · Άη Γιώργης
-                  </span>
-                  <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-stone-950/80 text-white text-xs">
-                    Concept Render
-                  </span>
-                </div>
-                <div className="p-3.5 space-y-1">
-                  <div className="font-serif font-bold text-sm text-[#14191F]">
-                    Ανάδειξη Αγίου Γεωργίου (1607) & Κατοικιών
-                  </div>
-                  <p className="text-xs text-[#14191F] leading-relaxed">
-                    Ήπια ανάπλαση περιβόλου/πεζουλών στον Άη Γιώργη και αποκατάσταση των διώροφων κατοικιών με πέτρα & κεραμίδι.
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg border-2 border-[#1F5C43] overflow-hidden">
-                <div className="relative h-44 bg-stone-900">
-                  <img
-                    src="/images/morphology-before-after.jpg"
-                    alt="Πριν και Μετά — Μορφολογικός Κανονισμός σε διώροφη κατοικία Βροσίνας"
-                    width={400}
-                    height={260}
-                    loading="lazy"
-                    className="w-full h-44 object-cover block"
-                  />
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#1F5C43] text-white text-xs font-semibold">
-                    Πριν & Μετά · Κατ. Β
-                  </span>
-                  <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-stone-950/80 text-white text-xs">
-                    Concept Render
-                  </span>
-                </div>
-                <div className="p-3.5 space-y-1">
-                  <div className="font-serif font-bold text-sm text-[#14191F]">
-                    Μεταμόρφωση Διώροφης Κατοικίας (37.500 €)
-                  </div>
-                  <p className="text-xs text-[#14191F] leading-relaxed">
-                    Πώς ένα σημερινό διώροφο κτίριο της Βροσίνας αποκτά τοπική λιθοδομή, κόκκινη κεραμοσκεπή και ενεργό ισόγειο.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Concise Fiscal Proof Summary Card (After the Plan, linking to /gia-foreis — Μέρος Β #6) */}
-          <div className="bg-[#f7f5f0] rounded-lg p-6 sm:p-8 border-2 border-[#174935] space-y-5">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-300 pb-4">
-              <div className="space-y-1">
-                <div className="text-sm font-bold text-[#174935]">
-                  ΔΗΜΟΣΙΟΝΟΜΙΚΟ ΙΣΟΖΥΓΙΟ (ΜΕΤΑ ΤΗΝ ΠΑΡΟΥΣΙΑΣΗ ΤΟΥ ΣΧΕΔΙΟΥ)
-                </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-                  Τι Κερδίζει το Ελληνικό Δημόσιο: ~463.700 € / έτος σε Άμεσα Έσοδα (Απόσβεση σε 17 Έτη)
-                </h3>
-                <p className="text-base text-stone-800">
-                  Η δημόσια συμμετοχή των 6,58 εκ. € (63% του προγράμματος) δεν είναι δαπάνη χωρίς επιστροφή: αποσβένεται από ασφαλιστικές εισφορές (327.600 €/έτος), φόρους εισοδήματος και το αντάλλαγμα 2% επί του τζίρου υπέρ του Τ.Α.ΕΘ.Α. (51.000 € ετησίως στο βασικό σενάριο), χωρίς καν να συνυπολογίζεται ο ΦΠΑ.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2.5 shrink-0">
-                <a
-                  href="/gia-foreis"
-                  className="px-4 py-2.5 rounded bg-[#174935] text-white font-bold text-sm hover:bg-[#123828] transition"
-                >
-                  Πλήρης Ανάλυση για Φορείς →
-                </a>
-                <a
-                  href="/documents/Vrosina_2031_What_The_State_Gains.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2.5 rounded bg-white border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 transition"
-                >
-                  Μελέτη PDF (3 Σελίδες) ↓
-                </a>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {PUBLIC_FISCAL_BENEFIT_STUDY.headlineMetrics.map((m, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded bg-white border border-stone-300 space-y-1"
-                >
-                  <div className="text-xl font-bold text-[#174935]">
-                    {m.value}
-                  </div>
-                  <div className="font-serif font-bold text-base text-[#14191f]">
-                    {m.label}
-                  </div>
-                  <p className="text-sm text-stone-700">{m.sub}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="p-3.5 rounded bg-white border-l-4 border-[#C89D54] text-sm text-[#14191F] leading-relaxed">
-              Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
-            </div>
-
-            <div className="p-4 rounded bg-white border border-stone-300 space-y-1.5">
-              <div className="text-sm font-bold text-[#9e4727]">
-                ΤΙ ΔΕΝ ΖΗΤΑΜΕ ΑΠΟ ΤΟ ΚΡΑΤΟΣ:
-              </div>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-stone-800">
-                {WHAT_WE_DO_NOT_ASK_STATE.map((item, idx) => (
-                  <li key={idx}>• {item}</li>
-                ))}
-              </ul>
-            </div>
+          <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-lg bg-[#F7F5F0] border border-stone-300">
+            <p className="text-sm text-[#14191F]">
+              Για την αναλυτική παρουσίαση της Κάτω Αγοράς στον πλάτανο, του Ι.Ν. Αγίου Γεωργίου (1607), του Μορφολογικού Κανονισμού και των 4 πυλώνων:
+            </p>
+            <a
+              href="/to-schedio"
+              className="px-5 py-2.5 rounded bg-[#1F5C43] text-white font-bold text-sm hover:bg-[#174935] transition shrink-0"
+            >
+              Δες το αναλυτικό σχέδιο →
+            </a>
           </div>
         </div>
       </section>
 
-      {/* SCREEN 4 (#poioi-eimaste): WHO WE ARE, WHERE WE STAND TODAY & LOCAL VOICES (Μέρος Β #11, Σελ. 4) */}
+      {/* 6. ΠΟΙΟΙ ΕΙΜΑΣΤΕ & ΠΟΥ ΒΡΙΣΚΟΜΑΣΤΕ ΣΗΜΕΡΑ (#poioi-eimaste — §6) */}
       <section
         id="poioi-eimaste"
         className="py-12 sm:py-16 bg-[#f7f5f0] border-b border-stone-300"
@@ -1071,22 +997,19 @@ export default function VrosinaClientApp() {
                 ΠΟΙΟΙ ΕΙΜΑΣΤΕ & ΠΟΥ ΒΡΙΣΚΟΜΑΣΤΕ ΣΗΜΕΡΑ
               </div>
               <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-                Το Ανθρώπινο Πρόσωπο της Πρωτοβουλίας & Η Κατάσταση Ωρίμανσης
+                Το πρόσωπο της πρωτοβουλίας, η κατάσταση του έργου και 2 βασικές απαντήσεις
               </h2>
-              <p className="text-base text-stone-800">
-                Ποιος συντονίζει το εγχείρημα, σε ποιο νομικό στάδιο βρίσκονται οι φορείς σήμερα και ποια είναι τα επόμενα βήματα.
-              </p>
             </div>
             <a
               href="/poioi-eimaste"
               className="px-5 py-3 rounded bg-[#14191f] text-white font-bold text-base hover:bg-[#174935] transition shrink-0"
             >
-              Διαβάστε την πλήρη ιστορία («Το χωριό που σωπαίνει») και γνωρίστε τον συντονιστή →
+              Γνωρίστε την ομάδα & το χρονοδιάγραμμα →
             </a>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Γ6: Ποιοι είμαστε + Φωτογραφία & Εμπειρία Αθανάσιου Βούρδα */}
+            {/* Αθανάσιος Βούρδας */}
             <div className="lg:col-span-6 bg-white rounded-lg p-6 sm:p-7 border-2 border-[#14191F] space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-stone-200 pb-4">
                 <img
@@ -1139,7 +1062,7 @@ export default function VrosinaClientApp() {
               </div>
             </div>
 
-            {/* Γ6: Πού βρισκόμαστε τώρα (Κατάσταση έργου, Νοέμβριος 2026) + Α3 (Πώς λειτουργούμε) */}
+            {/* Κατάσταση έργου, Νοέμβριος 2026 */}
             <div className="lg:col-span-6 space-y-4">
               <div className="bg-white rounded-lg p-6 border-2 border-[#1F5C43] space-y-3">
                 <div className="text-sm font-bold text-[#1F5C43]">
@@ -1173,23 +1096,6 @@ export default function VrosinaClientApp() {
                   </li>
                 </ul>
               </div>
-
-              <div className="bg-white rounded-lg p-5 border border-stone-300 space-y-2">
-                <h3 className="font-serif font-bold text-lg text-[#14191F]">
-                  Πώς λειτουργούμε
-                </h3>
-                <p className="text-sm text-[#14191F] leading-relaxed">
-                  Η Βροσίνα 2031 είναι μια μη κομματική πρωτοβουλία για την
-                  αναγέννηση του χωριού. Απευθυνόμαστε σε όλους τους φορείς,
-                  ανεξάρτητα από παράταξη, με το ίδιο αίτημα και το ίδιο υλικό.
-                  Δεν ζητάμε από το Δημόσιο να αναλάβει το κόστος της
-                  λειτουργίας. Ζητάμε θεσμική και αδειοδοτική στήριξη για ένα
-                  έργο που, με βάση τις εκτιμήσεις μας, αποδίδει στο Δημόσιο
-                  έσοδα και θέσεις εργασίας. Οι αποφάσεις της κοινότητας
-                  λαμβάνονται με ένα μέλος, μία ψήφο. Όλα τα έγγραφα βρίσκονται
-                  στο Κέντρο Τεκμηρίωσης.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -1209,41 +1115,40 @@ export default function VrosinaClientApp() {
         </div>
       </section>
 
-      {/* SCREEN 5 (#autopsia-real): MILITARY CAMP AUTOPSY, VIDEO ARCHIVE & TV APPEARANCES (Μέρος Β Σελ. 4) */}
+      {/* 7. ΑΥΤΟΨΙΑ ΠΕΔΙΟΥ (#autopsia-real — §6: 3 κάρτες Πριν/Μετά και σύνδεσμος «Διάβασε την πλήρη ανάλυση →») */}
       <section
         id="autopsia-real"
         className="py-12 sm:py-16 bg-white border-b border-stone-300"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="max-w-3xl space-y-2">
               <div className="text-sm font-bold text-[#9e4727]">
-                ΑΥΤΟΨΙΑ ΠΕΔΙΟΥ · ΣΤΡΑΤΟΠΕΔΟ «ΠΑΠΑΚΩΝΣΤΑΝΤΙΝΟΥ» (13.695 Τ.Μ.) & ΜΜΕ
+                ΑΥΤΟΨΙΑ ΠΕΔΙΟΥ · ΣΗΜΕΡΑ ΚΑΙ ΤΟ 2031
               </div>
               <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-                Τα 8 Υφιστάμενα Κτίρια του Στρατοπέδου, Βίντεο Πεδίου & Τηλεόραση
+                Πριν και Μετά: Στρατόπεδο, Οικισμός και Περιβάλλον
               </h2>
               <p className="text-base text-stone-800">
-                Δείτε την πραγματική εικόνα του πρώην Στρατοπέδου Βροσίνας σήμερα, τις τηλεοπτικές παρουσιάσεις της πρωτοβουλίας και τα βίντεο drone του χωριού.
+                Τα 8 κτίρια του πρώην στρατοπέδου «Παπακωνσταντίνου» (13.695 τ.μ.) και το βίντεο αυτοψίας 12:31 παρουσιάζονται αναλυτικά στην υποσελίδα του στρατοπέδου.
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5 shrink-0">
               <a
                 href="/stratopedo-vrosinas"
-                className="px-4 py-2.5 rounded bg-[#14191f] text-white font-semibold text-sm hover:bg-[#174935] transition"
+                className="px-5 py-3 rounded bg-[#14191f] text-white font-bold text-sm hover:bg-[#174935] transition"
               >
-                Αναλυτική Σελίδα Στρατοπέδου →
+                Διάβασε την πλήρη ανάλυση →
               </a>
               <a
                 href="/gefyri-vrosinas-raidiotissa"
-                className="px-4 py-2.5 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 transition"
+                className="px-4 py-3 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 transition"
               >
                 Γεφύρια 1605 & Μονή 1628 →
               </a>
             </div>
           </div>
 
-          {/* 3 Real vs 2031 Comparisons (Explicit height so images always render cleanly) */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {REAL_VS_2031_COMPARISONS.map((pair) => (
               <article
@@ -1300,277 +1205,25 @@ export default function VrosinaClientApp() {
               </article>
             ))}
           </div>
-
-          {/* Interactive 8-Building Camp Tour + Video */}
-          <div className="bg-[#f7f5f0] rounded-lg p-6 border border-stone-300 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-300 pb-4">
-              <div>
-                <div className="text-sm font-bold text-[#174935]">
-                  ΒΙΝΤΕΟ ΠΕΡΙΗΓΗΣΗΣ 12:31 & ΤΑ 8 ΚΤΙΡΙΑ ΤΟΥ ΣΤΡΑΤΟΠΕΔΟΥ
-                </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#14191f]">
-                  {CAMP_VIDEO_AUTOPSY.title}
-                </h3>
-              </div>
-              <a
-                href={CAMP_VIDEO_AUTOPSY.videoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-semibold text-[#9e4727] underline"
-              >
-                {CAMP_VIDEO_AUTOPSY.creator} ↗
-              </a>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <div className="lg:col-span-6 space-y-3">
-                <div className="aspect-video w-full rounded-lg overflow-hidden bg-stone-900 border border-stone-400">
-                  {autopsyVideoLoaded ? (
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${CAMP_VIDEO_AUTOPSY.videoId}?start=${CAMP_VIDEO_AUTOPSY.steps[activeAutopsyStep].startSeconds}&autoplay=1&rel=0`}
-                      title={CAMP_VIDEO_AUTOPSY.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setAutopsyVideoLoaded(true)}
-                      className="relative w-full h-full group cursor-pointer text-left"
-                    >
-                      <img
-                        src="/images/real/camp-hwaJv7EIjLg-maxresdefault.jpg"
-                        alt={CAMP_VIDEO_AUTOPSY.title}
-                        width={640}
-                        height={360}
-                        loading="lazy"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/45 flex items-center justify-center">
-                        <span className="px-5 py-2.5 rounded bg-white text-[#14191f] font-bold text-base shadow-lg">
-                          Αναπαραγωγή Βίντεο Αυτοψίας (12:31)
-                        </span>
-                      </div>
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <div className="lg:col-span-6 space-y-3">
-                <div className="flex flex-wrap gap-1.5">
-                  {CAMP_VIDEO_AUTOPSY.steps.map((st, idx) => (
-                    <button
-                      key={st.id}
-                      type="button"
-                      onClick={() => {
-                        setActiveAutopsyStep(idx);
-                        setAutopsyVideoLoaded(true);
-                      }}
-                      className={`px-3 py-1.5 rounded text-sm font-semibold transition cursor-pointer ${
-                        activeAutopsyStep === idx
-                          ? "bg-[#14191f] text-white"
-                          : "bg-white border border-stone-300 text-[#14191f] hover:bg-stone-200"
-                      }`}
-                    >
-                      Κτίριο {st.stepNumber} ({st.timeDisplay})
-                    </button>
-                  ))}
-                </div>
-
-                {(() => {
-                  const st = CAMP_VIDEO_AUTOPSY.steps[activeAutopsyStep];
-                  return (
-                    <div className="p-5 rounded-lg bg-white border border-stone-300 space-y-3">
-                      {st.imageType === "direct" ? (
-                        <img
-                          src={st.imageSrc}
-                          alt={st.buildingTitle}
-                          width={640}
-                          height={320}
-                          loading="lazy"
-                          className="w-full h-44 object-cover rounded border border-stone-300"
-                        />
-                      ) : (
-                        <div
-                          role="img"
-                          aria-label={st.buildingTitle}
-                          className="w-full h-44 rounded border border-stone-300 bg-no-repeat"
-                          style={{
-                            backgroundImage: `url(${st.imageSrc})`,
-                            backgroundSize: "300% 300%",
-                            backgroundPosition: st.spritePos || "0% 0%",
-                          }}
-                        />
-                      )}
-                      <div className="flex flex-wrap items-center justify-between gap-2 text-sm font-bold">
-                        <span className="text-[#A34A2B]">
-                          Κτίριο {st.stepNumber} · Χρόνος: {st.timeDisplay}
-                        </span>
-                        <span className="text-[#1F5C43]">
-                          {st.capexAllocation}
-                        </span>
-                      </div>
-                      <h4 className="font-serif font-bold text-lg text-[#14191F]">
-                        {st.buildingTitle}
-                      </h4>
-                      <p className="text-sm text-[#14191F] leading-relaxed">
-                        <strong>Εικόνα Πεδίου:</strong> {st.currentAutopsy}
-                      </p>
-                      <p className="text-sm text-[#14191F] leading-relaxed bg-[#F7F5F0] p-3 rounded border-l-4 border-[#1F5C43]">
-                        <strong>Προτεινόμενη Χρήση 2031 ({st.future2031Role}):</strong>{" "}
-                        {st.future2031Details}
-                      </p>
-                    </div>
-                  );
-                })()}
-              </div>
-            </div>
-          </div>
-
-          {/* TV Media Appearances + Drone Video Archive */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {TV_MEDIA_APPEARANCES.map((tv) => (
-              <div
-                key={tv.id}
-                className="bg-[#f7f5f0] rounded-lg border border-stone-300 overflow-hidden flex flex-col justify-between"
-              >
-                <div className="aspect-video w-full bg-stone-900">
-                  {loadedTvVideoIds[tv.id] ? (
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${tv.id}?autoplay=1&rel=0`}
-                      title={tv.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setLoadedTvVideoIds((prev) => ({
-                          ...prev,
-                          [tv.id]: true,
-                        }))
-                      }
-                      className="relative w-full h-full group cursor-pointer text-left"
-                    >
-                      <img
-                        src={tv.thumbnail}
-                        alt={tv.title}
-                        width={640}
-                        height={360}
-                        loading="lazy"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <span className="px-4 py-2 rounded bg-white text-[#14191f] font-bold text-sm shadow-lg">
-                          Αναπαραγωγή Τηλεοπτικής Συνέντευξης
-                        </span>
-                      </div>
-                    </button>
-                  )}
-                </div>
-                <div className="p-5 space-y-2">
-                  <div className="text-sm font-bold text-[#174935]">
-                    {tv.channel} · {tv.speaker}
-                  </div>
-                  <h3 className="font-serif font-bold text-lg text-[#14191f]">
-                    {tv.title}
-                  </h3>
-                  <p className="text-sm text-stone-800 leading-relaxed">
-                    {tv.summary}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Additional Field Videos Toggle */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="font-serif font-bold text-xl text-[#14191f]">
-                Βίντεο Πεδίου & Drone: Πέτρινα Γεφύρια (1605) & Μονή Ραϊδιώτισσας (1628)
-              </h3>
-              <button
-                type="button"
-                onClick={() => setShowAllVideos(!showAllVideos)}
-                className="px-4 py-2 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 cursor-pointer"
-              >
-                {showAllVideos
-                  ? "Εμφάνιση 3 Βασικών Βίντεο"
-                  : `Προβολή Όλων των ${REAL_VROSINA_VIDEOS.length} Βίντεο ↓`}
-              </button>
-            </div>
-
-            {activeVideoId && (
-              <div className="bg-stone-900 p-4 rounded-lg border border-stone-700">
-                <div className="aspect-video w-full rounded overflow-hidden bg-black">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${activeVideoId}?autoplay=1&rel=0`}
-                    title="Βίντεο Βροσίνας"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full border-0"
-                  />
-                </div>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {(showAllVideos
-                ? REAL_VROSINA_VIDEOS
-                : REAL_VROSINA_VIDEOS.slice(0, 3)
-              ).map((video) => (
-                <div
-                  key={video.id}
-                  onClick={() => setActiveVideoId(video.id)}
-                  className="bg-[#f7f5f0] rounded-lg border border-stone-300 overflow-hidden cursor-pointer hover:border-stone-500 transition"
-                >
-                  <div className="relative aspect-video bg-stone-900">
-                    <img
-                      src={video.thumbnail}
-                      alt={video.title}
-                      width={480}
-                      height={270}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                    <span className="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-white text-[#14191f] text-xs font-bold shadow">
-                      Αναπαραγωγή
-                    </span>
-                  </div>
-                  <div className="p-4 space-y-1">
-                    <div className="text-sm font-bold text-[#9e4727]">
-                      {video.category}
-                    </div>
-                    <h4 className="font-serif font-bold text-base text-[#14191f]">
-                      {video.title}
-                    </h4>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* SCREEN 6 (#investors): DARK ACCENT SECTION FOR INVESTOR SIMULATOR (Μέρος Β #10: Το σκούρο μόνο για τονισμό επενδυτικής ενότητας) */}
+      {/* 8. ΓΙΑ ΕΠΕΝΔΥΤΕΣ ΚΑΙ ΦΟΡΕΙΣ (#investors & #dataroom σε μία ενιαία ενότητα — §6) */}
       <section
         id="investors"
         className="py-12 sm:py-16 bg-[#14191f] text-white border-b border-stone-800"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="max-w-3xl space-y-2">
               <div className="text-sm font-bold text-[#c89d54]">
-                ΕΠΕΝΔΥΤΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ & 3 ΣΕΝΑΡΙΑ ΙΣΟΛΟΓΙΣΜΟΥ
+                ΓΙΑ ΕΠΕΝΔΥΤΕΣ ΚΑΙ ΦΟΡΕΙΣ · ΥΠΟΛΟΓΙΣΤΗΣ, ΔΗΜΟΣΙΟΝΟΜΙΚΟ ΙΣΟΖΥΓΙΟ & DATA ROOM
               </div>
               <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white">
-                Μόχλευση Κεφαλαίων (63% Δημόσιο / 37% Ιδιωτικά) & Ανάλυση Κινδύνων
+                Για επενδυτές και φορείς: Οικονομικά στοιχεία, όφελος Δημοσίου και έγγραφα
               </h2>
-              <p className="text-base text-stone-200">
-                Επιλέξτε κανάλι συμμετοχής και σενάριο λειτουργίας ή ανοίξτε την πλήρη σελίδα επενδυτών για λήψη του οικονομικού μοντέλου (.csv / Excel).
+              <p className="font-serif italic text-base text-[#C89D54]">
+                «Αν δεν κάνουμε κάτι δραστικό, θα χαθεί η Βροσίνα. Βροσίνες υπάρχουν πολλές σε όλη την Ελλάδα. Θέλουμε η Βροσίνα να γίνει case study.»
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5 shrink-0">
@@ -1578,18 +1231,18 @@ export default function VrosinaClientApp() {
                 href="/gia-ependytes"
                 className="px-4 py-2.5 rounded bg-[#c89d54] text-stone-950 font-bold text-sm hover:bg-amber-400 transition"
               >
-                Πλήρης Σελίδα «Για Επενδυτές» →
+                Σελίδα «Για Επενδυτές» →
               </a>
               <a
-                href="/documents/Vrosina_2031_Financial_Model.csv"
-                download
+                href="/gia-foreis"
                 className="px-4 py-2.5 rounded bg-stone-800 border border-stone-600 text-white font-semibold text-sm hover:bg-stone-700 transition"
               >
-                Λήψη Οικονομικού Μοντέλου (.csv) ↓
+                Σελίδα «Για Φορείς» →
               </a>
             </div>
           </div>
 
+          {/* Investor Simulator */}
           <div className="bg-stone-900 border border-stone-700 rounded-lg p-6 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {[
@@ -1725,7 +1378,6 @@ export default function VrosinaClientApp() {
                   {investorSimulation.paybackLabel}
                 </div>
 
-                {/* Α4 & Κ3: Υποχρεωτική Επιφύλαξη & Ενιαίο Κείμενο Ποσοστών Ενίσχυσης */}
                 <div className="p-3.5 rounded bg-stone-950 border-l-4 border-[#C89D54] text-sm text-stone-200 leading-relaxed space-y-1.5">
                   <p>{UNIFIED_GRANT_RATE_TEXT}</p>
                   <p>
@@ -1754,171 +1406,162 @@ export default function VrosinaClientApp() {
             </div>
           </div>
 
-          {/* Concise Governance & Risk Summary Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-stone-900 border border-stone-700 rounded-lg p-5 space-y-2">
-              <div className="text-sm font-bold text-[#c89d54]">
-                ΑΝΤΙΣΥΜΒΑΛΛΟΜΕΝΟΣ ΦΟΡΕΑΣ & ΚΑΤΑΣΤΑΤΙΚΕΣ ΔΙΚΛΕΙΔΕΣ
+          {/* Συνοπτικό Δημοσιονομικό Ισοζύγιο (Τι κερδίζει το Δημόσιο) */}
+          <div className="bg-stone-900 border border-stone-700 rounded-lg p-6 space-y-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-800 pb-4">
+              <div className="space-y-1">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#C89D54]">
+                  ΔΗΜΟΣΙΟΝΟΜΙΚΟ ΙΣΟΖΥΓΙΟ ΓΙΑ ΤΟ ΚΡΑΤΟΣ
+                </div>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                  Τι κερδίζει το Ελληνικό Δημόσιο: ~463.700 € / έτος σε άμεσα έσοδα (απόσβεση σε 17 έτη)
+                </h3>
               </div>
-              <p className="text-sm text-stone-200 leading-relaxed">
-                {INVESTOR_RISK_AND_USE_OF_FUNDS.counterpartyNote}
-              </p>
-              <p className="text-sm text-stone-300 leading-relaxed">
-                • {UNIFIED_STRATEGIC_PARTNER_TEXT} Συμμετοχή Συνεταιρισμού Παραγωγών, Δήμου Ζίτσας (εντός ορίου 25% για διατήρηση ιδιότητας ΜΜΕ) και Ταμείου Ευεργετών & Διασποράς ({GOVERNANCE_SHIELD.clauses.length} καταστατικές ρήτρες προστασίας).
-              </p>
+              <a
+                href="/documents/Vrosina_2031_What_The_State_Gains.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded bg-stone-800 border border-stone-600 text-white font-semibold text-sm hover:bg-stone-700 transition shrink-0"
+              >
+                Μελέτη PDF (3 Σελίδες) ↓
+              </a>
             </div>
-
-            <div className="bg-stone-900 border border-stone-700 rounded-lg p-5 space-y-2">
-              <div className="text-sm font-bold text-emerald-400">
-                3 ΣΕΝΑΡΙΑ ΕΤΟΥΣ 5 (ΣΥΝΤΗΡΗΤΙΚΟ · ΒΑΣΙΚΟ · ΑΙΣΙΟΔΟΞΟ)
-              </div>
-              <div className="grid grid-cols-3 gap-2 pt-1 text-sm">
-                {THREE_SCENARIOS.map((sc) => (
-                  <div
-                    key={sc.id}
-                    className="p-3 rounded bg-stone-950 border border-stone-700"
-                  >
-                    <div className="font-bold text-white">
-                      {sc.name.split(" ")[0]}
-                    </div>
-                    <div className="text-[#c89d54] font-bold">
-                      {sc.revenueFormatted}
-                    </div>
-                    <div className="text-stone-300">
-                      {sc.milkTons} τν · {sc.jobsYear5} θέσεις
-                    </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {PUBLIC_FISCAL_BENEFIT_STUDY.headlineMetrics.map((m, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded bg-stone-950 border border-stone-800 space-y-1"
+                >
+                  <div className="text-xl font-bold text-[#C89D54]">
+                    {m.value}
                   </div>
+                  <div className="font-serif font-bold text-sm text-white">
+                    {m.label}
+                  </div>
+                  <p className="text-xs text-stone-300">{m.sub}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-stone-300">
+              Ονομαστικά ποσά, χωρίς προεξόφληση. Ο χρόνος απόσβεσης 6–10 ετών αφορά το εθνικό σκέλος με υπόθεση συγχρηματοδότησης Ε.Ε. 50–75% και δεν είναι εγγυημένος.
+            </p>
+          </div>
+
+          {/* Data Room & FAQ inside the unified Investors & Authorities section */}
+          <div id="dataroom" className="bg-[#F7F5F0] text-[#14191F] rounded-lg p-6 sm:p-8 space-y-10">
+            <div className="space-y-4">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div className="max-w-3xl space-y-1">
+                  <div className="text-sm font-bold text-[#174935]">
+                    ΚΕΝΤΡΟ ΤΕΚΜΗΡΙΩΣΗΣ (DATA ROOM — {DATA_ROOM_DOCUMENTS.length} ΑΡΧΕΙΑ)
+                  </div>
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
+                    Μελέτες, Οικονομικό Μοντέλο & Σχέδιο (έκδοση 2.0, σε αναθεώρηση)
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAllDocs(!showAllDocs)}
+                  className="px-4 py-2.5 rounded bg-white border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 cursor-pointer shrink-0"
+                >
+                  {showAllDocs
+                    ? "Εμφάνιση 6 Βασικών Αρχείων"
+                    : `Προβολή Όλων των ${DATA_ROOM_DOCUMENTS.length} Αρχείων ↓`}
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {(showAllDocs
+                  ? DATA_ROOM_DOCUMENTS
+                  : DATA_ROOM_DOCUMENTS.slice(0, 6)
+                ).map((doc, idx) => (
+                  <article
+                    key={idx}
+                    className="bg-white rounded-lg p-5 border border-stone-300 flex flex-col justify-between space-y-4"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between gap-2 text-sm font-semibold">
+                        <span className="text-[#9e4727]">{doc.category}</span>
+                        <span className="px-2.5 py-0.5 rounded bg-[#f7f5f0] border border-stone-300 text-[#14191f]">
+                          {doc.format} · {doc.size}
+                        </span>
+                      </div>
+                      <h4 className="font-serif font-bold text-lg text-[#14191f] leading-snug">
+                        {doc.title}
+                      </h4>
+                      <p className="text-sm text-stone-800 leading-relaxed">
+                        {doc.description}
+                      </p>
+                    </div>
+                    <div className="pt-2 border-t border-stone-200 flex items-center justify-between text-sm">
+                      <span className="text-stone-700">{doc.pages}</span>
+                      <a
+                        href={doc.href}
+                        download
+                        className="font-bold text-[#174935] hover:underline"
+                      >
+                        Λήψη Αρχείου ↓
+                      </a>
+                    </div>
+                  </article>
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* SCREEN 7 (#dataroom): DATA ROOM DOCUMENTS & FAQ (Light Unified Theme) */}
-      <section
-        id="dataroom"
-        className="py-12 sm:py-16 bg-white border-b border-stone-300"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div className="max-w-3xl space-y-2">
-                <div className="text-sm font-bold text-[#174935]">
-                  ΕΠΙΣΗΜΟ ΑΡΧΕΙΟ ΕΓΓΡΑΦΩΝ (DATA ROOM — {DATA_ROOM_DOCUMENTS.length} ΑΡΧΕΙΑ)
-                </div>
-                <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#14191f]">
-                  Ανοιχτή Πρόσβαση σε Όλες τις Μελέτες, το Οικονομικό Μοντέλο & τα Έντυπα
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowAllDocs(!showAllDocs)}
-                className="px-4 py-2.5 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] font-semibold text-sm hover:bg-stone-200 cursor-pointer shrink-0"
-              >
-                {showAllDocs
-                  ? "Εμφάνιση 6 Βασικών Αρχείων"
-                  : `Προβολή Όλων των ${DATA_ROOM_DOCUMENTS.length} Αρχείων ↓`}
-              </button>
-            </div>
-
-            {/* Web v2.1 vs PDF v2.0 Reconciliation Notice (Μέρος Α #34γ) */}
-            <div className="p-4 rounded-lg bg-[#f7f5f0] border-l-4 border-[#9e4727] text-sm text-stone-800 leading-relaxed">
-              <strong>Σημείωση Έκδοσης (Διαδικτυακή Έκδοση 2.1 — Νοέμβριος 2026 vs Αρχικό PDF v2.0 — Οκτώβριος 2026):</strong>{" "}
-              Τα μεγέθη στην ιστοσελίδα αποτυπώνουν την επικαιροποιημένη Έκδοση 2.1, η οποία εναρμονίζει την ποσοστιαία κατανομή σε <strong>63% δημόσιους/ΕΕ πόρους (6,58 εκ. €) / 37% ιδιωτικά & συνεταιριστικά κεφάλαια (3,87 εκ. €)</strong>, τη διάρκεια των μακροχρόνιων μισθώσεων σε <strong>10–15 έτη</strong> και τις 4 κατηγορίες προϋπολογισμού (Α: 2,25 εκ. €, Β: 3,17 εκ. €, Γ: 2,49 εκ. €, Δ: 2,54 εκ. € = 10,45 εκ. €).
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {(showAllDocs
-                ? DATA_ROOM_DOCUMENTS
-                : DATA_ROOM_DOCUMENTS.slice(0, 6)
-              ).map((doc, idx) => (
-                <article
-                  key={idx}
-                  className="bg-[#f7f5f0] rounded-lg p-5 border border-stone-300 flex flex-col justify-between space-y-4"
+            {/* Concise FAQ Accordion */}
+            <div className="space-y-4 pt-6 border-t border-stone-300">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="font-serif text-2xl font-bold text-[#14191f]">
+                  Συχνές Ερωτήσεις & Ειλικρινείς Απαντήσεις
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setShowAllFaqs(!showAllFaqs)}
+                  className="px-4 py-2 rounded bg-white border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 cursor-pointer"
                 >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-2 text-sm font-semibold">
-                      <span className="text-[#9e4727]">{doc.category}</span>
-                      <span className="px-2.5 py-0.5 rounded bg-white border border-stone-300 text-[#14191f]">
-                        {doc.format} · {doc.size}
-                      </span>
-                    </div>
-                    <h3 className="font-serif font-bold text-lg text-[#14191f] leading-snug">
-                      {doc.title}
-                    </h3>
-                    <p className="text-sm text-stone-800 leading-relaxed">
-                      {doc.description}
-                    </p>
-                  </div>
-                  <div className="pt-2 border-t border-stone-200 flex items-center justify-between text-sm">
-                    <span className="text-stone-700">{doc.pages}</span>
-                    <a
-                      href={doc.href}
-                      download
-                      className="font-bold text-[#174935] hover:underline"
-                    >
-                      Λήψη Αρχείου ↓
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
+                  {showAllFaqs
+                    ? "Εμφάνιση 5 Βασικών Ερωτήσεων"
+                    : `Προβολή Όλων των ${FAQ_ITEMS.length} Ερωτήσεων ↓`}
+                </button>
+              </div>
 
-          {/* Concise FAQ Accordion */}
-          <div className="space-y-4 pt-4 border-t border-stone-200">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="font-serif text-2xl font-bold text-[#14191f]">
-                Συχνές Ερωτήσεις & Ειλικρινείς Απαντήσεις
-              </h2>
-              <button
-                type="button"
-                onClick={() => setShowAllFaqs(!showAllFaqs)}
-                className="px-4 py-2 rounded bg-[#f7f5f0] border border-stone-400 text-[#14191f] text-sm font-semibold hover:bg-stone-200 cursor-pointer"
-              >
-                {showAllFaqs
-                  ? "Εμφάνιση 5 Βασικών Ερωτήσεων"
-                  : `Προβολή Όλων των ${FAQ_ITEMS.length} Ερωτήσεων ↓`}
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {(showAllFaqs ? FAQ_ITEMS : FAQ_ITEMS.slice(0, 5)).map(
-                (faq, idx) => {
-                  const isOpen = openFaqIndex === idx;
-                  return (
-                    <div
-                      key={idx}
-                      className="bg-[#f7f5f0] rounded-lg border border-stone-300 overflow-hidden"
-                    >
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setOpenFaqIndex(isOpen ? null : idx)
-                        }
-                        className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-[#14191f] cursor-pointer"
+              <div className="space-y-3">
+                {(showAllFaqs ? FAQ_ITEMS : FAQ_ITEMS.slice(0, 5)).map(
+                  (faq, idx) => {
+                    const isOpen = openFaqIndex === idx;
+                    return (
+                      <div
+                        key={idx}
+                        className="bg-white rounded-lg border border-stone-300 overflow-hidden"
                       >
-                        <span>{faq.question}</span>
-                        <span className="text-[#9e4727] font-sans text-xl shrink-0">
-                          {isOpen ? "−" : "+"}
-                        </span>
-                      </button>
-                      {isOpen && (
-                        <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-stone-200 text-base text-stone-800 leading-relaxed">
-                          {faq.answer}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-              )}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setOpenFaqIndex(isOpen ? null : idx)
+                          }
+                          className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-[#14191f] cursor-pointer"
+                        >
+                          <span>{faq.question}</span>
+                          <span className="text-[#9e4727] font-sans text-xl shrink-0">
+                            {isOpen ? "−" : "+"}
+                          </span>
+                        </button>
+                        {isOpen && (
+                          <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-stone-200 text-base text-stone-800 leading-relaxed">
+                            {faq.answer}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+                )}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SCREEN 8 (#contact-form): CONTACT SECTION — NAME, PHONE, CALL REQUEST & FORM (Μέρος Β #3, Σελ. 4) */}
+      {/* 9. ΦΟΡΜΑ ΣΥΜΜΕΤΟΧΗΣ (#contact-form — §6 & §7) */}
       <section
         id="contact-form"
         className="py-12 sm:py-16 bg-[#f7f5f0] border-b border-stone-300"
@@ -1926,12 +1569,12 @@ export default function VrosinaClientApp() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-lg p-6 sm:p-10 border-2 border-[#14191f] shadow-sm space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-5">
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <div className="text-sm font-bold text-[#9e4727]">
-                  ΕΠΙΚΟΙΝΩΝΙΑ, ΣΥΜΜΕΤΟΧΗ & ΤΗΛΕΦΩΝΙΚΗ ΚΛΗΣΗ
+                  «ΑΡΚΕΙ ΟΛΟΙ ΜΑΖΙ, ΟΙ ΒΡΟΣΙΝΙΩΤΕΣ, ΝΑ ΔΟΥΜΕ ΜΕΧΡΙ ΠΟΥ ΜΠΟΡΟΥΜΕ ΝΑ ΤΟ ΦΤΑΣΟΥΜΕ.»
                 </div>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191f]">
-                  Δηλώστε Συμμετοχή ή Ζητήστε να σας Καλέσουμε Τηλεφωνικά
+                  «Σπίτια υπάρχουν, καταστήματα άδεια υπάρχουν. Θέλω να έρθω.» — Δηλώστε Συμμετοχή
                 </h2>
                 <p className="text-base text-stone-800">
                   Συντονιστής Πρωτοβουλίας: <strong>Αθανάσιος Βούρδας</strong> · Έδρα: Βροσίνα, Δήμος Ζίτσας Ιωαννίνων · Συμπληρώστε τη φόρμα επικοινωνίας παρακάτω και θα σας καλέσουμε άμεσα.

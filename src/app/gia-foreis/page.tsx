@@ -28,6 +28,9 @@ export default function GiaForeisPage() {
     >
       {/* Γ5: Τι ζητάμε και τι δεν ζητάμε */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#14191F] space-y-6">
+        <p className="font-serif text-lg sm:text-xl italic text-[#14191F] border-l-4 border-[#1F5C43] pl-4">
+          «Αν δεν κάνουμε κάτι δραστικό, θα χαθεί η Βροσίνα. Βροσίνες υπάρχουν πολλές σε όλη την Ελλάδα. Θέλουμε η Βροσίνα να γίνει case study.»
+        </p>
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 pb-4">
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F]">
             Τι ζητάμε και τι δεν ζητάμε

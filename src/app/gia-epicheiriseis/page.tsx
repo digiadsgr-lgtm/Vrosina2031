@@ -26,9 +26,14 @@ export default function GiaEpicheiriseisPage() {
     >
       {/* Γ3: Το επίσημο κείμενο της σελίδας «Για επιχειρήσεις» */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#B85D3B] space-y-6">
-        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F] border-b border-stone-200 pb-4">
-          Τρεις Διαδρομές Συμμετοχής για Επιχειρήσεις & Επαγγελματίες
-        </h2>
+        <div className="space-y-2 border-b border-stone-200 pb-4">
+          <p className="font-serif text-lg sm:text-xl italic text-[#A34A2B]">
+            «Για να έρθει κάποιος δεν αρκεί ούτε η μονή ούτε το γεφύρι. Πρέπει να έχει να φάει, να ψωνίσει, να μείνει.» — «Αν το χωριό δεν έχει καφενείο, δεν είναι χωριό.»
+          </p>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#14191F]">
+            Τρεις Διαδρομές Συμμετοχής για Επιχειρήσεις & Επαγγελματίες
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-base">
           {/* 1. Θέλω να ανοίξω δική μου επιχείρηση */}

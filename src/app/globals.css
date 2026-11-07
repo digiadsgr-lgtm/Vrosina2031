@@ -72,9 +72,32 @@
 
 /* Keep #C89D54 bright gold inside dark containers (#14191F / stone-900 / stone-950) */
 .bg-\[\#14191f\] .text-\[\#c89d54\],
+.bg-\[\#14191F\] .text-\[\#C89D54\],
 .bg-stone-900 .text-\[\#c89d54\],
 .bg-stone-950 .text-\[\#c89d54\] {
   color: var(--gold) !important;
+}
+
+@keyframes vr-slow-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.vr-slow-zoom {
+  animation: vr-slow-zoom 26s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vr-slow-zoom {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 .text-stone-500 {

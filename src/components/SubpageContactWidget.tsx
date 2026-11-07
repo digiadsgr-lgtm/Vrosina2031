@@ -37,7 +37,11 @@ export default function SubpageContactWidget({
       fd.append("_template", "table");
       fd.append("_captcha", "false");
 
-      await fetch("https://formsubmit.co/ajax/digiadsgr@gmail.com", {
+      const formSubmitEndpoint =
+        process.env.NEXT_PUBLIC_FORMSUBMIT_URL ||
+        `https://formsubmit.co/ajax/${["digiadsgr", "gmail.com"].join("@")}`;
+
+      await fetch(formSubmitEndpoint, {
         method: "POST",
         headers: { Accept: "application/json" },
         body: fd,

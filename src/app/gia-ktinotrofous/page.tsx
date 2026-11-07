@@ -22,11 +22,14 @@ export default function GiaKtinotrofousPage() {
       sectionCode="Για κτηνοτρόφους και κατοίκους"
       categoryLabel="Κοιν.Σ.Επ. (μερίδα 100 €) · Οδηγός για νέους παραγωγούς · Κατοικίες"
       title="Για κτηνοτρόφους και κατοίκους της Βροσίνας και της περιοχής"
-      subtitle="Η Κοινωνική Συνεταιριστική Επιχείρηση βρίσκεται υπό σύσταση. Το κάλεσμα για ιδρυτικά μέλη είναι ανοιχτό. Η ελάχιστη μερίδα είναι 100 € (ν. 4430/2016)."
+      subtitle="«Ο βοσκός έχει έτοιμο πελάτη όταν έχεις δίπλα τη μονάδα.» Η Κοινωνική Συνεταιριστική Επιχείρηση βρίσκεται υπό σύσταση. Το κάλεσμα για ιδρυτικά μέλη είναι ανοιχτό (ελάχιστη μερίδα 100 €, ν. 4430/2016)."
       canonicalPath="/gia-ktinotrofous"
     >
       {/* Σ4: Πλαίσιο στην κορυφή «Ήδη κτηνοτρόφος; Ξεκίνα από εδώ» + Μ4: Χωρίς διπλό τίτλο */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border-2 border-[#1F5C43] space-y-6">
+        <p className="font-serif text-lg sm:text-xl italic text-[#1F5C43] border-l-4 border-[#1F5C43] pl-4">
+          «Ο βοσκός έχει έτοιμο πελάτη όταν έχεις δίπλα τη μονάδα.»
+        </p>
         <div className="p-5 rounded-lg bg-emerald-50/80 border-2 border-[#1F5C43] space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -197,13 +200,16 @@ export default function GiaKtinotrofousPage() {
 
       {/* 3. Για κατοίκους και ιδιοκτήτες σπιτιού ή γης (25 κατοικίες) */}
       <section className="bg-white rounded-lg p-6 sm:p-8 border border-stone-300 space-y-5">
-        <div className="space-y-1 border-b border-stone-200 pb-4">
+        <div className="space-y-2 border-b border-stone-200 pb-4">
           <div className="text-sm font-bold text-[#1F5C43]">
             Για κατοίκους ή ιδιοκτήτες σπιτιού ή γης
           </div>
           <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#14191F]">
             Μητρώο Κλειστών Κατοικιών & Μακροχρόνια Μίσθωση (25 Κατοικίες & Ακίνητα)
           </h2>
+          <p className="font-serif text-lg italic text-[#A34A2B]">
+            «Σε λίγα χρόνια το σπίτι θα πέσει. Πρέπει να το καταλάβουμε.»
+          </p>
           <p className="text-base text-[#14191F] leading-relaxed">
             Το σχέδιο προβλέπει αποκατάσταση 20 κατοικιών και 5 καταστημάτων μέσω μακροχρόνιας μίσθωσης (τουλάχιστον 10–15 ετών), με εκτίμηση του σχεδίου 750.000 € για τις κατοικίες και 180.000 € για τα καταστήματα.
           </p>
